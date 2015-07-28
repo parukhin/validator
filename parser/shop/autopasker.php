@@ -27,7 +27,10 @@ class autopasker extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=car_parts', 'паскер');
+    protected $filter = array(
+        '[shop=car_parts][name="паскер"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

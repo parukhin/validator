@@ -70,7 +70,10 @@ class sberbank extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=bank', 'сбер');
+    protected $filter = array(
+        '[amenity=bank][name~"[Сс]бер"]'
+    );
+
 
 	/** обновление данных по региону */
 	public function update()

@@ -22,7 +22,7 @@ class Validator extends OsmFunctions
 		if (!isset(static::$urls[$region])) throw new Exception('Unknow region!');
 		$this->region = $region;
 		$this->context = stream_context_create(array(
-			'http' => array('method' => 'GET', 'timeout' => 5, 'header' => "User-agent: OSM validator http://osm.cupivan.ru\r\n")
+			'http' => array('method' => 'GET', 'timeout' => 5, 'header' => "User-agent: OSM validator http://osm.kool.ru\r\n")
 		));
 	}
 	/** список областей */
@@ -43,9 +43,10 @@ class Validator extends OsmFunctions
 	/** обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data');
+		$this->log('Request real data');
 		$urls = static::$urls[$this->region];
-		if (is_string($urls)) $urls = array('' => $urls);
+		if (is_string($urls)) 
+            $urls = array('' => $urls);
 		foreach ($urls as $id => $url)
 		{
 			$url = str_replace('$1', $id, $url);
@@ -67,14 +68,16 @@ class Validator extends OsmFunctions
 	{
 		$fname = $this->pageFileName($url);
 		$reload = 0;
-		if (!file_exists($fname)) $reload = 1;
-		else
-		if ($this->useCacheHtml) $reload = 0;
-		else
-		if (time() - filemtime($fname) < 3600*24) $reload = 0; // обновляли только что, поэтому больше не надо
-		else if ($this->updateHtml || mt_rand(0,9) == 0)
-			$reload = 1; // старые файлы обновляем с вероятностью 1/10
-		return $reload ? false : file_get_contents($fname);
+		if (!file_exists($fname)) 
+            $reload = 1;
+		else if ($this->useCacheHtml) 
+            $reload = 0;
+		else if (time() - filemtime($fname) < 3600*24) 
+            $reload = 0; // обновляли только что, поэтому больше не надо
+		else if ($this->updateHtml )    //|| mt_rand(0,9) == 0
+			$reload = 1;                // старые файлы обновляем с вероятностью 1/10
+		
+        return $reload ? false : file_get_contents($fname);
 	}
 	/** имя файла для сохранения страницы */
 	protected function pageFileName($url)
@@ -105,7 +108,11 @@ class Validator extends OsmFunctions
 			if (!$force)
 				$page = $this->savePage($url, $page);
 		}
-		return $page;
+        //else {
+		//	$this->log("Use cache: ".$this->pageFileName($url));
+        //}
+                
+        return $page;
 	}
 	/** функция валидации объектов */
 	public function validate()
@@ -292,8 +299,12 @@ class Validator extends OsmFunctions
 		array_push($this->objects, $object);
 	}
 	/** логирование */
-	protected function log($st)
+	function log($st)
 	{
-		echo "[".date('H:i:s')."] $st\n";
+        $line = date('d.m H:i:s')." $st\n";
+		echo $line;
+        //Кидаем в файлик...
+        $file = $_SERVER["DOCUMENT_ROOT"]."/data/log.txt";
+        file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 	}
 }

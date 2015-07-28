@@ -31,7 +31,10 @@ class rosneft extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=fuel', 'роснефть');
+    protected $filter = array(
+        '[amenity=fuel][name~"оснефть"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

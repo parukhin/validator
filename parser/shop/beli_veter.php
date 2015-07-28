@@ -28,7 +28,10 @@ class beli_veter extends Validator
 		);
 
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=electronics', 'ветер');
+    protected $filter = array(
+        '[shop=electronics][name~"ветер"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

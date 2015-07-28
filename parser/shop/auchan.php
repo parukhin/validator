@@ -25,7 +25,10 @@ class auchan extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=supermarket', 'ашан');
+	protected $filter = array(
+        '[shop=supermarket][name~"ашан"]',
+        '[shop=supermarket][name~"Ашан"]',
+        );
 
 	// парсер страницы
 	protected function parse($st)
@@ -34,7 +37,7 @@ class auchan extends Validator
 		{
 			if (!preg_match('#<li>'
 			.'.+?(?<ref>[^>]+)</a>'
-			.'.+?дрес.+?(>)(?<_addr>.+?)</p>'
+			.'.+?<p>(?<_addr>.+?)<br />.+?<br />.+?'
 			.'(.+?работы.+?/>(?<time>.+?)</p>)?'
 			.".*?</li>#su", $x[0], $obj)) return;
 

@@ -2,7 +2,6 @@
 class Geocoder
 {
 	private $context = null;
-	static  $prefix  = '/home/cupivan/http/_.cupivan.ru/osm/validator/_/';
 
 	public function __construct()
 	{
@@ -85,6 +84,7 @@ class Geocoder
 		else
 			$folder = '_/'.substr($md5, 0, 2);
 
-		return self::$prefix.'/_geocoder/'.$folder."/$md5.sz";
+		return $_SERVER["DOCUMENT_ROOT"].'/_/_geocoder/'.$folder."/$md5.sz";
+
 	}
 }

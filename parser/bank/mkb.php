@@ -23,7 +23,11 @@ class mkb extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=bank', 'мкб');
+    protected $filter = array(
+        '[amenity=bank][name="МКБ"]'
+    );
+
+
 
 	// парсер страницы
 	protected function parse($st)

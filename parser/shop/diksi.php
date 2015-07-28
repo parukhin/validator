@@ -14,6 +14,10 @@ class diksi extends Validator
 		'RU-KOS' => 'Костромская область',
 		'RU-LEN' => 'Ленинградская область',
 		'RU-MOW' => 'Москва',
+        //'RU-MOW' => array(
+        //    'moscow' => '/russia/$1/',
+        //    'zelenograd' => '/russia/$1/',
+        //),
 		'RU-MOS' => 'Московская область',
 		'RU-MUR' => 'Мурманская область',
 		'RU-NGR' => 'Новгородская область',
@@ -40,7 +44,12 @@ class diksi extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=supermarket', 'дикси');
+	protected $filter = array(
+        '[shop=supermarket][name="Дикси"]', 
+        '[shop=supermarket][name="дикси"]', 
+        '[shop=convenience][name="Дикси"]', 
+        '[shop=convenience][name="дикси"]'
+    );
 
 	/** обновление данных по региону */
 	public function update()
@@ -49,6 +58,7 @@ class diksi extends Validator
 
 		$regionStr = static::$urls[$this->region];
 
+        //Некоторые магазины все еще в МО
 		// устанавливаем куку с регионом
 		$this->context = stream_context_create(array(
 			'http' => array(

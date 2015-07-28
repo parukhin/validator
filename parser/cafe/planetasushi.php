@@ -15,5 +15,8 @@ class planetasushi extends rosinter
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=cafe', 'ланета');
+    protected $filter = array(
+        '[amenity=cafe][name~"ланета"]'
+    );
+
 }

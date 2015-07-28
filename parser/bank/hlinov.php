@@ -22,7 +22,10 @@ class hlinov extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=bank', 'хлын');
+    protected $filter = array(
+        '[amenity=bank][name~"[Хх]лын"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

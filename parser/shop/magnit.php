@@ -25,7 +25,10 @@ class magnit extends Validator
 		);
 
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=supermarket', 'магни');
+	protected $filter = array(
+        '[shop=supermarket][name="магнит"]', 
+        '[shop=supermarket][name="Магнит"]', 
+        );
 
 	/** обновление данных по региону */
 	public function update()

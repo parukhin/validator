@@ -23,7 +23,10 @@ class azbuka extends Validator
 		);
 
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=supermarket', 'азб');
+    protected $filter = array(
+        '[shop=supermarket][name~"Азбука"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

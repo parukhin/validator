@@ -38,7 +38,10 @@ class temples extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=place_of_worship', 'place');
+    protected $filter = array(
+        '[amenity=place_of_worship]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

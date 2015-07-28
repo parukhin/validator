@@ -31,7 +31,9 @@ class bashneft extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=fuel', 'башн');
+    protected $filter = array(
+        '[amenity=fuel][name~"башн"]'
+    );
 
 	// парсер страницы
 	protected function parse($st)

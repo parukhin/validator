@@ -1,80 +1,83 @@
 var osm = new osm_cl()
 	.region('Москва', 'RU-MOW')
-		.validator('Сбербанк',    'sberbank')
-		.validator('Почта',       'russian_post')
-		.validator('Почтоматы',   'russian_postomat')
-		.validator('Театры',      'mos531')
-		.validator('Служба крови','blood')
-		.validator('Альфабанк',   'alfabank')
-		.validator('Промсбербанк','promsberbank')
-		.validator('МИнБ',        'minbank')
-		.validator('МКБ',         'mkb')
-		.validator('М.Видео',     'mvideo')
-		.validator('Перекресток', 'perekrestok')
+		//.validator('Авто49', 'auto49')
+		.validator('Автопаскер', 'autopasker')
+		.validator('Азбука вкуса', 'azbuka')
+		.validator('Альфабанк', 'alfabank')
+		.validator('Альфабанк.Банкоматы', 'alfabank_atm')
+		.validator('Асна', 'asna')
+		.validator('Атак', 'atak')
+		.validator('Ашан', 'auchan')
 		.validator('Белый ветер', 'beli_veter')
-		.validator('Асна',        'asna')
-		.validator('Азбука вкуса','azbuka')
-		.validator('Газпромнефть','gazprom')
-		.validator('Лукойл',      'lukoil')
-		.validator('Роснефть',    'rosneft')
-		.validator('Автопаскер',  'autopasker')
-		.validator('Авто49',      'auto49')
-		.validator('Церкви',      'temples')
-		.validator('Дикси',       'diksi')
-		.validator('Ашан',        'auchan')
-		.validator('Атак',        'atak')
+		.validator('Велобайк', 'velobike')
+		.validator('Газпромнефть', 'gazprom')
+		.validator('Дикси', 'diksi')
 		.validator('Зоомагазин "4 лапы"', 'lapy4')
-		.validator('Избёнка',     'izbenka')
-		.validator('Терволина',   'tervolina')
-		.validator('Подружка',    'podruzhka')
-		.validator('Магнит',      'magnit')
 		.validator('Кофе Хауз',   'coffeehouse')
+		.validator('Лукойл', 'lukoil')
+		.validator('Магнит',      'magnit')
+		.validator('МИнБ', 'minbank')
+		.validator('МКБ', 'mkb')
+		.validator('Избёнка / ВкусВилл',     'izbenka')
+		//.validator('М.Видео', 'mvideo')
+		.validator('Перекресток', 'perekrestok')
+		.validator('Подружка',    'podruzhka')
+		.validator('Почта', 'russian_post')
+		.validator('Почтоматы',   'russian_postomat')
+		.validator('Промсбербанк', 'promsberbank')
+		.validator('Сбербанк', 'sberbank')
+		.validator('Служба крови', 'blood')
+		.validator('Театры', 'mos531')
+		.validator('Терволина',   'tervolina')
+		.validator('Роснефть',    'rosneft')
 		.validator('IL Патио',    'ilpatio')
+		.validator('Церкви',      'temples')
 		.validator('Планета Cуши','planetasushi')
 	.region('Московская область', 'RU-MOS')
-		.validator('Населенные пункты', 'wiki_places')
-		.validator('Сбербанк',    'sberbank')
-		.validator('Почта',       'russian_post')
-		.validator('Почтоматы',   'russian_postomat')
-		.validator('Служба крови','blood')
+		//.validator('Авто49',      'auto49')
+		.validator('Автопаскер',  'autopasker')
+		.validator('Атак',        'atak')
+		.validator('Азбука вкуса','azbuka')
 		.validator('Альфабанк',   'alfabank')
-		.validator('Промсбербанк','promsberbank')
+		.validator('Асна',        'asna')
+		.validator('Белый ветер', 'beli_veter')
+		.validator('Газпромнефть','gazprom')
+		.validator('Дикси',       'diksi')
+		.validator('Зоомагазин "4 лапы"', 'lapy4')
+		.validator('Лукойл',      'lukoil')
+		.validator('Магнит',      'magnit')
 		.validator('МИнБ',        'minbank')
 		.validator('МКБ',         'mkb')
-		.validator('М.Видео',     'mvideo')
+		//.validator('М.Видео',     'mvideo')
+		.validator('Населенные пункты', 'wiki_places')
 		.validator('Перекресток', 'perekrestok')
-		.validator('Белый ветер', 'beli_veter')
-		.validator('Азбука вкуса','azbuka')
-		.validator('Асна',        'asna')
-		.validator('Лукойл',      'lukoil')
-		.validator('Роснефть',    'rosneft')
-		.validator('Газпромнефть','gazprom')
-		.validator('Автопаскер',  'autopasker')
-		.validator('Авто49',      'auto49')
-		.validator('Церкви',      'temples')
-		.validator('Дикси',       'diksi')
-		.validator('Атак',        'atak')
-		.validator('Зоомагазин "4 лапы"', 'lapy4')
-		.validator('Терволина',   'tervolina')
 		.validator('Подружка',    'podruzhka')
-		.validator('Магнит',      'magnit')
-	.region('Санкт-Петербург', 'RU-SPE')
-		.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		.validator('Почтоматы',   'russian_postomat')
-		.validator('Служба крови','blood')
-		.validator('Перекресток', 'perekrestok')
+		.validator('Промсбербанк','promsberbank')
 		.validator('Роснефть',    'rosneft')
-		.validator('Дикси',       'diksi')
-		.validator('Белый ветер', 'beli_veter')
-		.validator('Лукойл',      'lukoil')
-		.validator('Газпромнефть','gazprom')
-		.validator('Ашан',        'auchan')
-		.validator('МИнБ',        'minbank')
+		.validator('Сбербанк',    'sberbank')
+		.validator('Служба крови','blood')
+		.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
-		.validator('Авто49',      'auto49')
-		.validator('IL Патио',    'ilpatio')
+	.region('Санкт-Петербург', 'RU-SPE')
+		//.validator('Авто49', 'auto49')
+		.validator('Альфабанк', 'alfabank')
+		.validator('Ашан',        'auchan')
+		.validator('Белый ветер', 'beli_veter')
+		.validator('Дикси',       'diksi')
+		.validator('Газпромнефть','gazprom')
+		.validator('Лукойл',      'lukoil')
+		.validator('МИнБ',        'minbank')
+		.validator('Перекресток', 'perekrestok')
 		.validator('Планета Cуши','planetasushi')
+		.validator('Почта',       'russian_post')
+		.validator('Почтоматы',   'russian_postomat')
+		.validator('Роснефть',    'rosneft')
+		.validator('Сбербанк',    'sberbank')
+		.validator('Служба крови','blood')
+		.validator('Церкви',      'temples')
+		.validator('IL Патио',    'ilpatio')
 	.region('Ленинградская область', 'RU-LEN')
 		.validator('Населенные пункты', 'wiki_places')
 		.validator('Сбербанк',    'sberbank')
@@ -103,7 +106,7 @@ var osm = new osm_cl()
 		.validator('Башнефть',    'bashneft')
 		.validator('Фармленд',    'farmlend')
 		.validator('Церкви',      'temples')
-		.validator('Авто49',      'auto49')
+		//.validator('Авто49',      'auto49')
 		.validator('Лукойл',      'lukoil')
 	.region('Белгородская область', 'RU-BEL')
 		.validator('Населенные пункты', 'wiki_places')
@@ -140,7 +143,7 @@ var osm = new osm_cl()
 		.validator('Церкви',      'temples')
 		.validator('Башнефть',    'bashneft')
 		.validator('Ашан',        'auchan')
-		.validator('Авто49',      'auto49')
+		//.validator('Авто49',      'auto49')
 	.region('Иркутская область', 'RU-IRK')
 		.validator('Населенные пункты', 'wiki_places')
 		.validator('Сбербанк',    'sberbank')
@@ -324,30 +327,31 @@ var links = {
 _:0};
 
 var fields = {
-	'sberbank':    ['_addr', 'ref', 'operator', 'branch', 'department', 'name', 'contact:phone', 'contact:website', 'disused', 'opening_hours', 'wheelchair'],
-	'perekrestok': ['_addr', 'operator', 'name', 'phone', 'website', 'opening_hours'],
-	'azbuka':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
-	'beli_veter':  ['_addr', 'ref', 'operator', 'name', 'phone', 'website', 'opening_hours'],
-	'gazprom':     ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours', 'payment:cards', 'shop', 'toilets', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg'],
-	'hlinov':      ['_addr', 'operator', 'name', 'website'],
 	'asna':        ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
+	'autopasker':  ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
 	'alfabank':    ['_addr', 'operator', 'name', 'official_name', 'website', 'opening_hours'],
 	'alfabank_atm':['_addr', 'operator', 'website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR'],
+	'azbuka':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
+	'perekrestok': ['_addr', 'operator', 'name', 'phone', 'website', 'opening_hours'],
+	'beli_veter':  ['_addr', 'ref', 'operator', 'name', 'phone', 'website', 'opening_hours'],
+	'diksi':       ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
+	'gazprom':     ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours', 'payment:cards', 'shop', 'toilets', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg'],
+	'hlinov':      ['_addr', 'operator', 'name', 'website'],
 	'lukoil':      ['_addr', 'ref', 'operator', 'brand', 'contact:website', 'opening_hours', 'payment:cards', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg', 'car_wash', 'shop', 'toilets', 'compressed_air'],
+	'promsberbank':['_addr', 'ref', 'operator', 'name', 'website', 'phone', '_data'],
 	'rosneft':     ['_addr', 'ref', 'operator', 'brand', 'website', 'opening_hours', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel'],
 	'russian_post':['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours', '_name'],
 	'russian_postomat':['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
-	'autopasker':  ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
-	'promsberbank':['_addr', 'ref', 'operator', 'name', 'website', 'phone', '_data'],
+	'sberbank':    ['_addr', 'ref', 'operator', 'branch', 'department', 'name', 'contact:phone', 'contact:website', 'disused', 'opening_hours', 'wheelchair'],
 	'temples':     ['_addr', 'ref:temples.ru', 'start_date', 'name', 'alt_name', 'community:gender', 'building', 'disused', 'denomination', 'denomination:ru', 'russian_orthodox', 'religion', 'phone'],
-	'diksi':       ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
 	'bashneft':    ['_addr', 'ref', 'operator', 'brand', 'name', 'payment:cards', 'payment:fuel_cards', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg'],
 	'atak':        ['_addr', 'operator', 'brand', 'name', 'phone', 'website', 'opening_hours'],
 	'magnit':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
 	'auchan':      ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours'],
 	'farmlend':    ['_addr', 'ref', 'operator', 'phone', 'website', 'dispensing'],
 	'izbenka':     ['_addr', 'operator', 'brand', 'name', 'website', 'opening_hours'],
-	'minbank':     ['_addr', 'operator', 'name', 'website', 'opening_hours'],
+	'velobike': ['_addr', 'ref', 'capacity', 'operator', 'contact:email', 'contact:phone', 'contact:website'],
+	'minbank':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
 	'lapy4':       ['_addr', 'name', 'phone', 'opening_hours', 'pets', 'aquarium', 'veterinary', 'grooming', 'payment:cards', 'website'],
 	'wiki_places': ['name', 'name:ru', 'official_status', 'place', 'abandoned:place', 'population', 'population:date', '_population2013', '_population2012', '_population2010', 'wikipedia', 'old_name', 'contact:website', 'addr:postcode', 'okato:user', 'addr:country', 'addr:region', 'addr:district'],
 	'auto49':      ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
@@ -456,8 +460,8 @@ function osm_cl()
 		var st = '', d = this._regions[this.activeRegion].validators[x].data;
 		var _ = function(x, y, Z) { return state[x+'.'+y] ? '<span title="'+date('H:i:s', state[x+'.'+y][Z])+'">'+date('d.m.Y', state[x+'.'+y][Z])+'</span>' : '?'; }
 		st = 'Обновлено '+_(this.activeRegion, x, 2)+', OSM данные от '+_(this.activeRegion, x, 3)+
-			', <a href="'+links[x]+'">объекты</a> от '+_(x, (typeof(d)=='string'?d:d[0]), 2);
-		st += '<input type="button" onclick="osm.update()" value="Перевалидировать" id="btn_revalidate">'
+			', <a href="'+links[x]+'" target=_blank>объекты</a> от '+_(x, (typeof(d)=='string'?d:d[0]), 2);
+		st += ' <input type="button" onclick="osm.update()" value="Перевалидировать" id="btn_revalidate">'
 		$('date', st);
 
 		this.validate(this.activeRegion, x);
@@ -496,6 +500,7 @@ function osm_cl()
 				corr[a[i].id] = a[i];
 
 			a = a[0];
+			if (a != undefined)
 			for (i = 0; i < a.length; i++)
 			{
 				if (corr[a[i].id]) // применяем поправку
@@ -552,7 +557,7 @@ function osm_cl()
 				osm._fast_filter[x][a[x]] = 1 + (osm._fast_filter[x][a[x]] || 0);
 			}
 		}
-
+		if (a != undefined)
 		for (i = 0; i < a.length; i++)
 		{
 			osm_data = osm.search(a[i], true);
@@ -682,7 +687,9 @@ function osm_cl()
 				+'<td class="c">'+(osm_data
 					? (osm_data && osm_data._used > 1?' '+osm.link(a[i]):'')+osm.link(osm_data.id)
 					: osm.link(a[i]))+
-					' '+osm.link_yasearch(yasearch)+
+                    ' ' + osm.link_ya(a[i].lat, a[i].lon) +
+					' ' + osm.link_yasearch(yasearch) +
+                    ' ' + osm.link_eatlas(a[i].lat, a[i].lon) +
 					'</td>'
 				+'<td class="c">'+(osm_data
 					? osm.link_open_josm(osm_data.id)+' '+
@@ -992,7 +999,7 @@ function osm_cl()
 			return '<a href="http://www.openstreetmap.org/?box=yes&'+
 				'bbox='+encodeURIComponent([id.lon-d,id.lat-0+d/2,id.lon-0+d,id.lat-d/2])+
 				'" target="_blank" title="открыть на openstreetmap.org">' +
-			'<img valign="absmiddle" width="32" src="http://www.openstreetmap.org/assets/osm_logo-bd070644a6d1e2ea4db5d1893091b1e7.png"/>'+
+			'<img valign="absmiddle" width="16" src="http://www.openstreetmap.org/assets/osm_logo-bd070644a6d1e2ea4db5d1893091b1e7.png"/>'+
 			'</a>';
 
 		var pic = '';
@@ -1009,11 +1016,12 @@ function osm_cl()
 			'<img valign="absmiddle" src="http://wiki.openstreetmap.org/w/images/' + pic + '.png"/>'+
 			'</a>';
 	}
-	// ссылка на "добавление ноды"
+    // ссылка на "добавление ноды"
+    //validator/ todo port
 	this.link_export_create = function(a)
 	{
 		if (!a.lat) return '';
-		var i, url = 'http://'+document.domain+'/validator/import.php?';
+		var i, url = 'http://' + document.domain + '/import.php?';
 		for (i in a) if (i.charAt(0) != '_')
 				url += '&'+i+'='+encodeURIComponent(a[i]);
 		return '<a href="#create" onclick="return osm.export_create(\''+url+'\')" target="josm" title="Добавить объект в OSM" class="btn">add</a>';
@@ -1091,7 +1099,7 @@ function osm_cl()
 	this.link_find_josm = function(a)
 	{
 		if (!a.lat) return '';
-		return '<a href="#bbox" onclick="osm.find_josm(\''+osm.coords(a, 0.0004)+'\')" title="Найти координаты в OSM" class="btn">josm</a>';
+		return '<a href="#bbox" onclick="osm.find_josm(\''+osm.coords(a, 0.001)+'\')" title="Найти координаты в OSM" class="btn">josm</a>';
 	}
 	this.find_josm = function(coords)
 	{
@@ -1105,6 +1113,16 @@ function osm_cl()
 		return '<a href="/OSMvsNarod.html#q='+st+'" target="_blank" title="Поиск адреса в НЯКе">'+
 			'<img src="http://yandex.st/lego/2.2.6/common/block/b-service-icon/_ico/b-service-icon_maps.ico"/></a>';
 	}
+	this.link_eatlas = function (lat, lon) {
+        //пока не нашел как показать страницу...
+	    //return '<a href="http://atlas.mos.ru/?x=' + lon + '&y=' + lat + '&z=9&lang=ru" target="_blank" title="eAtlas">' +
+		//	'eAtlas</a>';
+	    return '';
+	}
+	this.link_ya = function (lat, lon) {
+	    return '<a href="http://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="Яндекс Карта"><img src="http://maps.yandex.ru/favicon.ico"></a>';
+	}
+
 
 	// сравнение одного поля в объектах
 	this.compareField = function(osm, real, field)
@@ -1325,37 +1343,54 @@ function osm_cl()
 
 		var N = objects.length;
 
-		if (!N && !is_new)
-		{
+		//if (!N && !is_new)
+		//{
 			var st = this._regions[this.activeRegion].validators[this.activeValidator].title;
-			if (!confirm(st+' будет перевалидирован в регионе '+this._regions[this.activeRegion].title+'.\n\n'
-				+'Физически процедура обновления будет запущена завтра после создания дампа региона.\n'
-				+'Для мгновенной перевалидации загрузите объекты в JOSM, используя кнопки во второй колонке.')) return;
-		}
-		else
-			if (!confirm('Будет перевалидирован'+ok(N,'','о','о')+' '+objects.length+' объект'+ok(N,'','а','ов')+'.\n'
-				+(is_new?'Только что созданные объекты будут обработаны не раньше чем через день.\n':'')
-				+'\nПеред запуском удостоверьтесь, что вы отправили изменения на сервер и закрыли пакет правок!')) return;
+			if (!confirm(st+' будет перевалидирован в регионе '+this._regions[this.activeRegion].title
+			))
+			    return;
+		//}
+		//else
+		//	if (!confirm('Будет перевалидирован'+ok(N,'','о','о')+' '+objects.length+' объект'+ok(N,'','а','ов')+'.\n'
+		//		+(is_new?'Только что созданные объекты будут обработаны не раньше чем через день.\n':'')
+		//		+'\nПеред запуском удостоверьтесь, что вы отправили изменения на сервер и закрыли пакет правок!')) return;
 
 		$('btn_revalidate').value    = 'Ждите...';
 		$('btn_revalidate').disabled = true;
 
-		ajax.send('revalidate.php',
-			{region: osm.activeRegion, validator: osm.activeValidator,
-				code: osm._regions[osm.activeRegion].validators[osm.activeValidator].data,
-				objects:objects, fields: fields[osm.activeValidator]},
-			function(x){
-				if (x)
-				{
-					alert(x);
-					$('btn_revalidate').value    = 'Перевалидировать';
-					$('btn_revalidate').disabled = false;
-					return;
-				}
-				document.location = '#'+osm.activeRegion+'/'+osm.activeValidator;
-				document.location.reload();
+	    
+		ajax.send('/common/validate.php',
+			{
+			    region: osm.activeRegion, validator: osm.activeValidator
+			},
+			function (x) {
+			    //if (x) {
+			        alert(x);
+			        $('btn_revalidate').value = 'Перевалидировать';
+			        $('btn_revalidate').disabled = false;
+			    //    return;
+			    //}
+			    document.location = '#' + osm.activeRegion + '/' + osm.activeValidator;
+			    document.location.reload();
 			}
 		);
+
+		//ajax.send('revalidate.php',
+		//	{region: osm.activeRegion, validator: osm.activeValidator,
+		//		code: osm._regions[osm.activeRegion].validators[osm.activeValidator].data,
+		//		objects:objects, fields: fields[osm.activeValidator]},
+		//	function(x){
+		//		if (x)
+		//		{
+		//			alert(x);
+		//			$('btn_revalidate').value    = 'Перевалидировать';
+		//			$('btn_revalidate').disabled = false;
+		//			return;
+		//		}
+		//		document.location = '#'+osm.activeRegion+'/'+osm.activeValidator;
+		//		document.location.reload();
+		//	}
+		//);
 		osm.loaded_objects = {};
 	}
 

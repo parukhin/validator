@@ -23,7 +23,10 @@ class minbank extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=bank', 'индустр');
+    protected $filter = array(
+        '[amenity=bank][name~"[Ии]ндустр"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

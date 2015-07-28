@@ -26,7 +26,10 @@ class blood extends Validator
 		'lon' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=blood_donation');
+    protected $filter = array(
+        '[amenity=blood_donation]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

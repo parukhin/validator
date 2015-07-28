@@ -7,7 +7,7 @@ class alfabank_atm extends Validator
 	protected $domain = 'http://alfabank.ru';
 	static $urls = array(
 		'RU-MOW' => array(
-			'moscow' => '/russia/$1/',
+            'moscow' => '/$1/atms/$1/list/',
 		),
 		'RU-MOS' => array(
 			'balashiha' => '/russia/$1/',
@@ -26,8 +26,8 @@ class alfabank_atm extends Validator
 	protected $fields = array(
 		'amenity'  => 'atm',
 		'name'     => 'Альфа-Банк',
-		'operator' => 'ОАО "Альфа-Банк"',
-		'website'  => 'http://www.alfabank.ru',
+		'operator' => 'Альфа-Банк',
+		'website'  => 'http://alfabank.ru',
 		'opening_hours' => '',
 		'currency:RUR' => '',
 		'currency:USD' => '',
@@ -37,8 +37,9 @@ class alfabank_atm extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=atm', 'альфа');
-
+	protected $filter = array(
+        '[amenity=atm][name~"[аА]льфа"]',
+    );
 	// парсер страницы
 	protected function parse($st)
 	{

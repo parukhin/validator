@@ -3,6 +3,8 @@ require_once 'Validator.class.php';
 
 class auto49 extends Validator
 {
+    //в кукис сити запихивает код города.
+    //урл http://www.auto49.ru/index.php?option=com_jorange_catalog&view=stores&city=66
 	// откуда скачиваем данные
 	protected $domain = 'http://www.auto49.ru';
 	static $urls = array(
@@ -23,7 +25,9 @@ class auto49 extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=car_parts', '49');
+	protected $filter = array(
+            '[shop=car_parts][name~"49"]',
+    );
 
 	// парсер страницы
 	protected function parse($st)

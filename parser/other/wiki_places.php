@@ -66,7 +66,9 @@ class wiki_places extends Validator
 		'lon'   => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('node,place=city,town,village,hamlet,isolated_dwelling,locality');
+    protected $filter = array(
+        '[place]'
+    );
 
 	public function __construct($x)
 	{

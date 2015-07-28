@@ -15,5 +15,8 @@ class ilpatio extends rosinter
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=cafe', 'patio');
+    protected $filter = array(
+        '[amenity=cafe][name~"Patio"]'
+    );
+
 }

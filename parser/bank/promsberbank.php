@@ -24,7 +24,10 @@ class promsberbank extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=bank', 'промсбер');
+    protected $filter = array(
+        '[amenity=bank][name~"[Пп]ромсбер"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

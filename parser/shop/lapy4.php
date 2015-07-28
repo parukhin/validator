@@ -27,7 +27,10 @@ class lapy4 extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=pet', 'лапы');
+    protected $filter = array(
+        '[shop=pet][name~"лапы"]'
+    );
+
 
 	/** обновление данных по региону */
 	public function update()

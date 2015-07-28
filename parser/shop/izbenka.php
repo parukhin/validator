@@ -10,17 +10,21 @@ class izbenka extends Validator
 	);
 	// поля объекта
 	protected $fields = array(
-		'shop'  => 'milk',
-		'brand'    => 'Избёнка',
-		'operator' => 'ООО "Проект Избёнка"',
-		'website'  => 'http://izbenka.msk.ru',
+		'shop'  => 'farm',
+		'brand'    => 'ВкусВилл',
+		'operator' => 'ВкусВилл',
+		'website'  => 'http://vkusvill.ru/',
 		'opening_hours' => '',
 		'lat'   => '',
 		'lon'   => '',
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=milk', 'изб');
+	protected $filter = array(
+        '[shop][name~"[Ии]зб"]',
+        '[shop][name~"[Vv]kus"]',
+        '[shop][name="ВкусВилл"]',
+        );
 
 	// парсер страницы
 	protected function parse($st)

@@ -22,7 +22,10 @@ class atak extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=supermarket', 'атак');
+    protected $filter = array(
+        '[shop=supermarket][name="Атак"]'
+    );
+
 
 	// получение страниц
 	public function update()

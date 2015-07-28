@@ -26,7 +26,10 @@ class russian_postomat extends Validator
 		'lon'   => '',
 	];
 	// фильтр для поиска объектов в OSM
-	protected $filter = ['vending=parcel_pickup'];
+    protected $filter = array(
+        '[vending=parcel_pickup]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

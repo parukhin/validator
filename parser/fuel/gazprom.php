@@ -45,7 +45,10 @@ class gazprom extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=fuel', 'газпр');
+	protected $filter = array(
+        '[amenity=fuel][name~"газпр"]',
+        '[amenity=fuel][name~"Газпр"]',
+        );
 
 	// для запроса страницы необходимо установит cookies
 	public function update()

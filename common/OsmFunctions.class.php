@@ -6,42 +6,93 @@ class OsmFunctions
 {
 	protected $osm_objects = array();
 	private   $timestamp   = '';
-	public    $useCachePbf  = false; // использовать только кеш
-
-	static    $prefix = '/home/cupivan/http/_.cupivan.ru/osm/validator/_/';
 
 	/** загрузка данных OSM */
 	public function loadOSM()
 	{
-		$this->log("Load OSM data for ".$this->region);
-		$this->updatePbf($this->region);
-
-		$type  = explode('=', preg_replace('/[^=]+?,/', '', $this->filter[0]));
-		$type  = ($type[0] == 'place') ? $type[0] : $type[1];
-		$fname = $this->extractPbf($this->filter[0], $type);
-
-		$this->filterOsm($fname, @$this->filter[1]);
+		$this->log("Request OAPI for ".$this->region." / ".implode(" ", $this->filter));
+        
+        $page = $this->updateOverPass($this->region, $this->filter);
+        if ($page != '')    //$this->log("failed request");
+		    $this->filterOsm($page, ''); //@$this->filter[1]
 	}
-	/** обновление pbf */
-	private function updatePbf($region)
-	{
-		$url = 'http://data.gis-lab.info/osm_dump/dump/latest';
-		$fname = $region.'.osm.pbf';
+    private function searchCondition($filter)
+    {
+        //return '[shop=supermarket][name="Дикси"]';
+        return $filter[0];
+        //return implode("", $filter);
+        //$condition = '';
+        //$condition = $condition."[".$filter[0]."]";
+        //$condition = $condition."[name~"."\"".$filter[1]."\""."]";
+        //return $condition;
+        //$type  = explode('=', preg_replace('/[^=]+?,/', '', $this->filter[0]));
+		//$type  = ($type[0] == 'place') ? $type[0] : $type[1];
+    }
 
-		ob_start();
-		passthru("wget -q -O - $url/$fname.meta");
-		$st = ob_get_clean();
-		$remote_date = preg_replace('/.+?\nversion = ([^ ]+).+/s', '$1', $st);
-		if (!file_exists('../_/pbf')) mkdir('../_/pbf', 0777);
-		$local_date  = date('Y-m-d', @filemtime("../_/pbf/$fname"));
-		if ($remote_date != $local_date)
-		if (!$this->useCachePbf || !file_exists("../_/pbf/$fname"))
-		{
-			$this->log("Download $fname");
-			passthru("if wget -cq $url/$fname -O /tmp/$fname; then mv -f /tmp/$fname ../_/pbf/$fname; fi");
-			touch("../_/pbf/$fname", strtotime($remote_date));
-		}
-	}
+    private function updateOverPass($region, $filter)
+    {
+        $condition = $this->searchCondition($filter);
+
+        $queryUrl = "http://overpass.osm.rambler.ru/cgi/interpreter";
+        $queryParam = "data=[out:xml] [timeout:60];";
+        $queryParam = $queryParam."area [\"addr:country\"=\"RU\"] [\"admin_level\"=\"4\"] [\"iso3166-2\"=\"".$region."\"]->.a; ";
+        $queryParam = $queryParam."( ";
+        //$queryParam = $queryParam."relation (area.a) ";
+        //$queryParam = $queryParam.$condition;
+        ////$queryParam = $queryParam."; >; ";
+        //$queryParam = $queryParam."; ";
+
+        foreach ($filter as $value)
+        {
+            $queryParam = $queryParam."way (area.a) ";
+            $queryParam = $queryParam.$condition;
+            //$queryParam = $queryParam.";>";
+            $queryParam = $queryParam."; ";
+        }
+
+        foreach ($filter as $value)
+        {
+            $queryParam = $queryParam."node (area.a) ";
+            $queryParam = $queryParam.$value;
+            //$queryParam = $queryParam.";>";
+            $queryParam = $queryParam."; ";
+        }
+        
+
+
+        $queryParam = $queryParam.");  ";
+        $queryParam = $queryParam."out meta;";
+
+        //$this->log($queryParam);
+
+        //$uri = $queryUrl.$queryParam;
+        //error_reporting(E_ALL);
+        //echo $uri;
+        //$page = @file_get_contents($queryUrl.$queryParam, false, $this->context);
+        $context = stream_context_create(array(
+          'http' => array(
+              'method' => 'POST',
+              'header' => 'Content-Type: application/x-www-form-urlencoded' . PHP_EOL,
+              'content' => $queryParam,
+          ),
+        ));
+
+        $page = @file_get_contents($queryUrl, false, $context);
+        //echo $page;
+        if (!$page)
+        {
+            $this->log("Error download: $queryUrl.$queryParam\n");
+            return;
+        }
+        //$this->response = $http_response_header; // заголовки ответа
+        //if (stripos($page.implode('', $this->response), 'windows-1251'))
+        //    $page = iconv('cp1251', 'utf-8', $page);
+
+        //if (!$force)
+        //    $page = $this->savePage($url, $page);
+
+        return $page;
+    }
 	/** OSM объекты */
 	public function getOSMObjects()
 	{
@@ -52,72 +103,16 @@ class OsmFunctions
 	{
 		return $this->timestamp;
 	}
-	/** выделение из pbf нужных объектов */
-	private function extractPbf($filter, $type)
-	{
-		// выделяем объекты нужного типа
-		$osm = $this->region.'.osm'; $fname = $this->region.'.osm.pbf';
-		if (!file_exists("../_/$type")) mkdir("../_/$type");
-		if ( file_exists("../_/pbf/$fname")
-		    && filemtime("../_/pbf/$fname") != @filemtime("../_/$type/$osm"))
-		{
-			$this->log("Extract $type from $fname");
-			passthru("osmosis -q \
-					".$this->osmosisFilter($fname, $filter)." \
-					--write-xml - compressionMethod=none \
-					| sed -r 's/uid.+?lat=/lat=/' \
-					> ../_/$type/$osm"); // COMMENT: sed'ом убираем ненужные теги
-			touch("../_/$type/$osm", filemtime("../_/pbf/$fname"));
-		}
-		return "../_/$type/$osm";
-	}
-	/** фильтр для osmosis'а */
-	private function osmosisFilter($fname, $filter)
-	{
-		if (strpos(" $filter", 'relation'))
-		{
-			$filter = preg_replace('/relation,?/', '', $filter);
-			$f = "--read-pbf ../_/pbf/$fname \
-				--tf reject-nodes --tf reject-ways \
-				--tf accept-relations $filter";
-		}
-		else
-		if (strpos(" $filter", 'node'))
-		{
-			$filter = preg_replace('/node,?/', '', $filter);
-			$f = "--read-pbf ../_/pbf/$fname \
-				--tf accept-nodes $filter\
-				--tf reject-ways --tf reject-relations";
-		}
-		else
-		{
-			$f = "--read-pbf ../_/pbf/$fname \
-				--tf reject-relations --tf reject-nodes \
-				--tf accept-ways $filter \
-				outPipe.0=WAY \
-				\
-				--read-pbf ../_/pbf/$fname \
-				--tf reject-relations --tf reject-ways \
-				--tf accept-nodes $filter \
-				outPipe.0=NODE \
-				\
-				--read-pbf ../_/pbf/$fname \
-				--tf reject-nodes --tf reject-ways \
-				--tf accept-relations $filter \
-				outPipe.0=RELATION \
-				\
-				--merge inPipe.0=WAY  inPipe.1=NODE outPipe.0=TEMP \
-				--merge inPipe.0=TEMP inPipe.1=RELATION";
-		}
-		return $f;
-	}
 	/** загрузка и фильтрация объектов */
-	private function filterOsm($fname, $filter='')
-	{
-		// загружаем объекты и отфильтровываем нужные
-		$xml = file_get_contents($fname);
-		if (!$xml) return;
-		$xml = new SimpleXMLElement($xml);
+	//private function filterOsm($fname, $filter='')
+	//{
+	//	// загружаем объекты и отфильтровываем нужные
+	//	$xml = file_get_contents($fname);
+	//	if (!$xml) return;
+    private function filterOsm($src, $filter='')
+    {
+        //echo $src;
+		$xml = new SimpleXMLElement($src);
 		$this->osm_objects = array();
 		mb_internal_encoding('utf-8');
 		$this->timestamp = '';
@@ -169,7 +164,7 @@ class OsmFunctions
 
 		$id  = preg_replace('/\D/', '', $id);
 		$h   = substr("$id", 0, 2);
-		$dir = self::$prefix."/_objects/$type/$h";
+		$dir = $_SERVER["DOCUMENT_ROOT"]."/_/_objects/$type/$h";
 		@mkdir($dir, 0777, true);
 		$fname = "$dir/$id";
 

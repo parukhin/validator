@@ -23,7 +23,10 @@ class tervolina extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=shoes', 'терволин');
+    protected $filter = array(
+        '[shop=shoes][name~"терволин"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

@@ -23,7 +23,10 @@ class podruzhka extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('shop=chemist', 'подруж');
+    protected $filter = array(
+        '[shop=chemist][name~"подруж"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

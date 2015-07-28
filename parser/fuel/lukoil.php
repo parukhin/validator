@@ -51,7 +51,10 @@ class lukoil extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=fuel', 'лукойл');
+	protected $filter = array(
+        '[amenity=fuel][name~"лукойл"]',
+        '[amenity=fuel][name~"Лукойл"]',
+    );
 
 	/** обновление данных по региону */
 	public function update()

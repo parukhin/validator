@@ -55,7 +55,10 @@ class russian_post extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=post_office', 'почт');
+    protected $filter = array(
+        '[amenity=post_office][name~"Почт"]'
+    );
+
 
 	/** обновление данных по региону */
 	public function update()

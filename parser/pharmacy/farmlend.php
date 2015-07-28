@@ -19,7 +19,10 @@ class farmlend extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=pharmacy', 'фармл');
+    protected $filter = array(
+        '[amenity=pharmacy][name~"армл"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

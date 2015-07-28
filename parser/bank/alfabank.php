@@ -6,39 +6,50 @@ class alfabank extends Validator
 	// откуда скачиваем данные
 	protected $domain = 'http://alfabank.ru';
 	static $urls = array(
+		'RU-KGD' => array(
+			'kaliningrad' => '/$1/address/',
+		),
 		'RU-MOW' => array(
 			'moscow' => '/russia/$1/',
+			'zelenograd' => '/russia/$1/',
 		),
 		'RU-MOS' => array(
 			'balashiha' => '/russia/$1/',
 			'korolev'   => '/russia/$1/',
-			'odintsovo' => '/russia/$1/',
 			'khimki'    => '/russia/$1/',
-		),
-		'RU-KGD' => array(
-			'kaliningrad' => '/$1/address/',
+			'krasnogorsk' => '/russia/$1/',
+			'lubertsy' => '/russia/$1/',
+			'mytishchi' => '/russia/$1/',
+			'odintsovo' => '/russia/$1/',
+			'podolsk' => '/russia/$1/',
+            'reutov' => '/russia/$1/',
 		),
 		'RU-MUR' => array(
 			'murmansk' => '/$1/address/',
 		),
+		'RU-SPE' => array(
+            'peterburg' => '/russia/$1/',
+		),
+        
 	);
 	// поля объекта
 	protected $fields = array(
 		'amenity'  => 'bank',
 		'official_name' => '',
 		'name'     => 'Альфа-Банк',
-		'operator' => 'ОАО "Альфа-Банк"',
-		'website'  => 'http://www.alfabank.ru',
+		'operator' => 'Альфа-Банк',
+		'website'  => 'http://alfabank.ru',
 		'opening_hours' => '',
 		'lat'   => '',
 		'lon'   => '',
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=bank', 'альфа');
-
-	// парсер страницы
-	protected function parse($st)
+	protected $filter = array(
+        '[amenity=bank][name~"[Аа]льфа"]'
+    );
+	
+	protected function parse($st)   // парсер страницы
 	{
 		if (preg_match_all('/'
 			."\'(?<id>\d+)\': *{"

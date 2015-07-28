@@ -24,7 +24,10 @@ class coffeehouse extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=cafe', 'Кофех');
+    protected $filter = array(
+        '[amenity=cafe][name~"Кофех"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)

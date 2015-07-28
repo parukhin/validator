@@ -23,7 +23,10 @@ class asna extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-	protected $filter = array('amenity=pharmacy', 'асна');
+    protected $filter = array(
+        '[amenity=pharmacy][name~"асна"]'
+    );
+
 
 	// парсер страницы
 	protected function parse($st)
