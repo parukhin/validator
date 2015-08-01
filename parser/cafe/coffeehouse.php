@@ -25,7 +25,7 @@ class coffeehouse extends Validator
 		);
 	// фильтр для поиска объектов в OSM
     protected $filter = array(
-        '[amenity=cafe][name~"Кофех"]'
+        '[amenity=cafe][name="Кофе Хауз"]'
     );
 
 

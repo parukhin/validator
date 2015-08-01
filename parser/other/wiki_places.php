@@ -243,7 +243,7 @@ class wiki_places extends Validator
 		}
 
 		// обновляем население, согласно переписи
-		$this->updatePopulationFromCensus($obj);
+		//$this->updatePopulationFromCensus($obj);
 
 		// убираем все шаблоны
 		$st = preg_replace('#{{[^{]+?}}#s', '', $st);
@@ -268,7 +268,7 @@ class wiki_places extends Validator
 			$obj['place'] = 'locality';
 			$obj['abandoned:place'] = ($p['st'] == 'хутор') ? 'isolated_dwelling' : 'hamlet';
 		}
-		else
+/*		else
 		if (0
 			|| ($p['pop'] > 100000*0.9)
 			|| ($p['adm_center'] && $p['adm_subject'])
@@ -291,6 +291,9 @@ class wiki_places extends Validator
 		if ($p['st'] == 'хутор' && ($p['pop'] && $p['pop'] < 10)) $obj['place'] = 'isolated_dwelling';
 		else
 		if ($p['selo'] && $p['pop'] > 5) $obj['place'] = 'hamlet';
+*/
+        unset($obj['population']);
+        unset($obj['population:date']);
 
 		$this->addObject($this->makeObject($obj));
 	}
