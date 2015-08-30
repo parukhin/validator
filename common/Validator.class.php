@@ -19,8 +19,11 @@ class Validator extends OsmFunctions
 	/** конструктор - проверка возможности работы с заданным регионом */
 	public function __construct($region)
 	{
-		if (!isset(static::$urls[$region])) throw new Exception('Unknow region!');
-		$this->region = $region;
+        if (is_array(static::$urls) &&
+            !isset(static::$urls[$region])) 
+            throw new Exception('Unknow region!');
+
+        $this->region = $region;
 		$this->context = stream_context_create(array(
 			'http' => array('method' => 'GET', 'timeout' => 5, 'header' => "User-agent: OSM validator http://osm.kool.ru\r\n")
 		));
@@ -44,8 +47,13 @@ class Validator extends OsmFunctions
 	public function update()
 	{
 		$this->log('Request real data');
-		$urls = static::$urls[$this->region];
-		if (is_string($urls)) 
+
+        if (is_array(static::$urls))
+		    $urls = static::$urls[$this->region];
+        else
+            $urls = static::$urls;
+
+        if (is_string($urls)) 
             $urls = array('' => $urls);
 		foreach ($urls as $id => $url)
 		{
@@ -301,6 +309,8 @@ class Validator extends OsmFunctions
 	/** логирование */
 	function log($st)
 	{
+        //$nowUtc = new \DateTime( 'now',  new \DateTimeZone( 'UTC' ) );
+        //$line = $nowUtc->format('d.m H:i:s.u')." $st\n";
         $line = date('d.m H:i:s')." $st\n";
 		echo $line;
         //Кидаем в файлик...

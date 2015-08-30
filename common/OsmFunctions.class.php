@@ -11,42 +11,33 @@ class OsmFunctions
 	public function loadOSM()
 	{
 		$this->log("Request OAPI for ".$this->region." / ".implode(" ", $this->filter));
-        
         $page = $this->updateOverPass($this->region, $this->filter);
-        if ($page != '')    //$this->log("failed request");
-		    $this->filterOsm($page, ''); //@$this->filter[1]
-	}
-    private function searchCondition($filter)
-    {
-        //return '[shop=supermarket][name="Дикси"]';
-        return $filter[0];
-        //return implode("", $filter);
-        //$condition = '';
-        //$condition = $condition."[".$filter[0]."]";
-        //$condition = $condition."[name~"."\"".$filter[1]."\""."]";
-        //return $condition;
-        //$type  = explode('=', preg_replace('/[^=]+?,/', '', $this->filter[0]));
-		//$type  = ($type[0] == 'place') ? $type[0] : $type[1];
-    }
 
+		$this->log("filter data ".$this->region." / ".implode(" ", $this->filter));
+
+        if ($page != '')    //$this->log("failed request");
+		    $this->filterOsm($page); 
+	}
     private function updateOverPass($region, $filter)
     {
-        $condition = $this->searchCondition($filter);
-
         $queryUrl = "http://overpass.osm.rambler.ru/cgi/interpreter";
         $queryParam = "data=[out:xml] [timeout:60];";
         $queryParam = $queryParam."area [\"addr:country\"=\"RU\"] [\"admin_level\"=\"4\"] [\"iso3166-2\"=\"".$region."\"]->.a; ";
         $queryParam = $queryParam."( ";
-        //$queryParam = $queryParam."relation (area.a) ";
-        //$queryParam = $queryParam.$condition;
-        ////$queryParam = $queryParam."; >; ";
-        //$queryParam = $queryParam."; ";
+
+        foreach ($filter as $value)
+        {
+            $queryParam = $queryParam."relation (area.a) ";
+            $queryParam = $queryParam.$value;
+            $queryParam = $queryParam."; >; ";
+            //$queryParam = $queryParam."; ";
+        }
 
         foreach ($filter as $value)
         {
             $queryParam = $queryParam."way (area.a) ";
-            $queryParam = $queryParam.$condition;
-            //$queryParam = $queryParam.";>";
+            $queryParam = $queryParam.$value;
+            $queryParam = $queryParam.";>";
             $queryParam = $queryParam."; ";
         }
 
@@ -57,9 +48,6 @@ class OsmFunctions
             //$queryParam = $queryParam.";>";
             $queryParam = $queryParam."; ";
         }
-        
-
-
         $queryParam = $queryParam.");  ";
         $queryParam = $queryParam."out meta;";
 
@@ -104,32 +92,107 @@ class OsmFunctions
 		return $this->timestamp;
 	}
 	/** загрузка и фильтрация объектов */
-	//private function filterOsm($fname, $filter='')
-	//{
-	//	// загружаем объекты и отфильтровываем нужные
-	//	$xml = file_get_contents($fname);
-	//	if (!$xml) return;
-    private function filterOsm($src, $filter='')
+    private function filterOsm($src)
     {
         //echo $src;
 		$xml = new SimpleXMLElement($src);
 		$this->osm_objects = array();
 		mb_internal_encoding('utf-8');
 		$this->timestamp = '';
-		foreach ($xml->node as $v) $this->testObject($v, 'n', $filter);
-		foreach ($xml->way  as $v) $this->testObject($v, 'w', $filter);
-		foreach ($xml->relation as $v) $this->testObject($v, 'r', $filter);
+
+        //Подготовим фильтр
+		$filter = array();
+        foreach ($this->filter as $value) //  '[amenity=bank][name~"[Аа]льфа"]'
+            //  пережовываем на ключ/значение 
+		    if (preg_match_all('/\[(?<key>\w+)(?:(?<op>[=~])(?<val>(?:\w|"[^"]+")+))?\]/', $value, $m, PREG_SET_ORDER))
+            {
+        		$f = array();
+		        foreach ($m as $obj)
+		        {
+                    $fitem = array(
+                            "k" => $obj['key'],
+                            "o" => $obj['op'],
+                            "v" => trim($obj['val'],'"')
+                    );
+                    array_push($f, $fitem);
+
+                }
+	        	array_push($filter, $f);
+            }
+
+        //print_r($filter);
+        //return;
+        //массив с координатами точек...
+        $nodesCoord = array();
+
+		foreach ($xml->node as $v) 
+            $this->testObject($v, 'n', $nodesCoord, $filter);
+        foreach ($xml->way  as $v) 
+            $this->testObject($v, 'w', $nodesCoord, $filter);
+		foreach ($xml->relation as $v) 
+            $this->testObject($v, 'r', $nodesCoord, $filter);
 	}
 	/** попадает ли объект в фильтр? */
-	private function testObject($item, $type, $filter='')
+	private function testObject($item, $type, &$coord, $filter)
 	{
 		$a = array();
-		foreach ($item->attributes() as $k => $v) $a[$k] = (string)$v;
-		foreach ($item->tag as $tag) $a[(string)$tag->attributes()['k']] = (string)$tag->attributes()['v'];
-		$a['id'] = $type.$a['id'];
+		foreach ($item->attributes() as $k => $v) 
+            $a[$k] = (string)$v;
+		foreach ($item->tag as $tag) 
+            $a[(string)$tag->attributes()['k']] = (string)$tag->attributes()['v'];
+		//$a['id'] = $type.$a['id'];
 
-		// опеделяем самую свежую правку
-		if ($this->timestamp < $a['timestamp']) $this->timestamp = $a['timestamp'];
+        // определяем средние координаты для площадных объектов
+        if (!isset($a['lat']) || !isset($a['lon']) )    //if (($type == 'w') || ($type == 'r'))
+            $a += self::getObjectCenter($item, $coord);
+
+        //Запоминам координаты точек, пригодится, когда будем считать центры ...
+        $coord[$type.$a["id"]] = array(
+                "lat" => (float)$a["lat"],
+                "lon" => (float)$a["lon"]);
+
+    	// фильтруем
+        $found = 1;
+        foreach ($filter as $item) //  фильтров можетбыть несколько, срабатывает какой-то один
+        {
+            $found = 1;
+            foreach ($item as $f) //  '[amenity=bank][name~"[Аа]льфа"]'
+            {
+                if (!isset($a[$f['k']]))    //Нет нужного ключа
+                {   
+                    $found = 0;
+                    break;
+                }
+                if (isset($f['v']))         //Если надо фильтровать по значению...
+                {
+                    if (($f['o'] == '=') &&
+                        ($f['v'] != $a[$f['k']]))
+                    {
+                        echo 'val '.$f['v'].' != '.$a[$f['k']].'\n';
+                        $found = 0;
+                        break;
+                    }
+                    else if (($f['o'] == '~') && 
+                        !preg_match('/'.$f['v'].'/', $a[$f['k']]))
+                    {
+                        $found = 0;
+                        break;
+                    }
+                }
+                
+            }
+            if ($found)
+                break;
+        }
+        if (!$found)
+            return;
+    	// COMMENT: анонимные объекты тоже сохраняем
+		//if (!$ok && !isset($a['name']) && !isset($a['operator'])) $ok = 1;
+
+
+        // опеделяем самую свежую правку
+		if ($this->timestamp < $a['timestamp']) 
+            $this->timestamp = $a['timestamp'];
 
 		// убираем ненужные теги
 		unset($a['version']);
@@ -137,90 +200,76 @@ class OsmFunctions
 		unset($a['uid']);
 		unset($a['user']);
 
-		// фильтруем
-		$ok = $filter ? 0 : 1;
-		if (!$ok)
-		foreach ($a as $v)
-			if (mb_stripos(" $v", $filter)) { $ok = 1; break; }
-
-		// COMMENT: анонимные объекты тоже сохраняем
-		if (!$ok && !isset($a['name']) && !isset($a['operator'])) $ok = 1;
-
-		if (!$ok) return;
-
-		// определяем средние координаты для площадных объектов
-		if ($type == 'w') $a += self::getObjectCenter('w'.$a['id']);
-		if ($type == 'r') $a += self::getObjectCenter('r'.$a['id']);
 
 		array_push($this->osm_objects, $a);
 	}
-	/** текстовые XML данные объекта */
-	static function getOsmXML($id)
-	{
-		$object = 'node';
-		if ($id[0] == 'w') $object = 'way';
-		if ($id[0] == 'r') $object = 'relation';
-		$type = $object[0];
 
-		$id  = preg_replace('/\D/', '', $id);
-		$h   = substr("$id", 0, 2);
-		$dir = $_SERVER["DOCUMENT_ROOT"]."/_/_objects/$type/$h";
-		@mkdir($dir, 0777, true);
-		$fname = "$dir/$id";
+    static function file_get_content_timeout ($URL, $timeout = 60)
+    { 
+        $timeout = (int) $timeout; 
+        if ($timeout < 1) 
+            $timeout = 1; 
+        $Error = "Can't connect to remote URL"; 
+        $content = ''; 
 
-		$page = '';
-		if (file_exists($fname))
-			$page = file_get_contents($fname);
+        if ($handler = fsockopen ($URL, 80, $Error, $Error, $timeout)){ 
+            $H = "GET / HTTP/1.1\r\n"; 
+            $H.= "Host: $URL\r\n"; 
+            $H.= "Connection: Close\r\n\r\n"; 
 
-		if (!strpos($page, '</osm>'))
-		{
-			echo "// Download $id\n";
-//			$this->log("OSM API: $type$id");
-			if ($object != 'node') $id .= '/full';
-			$page = @file_get_contents("http://api.openstreetmap.org/api/0.6/$object/$id");
-			if ($page)
-			file_put_contents($fname, $page);
-		}
-		return $page;
-	}
-	/** все поля объекта в виде хеша */
-	static function getObject($id)
-	{
-		$a = array();
-		$st = self::getOsmXML($id);
-		if (!$st) return $a;
-		try {
-		$osm = new SimpleXMLElement($st);
-		} catch (Exception $e) { echo "// Error parse XML for $id\n"; return $a; }
-		$item = ($id[0] == 'n') ? $osm->node : $osm->way;
-		foreach ($item->attributes() as $k => $v) $a[$k] = (string)$v;
-		foreach ($item->tag as $tag) $a[(string)$tag->attributes()['k']] = (string)$tag->attributes()['v'];
-		ksort($a);
-		$a['id'] = $id;
-		return $a;
-	}
+            fwrite($handler, $H); 
+
+            while (!feof ($handler)){ 
+                $content.= fread ($handler, 4096); 
+            } 
+
+            fclose ($handler); 
+            echo $content; 
+        } 
+    }
+
 	/** получение центра площадного объекта */
-	static function getObjectCenter($id)
+	static function getObjectCenter($item, $coord)
 	{
-		$st  = self::getOsmXML($id);
-		if (!$st) return array();
-		try {
-		$osm = @new SimpleXMLElement($st);
-		} catch (Exception $e) { echo "// Error parse XML for $id!\n"; return array(); }
+        //echo $item->attributes()->id;
+        $time_start = microtime(true);
 
-		// рассчитываем средние координаты для веев
 		$a = array('lat' => 0, 'lon' => 0); $n = 0;
-		foreach ($osm->node as $nd)
+        // рассчитываем средние координаты для веев
+		foreach ($item->nd as $nd)
 		{
-			$a['lat'] += (float)$nd->attributes()->lat;
-			$a['lon'] += (float)$nd->attributes()->lon;
+			$a['lat'] += $coord['n'.$nd->attributes()->ref]['lat'];
+			$a['lon'] += $coord['n'.$nd->attributes()->ref]['lon'];
 			$n++;
 		}
+        //Реляции... находим вей ... и считаем центр...
+        foreach ($item->member as $m)
+        {
+            //print_r($m);
+            //echo "//way[@id=".$m->attributes()->ref."]\r\n";
+            if ($m->attributes()->type=="way")
+            {
+                $a['lat'] += $coord['w'.$m->attributes()->ref]['lat'];
+			    $a['lon'] += $coord['w'.$m->attributes()->ref]['lon'];
+			    $n++;
+            }
+        }
+
 		if ($n)
 		{
 			$a['lat'] /= $n;
 			$a['lon'] /= $n;
 		}
+        //print_r($item);
+        //$time_end = microtime(true);
+        //$time = $time_end - $time_start;
+
+        //echo $item->attributes()->id.': time '.$time.' n '.$n.' lat '.$a['lat'].' lon '.$a['lon'].";\r\n";
+        //echo $item->attributes()->id.':  n '.$n.' lat '.$a['lat'].' lon '.$a['lon'].";\r\n";
 		return $a;
 	}
+
+
+
+
 }

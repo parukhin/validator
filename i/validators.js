@@ -30,9 +30,10 @@ var osm = new osm_cl()
 		.validator('Росгосстрах', 'rgs')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Служба крови', 'blood')
+        //.validator('Суд', 'sudrf')
 		.validator('Театры', 'mos531')
 		//.validator('Терволина',   'tervolina')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 		//.validator('IL Патио',    'ilpatio')
 	.region('Московская область', 'RU-MOS')
 		//.validator('Авто49',      'auto49')
@@ -60,7 +61,7 @@ var osm = new osm_cl()
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Служба крови','blood')
 		//.validator('Терволина',   'tervolina')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 	.region('Санкт-Петербург', 'RU-SPE')
 		//.validator('Авто49', 'auto49')
 		.validator('Альфабанк', 'alfabank')
@@ -77,7 +78,7 @@ var osm = new osm_cl()
 		.validator('Роснефть',    'rosneft')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Служба крови','blood')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 		//.validator('IL Патио',    'ilpatio')
 	.region('Ленинградская область', 'RU-LEN')
 		.validator('Населенные пункты', 'wiki_places')
@@ -90,7 +91,7 @@ var osm = new osm_cl()
 		.validator('Газпромнефть','gazprom')
 		.validator('Дикси',       'diksi')
 		//.validator('МИнБ',        'minbank')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 
 	.region('Адыгея', 'RU-AD')
 		.validator('Населенные пункты', 'wiki_places')
@@ -106,19 +107,19 @@ var osm = new osm_cl()
 		//.validator('Почта',       'russian_post')
 		.validator('Башнефть',    'bashneft')
 		.validator('Фармленд',    'farmlend')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 		//.validator('Авто49',      'auto49')
 		//.validator('Лукойл',      'lukoil')
 	.region('Белгородская область', 'RU-BEL')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		//.validator('Почта',       'russian_post')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 	.region('Брянская область', 'RU-BRY')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		//.validator('Почта',       'russian_post')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 	.region('Владимирская область', 'RU-VLA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
@@ -141,7 +142,7 @@ var osm = new osm_cl()
 		.validator('Перекресток', 'perekrestok')
 		.validator('Роснефть',    'rosneft')
 		.validator('Автопаскер',  'autopasker')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 		.validator('Башнефть',    'bashneft')
 		//.validator('Ашан',        'auchan')
 		//.validator('Авто49',      'auto49')
@@ -166,7 +167,7 @@ var osm = new osm_cl()
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		//.validator('Почта',       'russian_post')
-		//.validator('Церкви',      'temples')
+		.validator('Церкви',      'temples')
 	.region('Кировская область', 'RU-KIR')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
@@ -254,7 +255,7 @@ var osm = new osm_cl()
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		//.validator('Почта',    'russian_post')
-		//.validator('Церкви',   'temples')
+		.validator('Церкви',   'temples')
 	.region('Татарстан', 'RU-TA')
 		//.validator('Сбербанк', 'sberbank')
 		//.validator('Почта',    'russian_post')
@@ -301,7 +302,8 @@ var links = {
 	'lukoil':       'http://www.lukoil.ru/new/azslocator',
 	'rosneft':      'http://www.rosneft.ru/Downstream/petroleum_product_sales/servicestations/',
 	'russian_post': 'http://www.russianpost.ru/rp/servise/ru/home/postuslug/searchops1',
-	'russian_postomat':'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
+	'russian_postomat': 'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
+	'sudrf':        'http://sudrf.ru/index.php?id=300',
 	'autopasker':   'http://avtopasker.ru/info/list.php?town=all',
 	'promsberbank': 'http://www.promsbank.ru/contact',
 	'rgs':          'http://www.rgs.ru/contacts/list.wbp',
@@ -344,10 +346,11 @@ var fields = {
 	'lukoil':      ['_addr', 'ref', 'operator', 'brand', 'contact:website', 'opening_hours', 'payment:cards', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg', 'car_wash', 'shop', 'toilets', 'compressed_air'],
 	'promsberbank':['_addr', 'ref', 'operator', 'name', 'website', 'phone', '_data'],
 	'rosneft':     ['_addr', 'ref', 'operator', 'brand', 'website', 'opening_hours', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel'],
-	'russian_post':['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours', '_name'],
+	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours', '_name'],
 	'russian_postomat':['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
-	'sberbank':    ['_addr', 'ref', 'operator', 'branch', 'department', 'name', 'contact:phone', 'contact:website', 'disused', 'opening_hours', 'wheelchair'],
-	'temples':     ['_addr', 'ref:temples.ru', 'start_date', 'name', 'alt_name', 'community:gender', 'building', 'disused', 'denomination', 'denomination:ru', 'russian_orthodox', 'religion', 'phone'],
+	'sberbank':     ['_addr', 'ref', 'operator', 'branch', 'department', 'name', 'contact:phone', 'contact:website', 'disused', 'opening_hours', 'wheelchair'],
+	'sudrf':        ['_addr', 'name', 'contact:phone', 'contact:website', 'contact:email'],
+	'temples':      ['_addr', 'ref:temples.ru', 'start_date', 'name', 'alt_name', 'community:gender', 'building', 'disused', 'denomination', 'denomination:ru', 'russian_orthodox', 'religion', 'phone'],
 	'bashneft':    ['_addr', 'ref', 'operator', 'brand', 'name', 'payment:cards', 'payment:fuel_cards', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg'],
 	'atak':        ['_addr', 'operator', 'brand', 'name', 'phone', 'website', 'opening_hours'],
 	'magnit':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
