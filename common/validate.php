@@ -8,11 +8,11 @@ header('Content-type: text/plain; charset=utf-8');
 $validator = '';
 if (isset($_POST['validator']))
     $validator = $_POST['validator'];     //alfabank
-if (!$validator)
+if (!$validator && isset($_GET['validator']))
     $validator= $_GET['validator'];      //alfabank
 
-if ($validator == '')
-    echo "Unknown validator".$validator;
+if ($validator == "")
+    echo "Unknown validator ".$validator;
 
 //echo $validator;
 

@@ -1,7 +1,10 @@
 #!/usr/bin/php
 <?php
 
-define('DIR', '/home/cupivan/http/_.cupivan.ru/osm/validator/parser/');
+
+//define('DIR', '/home/cupivan/http/_.cupivan.ru/osm/validator/parser/');
+//define('DIR', "D:\\kool\\validator\\parser\\");
+$DIR = "D:\\kool\\validator\\common";
 
 if ($_SERVER['argc'] < 2)
 {
@@ -19,15 +22,33 @@ $region    = @$_SERVER['argv'][2];
 $params = implode(',', $_SERVER['argv']);
 if (strpos($params, '--all')) define('SHOW_ALL', 1);
 
-chdir(DIR . '../common/');
+//echo  "----------\n";
+//echo $_SERVER["DOCUMENT_ROOT"]."\n";
 
-if (!$fname = exec("find ".DIR." -name $validator.php"))
+
+//chdir($DIR . 'common\\');
+chdir($DIR);
+
+//if (!$fname = exec("find ".$DIR." -name $validator.php"))
+//{
+//	echo "Unknow validator '$validator'\n";
+//	exit;
+//}
+//else
+
+
+//надо найти фаел с таким именем...
+$searchfile = $DIR."\\..\\parser\\*\\$validator.php";
+$files = glob($searchfile);
+if (!$files)
 {
-	echo "Unknow validator '$validator'\n";
-	exit;
+    echo "Unknown validator ".$validator;
+    return;
 }
-else
-	require_once $fname;
+//Код валидатора, например parser\bank\alfabank.php
+require_once $files[0];
+
+//	require_once $fname;
 
 
 try

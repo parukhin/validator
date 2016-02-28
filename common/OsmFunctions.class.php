@@ -22,7 +22,12 @@ class OsmFunctions
     {
         $queryUrl = "http://overpass.osm.rambler.ru/cgi/interpreter";
         $queryParam = "data=[out:xml] [timeout:60];";
-        $queryParam = $queryParam."area [\"addr:country\"=\"RU\"] [\"admin_level\"=\"4\"] [\"iso3166-2\"=\"".$region."\"]->.a; ";
+
+		$queryParam = $queryParam."area[ref=\"".$region."\"][admin_level=4][boundary=administrative]->.a; ";
+		//old syntax
+        //$queryParam = $queryParam."area [\"addr:country\"=\"RU\"] [\"admin_level\"=\"4\"] [\"iso3166-2\"=\"".$region."\"]->.a; ";
+		//$queryParam = $queryParam."{{geocodeArea:".$region."}}->.a; ";
+
         $queryParam = $queryParam."( ";
 
         foreach ($filter as $value)
@@ -140,14 +145,14 @@ class OsmFunctions
             $a[$k] = (string)$v;
 		foreach ($item->tag as $tag) 
             $a[(string)$tag->attributes()['k']] = (string)$tag->attributes()['v'];
-		//$a['id'] = $type.$a['id'];
+		$a['id'] = $type.$a['id'];
 
         // определяем средние координаты для площадных объектов
         if (!isset($a['lat']) || !isset($a['lon']) )    //if (($type == 'w') || ($type == 'r'))
             $a += self::getObjectCenter($item, $coord);
 
         //Запоминам координаты точек, пригодится, когда будем считать центры ...
-        $coord[$type.$a["id"]] = array(
+        $coord[$a["id"]] = array(
                 "lat" => (float)$a["lat"],
                 "lon" => (float)$a["lon"]);
 
