@@ -48,6 +48,12 @@ class russian_post extends Validator
             'region' => 'Хабаровский край',
             'count' => 1280,
         ),
+        'RU-KHM'=> array(
+            'lat' => '62.41',
+            'lng' => '72.9',
+            'region' => 'Ханты-Мансийский Автономный округ - Югра АО',
+            'count' => 1000,
+        ),
         'RU-KGD' => array(
             'lat' => '54.71',
             'lng' => '21.58',
@@ -253,7 +259,7 @@ class russian_post extends Validator
 			$page = $this->download($url.$offset);
 			$this->parse($page);
 			$offset+= $count;
-            echo 'offset: '.$offset.' objects: '.count($this->objects)."\n";
+            //echo 'offset: '.$offset.' objects: '.count($this->objects)."\n";
 		}
 	}
 	// парсер страницы

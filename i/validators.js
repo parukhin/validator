@@ -274,6 +274,10 @@ var osm = new osm_cl()
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
+	.region('Ханты-Мансийский АО - Югра', 'RU-KHM')
+		//.validator('Населенные пункты', 'wiki_places')
+		//.validator('Сбербанк', 'sberbank')
+		.validator('Почта',    'russian_post')
 	.region('Челябинская область', 'RU-CHE')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
@@ -282,7 +286,6 @@ var osm = new osm_cl()
 		.validator('Почта',       'russian_post')
 		//.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
-		//.validator('Башнефть',    'bashneft')
 	.region('Якутия', 'RU-SA')
 		.validator('Населенные пункты', 'wiki_places')
 	.region('Ярославская область', 'RU-YAR')
@@ -1357,10 +1360,10 @@ function osm_cl()
 
 		//if (!N && !is_new)
 		//{
-			var st = this._regions[this.activeRegion].validators[this.activeValidator].title;
-			if (!confirm(st+' будет перевалидирован в регионе '+this._regions[this.activeRegion].title
-			))
-			    return;
+		//	var st = this._regions[this.activeRegion].validators[this.activeValidator].title;
+		//	if (!confirm(st+' будет перевалидирован в регионе '+this._regions[this.activeRegion].title
+		//	))
+		//	    return;
 		//}
 		//else
 		//	if (!confirm('Будет перевалидирован'+ok(N,'','о','о')+' '+objects.length+' объект'+ok(N,'','а','ов')+'.\n'
