@@ -30,7 +30,7 @@ var osm = new osm_cl()
 		.validator('Росгосстрах', 'rgs')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Служба крови', 'blood')
-        //.validator('Суд', 'sudrf')
+        .validator('Суд', 'sudrf')
 		.validator('Театры', 'mos531')
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
@@ -278,6 +278,11 @@ var osm = new osm_cl()
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Башнефть',    'bashneft')
+	.region('Чувашия', 'RU-CU')
+		.validator('Почта',       'russian_post')
+		//.validator('Населенные пункты', 'wiki_places')
+		//.validator('Сбербанк', 'sberbank')
+		//.validator('Башнефть',    'bashneft')
 	.region('Якутия', 'RU-SA')
 		.validator('Населенные пункты', 'wiki_places')
 	.region('Ярославская область', 'RU-YAR')
@@ -472,7 +477,7 @@ function osm_cl()
 		$('date', st);
 
 		this.validate(this.activeRegion, x);
-	}
+	};
 
 	// хэш функция по координтам
 	this.hash = function(lat, lon)
@@ -480,7 +485,7 @@ function osm_cl()
 		lat = Math.round(parseFloat(lat));
 		lon = Math.round(parseFloat(lon));
 		return ''+lat+''+lon;
-	}
+	};
 
 	// генерация таблицы валидатора
 	this.validate = function(region, validator)
@@ -538,7 +543,7 @@ function osm_cl()
 
 			osm.revalidate();
 		});
-	}
+	};
 	// функция генерации таблицы валидатора
 	this.revalidate  = function() { if (this.timerRevalidate) clearInterval(this.timerRevalidate);
 		this.timerRevalidate = setTimeout(function(){ osm.revalidate_(); }, 200); }
@@ -563,7 +568,7 @@ function osm_cl()
 				if (!osm._fast_filter[x]) osm._fast_filter[x] = {};
 				osm._fast_filter[x][a[x]] = 1 + (osm._fast_filter[x][a[x]] || 0);
 			}
-		}
+		};
 		if (a != undefined)
 		for (i = 0; i < a.length; i++)
 		{
@@ -632,7 +637,7 @@ function osm_cl()
 		else
 			this.filter()
 		this.log();
-	}
+	};
 
 	// функция отрисовки страницы с данными
 	this.updatePage = function(){
@@ -773,7 +778,7 @@ function osm_cl()
 		$('pages', st);
 		$('pages_bottom', numPages > 1 ? st_nav : '');
 		this.log();
-	}
+	};
 
 	// отрисовка быстрого фильтра
 	this.drawFastFilter = function()
@@ -793,7 +798,7 @@ function osm_cl()
 			+'<label><input type="checkbox" '+(this._fast_filter_search_osm?'checked':'')
 			+' name="tsearch" onchange="osm.fastFilterOSMToggle(this.checked)">поиск по OSM объектам</label>'
 			+'<ul>' + st + '</ul>';
-	}
+	};
 
 	// выключатель быстрого фильтра
 	this.fastFilterToggle = function() { this._fast_filter_enable ^= 1; this.filter(); return false; }
@@ -808,7 +813,7 @@ function osm_cl()
 		$('search').value = value;
 		osm.searchByName(value);
 		return false;
-	}
+	};
 
 	// смена страницы
 	this.page = function(x)
@@ -816,7 +821,7 @@ function osm_cl()
 		this._filter.page = x;
 		this.filter(this._filter, 1);
 		return false;
-	}
+	};
 
 	// фильтрация записей
 	this.filter = function(x, skipFilter)
@@ -865,7 +870,7 @@ function osm_cl()
 			if (j && skip) return;
 			// если дошли до сюда - добавляем запись в выборку
 			self.filter_data.push(a);
-		}
+		};
 
 		if (this._filter._used != undefined)
 			for (i in this.osm_data)
@@ -879,7 +884,7 @@ function osm_cl()
 		this.updatePage();
 
 		return false;
-	}
+	};
 
 	// обновление списка городов отфильтрованных записей
 	this.updateCityList = function()
@@ -905,7 +910,7 @@ function osm_cl()
 			if (y.count > N && x.count <= N) return  1;
 			return x.name < y.name ? -1 : (x.name > y.name?1:0);
 		});
-	}
+	};
 
 	// поиск по названию
 	this.searchByName = function(x)
@@ -916,7 +921,7 @@ function osm_cl()
 			document.location = '#'+osm.activeRegion+'/'+osm.activeValidator+'/'+x;
 			osm.filter({_addr: x});
 		}, 1000);
-	}
+	};
 
 	// поиск по номеру
 	this.searchByRef = function(x)
@@ -927,7 +932,7 @@ function osm_cl()
 //			document.location = '#'+osm.activeRegion+'/'+osm.activeValidator+'/'+x;
 			osm.filter({ref: x});
 		}, 1000);
-	}
+	};
 
 	// поиск osm объекта
 	this.search = function(a, saveId) // a - реальный объект для поиска
@@ -986,13 +991,13 @@ function osm_cl()
 		}
 
 		return minObjId < 0 ? null : data[minObjId];
-	}
+	};
 
 	// расстояние между объектами
 	this.calcDistance = function(x, y)
 	{
 		return mod(x.lat - y.lat) * mod(x.lat - y.lat) + mod(x.lon - y.lon) * mod(x.lon - y.lon);
-	}
+	};
 
 	// ссылка на сайт OSM
 	this.link = function(id)

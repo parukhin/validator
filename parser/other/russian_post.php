@@ -24,6 +24,12 @@ class russian_post extends Validator
             'region' => 'Белгородская обл',
             'count' => 1400,
         ),
+        'RU-CU' => array(
+            'lat' => '55.48',
+            'lng' => '47.19',
+            'region' => 'Чувашская Республика - Чувашия',
+            'count' => 700,
+        ),
         'RU-KDA' => array(
             'lat' => '45.143',
             'lng' => '39.133',
@@ -247,7 +253,7 @@ class russian_post extends Validator
 			$page = $this->download($url.$offset);
 			$this->parse($page);
 			$offset+= $count;
-            //echo 'offset: '.$offset.' objects: '.count($this->objects)."\n";
+            echo 'offset: '.$offset.' objects: '.count($this->objects)."\n";
 		}
 	}
 	// парсер страницы
