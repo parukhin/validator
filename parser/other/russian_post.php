@@ -308,8 +308,9 @@ class russian_post extends Validator
 					$obj['contact:phone'] = '';
                 else
                     $obj['contact:phone'] .= ';';
-				$obj['contact:phone'] .= '+7 '.((isset($ph['phoneTownCode']))?$ph['phoneTownCode']:'').' '. $ph['phoneNumber'];
+				$obj['contact:phone'] .= '+7 '.((isset($ph['phoneTownCode']))?($ph['phoneTownCode'].' '):'').$ph['phoneNumber'];
 			}
+
 			//Режим работы
 			//$time = array();
             if (isset($obj['workingHours'])) {
