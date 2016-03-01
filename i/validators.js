@@ -34,6 +34,7 @@ var osm = new osm_cl()
 		.validator('Театры', 'mos531')
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
+		.validator('Элекснет',      'elecsnet')
 		//.validator('IL Патио',    'ilpatio')
 	.region('Московская область', 'RU-MOS')
 		//.validator('Авто49',      'auto49')
@@ -62,6 +63,7 @@ var osm = new osm_cl()
 		.validator('Служба крови','blood')
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
+		.validator('Элекснет',      'elecsnet')
 	.region('Санкт-Петербург', 'RU-SPE')
 		//.validator('Авто49', 'auto49')
 		.validator('Альфабанк', 'alfabank')
@@ -336,6 +338,7 @@ var links = {
 	'ilpatio':      'http://www.rosinter.ru/locator/?brand=Ilpatio',
 	'velobike':     'http://velobike.ru/parkings/',
 	'planetasushi': 'http://www.rosinter.ru/locator/?brand=PlanetSushi',
+	'elecsnet': 'http://elecsnet.ru',
 
 _:0};
 
@@ -348,6 +351,7 @@ var fields = {
 	'perekrestok': ['_addr', 'operator', 'name', 'phone', 'website', 'opening_hours'],
 	'beli_veter':  ['_addr', 'ref', 'operator', 'name', 'phone', 'website', 'opening_hours'],
 	'diksi':       ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
+	'elecsnet':    ['_addr', 'brand', 'name', 'payment:notes', 'phone', 'ref','opening_hours', '_note'],
 	'gazprom':     ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours', 'payment:cards', 'shop', 'toilets', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg'],
 	'hlinov':      ['_addr', 'operator', 'name', 'website'],
 	'lukoil':      ['_addr', 'ref', 'operator', 'brand', 'contact:website', 'opening_hours', 'payment:cards', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg', 'car_wash', 'shop', 'toilets', 'compressed_air'],
