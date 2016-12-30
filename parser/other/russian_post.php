@@ -115,12 +115,12 @@ class russian_post extends Validator
             'region' => 'Тверская обл',
             'count' => 2000,
         ),
-		'RU-ROS' => array(
-			'lat' => '47.222531',
-			'lng' => '39.718705',
-			'region' => 'Ростовская обл',
+				'RU-ROS' => array(
+						'lat' => '47.222531',
+						'lng' => '39.718705',
+						'region' => 'Ростовская обл',
             'count' => 3000,
-		),
+				),
         'RU-SPE' => array(
             'lat' => '60.03',
             'lng' => '30.50',
@@ -217,7 +217,14 @@ class russian_post extends Validator
             'region' => 'Воронежская обл',
             'count' => 2000,
         ),
+				'RU-IVA' => array(
+						'lat' => '57.01',
+						'lng' => '41.31',
+						'region' => 'Ивановская обл',
+						'count' => 2000,
+				),
     );
+
 	// поля объекта
 	protected $fields = array(
 		'amenity'  => 'post_office',
@@ -232,11 +239,11 @@ class russian_post extends Validator
 		'_name' => '',
 		'_addr' => '',
 		);
+
 	// фильтр для поиска объектов в OSM [name~"Почт"]
     protected $filter = array(
         '[amenity=post_office]'
     );
-
 
 	/** обновление данных по региону */
 	public function update()
@@ -283,12 +290,12 @@ class russian_post extends Validator
 				{
 					$dup = true;
 					break;
-				}	
-			
+				}
+
 			if ($dup == true)
 				continue;
 
-            $obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];    
+            $obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];
 		//
         //    //$obj['ref'] = sprintf("%d", $obj['Id']);
             $obj['ref'] = $obj['postalCode'];
@@ -297,7 +304,7 @@ class russian_post extends Validator
 			//Телефон
 			//[0] => Array
 			//    (
-			//        [phoneIsFax] => 
+			//        [phoneIsFax] =>
 			//        [phoneNumber] => 53190
 			//        [phoneTownCode] => 86393
 			//        [phoneTypeName] => Начальник ОПС
@@ -346,7 +353,7 @@ class russian_post extends Validator
             }
             $obj['lat'] = $obj['latitude'];
             $obj['lon'] = $obj['longitude'];
-		
+
             $this->addObject($this->makeObject($obj));
         }
 	}

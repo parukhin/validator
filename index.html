@@ -1,162 +1,274 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
 <head>
 	<title>OSM: универсальный валидатор брендов (Сбербанк, Почта и др.)</title>
 	<script src="./i/lib.js"></script>
-    <!-- Yandex.Metrika counter -->
-    <script src="./i/ym.js"></script>
+	<!-- Yandex.Metrika counter -->
+	<script src="./i/ym.js"></script>
 
-    <meta charset="utf-8"/>
+	<meta charset="utf-8" />
 </head>
+
 <body>
-<!--<script src="/i/header.js"></script>-->
 
-<style>
-    body {  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    }
-	table { border-collapse: collapse; border: 2px solid #CCC; }
-	td { border: 1px solid #CCC; padding: 3px 10px; }
-	tr:nth-child(odd) { background: #EEE; }
-	tr:hover td { background: #DDD; }
+	<!--<script src="/i/header.js"></script>-->
 
-	.ok     { color: #080; font-weight: bold; }
-	.err    { color: #F00; font-weight: bold; }
-	.unknow { color: #CCC; font-weight: bold; }
-	.multi, .multi td { background: #FDD !important; }
+	<style>
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
 
-	.c { text-align: center; }
+		table {
+			border-collapse: collapse;
+			border: 2px solid #CCC;
+		}
 
-	.btn { border-radius: 10px; border: 2px solid #777 !important; background: #EEE; font: bold 10px Verdana;
-		text-decoration: none; color: #000 !important; padding: 2px 10px; display: inline-block; }
-	.btn:hover { background: #AAA; }
+		td {
+			border: 1px solid #CCC;
+			padding: 3px 10px;
+		}
 
-	#validators { margin: 10px 0; }
-	#city select { font-family: monospace; }
+		tr:nth-child(odd) {
+			background: #EEE;
+		}
 
-	#log div { padding: 10px; background: #EEA; }
+		tr:hover td {
+			background: #DDD;
+		}
 
-	.hidden a { display: inline-block; background: #EEE; padding: 3px 15px; border-bottom: 1px dashed #999;
-		text-decoration: none; color: #000; }
-	.hidden a.active { background: #CCC; font-weight: bold; border-bottom: 1px solid #999; }
+		.ok {
+			color: #080;
+			font-weight: bold;
+		}
 
-	a[href^="#"] { text-decoration: none; border-bottom: 1px dashed #33A; color: #33A; }
-	a[href^="#"]:hover { background: #AAF; }
+		.err {
+			color: #F00;
+			font-weight: bold;
+		}
 
-	.simple { padding: 0 !important; background: none !important; }
+		.unknow {
+			color: #CCC;
+			font-weight: bold;
+		}
 
-	.foundByRef:after { content: ' (найден по ref)'; font: 90% Verdana; color: #777; }
-	span.addr { display: inline-block; max-width: 280px; }
-	.similar  { background: #EEA; }
+		.multi,
+		.multi td {
+			background: #FDD !important;
+		}
 
-	#date { color: #999; font-size: 80%; }
-	#search_ref { width: 80px; }
-	#wiki_note  { display: none; background: #FAA; padding: 10px; margin: 10px 0; }
+		.c {
+			text-align: center;
+		}
 
-	#help { background: #F9F9F9; border: 2px solid #999; padding: 0px 20px; display: none; }
+		.btn {
+			border-radius: 10px;
+			border: 2px solid #777 !important;
+			background: #EEE;
+			font: bold 10px Verdana;
+			text-decoration: none;
+			color: #000 !important;
+			padding: 2px 10px;
+			display: inline-block;
+		}
 
-	#validate, #filter { margin-top: 20px; }
-</style>
-<script src="i/validators.js"></script>
+		.btn:hover {
+			background: #AAA;
+		}
 
-<script>var state = 0; function _(x) { state = x; }</script>
-<script src="data/state.js"></script>
+		#validators {
+			margin: 10px 0;
+		}
 
-<div>
-	<span id="regions"></span>
-	<a href="#help" onclick="window.style('help', 'display: block|none'); return false;">Справка</a>
+		#city select {
+			font-family: monospace;
+		}
 
-	<span style="margin-left: 30px">Данные в таблице:</span>
-	<select id="color_scheme" onchange="color(this.value)">
-		<option value="osm">OSM</option>
-		<option value="diff">OSM с подсветкой ошибок</option>
-		<option value="real">Правильные данные</option>
-	</select>
-	<a href="./data/log.txt">Лог работы</a>
-	<div id="help">
-		<p>Данный валидатор предназначен для проверки правильности нанесения сетей магазинов и предприятий.
-			Информация о точках берется с официальных сайтов и обновляется несколько раз в месяц.
-			Информация из базы OSM обновляется по возможности раз в сутки, если есть какая-то активность в данном регионе.</p>
-		<p>Валидатор отображает только те, данные, которые необходимо исправить - таким образом, задача сводится к тому,
-			откорректировать объекты, чтобы они здесь не отображались :-)</p>
-		<p>Для удобства редактирования во второй колонке есть кнопки: <span class="btn">add</span> - создание точки в редакторе JOSM
-			и <span class="btn">upd</span> - обновление некорректных полей у заданного объекта в JOSM.
-			Стоит заметить, что эти кнопки работают когда программа JOSM запущена и в ней включена опция удаленного контроля (remote control).</p>
-		<p>Цветовые обозначения: <b class="ok">Правильное значение</b>, <b class="err">Ошибка</b> (при наведении мыши можно увидеть правильное значение),
-			<b class="unknow">Значение не задано</b>. <b class="multi">Красноватый фон</b> на всей строке говорит о том,
-			что этот OSM объект привязан к нескольким адресам. В этом случае необходимо создать еще один объект.
-			<b class="similar">Желтоватый фон</b> на ячейке указывает, что значения немного различаются, это не влияет на валидацию,
-			но поле будет обновлено при обновлении каких-нибудь других полей объекта.</p>
-		<p>Если вы хотите добавить поддержку вашего региона или валидатора, напишите мне на <a href="mailto:cupivan@narod.ru">почту</a> или в <a href="xmpp:cupivan@ya.ru">jabber</a></p>
-		<p><b>Расшифровка лог-файла:</b><br>
-			<ul>
-				<li>в логе самые свежие данные сверху</li>
-				<li><i>Tue Apr  9 01:05:24 MSK 2013</i> - дата и время запуска валидатора</li>
-				<li><i>--14:59:37-- `./RU-AD/sberbank.js.gz'</i> - время обновления OSM-данных (Сбербанк) на этом сервере региона RU-AD</li>
-				<li><i>--14:59:37-- `./wiki_places/RU-BEL.js.gz</i> - время обновления реальных-данных (из википедии) на этом сервере региона RU-BEL</li>
-				<li><i>Make JS RU-VOR/RU-VOR/wiki_places [2200 objects] SKIP</i> - данные не менялись (объекты OSM, валидатор городов по wiki)</li>
-				<li><i>Make JS RU-SPE/russian_post/RU-SPE [289 objects] OK</i> - данные обновились (реальные отделения почтовой связи в RU-SPE)</li>
-			</ul>
-		</p>
+		#log div {
+			padding: 10px;
+			background: #EEA;
+		}
+
+		.hidden a {
+			display: inline-block;
+			background: #EEE;
+			padding: 3px 15px;
+			border-bottom: 1px dashed #999;
+			text-decoration: none;
+			color: #000;
+		}
+
+		.hidden a.active {
+			background: #CCC;
+			font-weight: bold;
+			border-bottom: 1px solid #999;
+		}
+
+		a[href^="#"] {
+			text-decoration: none;
+			border-bottom: 1px dashed #33A;
+			color: #33A;
+		}
+
+		a[href^="#"]:hover {
+			background: #AAF;
+		}
+
+		.simple {
+			padding: 0 !important;
+			background: none !important;
+		}
+
+		.foundByRef:after {
+			content: ' (найден по ref)';
+			font: 90% Verdana;
+			color: #777;
+		}
+
+		span.addr {
+			display: inline-block;
+			max-width: 280px;
+		}
+
+		.similar {
+			background: #EEA;
+		}
+
+		#date {
+			color: #999;
+			font-size: 80%;
+		}
+
+		#search_ref {
+			width: 80px;
+		}
+
+		#wiki_note {
+			display: none;
+			background: #FAA;
+			padding: 10px;
+			margin: 10px 0;
+		}
+
+		#help {
+			background: #F9F9F9;
+			border: 2px solid #999;
+			padding: 0px 20px;
+			display: none;
+		}
+
+		#validate,
+		#filter {
+			margin-top: 20px;
+		}
+	</style>
+	<script src="i/validators.js"></script>
+
+	<script>
+		var state = 0;
+
+		function _(x) {
+			state = x;
+		}
+	</script>
+	<script src="data/state.js"></script>
+
+	<div>
+		<span id="regions"></span>
+		<a href="#help" onclick="window.style('help', 'display: block|none'); return false;">Справка</a>
+
+		<span style="margin-left: 30px">Данные в таблице:</span>
+		<select id="color_scheme" onchange="color(this.value)">
+			<option value="osm">OSM</option>
+			<option value="diff">OSM с подсветкой ошибок</option>
+			<option value="real">Правильные данные</option>
+		</select>
+		<a href="./data/log.txt">Лог работы</a>
+		<div id="help">
+			<p>Данный валидатор предназначен для проверки правильности нанесения сетей магазинов и предприятий. Информация о точках берется с официальных сайтов и обновляется несколько раз в месяц. Информация из базы OSM обновляется по возможности раз в сутки, если
+				есть какая-то активность в данном регионе.</p>
+			<p>Валидатор отображает только те, данные, которые необходимо исправить - таким образом, задача сводится к тому, откорректировать объекты, чтобы они здесь не отображались :-)</p>
+			<p>Для удобства редактирования во второй колонке есть кнопки: <span class="btn">add</span> - создание точки в редакторе JOSM и <span class="btn">upd</span> - обновление некорректных полей у заданного объекта в JOSM. Стоит заметить, что эти кнопки работают
+				когда программа JOSM запущена и в ней включена опция удаленного контроля (remote control).</p>
+			<p>Цветовые обозначения: <b class="ok">Правильное значение</b>, <b class="err">Ошибка</b> (при наведении мыши можно увидеть правильное значение),
+				<b class="unknow">Значение не задано</b>. <b class="multi">Красноватый фон</b> на всей строке говорит о том, что этот OSM объект привязан к нескольким адресам. В этом случае необходимо создать еще один объект.
+				<b class="similar">Желтоватый фон</b> на ячейке указывает, что значения немного различаются, это не влияет на валидацию, но поле будет обновлено при обновлении каких-нибудь других полей объекта.</p>
+			<p>Если вы хотите добавить поддержку вашего региона или валидатора, напишите мне на <a href="mailto:cupivan@narod.ru">почту</a> или в <a href="xmpp:cupivan@ya.ru">jabber</a></p>
+			<p><b>Расшифровка лог-файла:</b><br>
+				<ul>
+					<li>в логе самые свежие данные сверху</li>
+					<li><i>Tue Apr  9 01:05:24 MSK 2013</i> - дата и время запуска валидатора</li>
+					<li><i>--14:59:37-- `./RU-AD/sberbank.js.gz'</i> - время обновления OSM-данных (Сбербанк) на этом сервере региона RU-AD</li>
+					<li><i>--14:59:37-- `./wiki_places/RU-BEL.js.gz</i> - время обновления реальных-данных (из википедии) на этом сервере региона RU-BEL</li>
+					<li><i>Make JS RU-VOR/RU-VOR/wiki_places [2200 objects] SKIP</i> - данные не менялись (объекты OSM, валидатор городов по wiki)</li>
+					<li><i>Make JS RU-SPE/russian_post/RU-SPE [289 objects] OK</i> - данные обновились (реальные отделения почтовой связи в RU-SPE)</li>
+				</ul>
+			</p>
+		</div>
 	</div>
-</div>
-<div>
-	<span id="validators"></span>
-	<span id="date"></span>
-</div>
-<div id="checkJosm"></div>
-<div id="wiki_note"><b>Внимание!</b> Если вы меняете тег place или name на точке, поменяйте его
-	<a href="/places/errors/">также и на контуре</a>!</div>
-<div id="state"  class="hidden" style="display: none;"></div>
-<div id="filter" class="hidden" style="display: none;">
-	<span id="city"></span>
-	<input id="search"     placeholder="Поиск по адресу" onkeyup="osm.searchByName(this.value)">
-	<input id="search_ref" placeholder="ref" onkeyup="osm.searchByRef(this.value)">
-	<input type="button" value="Проверка адресов" onclick="osm.addrCheck()">
-</div>
-<div id="pages" class="hidden" style="display: none;"></div>
-<div id="log"></div>
-<div id="validate"></div>
-<div id="pages_bottom" class="hidden" style="display: none;"></div>
+	<div>
+		<span id="validators"></span>
+		<span id="date"></span>
+	</div>
+	<div id="checkJosm"></div>
+	<div id="wiki_note"><b>Внимание!</b> Если вы меняете тег place или name на точке, поменяйте его
+		<a href="/places/errors/">также и на контуре</a>!</div>
+	<div id="state" class="hidden" style="display: none;"></div>
+	<div id="filter" class="hidden" style="display: none;">
+		<span id="city"></span>
+		<input id="search" placeholder="Поиск по адресу" onkeyup="osm.searchByName(this.value)">
+		<input id="search_ref" placeholder="ref" onkeyup="osm.searchByRef(this.value)">
+		<input type="button" value="Проверка адресов" onclick="osm.addrCheck()">
+	</div>
+	<div id="pages" class="hidden" style="display: none;"></div>
+	<div id="log"></div>
+	<div id="validate"></div>
+	<div id="pages_bottom" class="hidden" style="display: none;"></div>
 
-<script>
-// открываем нужный валидатор
-var hash = (document.location+'/#/#/#').replace('//', '/').replace(/.+?#/, '').split('/');
-$('regions',    osm.regions());
-if (hash[1] != '#') osm.activeValidator = hash[1];
-if (hash[0].indexOf('-') != -1)
-{
-	$('region').value    = hash[0];
-	osm.changeRegion(hash[0]);
-	$('validator').value = hash[1];
-	if (hash[2] != '#') { var s = decodeURIComponent(hash[2]); $('search').value = s; osm.searchByName(s); }
-}
+	<script>
 
-osm.checkJosm();
+		// открываем нужный валидатор
+		var hash = (document.location + '/#/#/#').replace('//', '/').replace(/.+?#/, '').split('/');
+		$('regions', osm.regions());
+		if (hash[1] != '#') osm.activeValidator = hash[1];
+		if (hash[0].indexOf('-') != -1) {
+			$('region').value = hash[0];
+			osm.changeRegion(hash[0]);
+			$('validator').value = hash[1];
+			if (hash[2] != '#') {
+				var s = decodeURIComponent(hash[2]);
+				$('search').value = s;
+				osm.searchByName(s);
+			}
+		}
 
-// смена цветовой раскраски
-function color(x)
-{
-	osm.color_scheme(x);
-	localStorage['color_scheme'] = x; // сохраняем
-}
-// устанавливаем сохраненную раскраску
-if (localStorage['color_scheme'])
-{
-	var s = localStorage['color_scheme'] || 'osm';
-	$('color_scheme').value = s;
-	osm.color_scheme(s);
-}
-</script>
+		osm.checkJosm();
 
-<iframe id="josm" name="josm" style="display: none"></iframe>
+		// смена цветовой раскраски
+		function color(x) {
+			osm.color_scheme(x);
+			localStorage['color_scheme'] = x; // сохраняем
+		}
 
-    <br />
-    <div style="font-size: small; color: GrayText">
-        Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
-        <!--<div class="feedback">На отзывы и предложения отвечаю на <a href="http://clubs.ya.ru/4611686018427464811/replies.xml?item_no=215">этой странице</a>.</div>-->
-        <a href="https://github.com/KooLru/validator" style="color: GrayText">GitHub</a>
-        <a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">форум</a>
-        
-    </div>
+		// устанавливаем сохраненную раскраску
+		if (localStorage['color_scheme']) {
+			var s = localStorage['color_scheme'] || 'osm';
+			$('color_scheme').value = s;
+			osm.color_scheme(s);
+		}
+	</script>
+
+	<iframe id="josm" name="josm" style="display: none"></iframe>
+
+	<br />
+	<div style="font-size: small; color: GrayText">
+		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
+		<!--<div class="feedback">На отзывы и предложения отвечаю на <a href="http://clubs.ya.ru/4611686018427464811/replies.xml?item_no=215">этой странице</a>.</div>-->
+		<a href="https://github.com/KooLru/validator" style="color: GrayText">GitHub</a>
+		<a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">форум</a>
+
+	</div>
 
 </body>
+
 </html>

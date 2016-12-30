@@ -13,7 +13,9 @@ class gazprom extends Validator
 		'RU-KLU' => array('133' => '/our_azs/#$1'),
 		'RU-CHE' => array('144' => '/our_azs/#$1'),
 		'RU-YAR' => array('145' => '/our_azs/#$1'),
+		'RU-IVA' => array('234' => '/our_azs/#$1'),
 	);
+
 	// поля объекта
 	protected $fields = array(
 		'amenity'  => 'fuel',
@@ -27,6 +29,7 @@ class gazprom extends Validator
 			'RU-LEN' => 'ЗАО "Газпромнефть-Северо-Запад"',
 			'RU-CHE' => 'ОАО "Газпромнефть-Челябинск"',
 			'RU-YAR' => 'ОАО "Газпромнефть-Ярославль"',
+			'RU-IVA' => 'ЗАО "Газпромнефть-Северо-Запад"',
 		),
 		'website'  => 'http://www.gazprom-neft.ru',
 		'ref'      => '',
@@ -44,6 +47,7 @@ class gazprom extends Validator
 		'lon'   => '',
 		'_addr' => '',
 		);
+
 	// фильтр для поиска объектов в OSM
 	protected $filter = array(
         '[amenity=fuel][name~"газпр"]',
@@ -62,6 +66,7 @@ class gazprom extends Validator
 		));
 		parent::update();
 	}
+
 	// парсер страницы
 	protected function parse($st)
 	{

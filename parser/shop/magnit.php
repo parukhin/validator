@@ -10,6 +10,7 @@ class magnit extends Validator
 		'RU-MOS' => '/buyers/adds/list.php?SECTION_ID=1258&RID=15',
 		'RU-KLU' => '/buyers/adds/list.php?SECTION_ID=1258&RID=16',
 		'RU-KDA' => '/buyers/adds/list.php?SECTION_ID=1258&RID=25',
+		'RU-IVA' => '/buyers/adds/list.php?SECTION_ID=1258&RID=13',
 	);
 	// поля объекта
 	protected $fields = array(
@@ -26,9 +27,11 @@ class magnit extends Validator
 
 	// фильтр для поиска объектов в OSM
 	protected $filter = array(
-        '[shop=supermarket][name="магнит"]', 
-        '[shop=supermarket][name="Магнит"]', 
+        '[shop=supermarket][name="магнит"]',
+        '[shop=supermarket][name="Магнит"]',
         );
+
+	// '[shop=supermarket][name~"[Мм]агнит"]'
 
 	/** обновление данных по региону */
 	public function update()

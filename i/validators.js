@@ -1,4 +1,11 @@
 var osm = new osm_cl()
+
+	.region('Ивановская область', 'RU-IVA')
+		.validator('Сбербанк', 'sberbank')
+		.validator('Почта', 'russian_post')
+		.validator('Магнит', 'magnit')
+		.validator('Газпромнефть', 'gazprom')
+
 	.region('Москва', 'RU-MOW')
 		//.validator('Авто49', 'auto49')
 		.validator('Автопаскер', 'autopasker')
@@ -15,7 +22,7 @@ var osm = new osm_cl()
 		//.validator('Зоомагазин "4 лапы"', 'lapy4')
 		.validator('Кофе Хауз',   'coffeehouse')
 		//.validator('Лукойл', 'lukoil')
-		//.validator('Магнит',      'magnit')
+		//.validator('Магнит', 'magnit')
 		//.validator('МИнБ', 'minbank')
 		.validator('МКБ', 'mkb')
 		.validator('Избёнка / ВкусВилл',     'izbenka')
@@ -30,12 +37,13 @@ var osm = new osm_cl()
 		.validator('Росгосстрах', 'rgs')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Служба крови', 'blood')
-        .validator('Суд', 'sudrf')
+    .validator('Суд', 'sudrf')
 		.validator('Театры', 'mos531')
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
 		.validator('Элекснет',      'elecsnet')
 		//.validator('IL Патио',    'ilpatio')
+
 	.region('Московская область', 'RU-MOS')
 		//.validator('Авто49',      'auto49')
 		.validator('Автопаскер',  'autopasker')
@@ -64,6 +72,7 @@ var osm = new osm_cl()
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
 		.validator('Элекснет',      'elecsnet')
+
 	.region('Санкт-Петербург', 'RU-SPE')
 		//.validator('Авто49', 'auto49')
 		.validator('Альфабанк', 'alfabank')
@@ -82,6 +91,7 @@ var osm = new osm_cl()
 		.validator('Служба крови','blood')
 		.validator('Церкви',      'temples')
 		//.validator('IL Патио',    'ilpatio')
+
 	.region('Ленинградская область', 'RU-LEN')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
@@ -99,10 +109,12 @@ var osm = new osm_cl()
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
+
 	.region('Архангельская область', 'RU-ARK')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
+
 	.region('Башкирия', 'RU-BA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
@@ -112,31 +124,37 @@ var osm = new osm_cl()
 		.validator('Церкви',      'temples')
 		//.validator('Авто49',      'auto49')
 		//.validator('Лукойл',      'lukoil')
+
 	.region('Белгородская область', 'RU-BEL')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		.validator('Церкви',      'temples')
+
 	.region('Брянская область', 'RU-BRY')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		.validator('Церкви',      'temples')
+
 	.region('Владимирская область', 'RU-VLA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		.validator('Дикси',       'diksi')
+
 	.region('Волгоградская область', 'RU-VGG')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		//.validator('Лукойл',      'lukoil')
+
 	.region('Вологодская область', 'RU-VLG')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		//.validator('Лукойл',      'lukoil')
+
 	.region('Воронежская область', 'RU-VOR')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
@@ -148,15 +166,18 @@ var osm = new osm_cl()
 		.validator('Башнефть',    'bashneft')
 		//.validator('Ашан',        'auchan')
 		//.validator('Авто49',      'auto49')
+
 	.region('Иркутская область', 'RU-IRK')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
+
 	.region('Калининградская область')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Альфабанк','alfabank')
 		//.validator('Лукойл',   'lukoil')
+
 	.region('Калужская область', 'RU-KLU')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
@@ -165,16 +186,19 @@ var osm = new osm_cl()
 		.validator('Дикси',       'diksi')
 		.validator('Перекресток', 'perekrestok')
 		//.validator('Магнит',      'magnit')
+
 	.region('Кемеровская область', 'RU-KEM')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		.validator('Церкви',      'temples')
+
 	.region('Кировская область', 'RU-KIR')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
 		.validator('Хлынов', 'hlinov')
+
 	.region('Краснодарский край', 'RU-KDA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',     'sberbank')
@@ -183,113 +207,140 @@ var osm = new osm_cl()
 		//.validator('Лукойл',       'lukoil')
 		.validator('Роснефть',     'rosneft')
 		//.validator('Магнит',       'magnit')
+
 	.region('Красноярский край', 'RU-KYA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта', 'russian_post')
+
 	.region('Курская область', 'RU-KRS')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',          'sberbank')
+
 	.region('Липецкая область', 'RU-LIP')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',          'sberbank')
 		.validator('Почта',             'russian_post')
 		.validator('Перекрёсток',       'perekrestok')
+
 	.region('Мурманская область', 'RU-MUR')
 		//.validator('Сбербанк',           'sberbank')
 		.validator('Почта',              'russian_post')
 		.validator('Альфабанк',          'alfabank')
 		//.validator('Альфабанк.Банкоматы','alfabank_atm')
 		.validator('Дикси',       'diksi')
+
 	.region('Нижегородская область', 'RU-NIZ')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Перекресток', 'perekrestok')
+
 	.region('Новгородская область', 'RU-NGR')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Дикси',       'diksi')
+
 	.region('Новосибирская область', 'RU-NVS')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
 		//.validator('Почтоматы','russian_postomat')
+
 	.region('Омская область', 'RU-OMS')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',          'sberbank')
 		.validator('Почта',             'russian_post')
 	//.region('Орловская область', 'RU-ORL')
 		//.validator('Сбербанк', 'sberbank')
+
 	.region('Пензенская область', 'RU-PNZ')
 	//	.validator('Сбербанк', 'sberbank')
 		.validator('Почта', 'russian_post')
+
 	.region('Пермский край', 'RU-PER')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
 		//.validator('Лукойл',   'lukoil')
+
 	.region('Приморский край', 'RU-PRI')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
+
 	.region('Ростовская область', 'RU-ROS')
 		.validator('Населенные пункты', 'wiki_places')
 		.validator('Сбербанк', 'sberbank')
 		.validator('Почта', 'russian_post')
+
 	.region('Рязанская область', 'RU-RYA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта', 'russian_post')
+
 	.region('Самарская область', 'RU-SAM')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		//.validator('Белый ветер', 'beli_veter')
 		.validator('Перекресток', 'perekrestok')
 		//.validator('Ашан',        'auchan')
+
 	.region('Саратовская область', 'RU-SAR')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
+
 	.region('Свердловская область', 'RU-SVE')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		//.validator('Почтоматы','russian_postomat')
+
 	.region('Ставропольский край', 'RU-STA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
+
 	.region('Тверская область', 'RU-TVE')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
 		.validator('Церкви',   'temples')
+
 	.region('Татарстан', 'RU-TA')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
 		.validator('Башнефть', 'bashneft')
 		//.validator('Белый ветер', 'beli_veter')
 		.validator('Перекресток', 'perekrestok')
+
 	.region('Тульская область', 'RU-TUL')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
+
 	.region('Ульяновская область', 'RU-ULY')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк',    'sberbank')
 		.validator('Почта',       'russian_post')
 		.validator('Поликлиники', 'ulgov27')
+
 	.region('Хабаровский край', 'RU-KHA')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
+
 	.region('Ханты-Мансийский АО - Югра', 'RU-KHM')
 		//.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Почта',    'russian_post')
+
 	.region('Челябинская область', 'RU-CHE')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
 		.validator('Башнефть',    'bashneft')
+
 	.region('Чувашия', 'RU-CU')
 		.validator('Почта',       'russian_post')
 		//.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
+
 	.region('Якутия', 'RU-SA')
 		.validator('Населенные пункты', 'wiki_places')
+
 	.region('Ярославская область', 'RU-YAR')
 		.validator('Населенные пункты', 'wiki_places')
 		//.validator('Сбербанк', 'sberbank')
@@ -299,46 +350,45 @@ var osm = new osm_cl()
 		.validator('Газпромнефть','gazprom')
 		//.validator('Зоомагазин "4 лапы"', 'lapy4')
 
-
 var links = {
-	'sberbank':     'http://sbrf.ru/moscow/ru/about/branch/list_branch/',
-	'perekrestok':  'http://www.perekrestok.ru/shops/',
-	'azbuka':       'http://av.ru/index.aspx?sPage=63',
-	'beli_veter':   'http://www.digital.ru/shops/all/view',
-	'gazprom':      'http://www.gpnbonus.ru/our_azs/',
-	'hlinov':       'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
-	'asna':         'http://www.asna.ru/drugstores',
-	'alfabank':     'http://www.alfabank.ru/russia/moscow/',
-	'lukoil':       'http://www.lukoil.ru/new/azslocator',
-	'rosneft':      'http://www.rosneft.ru/Downstream/petroleum_product_sales/servicestations/',
-	'russian_post': 'https://www.pochta.ru/offices',
-	'russian_postomat': 'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
-	'sudrf':        'http://sudrf.ru/index.php?id=300',
-	'autopasker':   'http://avtopasker.ru/info/list.php?town=all',
-	'promsberbank': 'http://www.promsbank.ru/contact',
-	'rgs':          'http://www.rgs.ru/contacts/list.wbp',
-	'temples':      'http://www.temples.ru/tree.php',
-	'diksi':        'http://dixy.ru/shops',
-	'bashneft':     'http://www.bashneft-azs.ru/network_azs/',
-	'atak':         'http://www.ataksupermarket.ru/atak.html?rid=1',
-	'magnit':       'http://www.magnit-info.ru/buyers/adds/list.php?SECTION_ID=1258',
-	'auchan':       'http://www.auchan.ru/ru/moscow',
-	'farmlend':     'http://www.farmlend.ru/apteki/',
-	'izbenka':      'http://vkusvill.ru/shops/shoplist/',
-	'lapy4':        'http://4lapy.ru/pet_stores_amp_services/',
-	'auto49':       'http://www.auto49.ru/import',
-	'mkb':          'http://mkb.ru/about_bank/address/?type=office',
-	'tervolina':    'http://www.tervolina.ru/moscow.aspx',
-	'podruzka':     'http://www.podrygka.ru/shops/find/',
-	'mvideo':       'http://www.mvideo.ru/shops/',
-	'blood':        'http://yadonor.ru/where.htm',
-	'mos531':       'http://data.mos.ru/datasets/531',
-	'ulgov27':      'http://data.ulgov.ru/index/data/id/27/',
-	'coffeehouse':  'http://www.coffeehouse.ru/adress/',
-	'ilpatio':      'http://www.rosinter.ru/locator/?brand=Ilpatio',
-	'velobike':     'http://velobike.ru/parkings/',
-	'planetasushi': 'http://www.rosinter.ru/locator/?brand=PlanetSushi',
-	'elecsnet': 'http://elecsnet.ru',
+	'sberbank':					'http://sbrf.ru/moscow/ru/about/branch/list_branch/',
+	'perekrestok':			'http://www.perekrestok.ru/shops/',
+	'azbuka':						'http://av.ru/index.aspx?sPage=63',
+	'beli_veter':				'http://www.digital.ru/shops/all/view',
+	'gazprom':					'http://www.gpnbonus.ru/our_azs/',
+	'hlinov':						'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
+	'asna':							'http://www.asna.ru/drugstores',
+	'alfabank':					'http://www.alfabank.ru/russia/moscow/',
+	'lukoil':						'http://www.lukoil.ru/new/azslocator',
+	'rosneft':					'http://www.rosneft.ru/Downstream/petroleum_product_sales/servicestations/',
+	'russian_post':			'https://www.pochta.ru/offices',
+	'russian_postomat':	'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
+	'sudrf':						'http://sudrf.ru/index.php?id=300',
+	'autopasker':				'http://avtopasker.ru/info/list.php?town=all',
+	'promsberbank':			'http://www.promsbank.ru/contact',
+	'rgs':							'http://www.rgs.ru/contacts/list.wbp',
+	'temples':					'http://www.temples.ru/tree.php',
+	'diksi':						'http://dixy.ru/shops',
+	'bashneft':					'http://www.bashneft-azs.ru/network_azs/',
+	'atak':							'http://www.ataksupermarket.ru/atak.html?rid=1',
+	'magnit':						'http://www.magnit-info.ru/buyers/adds/list.php?SECTION_ID=1258',
+	'auchan':						'http://www.auchan.ru/ru/moscow',
+	'farmlend':					'http://www.farmlend.ru/apteki/',
+	'izbenka':					'http://vkusvill.ru/shops/shoplist/',
+	'lapy4':						'http://4lapy.ru/pet_stores_amp_services/',
+	'auto49':						'http://www.auto49.ru/import',
+	'mkb':							'http://mkb.ru/about_bank/address/?type=office',
+	'tervolina':				'http://www.tervolina.ru/moscow.aspx',
+	'podruzka':					'http://www.podrygka.ru/shops/find/',
+	'mvideo':						'http://www.mvideo.ru/shops/',
+	'blood':						'http://yadonor.ru/where.htm',
+	'mos531':						'http://data.mos.ru/datasets/531',
+	'ulgov27':					'http://data.ulgov.ru/index/data/id/27/',
+	'coffeehouse':			'http://www.coffeehouse.ru/adress/',
+	'ilpatio':					'http://www.rosinter.ru/locator/?brand=Ilpatio',
+	'velobike':					'http://velobike.ru/parkings/',
+	'planetasushi':			'http://www.rosinter.ru/locator/?brand=PlanetSushi',
+	'elecsnet':					'http://elecsnet.ru',
 
 _:0};
 
@@ -1035,6 +1085,7 @@ function osm_cl()
 			'<img valign="absmiddle" src="http://wiki.openstreetmap.org/w/images/' + pic + '.png"/>'+
 			'</a>';
 	}
+
     // ссылка на "добавление ноды"
     //validator/ todo port
 	this.link_export_create = function(a)
@@ -1045,10 +1096,12 @@ function osm_cl()
 				url += '&'+i+'='+encodeURIComponent(a[i]);
 		return '<a href="#create" onclick="return osm.export_create(\''+url+'\')" target="josm" title="Добавить объект в OSM" class="btn">add</a>';
 	}
+
 	this.export_create = function(url)
 	{
 		$('josm').src = 'http://localhost:8111/import?url='+encodeURIComponent(url);
 	}
+
 	// координаты в формате top/bottom/left/right
 	this.coords = function(a, d)
 	{
@@ -1096,6 +1149,7 @@ function osm_cl()
 		url = url.replace(/"/g, '&quot;').replace(/'/g, "\\'");
 		return '<a href="#export" onclick="return osm.export_update(\''+a.id+'\', \''+url+'\')" title="Обновить объект в OSM" class="btn">upd</a>';
 	}
+
 	this.export_update = function(id, url)
 	{
 		osm.loaded_objects[id] = 1;
@@ -1103,23 +1157,27 @@ function osm_cl()
 		$('josm').src = 'http://localhost:8111/load_object?objects='+id+'&addtags='+url;
 		return false;
 	}
+
 	// ссылка "открыть в JOSM"
 	this.link_open_josm = function(id)
 	{
 		return '<a href="#load" onclick="return osm.open_josm(\''+id+'\')" title="Открыть объект в OSM" class="btn">josm</a>';
 	}
+
 	this.open_josm = function(id)
 	{
 		osm.loaded_objects[id] = 1;
 		$('josm').src = 'http://localhost:8111/load_object?objects='+id;
 		return false;
 	}
+
 	// ссылка "координаты в JOSM"
 	this.link_find_josm = function(a)
 	{
 		if (!a.lat) return '';
 		return '<a href="#bbox" onclick="osm.find_josm(\''+osm.coords(a, 0.001)+'\')" title="Найти координаты в OSM" class="btn">josm</a>';
 	}
+
 	this.find_josm = function(coords)
 	{
 		osm.loaded_objects[''] = 1;
@@ -1164,7 +1222,8 @@ function osm_cl()
 		if (field == 'name')
 		{
 			// хак для почты: Отделение связи №XX
-			var _ = function(x) {
+			var _ = function(x)
+			{
 				var _ = function(x, n) { return x.substr(-n).replace(/^0+/, ''); }
 				x = x.replace(/(Почтовое отделение|Почта|Отделение почтовой связи)/, 'Отделение связи');
 				x = x.replace(new RegExp('№'+real.ref), '!'); // совпадение по полному индексу
@@ -1357,8 +1416,7 @@ function osm_cl()
 		var i, objects=[], is_new=0;
 		for (i in osm.loaded_objects)
 			if (!i) is_new = 1;
-			else
-				objects.push(i);
+			else objects.push(i);
 
 		var N = objects.length;
 
@@ -1377,7 +1435,7 @@ function osm_cl()
 		$('btn_revalidate').value    = 'Ждите...';
 		$('btn_revalidate').disabled = true;
 
-	    
+
 		ajax.send('/common/validate.php',
 			{
 			    region: osm.activeRegion, validator: osm.activeValidator
@@ -1435,8 +1493,7 @@ function osm_cl()
 	}
 
 	// смена раскраски таблицы
-	this.color_scheme = function(name)
-	{
+	this.color_scheme = function(name) {
 		this.color = name;
 		this.updatePage();
 	}
@@ -1448,9 +1505,8 @@ function osm_cl()
 		$('log', x);
 	}
 
-	// проверка включен ли Josm нужной версии
-	this.checkJosm = function()
-	{
+	// проверка включен ли JOSM нужной версии
+	this.checkJosm = function() {
 		ajax.load('http://localhost:8111/version', function(x){
 			var st = '', color = '';
 			if (!x)
@@ -1464,7 +1520,7 @@ function osm_cl()
 				if (version >= '1.5')
 					osm.josmCanDeleteTags = true;
 				else
-					st = 'Требуется обновление JOSM! <a href="http://gis-lab.info/programs/josm/josm-tested.jar">Загрузить</a>';
+					st = 'Требуется обновление JOSM! <a href="http://josm.ru/">Загрузить</a>';
 					color = '#990';
 			}
 			if (st) st = '<div style="display: table; color: '+color+'; padding: 5px 20px; margin: 10px 0; border: 1px dashed '+color+'">'+st+'</div>';
@@ -1476,7 +1532,9 @@ function osm_cl()
 }
 
 function mod(x) { return x < 0 ? -x : x; }
-String.prototype.repeat = function(x){
+
+String.prototype.repeat = function(x)
+{
 	var i = 0, s = '', st = this;
 	while (i < x) { s += st; i++; }
 	return s;

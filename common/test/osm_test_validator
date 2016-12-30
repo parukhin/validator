@@ -1,9 +1,9 @@
 #!/usr/bin/php
 <?php
 
-
 //define('DIR', '/home/cupivan/http/_.cupivan.ru/osm/validator/parser/');
 //define('DIR', "D:\\kool\\validator\\parser\\");
+
 $DIR = "D:\\kool\\validator\\common";
 
 if ($_SERVER['argc'] < 2)
