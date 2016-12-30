@@ -115,10 +115,10 @@ class russian_post extends Validator
             'region' => 'Тверская обл',
             'count' => 2000,
         ),
-				'RU-ROS' => array(
-						'lat' => '47.222531',
-						'lng' => '39.718705',
-						'region' => 'Ростовская обл',
+		'RU-ROS' => array(
+		    'lat' => '47.222531',
+            'lng' => '39.718705',
+            'region' => 'Ростовская обл',
             'count' => 3000,
 				),
         'RU-SPE' => array(
@@ -217,12 +217,12 @@ class russian_post extends Validator
             'region' => 'Воронежская обл',
             'count' => 2000,
         ),
-				'RU-IVA' => array(
-						'lat' => '57.01',
-						'lng' => '41.31',
-						'region' => 'Ивановская обл',
-						'count' => 2000,
-				),
+        'RU-IVA' => array(
+            'lat' => '57.01',
+            'lng' => '41.31',
+            'region' => 'Ивановская обл',
+            'count' => 2000,
+        ),
     );
 
 	// поля объекта
