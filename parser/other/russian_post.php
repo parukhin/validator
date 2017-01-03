@@ -240,18 +240,16 @@ class russian_post extends Validator
 		'_addr' => '',
 		);
 
-	// фильтр для поиска объектов в OSM [name~"Почт"]
+	// фильтр для поиска объектов в OSM
     protected $filter = array(
         '[amenity=post_office]'
     );
 
-	/** обновление данных по региону */
+	// обновление данных по региону
 	public function update()
 	{
 		//запрашиваеем что-то недалеко от центра...
 		$this->log('Update real data '.$this->region);
-		//return;
-		//$this->log( print_r(static::$urls, true));
 
         $maxcount = 4000;
         if (isset(static::$urls[$this->region]['count']))
@@ -269,19 +267,19 @@ class russian_post extends Validator
             //echo 'offset: '.$offset.' objects: '.count($this->objects)."\n";
 		}
 	}
+
 	// парсер страницы
 	protected function parse($st)
 	{
-		//$this->log($st);
-        //echo $st;
+        $wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+
 		$a = json_decode($st, 1);
         if (!isset($a))
             return;
 
-        //$this->log( print_r($a, true));
 		foreach ($a as $obj)
         {
-			//Если вылезли в соседние регионы
+			// Если вылезли в соседние регионы
 			if ($obj['region'] != static::$urls[$this->region]['region'])
 				continue;
 			$dup = false;
@@ -296,60 +294,83 @@ class russian_post extends Validator
 				continue;
 
             $obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];
-		//
-        //    //$obj['ref'] = sprintf("%d", $obj['Id']);
             $obj['ref'] = $obj['postalCode'];
 			$obj['name'] = 'Отделение связи №'.$obj['ref'];
 
-			//Телефон
-			//[0] => Array
-			//    (
-			//        [phoneIsFax] =>
-			//        [phoneNumber] => 53190
-			//        [phoneTownCode] => 86393
-			//        [phoneTypeName] => Начальник ОПС
-			//    )
-			//+7 863 2275943
 			foreach ($obj['phones'] as $ph) {
 				if (!isset($obj['contact:phone']))
 					$obj['contact:phone'] = '';
                 else
-                    $obj['contact:phone'] .= ';';
+                    $obj['contact:phone'] .= '; ';
 				$obj['contact:phone'] .= '+7 '.((isset($ph['phoneTownCode']))?($ph['phoneTownCode'].' '):'').$ph['phoneNumber'];
 			}
 
-			//Режим работы
-			//$time = array();
+            // FIXME: заменить на глобальные функции
+			/* Режим работы */
             if (isset($obj['workingHours'])) {
-                 $time = '';
-                foreach ($obj['workingHours'] as $wh) {
-                    if ($time != '')
-                        $time .= '; ';
 
-                    if (!isset($wh['beginWorkTime']))    //Выходной?
+                $time = '';
+                $currentTime = '';
+                $previousTime = '';
+                $firstWeekDayId = 1;
+                $lastWeekDayId = 1;
+
+                foreach ($obj['workingHours'] as $wh) {
+
+                    /* Записываем день недели */
+                    if (!isset($wh['beginWorkTime'])) // выходной
                     {
-                        $time .= str_replace(' - ', ' ', $wh['weekDayName']);
-                        //$time .= $wh['weekDayName'];
+                        $currentTime = "off";
                     }
-                    else                                //рабочий день
+                    else // рабочий день
                     {
-                        //Вторник-пятница: 9:00-17:00 оставлем только дни.
-                        $days = explode(': ', $wh['weekDayName']);
-                        $time .= $days[0].' ';
-                        //если есть обед....
-                        if (isset($wh['lunches']) && (count($wh['lunches']) > 0))
+
+                        if (isset($wh['lunches']) && (count($wh['lunches']) > 0)) // есть обеденный перерыв
                         {
-                            $time .= substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['lunches'][0]['beginLunchTime'], 0,5).',';
-                            $time .= substr($wh['lunches'][0]['endLunchTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+                            $currentTime = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['lunches'][0]['beginLunchTime'], 0,5).',';
+                            $currentTime .= substr($wh['lunches'][0]['endLunchTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+                        } 
+                        else // без перерыва
+                        {
+                            $currentTime = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+                        }
+                    }
+
+                    /* Запись */
+                    if ($previousTime != '') // исключаем запись в 1 раз
+                    {
+                        if (strcasecmp($currentTime, $previousTime) == 0)
+                        {
+                            $lastWeekDayId = $wh['weekDayId'];
                         }
                         else
-                            $time .= substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
-
-                        //$item = str_replace(': ', ' ', $wh['weekDayName']);
-                        //$time .= $item;
+                        {
+                            if ($lastWeekDayId > $firstWeekDayId)
+                            {
+                                $time .= $wd[$firstWeekDayId - 1].'-'.$wd[$lastWeekDayId - 1].' '.$previousTime."; ";
+                            }
+                            else
+                            {
+                                $time .= $wd[$firstWeekDayId - 1].' '.$previousTime."; ";
+                            }
+                            $firstWeekDayId = $wh['weekDayId'];
+                        }
                     }
+                    $previousTime = $currentTime;
+                    
                 }
-                $obj['opening_hours'] = $this->time($time);
+
+                /* Записываем последний день */
+                if ($lastWeekDayId > $firstWeekDayId)
+                {
+                    $time .= $wd[$firstWeekDayId - 1].'-'.$wd[$lastWeekDayId - 1].' '.$previousTime;
+                }
+                else
+                {
+                    $time .= $wd[$firstWeekDayId - 1].' '.$previousTime;
+                }
+
+                $obj['opening_hours'] = $time;
             }
             $obj['lat'] = $obj['latitude'];
             $obj['lon'] = $obj['longitude'];
@@ -357,45 +378,4 @@ class russian_post extends Validator
             $this->addObject($this->makeObject($obj));
         }
 	}
-	/** сохранение страницы */
-	//protected function savePage($url, $content)
-	//{
-	//	$md5 = $this->index;
-	//	$fname = $_SERVER["DOCUMENT_ROOT"].'/_/_html/russian_post/'.$this->region.'/'.substr($md5, 0, 3);
-	//	if (!file_exists($fname)) mkdir($fname, 0777, 1);
-	//	$fname .= "/$md5.html";
-	//
-	//	if (strpos($content, '<body>') && !strpos($content, '<table'))
-	//		$content = '-'; // сокращаем по-минимуму страницы без индекса
-	//	if (!strpos($content, ' 404. ')) // страница не найдена
-	//	if (!strpos($content, '<body onload="')) // кривая страница
-	//	file_put_contents($fname, $content);
-	//
-	//	return $content;
-	//}
-	//protected function loadPage($url)
-	//{
-	//	$md5 = $this->index;
-	//	$fname = $_SERVER["DOCUMENT_ROOT"].'/_/_html/russian_post/'.$this->region.'/'.substr($md5, 0, 3);
-	//	$fname .= "/$md5.html";
-	//
-	//	$reload = 0;
-	//	if (!file_exists($fname)) $reload = 1;
-	//	else
-	//	if (filesize($fname) < 10) return '-'; // такого индекса нет, и не будем заново проверять
-	//	else
-	//	if ($this->useCacheHtml) $reload = 0;
-	//	else
-	//	if (time() - filemtime($fname) < 3600*24*7) $reload = 0; // обновляли только что, поэтому больше не надо
-	//	else if ($this->updateHtml || mt_rand(0,19) == 0)
-	//		$reload = 1; // старые файлы обновляем с вероятностью 1/20
-	//
-	//	if ($reload) return false;
-	//
-	//	$page = file_get_contents($fname);
-	//	if (strpos($page, '<body onload="')) return false; // страница переадресации
-	//
-	//	return $page;
-	//}
 }
-	/** загрузка страницы */
