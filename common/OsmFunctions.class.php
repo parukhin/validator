@@ -13,78 +13,56 @@ class OsmFunctions
 		$this->log("Request OAPI for ".$this->region." / ".implode(" ", $this->filter));
         $page = $this->updateOverPass($this->region, $this->filter);
 
-		$this->log("filter data ".$this->region." / ".implode(" ", $this->filter));
-
-        if ($page != '')    //$this->log("failed request");
+        if ($page != '')
+        {
+            $this->log("filter data ".$this->region." / ".implode(" ", $this->filter));
 		    $this->filterOsm($page); 
+        }
+
 	}
     private function updateOverPass($region, $filter)
     {
-        $queryUrl = "http://overpass.osm.rambler.ru/cgi/interpreter";
-        $queryParam = "data=[out:xml] [timeout:60];";
+        //$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
+        $url = "http://www.overpass-api.de/api/interpreter";
 
-		$queryParam = $queryParam."area[ref=\"".$region."\"][admin_level=4][boundary=administrative]->.a; ";
-		//old syntax
-        //$queryParam = $queryParam."area [\"addr:country\"=\"RU\"] [\"admin_level\"=\"4\"] [\"iso3166-2\"=\"".$region."\"]->.a; ";
-		//$queryParam = $queryParam."{{geocodeArea:".$region."}}->.a; ";
+        $query = "data=[out:xml] [timeout:60];";
 
-        $queryParam = $queryParam."( ";
+		$query = $query."area[ref=\"".$region."\"][admin_level=4][boundary=administrative]->.a; ";
+        $query = $query."( ";
 
         foreach ($filter as $value)
         {
-            $queryParam = $queryParam."relation (area.a) ";
-            $queryParam = $queryParam.$value;
-            $queryParam = $queryParam."; >; ";
-            //$queryParam = $queryParam."; ";
-        }
-
-        foreach ($filter as $value)
-        {
-            $queryParam = $queryParam."way (area.a) ";
-            $queryParam = $queryParam.$value;
-            $queryParam = $queryParam.";>";
-            $queryParam = $queryParam."; ";
+            $query = $query."relation (area.a) ";
+            $query = $query.$value;
+            $query = $query."; >; ";
+            //$query = $query."; ";
         }
 
         foreach ($filter as $value)
         {
-            $queryParam = $queryParam."node (area.a) ";
-            $queryParam = $queryParam.$value;
-            //$queryParam = $queryParam.";>";
-            $queryParam = $queryParam."; ";
+            $query = $query."way (area.a) ";
+            $query = $query.$value;
+            $query = $query.";>";
+            $query = $query."; ";
         }
-        $queryParam = $queryParam.");  ";
-        $queryParam = $queryParam."out meta;";
 
-        //$this->log($queryParam);
-
-        //$uri = $queryUrl.$queryParam;
-        //error_reporting(E_ALL);
-        //echo $uri;
-        //$page = @file_get_contents($queryUrl.$queryParam, false, $this->context);
-        $context = stream_context_create(array(
-          'http' => array(
-              'method' => 'POST',
-              'header' => 'Content-Type: application/x-www-form-urlencoded' . PHP_EOL,
-              'content' => $queryParam,
-          ),
-        ));
-
-        $page = @file_get_contents($queryUrl, false, $context);
-        //echo $page;
-        if (!$page)
+        foreach ($filter as $value)
         {
-            $this->log("Error download: $queryUrl.$queryParam\n");
-            return;
+            $query = $query."node (area.a) ";
+            $query = $query.$value;
+            //$query = $query.";>";
+            $query = $query."; ";
         }
-        //$this->response = $http_response_header; // заголовки ответа
-        //if (stripos($page.implode('', $this->response), 'windows-1251'))
-        //    $page = iconv('cp1251', 'utf-8', $page);
+        $query = $query.");  ";
+        $query = $query."out meta;";
 
-        //if (!$force)
-        //    $page = $this->savePage($url, $page);
+        $page = $this->get_web_page($url, $query);
+        if (($page['errno'] != 0 )||($page['http_code'] != 200)) {
+			$this->log('Error download: '.$url.'\n'.$query);
+			return;
+		}
 
-        return $page;
+        return $page['content'];
     }
 	/** OSM объекты */
 	public function getOSMObjects()
@@ -274,7 +252,38 @@ class OsmFunctions
 		return $a;
 	}
 
+    /* Get bbox from OverPass API */
+    public function getbbox($region)
+    {
+        //$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
+        $url = "http://www.overpass-api.de/api/interpreter";
 
+        // FIXME: запрос слишком много инфы загружает, поправить
+        $query =
+            '[out:json][timeout:60];
+            rel[ref="'.$region.'"][admin_level=4][boundary=administrative];
+            out bb;';
+        
+        $page = $this->get_web_page($url, $query);
+        if (($page['errno'] != 0 )||($page['http_code'] != 200)) {
+			$this->log('Error download: '.$url.'\n'.$query);
+			return;
+		}
 
+        //$page = "{ 'bar': 'baz' }"; // ломаем json для проверки
+        $page = json_decode($page['content'], true);
 
+        if (!$page){
+            $bbox = [];
+        } else {
+            $bbox = [
+            'minlat' => $page['elements'][0]['bounds']['minlat'],
+            'minlon' => $page['elements'][0]['bounds']['minlon'],
+            'maxlat' => $page['elements'][0]['bounds']['maxlat'],
+            'maxlon' => $page['elements'][0]['bounds']['maxlon'],
+            ];
+        }
+
+        return $bbox;
+    }
 }

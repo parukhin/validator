@@ -122,6 +122,36 @@ class Validator extends OsmFunctions
                 
         return $page;
 	}
+
+	/* Скачивание страницы из интернета */
+	public function get_web_page($url, $query = NULL)
+	{
+	  $useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
+
+	  $ch = curl_init($url);
+
+	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);      // возвращает веб-страницу
+	  curl_setopt($ch, CURLOPT_HEADER, 0);              // не возвращает заголовки
+	  curl_setopt($ch, CURLOPT_USERAGENT, $useragent);  // useragent
+	  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);     // таймаут соединения
+	  curl_setopt($ch, CURLOPT_TIMEOUT, 60);            // таймаут ответа
+	  if (!is_null($query)) {
+		  curl_setopt($ch, CURLOPT_POST, 1);            // POST запрос
+		  curl_setopt($ch, CURLOPT_POSTFIELDS, $query);	// содержимое POST запроса
+	  }
+	  
+	  $content = curl_exec($ch);
+	  $errno   = curl_errno($ch);
+	  $errmsg  = curl_error($ch);
+	  $header  = curl_getinfo($ch);
+	  curl_close($ch);
+
+	  $header['errno']   = $errno;
+	  $header['errmsg']  = $errmsg;
+	  $header['content'] = $content;
+	  return $header;
+	}
+
 	/** функция валидации объектов */
 	public function validate()
 	{

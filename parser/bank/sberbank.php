@@ -1,253 +1,288 @@
 <?php
 require_once 'Validator.class.php';
+require_once 'regions.php';
 
 class sberbank extends Validator
 {
-	// откуда скачиваем данные
 	protected $domain = 'http://www.sberbank.ru';
-	static $urls = array(
-
+	static $urls = [
 		// Байкальский банк
-		'RU-ZAB' => array('Забайкальский край',                        'Байкальский банк'),
-		'RU-IRK' => array('Иркутская область',                         'Байкальский банк'),
-		'RU-BU' => array('Республика Бурятия',                         'Байкальский банк'),
-		'RU-SA' => array('Республика Саха (Якутия)',                   'Байкальский банк'),
+		'RU-ZAB' => ['regId' => '8600', 'branch' => 'Байкальский банк'],
+		'RU-IRK' => ['regId' => '8586', 'branch' => 'Байкальский банк'], // eq
+		'RU-BU'  => ['regId' => '8586', 'branch' => 'Байкальский банк'], // eq
+		'RU-SA'  => ['regId' => '8603', 'branch' => 'Байкальский банк'],
 
 		// Волго-Вятский банк
-		'RU-NIZ' => array('Нижегородская область',                     'Волго-Вятский банк'),
-		'RU-VLA' => array('Владимирская область',                      'Волго-Вятский банк'),
-		'RU-KIR' => array('Кировская область',                         'Волго-Вятский банк'),
-		'RU-MO'  => array('Республика Мордовия',                       'Волго-Вятский банк'),
-		'RU-ME'  => array('Республика Республика Марий Эл',            'Волго-Вятский банк'),
-		'RU-CU'  => array('Чувашская республика',                      'Волго-Вятский банк'),
-		'RU-TA'  => array('Республика Татарстан',                      'Волго-Вятский банк'),
+		'RU-NIZ' => ['regId' => '9042', 'branch' => 'Волго-Вятский банк'],
+		'RU-VLA' => ['regId' => '8611', 'branch' => 'Волго-Вятский банк'],
+		'RU-KIR' => ['regId' => '8612', 'branch' => 'Волго-Вятский банк'],
+		'RU-MO'  => ['regId' => '8589', 'branch' => 'Волго-Вятский банк'],
+		'RU-ME'  => ['regId' => '8614', 'branch' => 'Волго-Вятский банк'],
+		'RU-CU'  => ['regId' => '8613', 'branch' => 'Волго-Вятский банк'],
+		'RU-TA'  => ['regId' => '8610', 'branch' => 'Волго-Вятский банк'],
 
 		// Дальневосточный банк
-		'RU-KHA' => array('Хабаровский край',                          'Дальневосточный банк'),
-		'RU-PRI' => array('Приморский край',                           'Дальневосточный банк'),
-		'RU-AMU' => array('Амурская область',                          'Дальневосточный банк'),
-		'RU-SAK' => array('Сахалинская область',                       'Дальневосточный банк'),
-		'RU-YEV' => array('Еврейская автономная область',              'Дальневосточный банк'),
-		'RU-YEV' => array('Еврейская автономная область',              'Дальневосточный банк'),
-		'RU-MAG' => array('Магаданская область',                       'Дальневосточный банк'),
-		'RU-KAM' => array('Камчатский край',                           'Дальневосточный банк'),
-		'RU-CHU' => array('Чукотский автономный округ',                'Дальневосточный банк'),
+		'RU-KHA' => ['regId' => '9070', 'branch' => 'Дальневосточный банк'],
+		'RU-PRI' => ['regId' => '8635', 'branch' => 'Дальневосточный банк'],
+		'RU-AMU' => ['regId' => '8636', 'branch' => 'Дальневосточный банк'],
+		'RU-SAK' => ['regId' => '8567', 'branch' => 'Дальневосточный банк'],
+		'RU-YEV' => ['regId' => '4157', 'branch' => 'Дальневосточный банк'],
+		'RU-MAG' => ['regId' => '8645', 'branch' => 'Дальневосточный банк'], // eq
+		'RU-KAM' => ['regId' => '8556', 'branch' => 'Дальневосточный банк'],
+		'RU-CHU' => ['regId' => '8645', 'branch' => 'Дальневосточный банк'], // eq
 
 		// Западно-Сибирский банк
-		'RU-TYU' => array('Тюменская область',                         'Западно-Сибирский банк'),
-		'RU-OMS' => array('Омская область',                            'Западно-Сибирский банк'),
-		'RU-KHM' => array('Ханты-Мансийский автономный округ — Югра',  'Западно-Сибирский банк'),
-		'RU-YAN' => array('Ямало-Ненецкий автономный',                 'Западно-Сибирский банк'),
+		'RU-TYU' => ['regId' => '29',   'branch' => 'Западно-Сибирский банк'],
+		'RU-OMS' => ['regId' => '8634', 'branch' => 'Западно-Сибирский банк'],
+		'RU-KHM' => ['regId' => '1791', 'branch' => 'Западно-Сибирский банк'],
+		'RU-YAN' => ['regId' => '1790', 'branch' => 'Западно-Сибирский банк'],
 
 		// Западно-Уральский банк
-		'RU-PER' => array('Пермский край',                             'Западно-Уральский банк'),
-		'RU-KO' => array('Республика Коми',                            'Западно-Уральский банк'),
-		'RU-UD' => array('Удмуртская Республика',                      'Западно-Уральский банк'),
+		'RU-PER' => ['regId' => '6984', 'branch' => 'Западно-Уральский банк'],
+		'RU-KO'  => ['regId' => '8617', 'branch' => 'Западно-Уральский банк'],
+		'RU-UD'  => ['regId' => '8618', 'branch' => 'Западно-Уральский банк'],
 
 		// Московский банк
-		'RU-MOW' => array('Москва',                                    'Московский банк'),
+		'RU-MOW' => ['regId' => '9038', 'branch' => 'Московский банк'],
 
 		// Поволжский банк
-		'RU-SAM' => array('Самарская область',                         'Поволжский банк'),
-		'RU-ULY' => array('Ульяновская область',                       'Поволжский банк'),
-		'RU-ORE' => array('Оренбургская область',                      'Поволжский банк'),
-		'RU-SAR' => array('Саратовская область',                       'Поволжский банк'),
-		'RU-VGG' => array('Волгоградская область',                     'Поволжский банк'),
-		'RU-AST' => array('Астраханская область',                      'Поволжский банк'),
-		'RU-PNZ' => array('Пензенская область',                        'Поволжский банк'),
+		'RU-SAM' => ['regId' => '6991', 'branch' => 'Поволжский банк'],
+		'RU-ULY' => ['regId' => '8588', 'branch' => 'Поволжский банк'],
+		'RU-ORE' => ['regId' => '8623', 'branch' => 'Поволжский банк'],
+		'RU-SAR' => ['regId' => '8622', 'branch' => 'Поволжский банк'],
+		'RU-VGG' => ['regId' => '8621', 'branch' => 'Поволжский банк'],
+		'RU-AST' => ['regId' => '8625', 'branch' => 'Поволжский банк'],
+		'RU-PNZ' => ['regId' => '8624', 'branch' => 'Поволжский банк'],
 
 		// Северный банк
-		'RU-YAR' => array('Ярославская область',                       'Северный банк'),
-		'RU-KOS' => array('Костромская область',                       'Северный банк'),
-		'RU-IVA' => array('Ивановская область',                        'Северный банк'),
-		'RU-VLG' => array('Вологодская область',                       'Северный банк'),
-		'RU-NEN' => array('Ненецкий автономный округ',                 'Северный банк'),
-		'RU-ARK' => array('Архангельская область',                     'Северный банк'),
+		'RU-YAR' => ['regId' => '17',   'branch' => 'Северный банк'],
+		'RU-KOS' => ['regId' => '8640', 'branch' => 'Северный банк'],
+		'RU-IVA' => ['regId' => '8639', 'branch' => 'Северный банк'],
+		'RU-VLG' => ['regId' => '8638', 'branch' => 'Северный банк'],
+		'RU-NEN' => ['regId' => '1582', 'branch' => 'Северный банк'],
+		'RU-ARK' => ['regId' => '8637', 'branch' => 'Северный банк'],
 
 		// Северо-Западный банк
-		'RU-SPE' => array('Санкт-Петербург',                           'Северо-Западный банк'),
-		'RU-LEN' => array('Ленинградская область',                     'Северо-Западный банк'),
-		'RU-MUR' => array('Мурманская область',                        'Северо-Западный банк'),
-		'RU-KGD' => array('Калининградская область',                   'Северо-Западный банк'),
-		'RU-PSK' => array('Псковская область',                         'Северо-Западный банк'),
-		'RU-NGR' => array('Новгородская область',                      'Северо-Западный банк'),
-		'RU-KR' => array('Республика Карелия',                         'Северо-Западный банк'),
+		'RU-SPE' => ['regId' => '9055', 'branch' => 'Северо-Западный банк'], // eq
+		'RU-LEN' => ['regId' => '9055', 'branch' => 'Северо-Западный банк'], // eq
+		'RU-MUR' => ['regId' => '8627', 'branch' => 'Северо-Западный банк'],
+		'RU-KGD' => ['regId' => '8626', 'branch' => 'Северо-Западный банк'],
+		'RU-PSK' => ['regId' => '8630', 'branch' => 'Северо-Западный банк'],
+		'RU-NGR' => ['regId' => '8629', 'branch' => 'Северо-Западный банк'],
+		'RU-KR'  => ['regId' => '8628', 'branch' => 'Северо-Западный банк'],
 
 		// Сибирский банк
-		'RU-NVS' => array('Новосибирская область',                     'Сибирский банк'),
-		'RU-TOM' => array('Томская область',                           'Сибирский банк'),
-		'RU-KEM' => array('Кемеровская область',                       'Сибирский банк'),
-		'RU-ALT' => array('Алтайский край',                            'Сибирский банк'),
-		'RU-AL' => array('Республика Алтай',                           'Сибирский банк'),
-		'RU-KYA' => array('Красноярский край',                         'Сибирский банк'),
-		'RU-TY' => array('Республика Тыва',                            'Сибирский банк'),
-		'RU-KK' => array('Республика Хакасия',                         'Сибирский банк'),
+		'RU-NVS' => ['regId' => '8047', 'branch' => 'Сибирский банк'],
+		'RU-TOM' => ['regId' => '8616', 'branch' => 'Сибирский банк'],
+		'RU-KEM' => ['regId' => '8615', 'branch' => 'Сибирский банк'],
+		'RU-ALT' => ['regId' => '8644', 'branch' => 'Сибирский банк'],
+		'RU-AL'  => ['regId' => '8558', 'branch' => 'Сибирский банк'],
+		'RU-KYA' => ['regId' => '8646', 'branch' => 'Сибирский банк'],
+		'RU-TY'  => ['regId' => '8591', 'branch' => 'Сибирский банк'],
+		'RU-KK'  => ['regId' => '8602', 'branch' => 'Сибирский банк'],
 
 		// Среднерусский банк
-		'RU-MOS' => array('Московская область',                        'Среднерусский банк'),
-		'RU-TVE' => array('Тверская область',                          'Среднерусский банк'),
-		'RU-KLU' => array('Калужская область',                         'Среднерусский банк'),
-		'RU-BRY' => array('Брянская область',                          'Среднерусский банк'),
-		'RU-SMO' => array('Смоленская область',                        'Среднерусский банк'),
-		'RU-TUL' => array('Тульская область',                          'Среднерусский банк'),
-		'RU-RYA' => array('Рязанская область',                         'Среднерусский банк'),
+		'RU-MOS' => ['regId' => '9040', 'branch' => 'Среднерусский банк'],
+		'RU-TVE' => ['regId' => '8607', 'branch' => 'Среднерусский банк'],
+		'RU-KLU' => ['regId' => '8608', 'branch' => 'Среднерусский банк'],
+		'RU-BRY' => ['regId' => '8605', 'branch' => 'Среднерусский банк'],
+		'RU-SMO' => ['regId' => '8609', 'branch' => 'Среднерусский банк'],
+		'RU-TUL' => ['regId' => '8604', 'branch' => 'Среднерусский банк'],
+		'RU-RYA' => ['regId' => '8606', 'branch' => 'Среднерусский банк'],
 
 		// Уральский банк
-		'RU-SVE' => array('Свердловская область',                      'Уральский банк'),
-		'RU-CHE' => array('Челябинская область',                       'Уральский банк'),
-		'RU-KGN' => array('Курганская область',                        'Уральский банк'),
-		'RU-BA'  => array('Республика Башкортостан',                   'Уральский банк'),
+		'RU-SVE' => ['regId' => '7003', 'branch' => 'Уральский банк'],
+		'RU-CHE' => ['regId' => '8597', 'branch' => 'Уральский банк'],
+		'RU-KGN' => ['regId' => '8599', 'branch' => 'Уральский банк'],
+		'RU-BA'  => ['regId' => '8598', 'branch' => 'Уральский банк'],
 
 		// Центрально-Черноземный банк
-		'RU-VOR' => array('Воронежская область',                       'Центрально-Черноземный банк'),
-		'RU-ORL' => array('Орловская область',                         'Центрально-Черноземный банк'),
-		'RU-LIP' => array('Липецкая область',                          'Центрально-Черноземный банк'),
-		'RU-KRS' => array('Курская область',                           'Центрально-Черноземный банк'),
-		'RU-BEL' => array('Белгородская область',                      'Центрально-Черноземный банк'),
-		'RU-TAM' => array('Тамбовская область',                        'Центрально-Черноземный банк'),
+		'RU-VOR' => ['regId' => '9013', 'branch' => 'Центрально-Черноземный банк'],
+		'RU-ORL' => ['regId' => '8595', 'branch' => 'Центрально-Черноземный банк'],
+		'RU-LIP' => ['regId' => '8593', 'branch' => 'Центрально-Черноземный банк'],
+		'RU-KRS' => ['regId' => '8596', 'branch' => 'Центрально-Черноземный банк'],
+		'RU-BEL' => ['regId' => '8592', 'branch' => 'Центрально-Черноземный банк'],
+		'RU-TAM' => ['regId' => '8594', 'branch' => 'Центрально-Черноземный банк'],
 
 		// Юго-Западный банк
-		'RU-ROS' => array('Ростовская область',                        'Юго-Западный банк'),
-		'RU-KDA' => array('Краснодарский край',                        'Юго-Западный банк'),
-		'RU-AD'  => array('Республика Адыгея',                         'Юго-западный банк'),
-		'RU-STA' => array('Ставропольский край',                       'Юго-западный банк'),
-		'RU-IN' => array('Республика Ингушетия',                       'Юго-Западный банк'),
-		'RU-SE' => array('Республика Северная Осетия — Алания',        'Юго-Западный банк'),
-		'RU-KB'  => array('Кабардино-Балкарская Республика',           'Юго-западный банк'),
-		'RU-DA' => array('Республика Дагестан',                        'Юго-западный банк'),
-		'RU-KC' => array('Карачаево-Черкесская Республика',            'Юго-Западный банк'),
-		'RU-KL' => array('Республика Калмыкия',                        'Юго-Западный банк'),
-		'RU-CE'  => array('Чеченская Республика',                      'Юго-западный банк'),
-	);
+		'RU-ROS' => ['regId' => '5221', 'branch' => 'Юго-Западный банк'],
+		'RU-KDA' => ['regId' => '8619', 'branch' => 'Юго-Западный банк'],
+		'RU-AD'  => ['regId' => '8620', 'branch' => 'Юго-западный банк'],
+		'RU-STA' => ['regId' => '5230', 'branch' => 'Юго-западный банк'],
+		'RU-SE'  => ['regId' => '8632', 'branch' => 'Юго-Западный банк'],
+		'RU-KB'  => ['regId' => '8631', 'branch' => 'Юго-западный банк'],
+		'RU-IN'  => ['regId' => '8633', 'branch' => 'Юго-Западный банк'],
+		'RU-DA'  => ['regId' => '8590', 'branch' => 'Юго-западный банк'],
+		'RU-KC'  => ['regId' => '8585', 'branch' => 'Юго-Западный банк'],
+		'RU-KL'  => ['regId' => '8579', 'branch' => 'Юго-Западный банк'],
+		'RU-CE'  => ['regId' => '8643', 'branch' => 'Юго-западный банк'],
+		];
 
-	// поля объекта
-	protected $fields = array(
+    /* Поля объекта */
+	protected $fields = [
 		'amenity'  => 'bank',
 		'name'     => 'Сбербанк',
-		'operator' => 'ОАО "Сбербанк России"',
+		'name:ru'  => 'Сбербанк',
+		'name:en'  => 'Sberbank',
+		'operator' => 'ПАО Сбербанк',
 		'branch'   => '',
 		'contact:website' => 'http://www.sberbank.ru',
-		'contact:phone' => '',
+		'contact:phone' => '+7 800 5555550',
 		'ref'      => '',
-		'disused'  => '',
-		'department'    => '',
 		'wheelchair'    => '',
 		'opening_hours' => '',
 		'lat'   => '',
 		'lon'   => '',
 		'_addr' => '',
-		);
+		'atm' => '',
+		'wikipedia' => 'ru:Сбербанк_России',
+		'wikidata'  => 'Q205012',
+	];
 
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
+	/* Фильтр для поиска объектов в OSM */
+    protected $filter = [
         '[amenity=bank][name~"[Сс]бер"]'
-    );
+	];
 
-	/** обновление данных по региону */
+	/* Обновление данных по региону */
 	public function update()
 	{
+		global $Russia;
+
+		// Загружаем bbox региона
+		$bbox = $this->getbbox($this->region);
+        if (!$bbox) {
+			$this->log('bbox parameters for '.$this->region.'are not available.');
+            return;
+        }
+
+		// Запрашиваем что-то недалеко от центра...
 		$this->log('Update real data '.$this->region);
 
-		list($regionName, $branch) = static::$urls[$this->region];
-		$this->fields['branch'] = $branch;
+		$maxcount = 180; // максимальное количество страниц
+		$count = 0; // номер страницы
 
-		$url = '/moscowoblast/ru/about/branch/list_branch//index.php';
-		$pageNumber = 1;
-		do
+		while($count < $maxcount)
 		{
-			$this->log("page = $pageNumber");
-			$this->context = stream_context_create(array(
-				'http' => array(
-					'method'  => 'POST',
-					'header'  => "Content-Type: application/x-www-form-urlencoded",
-					'content' =>
-						"&rid115=".urlencode($regionName).
-						"&cid115=0".
-						"&clt115=".urlencode("физических лиц").
-						"&street115=".
-						"&name115=".
-						"&action115=".urlencode('Искать').
-						"&charset=utf8".
-						"&page=$pageNumber".
-						"",
-				)
-			));
-			$page = $this->download($this->domain.$url.'#'.$this->region."-$pageNumber");
+			$url = 'http://www.sberbank.ru/portalserver/proxy?pipe=branchesPipe&url=http%3A%2F%2Foib-rs%2Foib-rs%2FbyBounds%2Fentities'
+			.'%3Fllat%3D'
+			.$bbox['minlat']
+			//.'55.01'
+			.'%26llon%3D'
+			.$bbox['minlon']
+			//.'39.31'
+			.'%26rlat%3D'
+			.$bbox['maxlat']
+			//.'59.01'
+			.'%26rlon%3D'
+			.$bbox['maxlon']
+			//.'43.31'
+			.'%26size%3D'
+			.'9'
+			.'%26page%3D'
+			.strval($count)
+			.'%26cbLat%3D'
+			.$Russia[$this->region]['lat']
+			.'%26cbLon%3D'
+			.$Russia[$this->region]['lon']
+			.'%26filter%255Btype%255D%255B%255D%3Dfilial';
 
-			$this->parse($page);
-
-			// следующая страница
-			if (!preg_match("#active.>$pageNumber</span>.{0,80}?fsubmit\((\d+)#s", $page, $m)) break;
-			$pageNumber = $m[1];
-		} while ($pageNumber);
-	}
-
-	protected function parseTime($st)
-	{
-		$st = str_replace(
-			array('.:с', ' до ', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вск'),
-			array('',    '-',    'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'),
-			$st);
-		$st = str_replace('круглосуточно', '00:00-24:00', $st);
-
-		$res = array();
-
-		if (preg_match_all('#'.
-			'(?<day>Mo|Tu|We|Th|Fr|Sa|Su)'.
-			'\D+?(\d\d:\d\d)\D+?(\d\d:\d\d)'.
-			'(?:\D+?обед\D+?(\d\d:\d\d)\D+?(\d\d:\d\d))?'.
-			'#u', $st, $m, PREG_SET_ORDER))
-		foreach ($m as $a)
-			$res[$a['day']] = (!empty($a[4])) ? "${a[2]}-${a[4]},${a[5]}-${a[3]}" : "${a[2]}-${a[3]}";
-
-		return $res;
-	}
-
-	// парсер страницы
-	protected function parse($st)
-	{
-		$st = preg_replace('/[\w\d]{100,}/', '', $st); // убираем слишком длинную строку, иначе рушится регулярка
-		if (!preg_match_all('#'.
-			'.*?<strong>(?<_name>[^<]+?\d[^<]+?)<'.
-			'.*?Телефон: (?<phone>.+?)<br>'.
-			'.*?Режим работы: (?<hours>.+?)<br>'.
-			'(?<wheel>[^<]+?маломобильн)?'.
-			'.*?Адрес: .+?, (?<_addr>.+?)<br>'. // в начале строки вырезаем ФИО
-			'(.{0,1500}?viewPointOnMap..(?<lon>[\d.]+).,.(?<lat>[\d.]+).)?'.
-			'#su', $st, $m, PREG_SET_ORDER)) return;
-
-		foreach ($m as $obj)
-		{
-			if ($obj['wheel']) $obj['wheelchair'] = 'yes';
-			$obj['contact:phone'] = $this->phone($obj['phone']);
-
-			// номер отделения
-			if (preg_match('#[\d/]+#', $obj['_name'], $m_))
-				$obj['ref'] = $m_[0];
-
-			// формируем часы работы
-			$obj['opening_hours'] = $this->time($this->parseTime($obj['hours']));
-
-			// обрабатываем адрес
-			$obj['_addr'] = preg_replace('/\d{6}/i', '', $obj['_addr']); // убираем индекс
-			$obj['_addr'] = preg_replace('/(^[^а-я0-9]+|[^а-я0-9]+$)/ui', '', $obj['_addr']); // мусор на границах
-			$obj['_addr'] = preg_replace('/\(.+/ui', '', $obj['_addr']); // убираем все что в скобках и правее
-
-			// отделение
-			if (preg_match('/[а-я]+ отделение/iu', $obj['_name'], $m))
-				$obj['department'] = $m[0];
-
-			if (strpos($obj[0], 'не обслуживаются'))
-			{
-				$obj['disused'] = 'yes';
-				$obj['opening_hours'] = '';
+			if ($count == 50) {
+				$page = 'ф';
+			}
+			if ($count == 100) {
+				$page = 'ф';
+			}
+			if ($count == 159) {
+				$page = 'ф';
 			}
 
-			// заменяем координаты с сайта сбербанка на геокодированные
-			$geocoder = new Geocoder();
-			$obj = array_merge($obj, $geocoder->getCoordsByAddress($obj['_addr']));
+			$page = $this->get_web_page($url);
+			if (($page['errno'] != 0 )||($page['http_code'] != 200)) {
+				$this->log('Error download: '.$url);
+				return;
+			}
+			$this->parse($page['content']);
+			++$count;
 
-			$this->addObject($this->makeObject($obj));
 		}
+	}
+
+	/* Парсер страницы */
+	protected function parse($st)
+	{
+		static $ref = [];
+
+        $a = json_decode($st, true);
+        if (!isset($a)) {
+            return;
+        }
+
+        foreach ($a as $obj) {
+			// Если вылезли в соседние регионы
+			if (strcmp(substr($obj['code'], 3, 4), static::$urls[$this->region]['regId']) !== 0) {
+				continue;
+			}
+
+			// Если попали в Южу
+			//if (strcmp(substr($obj['code'], -3), '089') === 0) {
+			//	continue;
+			//}
+
+			// Исключение для Санкт-Петербурга
+			if (strcmp($this->region, 'RU-SPE') === 0) { // если индекс не с 19, значит попали в Ленинградскую область
+				if (substr($obj['postAddress'], 0, 2) != '19') {
+					continue;
+				}
+			}
+			
+			// Исключение для Ленинградской области
+			if (strcmp($this->region, 'RU-LEN') === 0) { // если индекс не с 18, значит попали в Санкт-Петербург
+				if (substr($obj['postAddress'], 0, 2) != '18') {
+					continue;
+				}
+			}
+
+            // Исключение передвижных отделений из поиска
+            if (stristr($obj['name'], 'ППКМБ') !== FALSE) {
+                continue;
+            }
+			// NOTE: Можно удалить, Сбербанк их не выдаёт
+
+			$obj['ref'] = substr($obj['code'], 3, 4).'/'.substr($obj['code'], 7);
+
+			// Исключение повторений по ref
+			if (in_array($obj['ref'], $ref)) {
+    			continue;
+			}
+
+			array_push($ref, $obj['ref']); // сохраняем ref отделения в массив
+
+			$obj['name'] = 'Сбербанк';
+            $obj['branch'] = static::$urls[$this->region]['branch'];
+			$obj['lat'] = $obj['coordinates']['latitude'];
+            $obj['lon'] = $obj['coordinates']['longitude'];
+            $obj['_addr'] = $obj['address'];
+			$obj['wheelchair'] = $obj['mblt'];
+			//$obj['atm'] = ;
+
+			/* Режим работы */
+            if (isset($obj['workTimeList'])) {
+
+				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+                $time = [];
+
+                foreach ($obj['workTimeList'] as $day => $wh) {
+                    if (isset($obj['lunchTimeList'][$day])) { // есть обеденный перерыв
+						$time[$wd[$wh['weekDayNo'] - 1]] = $wh['timeList'][0].'-'.$obj['lunchTimeList'][$day]['timeList'][0].',';
+						$time[$wd[$wh['weekDayNo'] - 1]] .= $obj['lunchTimeList'][$day]['timeList'][1].'-'.$wh['timeList'][1];
+                    } else { // без перерыва
+                        $time[$wd[$wh['weekDayNo'] - 1]] = $wh['timeList'][0].'-'.$wh['timeList'][1];
+                    }
+                }
+				$obj['opening_hours'] = $this->time($time);
+            }
+            $this->addObject($this->makeObject($obj));
+        }
 	}
 }

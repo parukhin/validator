@@ -3,10 +3,12 @@ var osm = new osm_cl()
 	.region('Ивановская область', 'RU-IVA')
 		.validator('Сбербанк', 'sberbank')
 		.validator('Почта', 'russian_post')
-		.validator('Магнит', 'magnit')
-		.validator('Газпромнефть', 'gazprom')
+		//.validator('Магнит', 'magnit')
+		//.validator('Газпромнефть', 'gazprom')
 
 	.region('Москва', 'RU-MOW')
+		.validator('Сбербанк', 'sberbank')
+		.validator('Почта', 'russian_post')
 		//.validator('Авто49', 'auto49')
 		.validator('Автопаскер', 'autopasker')
 		//.validator('Азбука вкуса', 'azbuka')
@@ -29,15 +31,13 @@ var osm = new osm_cl()
 		//.validator('М.Видео', 'mvideo')
 		.validator('Перекресток', 'perekrestok')
 		//.validator('Подружка',    'podruzhka')
-		.validator('Почта', 'russian_post')
 		//.validator('Почтоматы',   'russian_postomat')
 		//.validator('Промсбербанк', 'promsberbank')
 		//.validator('Планета Cуши','planetasushi')
 		.validator('Роснефть', 'rosneft')
 		.validator('Росгосстрах', 'rgs')
-		//.validator('Сбербанк', 'sberbank')
 		.validator('Служба крови', 'blood')
-    .validator('Суд', 'sudrf')
+		.validator('Суд', 'sudrf')
 		.validator('Театры', 'mos531')
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
@@ -45,6 +45,8 @@ var osm = new osm_cl()
 		//.validator('IL Патио',    'ilpatio')
 
 	.region('Московская область', 'RU-MOS')
+		.validator('Сбербанк', 'sberbank')
+		.validator('Почта', 'russian_post')
 		//.validator('Авто49',      'auto49')
 		.validator('Автопаскер',  'autopasker')
 		//.validator('Атак',        'atak')
@@ -63,17 +65,18 @@ var osm = new osm_cl()
 		.validator('Населенные пункты', 'wiki_places')
 		.validator('Перекресток', 'perekrestok')
 		//.validator('Подружка',    'podruzhka')
-		.validator('Почта',       'russian_post')
 		//.validator('Почтоматы',   'russian_postomat')
 		//.validator('Промсбербанк','promsberbank')
 		.validator('Роснефть',    'rosneft')
-		//.validator('Сбербанк',    'sberbank')
 		.validator('Служба крови','blood')
 		//.validator('Терволина',   'tervolina')
 		.validator('Церкви',      'temples')
 		.validator('Элекснет',      'elecsnet')
 
 	.region('Санкт-Петербург', 'RU-SPE')
+		.validator('Сбербанк', 'sberbank')
+		.validator('Почта', 'russian_post')
+
 		//.validator('Авто49', 'auto49')
 		.validator('Альфабанк', 'alfabank')
 		//.validator('Ашан',        'auchan')
@@ -84,18 +87,17 @@ var osm = new osm_cl()
 		//.validator('МИнБ',        'minbank')
 		.validator('Перекресток', 'perekrestok')
 		//.validator('Планета Cуши','planetasushi')
-		.validator('Почта',       'russian_post')
 		//.validator('Почтоматы',   'russian_postomat')
 		.validator('Роснефть',    'rosneft')
-		//.validator('Сбербанк',    'sberbank')
 		.validator('Служба крови','blood')
 		.validator('Церкви',      'temples')
 		//.validator('IL Патио',    'ilpatio')
 
 	.region('Ленинградская область', 'RU-LEN')
+		.validator('Сбербанк', 'sberbank')
+		.validator('Почта', 'russian_post')
+
 		.validator('Населенные пункты', 'wiki_places')
-		//.validator('Сбербанк',    'sberbank')
-		.validator('Почта',       'russian_post')
 		.validator('Служба крови','blood')
 		.validator('Перекресток', 'perekrestok')
 		.validator('Роснефть',    'rosneft')
@@ -409,7 +411,7 @@ var fields = {
 	'rosneft':     ['_addr', 'ref', 'operator', 'brand', 'website', 'opening_hours', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel'],
 	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
 	'russian_postomat':['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
-	'sberbank':     ['_addr', 'ref', 'operator', 'branch', 'department', 'name', 'contact:phone', 'contact:website', 'disused', 'opening_hours', 'wheelchair'],
+	'sberbank':     ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wikipedia', 'wikidata', 'wheelchair'],
 	'sudrf':        ['_addr', 'name', 'contact:phone', 'contact:website', 'contact:email'],
 	'temples':      ['_addr', 'ref:temples.ru', 'start_date', 'name', 'alt_name', 'community:gender', 'building', 'disused', 'denomination', 'denomination:ru', 'russian_orthodox', 'religion', 'phone'],
 	'bashneft':    ['_addr', 'ref', 'operator', 'brand', 'name', 'payment:cards', 'payment:fuel_cards', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:diesel', 'fuel:lpg'],
@@ -557,7 +559,7 @@ function osm_cl()
 		this.log('Загрузка данных с сервера...');
 
 		// данные osm
-		ajax.load('data/'+region+'/'+v.code+'.js', function(a){
+		ajax.load('data/'+region+'/'+v.code+'_osm.json', function(a){
 			var i, hash, corr = {};
 
 			// первый эл-т массива - данные, остальные - поправки
@@ -594,7 +596,7 @@ function osm_cl()
 		var data = v.data;
 		if (typeof(data) == 'string') data = [data];
 		for (var i = 0; i < data.length; i++)
-		ajax.load('data/'+v.code+'/'+data[i]+'.js', function(a){
+		ajax.load('data/'+region+'/'+v.code+'_real.json', function(a){
 			if (typeof(a) == 'string') a = eval('('+a+')');
 			osm.real_data = osm.real_data.concat(a);
 
@@ -712,28 +714,30 @@ function osm_cl()
 			j = fields[osm.activeValidator][i];
 			st += '<th title="'+j+'">';
 			j = j
-				.replace('ref:temples.ru', '<span title="temples.ru">ref</span>')
-				.replace('start_date', 'Дата постр.')
-				.replace('alt_name',  '<span title="Альтернативное название">Альт.</span>')
-				.replace('disused',   '<span title="не работает?">Закр.</span>')
-				.replace('denomination:ru', '<span title="конфессия русск.">Конф.</span>')
-				.replace('denomination', '<span title="конфессия">Конф.</span>')
+				.replace('ref:temples.ru',   '<span title="temples.ru">ref</span>')
+				.replace('start_date',       'Дата постр.')
+				.replace('alt_name',         '<span title="Альтернативное название">Альт.</span>')
+				.replace('disused',          '<span title="не работает?">Закр.</span>')
+				.replace('denomination:ru',  '<span title="конфессия русск.">Конф.</span>')
+				.replace('denomination',     '<span title="конфессия">Конф.</span>')
 				.replace('russian_orthodox', '<span title="признают Патриарха?">ПП</span>')
-				.replace('contact:phone',     'Телефон')
-				.replace('phone',     'Телефон')
-				.replace('building',  'Здание')
-				.replace('old_name',  '<span title="Прежнее название">Прежн.</span>')
-				.replace('name:ru',   'Русское')
-				.replace('name',      'Название')
-				.replace('internet_access', '<span title="Доступ в интернет">www</span>')
-				.replace('addr:postcode', 'Индекс')
-				.replace('abandoned:place', '<span title="abandoned">a:place</span>')
+				.replace('contact:phone',    'Телефон')
+				.replace('contact:website',  'Сайт')
+				.replace('phone',            'Телефон')
+				.replace('website',          'Сайт')
+				.replace('building',         'Здание')
+				.replace('old_name',         '<span title="Прежнее название">Прежн.</span>')
+				.replace('name:ru',          'Русское')
+				.replace('name',             'Название')
+				.replace('internet_access',  '<span title="Доступ в интернет">www</span>')
+				.replace('addr:postcode',    'Индекс')
+				.replace('abandoned:place',  '<span title="abandoned">a:place</span>')
 				.replace('community:gender', '<span title="community:gender">Пол</span>')
-				.replace('official_status', 'Статус')
-				.replace('addr:country', '<span title="Страна">RU</span>')
-				.replace('population:date', '<span title="Год переписи">Год</span>')
-				.replace('population', '<span title="Население">Нас.</span>')
-				.replace('_addr', 'Адрес');
+				.replace('official_status',  'Статус')
+				.replace('addr:country',     '<span title="Страна">RU</span>')
+				.replace('population:date',  '<span title="Год переписи">Год</span>')
+				.replace('population',       '<span title="Население">Нас.</span>')
+				.replace('_addr',            'Адрес');
 			st += j+'</th>';
 		}
 		st += '</tr>';
@@ -1068,13 +1072,13 @@ function osm_cl()
 			return '<a href="http://www.openstreetmap.org/?box=yes&'+
 				'bbox='+encodeURIComponent([id.lon-d,id.lat-0+d/2,id.lon-0+d,id.lat-d/2])+
 				'" target="_blank" title="открыть на openstreetmap.org">' +
-			'<img valign="absmiddle" width="16" src="http://www.openstreetmap.org/assets/osm_logo-bd070644a6d1e2ea4db5d1893091b1e7.png"/>'+
+			'<img valign="absmiddle" width="16" src="http://www.openstreetmap.org/favicon.ico"/>'+
 			'</a>';
 
 		var pic = '';
-		if (id.charAt(0) == 'n') pic = 'b/b5/Mf_node';
-		if (id.charAt(0) == 'w') pic = '8/83/Mf_area';
-		if (id.charAt(0) == 'r') pic = '5/59/Relation';
+		if (id.charAt(0) == 'n') pic = '2/20/Mf_node';
+		if (id.charAt(0) == 'w') pic = '0/0f/Mf_area';
+		if (id.charAt(0) == 'r') pic = 'd/d9/Mf_Relation';
 
 		var url = 'http://www.openstreetmap.org/browse/'+id
 			.replace('n', 'node/').replace('w', 'way/').replace('r', 'relation/');
@@ -1082,7 +1086,7 @@ function osm_cl()
 		id = id.replace(/\D/g, '');
 
 		return '<a href="'+url+'" target="_blank" title="открыть на openstreetmap.org">' +
-			'<img valign="absmiddle" src="http://wiki.openstreetmap.org/w/images/' + pic + '.png"/>'+
+			'<img valign="absmiddle" width="16" src="http://wiki.openstreetmap.org/w/images/' + pic + '.svg"/>'+
 			'</a>';
 	}
 

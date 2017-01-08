@@ -196,12 +196,12 @@
 			<p>Если вы хотите добавить поддержку вашего региона или валидатора, напишите мне на <a href="mailto:cupivan@narod.ru">почту</a> или в <a href="xmpp:cupivan@ya.ru">jabber</a></p>
 			<p><b>Расшифровка лог-файла:</b><br>
 				<ul>
-					<li>в логе самые свежие данные сверху</li>
+					<li>в логе самые свежие данные снизу</li>
 					<li><i>Tue Apr  9 01:05:24 MSK 2013</i> - дата и время запуска валидатора</li>
 					<li><i>--14:59:37-- `./RU-AD/sberbank.js.gz'</i> - время обновления OSM-данных (Сбербанк) на этом сервере региона RU-AD</li>
 					<li><i>--14:59:37-- `./wiki_places/RU-BEL.js.gz</i> - время обновления реальных-данных (из википедии) на этом сервере региона RU-BEL</li>
-					<li><i>Make JS RU-VOR/RU-VOR/wiki_places [2200 objects] SKIP</i> - данные не менялись (объекты OSM, валидатор городов по wiki)</li>
-					<li><i>Make JS RU-SPE/russian_post/RU-SPE [289 objects] OK</i> - данные обновились (реальные отделения почтовой связи в RU-SPE)</li>
+					<li><i>Make JSON RU-IVA/russian_post_osm [71 objects] SKIP</i> - данные не изменились (отделения почтовой связи из базы OSM в RU-IVA)</li>
+					<li><i>Make JSON RU-IVA/russian_post_real [302 objects] OK</i> - данные обновились (реальные отделения почтовой связи в RU-IVA)</li>
 				</ul>
 			</p>
 		</div>
@@ -263,8 +263,7 @@
 	<br />
 	<div style="font-size: small; color: GrayText">
 		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
-		<!--<div class="feedback">На отзывы и предложения отвечаю на <a href="http://clubs.ya.ru/4611686018427464811/replies.xml?item_no=215">этой странице</a>.</div>-->
-		<a href="https://github.com/KooLru/validator" style="color: GrayText">GitHub</a>
+		<a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
 		<a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">форум</a>
 
 	</div>

@@ -8,7 +8,7 @@
 if (isset($_SERVER['argv'][3]))
 	osm_data($_SERVER['argv'][3], $_SERVER['argv'][1], $_SERVER['argv'][2]);
 
-function osm_data($data, $region, $name, $param = '')
+function osm_data($data, $region, $validator, $type)
 {
 	if (is_string($data))
 		$data = @unserialize(@file_get_contents($data));
@@ -18,16 +18,6 @@ function osm_data($data, $region, $name, $param = '')
 	$msg = 'OK';
 
 	$count = count($data);
-
-    //$validator->log("Make JS $region/$name/$param [$count objects]");
-	//echo "Make JS $region/$name/$param [$count objects]";
-
-	if ($param != '') // если параметр не задан - это объекты OSM по области
-	{
-		// если задан - это объекты из реальной жизни
-		$region = $name;
-		$name   = $param;
-	}
 
 	$timestamp = time();
 	if (is_string($data[count($data)-1]))
@@ -40,7 +30,7 @@ function osm_data($data, $region, $name, $param = '')
 	$dir = $_SERVER["DOCUMENT_ROOT"]."/data/".$region;
 	if (!file_exists($dir)) mkdir($dir);
 
-	$fname = $dir.'/'.$name.'.js';
+	$fname = $dir.'/'.$validator.'_'.$type.'.json';
 	$st = ' '.json_encode($data)."\n"; // пробел спереди - чтобы не evalил в ajax
     //сохряняем буквы
     file_put_contents($fname, $st); 
@@ -70,14 +60,12 @@ function osm_data($data, $region, $name, $param = '')
 	$data = json_decode($data, true);
 	if (!$data) $data = array();
 
-	$data["$region.$name"] = array($region, $name, time(), $timestamp);
+	$data["$region.$validator"] = array($region, $validator, time(), $timestamp);
 
 	$data = json_encode($data);
 
 	$data = "_($data)";
 	file_put_contents($fname, $data);
 
-    //date_default_timezone_set('Mo');
-    //return "Make JS $region/$name/$param [$count objects] ".$msg;
-    return "Make JS $region/$name ($count objects) ".$msg;
+    return "Make JSON ".$region."/".$validator."_".$type." [".$count." objects] ".$msg;
 }
