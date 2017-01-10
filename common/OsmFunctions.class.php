@@ -13,19 +13,18 @@ class OsmFunctions
 		$this->log("Request OAPI for ".$this->region." / ".implode(" ", $this->filter));
         $page = $this->updateOverPass($this->region, $this->filter);
 
-        if ($page != '')
-        {
-            $this->log("filter data ".$this->region." / ".implode(" ", $this->filter));
+        if (isset($page)) {
+            $this->log("Filter data ".$this->region." / ".implode(" ", $this->filter));
 		    $this->filterOsm($page); 
         }
-
 	}
+
     private function updateOverPass($region, $filter)
     {
-        //$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
-        $url = "http://www.overpass-api.de/api/interpreter";
+        $url = "http://overpass.osm.rambler.ru/cgi/interpreter";
+        //$url = "http://www.overpass-api.de/api/interpreter";
 
-        $query = "data=[out:xml] [timeout:60];";
+        $query = "data=[out:xml] [timeout:180];";
 
 		$query = $query."area[ref=\"".$region."\"][admin_level=4][boundary=administrative]->.a; ";
         $query = $query."( ";
@@ -57,12 +56,8 @@ class OsmFunctions
         $query = $query."out meta;";
 
         $page = $this->get_web_page($url, $query);
-        if (($page['errno'] != 0 )||($page['http_code'] != 200)) {
-			$this->log('Error download: '.$url.'\n'.$query);
-			return;
-		}
 
-        return $page['content'];
+        return $page;
     }
 	/** OSM объекты */
 	public function getOSMObjects()
@@ -260,18 +255,17 @@ class OsmFunctions
 
         // FIXME: запрос слишком много инфы загружает, поправить
         $query =
-            '[out:json][timeout:60];
+            '[out:json][timeout:180];
             rel[ref="'.$region.'"][admin_level=4][boundary=administrative];
             out bb;';
         
         $page = $this->get_web_page($url, $query);
-        if (($page['errno'] != 0 )||($page['http_code'] != 200)) {
-			$this->log('Error download: '.$url.'\n'.$query);
-			return;
+        if (is_null($page)) {
+			return NULL;
 		}
 
         //$page = "{ 'bar': 'baz' }"; // ломаем json для проверки
-        $page = json_decode($page['content'], true);
+        $page = json_decode($page, true);
 
         if (!$page){
             $bbox = [];

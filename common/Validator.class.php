@@ -87,6 +87,7 @@ class Validator extends OsmFunctions
 		
         return $reload ? false : file_get_contents($fname);
 	}
+
 	/** имя файла для сохранения страницы */
 	protected function pageFileName($url)
 	{
@@ -96,6 +97,7 @@ class Validator extends OsmFunctions
 		$fname .= "/$md5.html";
 		return $fname;
 	}
+
 	/** скачивание страницы из интернета, force - не использовать кеш */
 	protected function download($url, $force = 0)
 	{
@@ -133,23 +135,27 @@ class Validator extends OsmFunctions
 	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);      // возвращает веб-страницу
 	  curl_setopt($ch, CURLOPT_HEADER, 0);              // не возвращает заголовки
 	  curl_setopt($ch, CURLOPT_USERAGENT, $useragent);  // useragent
-	  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);     // таймаут соединения
-	  curl_setopt($ch, CURLOPT_TIMEOUT, 60);            // таймаут ответа
-	  if (!is_null($query)) {
+	  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 180);     // таймаут соединения
+	  curl_setopt($ch, CURLOPT_TIMEOUT, 180);            // таймаут ответа
+	  //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	  if (isset($query)) {
 		  curl_setopt($ch, CURLOPT_POST, 1);            // POST запрос
 		  curl_setopt($ch, CURLOPT_POSTFIELDS, $query);	// содержимое POST запроса
 	  }
 	  
-	  $content = curl_exec($ch);
-	  $errno   = curl_errno($ch);
-	  $errmsg  = curl_error($ch);
-	  $header  = curl_getinfo($ch);
+	  $page = curl_exec($ch);
+	  $errno = curl_errno($ch);
+	  $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	  
+	  if (($errno != 0) || ($http != 200)) { // если страница загружена с ошибкой
+		  $this->log('Download error! (CURL: '.$errno.'; HTTP: '.$http.'; URL: '.$url.').');
+		  $page = NULL; // в случае если ничего не смогли загрузить, возвращаем NULL
+	  }
+
 	  curl_close($ch);
 
-	  $header['errno']   = $errno;
-	  $header['errmsg']  = $errmsg;
-	  $header['content'] = $content;
-	  return $header;
+	  return $page;
 	}
 
 	/** функция валидации объектов */

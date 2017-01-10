@@ -3,7 +3,6 @@ require_once 'Validator.class.php';
 
 class russian_post extends Validator
 {
-	// откуда скачиваем данные
 	protected $domain = 'https://www.pochta.ru/';
 	static $urls = array(
         'RU-ARK' => array(
@@ -224,8 +223,8 @@ class russian_post extends Validator
         ),
     );
 
-	// поля объекта
-	protected $fields = array(
+	/* Поля объекта */
+	protected $fields = [
 		'amenity'  => 'post_office',
 		'name'     => '',
 		'operator' => 'Почта России',
@@ -237,17 +236,17 @@ class russian_post extends Validator
 		'lon'   => '',
 		'_name' => '',
 		'_addr' => '',
-		);
+    ];
 
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
+	/* Фильтр для поиска объектов в OSM */
+    protected $filter = [
         '[amenity=post_office]'
-    );
+    ];
 
 	/* Обновление данных по региону */
 	public function update()
 	{
-		//запрашиваеем что-то недалеко от центра...
+		// Запрашиваем что-то недалеко от центра...
 		$this->log('Update real data '.$this->region);
 
         $maxcount = 4000;
@@ -260,16 +259,21 @@ class russian_post extends Validator
 		$offset = 0;
 		while($offset < $maxcount)
 		{
-			$page = $this->download($url.$offset);
+            $page = $this->get_web_page($url.strval($offset));
+            if (is_null($page)) {
+				return;
+			}
+
 			$this->parse($page);
 			$offset+= $count;
-            //echo 'offset: '.$offset.' objects: '.count($this->objects)."\n";
 		}
 	}
 
 	/* Парсер страницы */
 	protected function parse($st)
 	{
+        static $ref = [];
+
 		$a = json_decode($st, true);
         if (!isset($a))
             return;
@@ -282,23 +286,22 @@ class russian_post extends Validator
             }
 
             // Исключение передвижных отделений из поиска (typeId = 18, typeCode = "ПОПС")
-            if ($obj['typeId'] == 18)
+            if ($obj['typeId'] == 18) {
                 continue;
-            
-			$dup = false;
-			foreach ($this->objects as $obj_s)
-				if ($obj_s['ref'] == $obj['postalCode'])
-				{
-					$dup = true;
-					break;
-				}
+            }
 
-			if ($dup == true)
-				continue;
+            // Исключение повторений по ref
+			if (in_array($obj['postalCode'], $ref)) {
+    			continue;
+			}
+
+			array_push($ref, $obj['postalCode']); // сохраняем ref отделения в массив
 
             $obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];
             $obj['ref'] = $obj['postalCode'];
 			$obj['name'] = 'Отделение связи №'.$obj['ref'];
+            $obj['lat'] = $obj['latitude'];
+            $obj['lon'] = $obj['longitude'];
 
 			foreach ($obj['phones'] as $ph) {
 				if (!isset($obj['contact:phone']))
@@ -314,72 +317,19 @@ class russian_post extends Validator
                 $wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
                 $time = '';
-                $currentTime = '';
-                $previousTime = '';
-                $firstWeekDayId = 1;
-                $lastWeekDayId = 1;
 
-                foreach ($obj['workingHours'] as $wh) {
-
-                    /* Записываем день недели */
-                    if (!isset($wh['beginWorkTime'])) // выходной
-                    {
-                        $currentTime = "off";
-                    }
-                    else // рабочий день
-                    {
-
-                        if (isset($wh['lunches']) && (count($wh['lunches']) > 0)) // есть обеденный перерыв
-                        {
-                            $currentTime = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['lunches'][0]['beginLunchTime'], 0,5).',';
-                            $currentTime .= substr($wh['lunches'][0]['endLunchTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
-                        } 
-                        else // без перерыва
-                        {
-                            $currentTime = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+                foreach ($obj['workingHours'] as $day => $wh) {
+                    if (isset($wh['beginWorkTime'])) { // рабочий день
+                        if (isset($wh['lunches']) && (count($wh['lunches']) > 0)) { // есть обеденный перерыв
+                            $time[$wd[$wh['weekDayId'] - 1]] = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['lunches'][0]['beginLunchTime'], 0,5).',';
+                            $time[$wd[$wh['weekDayId'] - 1]] .= substr($wh['lunches'][0]['endLunchTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+                        } else { // без перерыва
+                            $time[$wd[$wh['weekDayId'] - 1]] = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
                         }
                     }
-
-                    /* Запись */
-                    if ($previousTime != '') // в 1 раз не записываем
-                    {
-                        if (strcasecmp($currentTime, $previousTime) == 0)
-                        {
-                            $lastWeekDayId = $wh['weekDayId'];
-                        }
-                        else
-                        {
-                            if ($lastWeekDayId > $firstWeekDayId)
-                            {
-                                $time .= $wd[$firstWeekDayId - 1].'-'.$wd[$lastWeekDayId - 1].' '.$previousTime."; ";
-                            }
-                            else
-                            {
-                                $time .= $wd[$firstWeekDayId - 1].' '.$previousTime."; ";
-                            }
-                            $firstWeekDayId = $wh['weekDayId'];
-                        }
-                    }
-                    $previousTime = $currentTime;
-                    
                 }
-
-                /* Записываем последний день */
-                if ($lastWeekDayId > $firstWeekDayId)
-                {
-                    $time .= $wd[$firstWeekDayId - 1].'-'.$wd[$lastWeekDayId - 1].' '.$previousTime;
-                }
-                else
-                {
-                    $time .= $wd[$firstWeekDayId - 1].' '.$previousTime;
-                }
-
-                $obj['opening_hours'] = $time;
-                // FIXME: перевести на универсальную функцию
+                $obj['opening_hours'] = $this->time($time);
             }
-            $obj['lat'] = $obj['latitude'];
-            $obj['lon'] = $obj['longitude'];
-
             $this->addObject($this->makeObject($obj));
         }
 	}

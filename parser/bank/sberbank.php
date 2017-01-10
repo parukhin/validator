@@ -118,7 +118,7 @@ class sberbank extends Validator
 		'RU-CE'  => ['regId' => '8643', 'branch' => 'Юго-западный банк'],
 		];
 
-    /* Поля объекта */
+	/* Поля объекта */
 	protected $fields = [
 		'amenity'  => 'bank',
 		'name'     => 'Сбербанк',
@@ -140,8 +140,8 @@ class sberbank extends Validator
 	];
 
 	/* Фильтр для поиска объектов в OSM */
-    protected $filter = [
-        '[amenity=bank][name~"[Сс]бер"]'
+	protected $filter = [
+		'[amenity=bank][name~"[Сс]бер"]'
 	];
 
 	/* Обновление данных по региону */
@@ -151,10 +151,9 @@ class sberbank extends Validator
 
 		// Загружаем bbox региона
 		$bbox = $this->getbbox($this->region);
-        if (!$bbox) {
-			$this->log('bbox parameters for '.$this->region.'are not available.');
-            return;
-        }
+		if (is_null($bbox)) {
+			return;
+		}
 
 		// Запрашиваем что-то недалеко от центра...
 		$this->log('Update real data '.$this->region);
@@ -186,25 +185,14 @@ class sberbank extends Validator
 			.'%26cbLon%3D'
 			.$Russia[$this->region]['lon']
 			.'%26filter%255Btype%255D%255B%255D%3Dfilial';
-
-			if ($count == 50) {
-				$page = 'ф';
-			}
-			if ($count == 100) {
-				$page = 'ф';
-			}
-			if ($count == 159) {
-				$page = 'ф';
-			}
-
+			
 			$page = $this->get_web_page($url);
-			if (($page['errno'] != 0 )||($page['http_code'] != 200)) {
-				$this->log('Error download: '.$url);
+			if (is_null($page)) {
 				return;
 			}
-			$this->parse($page['content']);
+			$this->parse($page);
 			++$count;
-
+			
 		}
 	}
 
@@ -213,17 +201,16 @@ class sberbank extends Validator
 	{
 		static $ref = [];
 
-        $a = json_decode($st, true);
-        if (!isset($a)) {
-            return;
-        }
-
-        foreach ($a as $obj) {
+		$a = json_decode($st, true);
+		if (!isset($a)) {
+			return;
+		}
+		
+		foreach ($a as $obj) {
 			// Если вылезли в соседние регионы
 			if (strcmp(substr($obj['code'], 3, 4), static::$urls[$this->region]['regId']) !== 0) {
 				continue;
 			}
-
 			// Если попали в Южу
 			//if (strcmp(substr($obj['code'], -3), '089') === 0) {
 			//	continue;
@@ -243,46 +230,53 @@ class sberbank extends Validator
 				}
 			}
 
-            // Исключение передвижных отделений из поиска
-            if (stristr($obj['name'], 'ППКМБ') !== FALSE) {
-                continue;
-            }
+			// Исключение передвижных отделений из поиска
+			if (stristr($obj['name'], 'ППКМБ') !== FALSE) {
+				continue;
+			}
 			// NOTE: Можно удалить, Сбербанк их не выдаёт
 
 			$obj['ref'] = substr($obj['code'], 3, 4).'/'.substr($obj['code'], 7);
 
 			// Исключение повторений по ref
 			if (in_array($obj['ref'], $ref)) {
-    			continue;
+				continue;
 			}
 
 			array_push($ref, $obj['ref']); // сохраняем ref отделения в массив
 
 			$obj['name'] = 'Сбербанк';
-            $obj['branch'] = static::$urls[$this->region]['branch'];
+			$obj['branch'] = static::$urls[$this->region]['branch'];
 			$obj['lat'] = $obj['coordinates']['latitude'];
-            $obj['lon'] = $obj['coordinates']['longitude'];
-            $obj['_addr'] = $obj['address'];
+			$obj['lon'] = $obj['coordinates']['longitude'];
+			$obj['_addr'] = $obj['address'];
 			$obj['wheelchair'] = $obj['mblt'];
 			//$obj['atm'] = ;
 
+			if ($obj['mblt'] == 1) {
+				$obj['wheelchair'] = 'yes';
+			}
+			if ($obj['mblt'] == 0) {
+				$obj['wheelchair'] = 'no';
+			}
+
 			/* Режим работы */
-            if (isset($obj['workTimeList'])) {
+			if (isset($obj['workTimeList'])) {
 
 				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-                $time = [];
+				$time = [];
 
-                foreach ($obj['workTimeList'] as $day => $wh) {
-                    if (isset($obj['lunchTimeList'][$day])) { // есть обеденный перерыв
+				foreach ($obj['workTimeList'] as $day => $wh) {
+					if (isset($obj['lunchTimeList'][$day])) { // есть обеденный перерыв
 						$time[$wd[$wh['weekDayNo'] - 1]] = $wh['timeList'][0].'-'.$obj['lunchTimeList'][$day]['timeList'][0].',';
 						$time[$wd[$wh['weekDayNo'] - 1]] .= $obj['lunchTimeList'][$day]['timeList'][1].'-'.$wh['timeList'][1];
-                    } else { // без перерыва
-                        $time[$wd[$wh['weekDayNo'] - 1]] = $wh['timeList'][0].'-'.$wh['timeList'][1];
-                    }
-                }
+					} else { // без перерыва
+						$time[$wd[$wh['weekDayNo'] - 1]] = $wh['timeList'][0].'-'.$wh['timeList'][1];
+					}
+				}
 				$obj['opening_hours'] = $this->time($time);
-            }
-            $this->addObject($this->makeObject($obj));
-        }
+			}
+			$this->addObject($this->makeObject($obj));
+		}
 	}
 }

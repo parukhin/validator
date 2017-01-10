@@ -46,7 +46,7 @@ class Geocoder
 		$res = @file_get_contents($url.'&email=cupivan@narod.ru&from=validator', false, $this->context);
 		if (!$res) { echo "Error geocode: $st\n"; return false; }
 
-		$res = json_decode($res, 1);
+		$res = json_decode($res, true);
 		$this->save($st, $res);
 
 		return $res;

@@ -1,68 +1,161 @@
 <?php
 require_once 'Validator.class.php';
+require_once 'lib/phpquery/phpQuery-onefile.php';
 
 class magnit extends Validator
 {
-	// откуда скачиваем данные
 	protected $domain = 'http://www.magnit-info.ru';
-	static $urls = array(
-		'RU-MOW' => '/buyers/adds/list.php?SECTION_ID=1258&RID=1305',
-		'RU-MOS' => '/buyers/adds/list.php?SECTION_ID=1258&RID=15',
-		'RU-KLU' => '/buyers/adds/list.php?SECTION_ID=1258&RID=16',
-		'RU-KDA' => '/buyers/adds/list.php?SECTION_ID=1258&RID=25',
-		'RU-IVA' => '/buyers/adds/list.php?SECTION_ID=1258&RID=13',
-	);
-	// поля объекта
-	protected $fields = array(
-		'shop'     => 'supermarket',
-		'name'     => 'Магнит',
-		'operator' => 'ЗАО "Тандер"',
-		'website'  => 'http://www.magnit-info.ru',
+	static $urls = [
+		'RU-ARK' => ['rid' => '829'],
+		'RU-ALT' => ['rid' => '1389'],
+		'RU-AST' => ['rid' => '22'],
+		'RU-BEL' => ['rid' => '37'],
+		'RU-BRY' => ['rid' => '17'],
+		'RU-VLA' => ['rid' => '14'],
+		'RU-VGG' => ['rid' => '27'],
+		'RU-VLG' => ['rid' => '9'],
+		'RU-VOR' => ['rid' => '39'],
+		'RU-IVA' => ['rid' => '13'],
+		'RU-KLU' => ['rid' => '16'],
+		'RU-KEM' => ['rid' => '1390'],
+		'RU-KIR' => ['rid' => '832'],
+		'RU-KOS' => ['rid' => '12'],
+		'RU-KDA' => ['rid' => '25'],
+		'RU-KYA' => ['rid' => '1076'],
+		'RU-KGN' => ['rid' => '827'],
+		'RU-KRS' => ['rid' => '43'],
+		'RU-LEN' => ['rid' => '6'],
+		'RU-LIP' => ['rid' => '41'],
+		'RU-MOW' => ['rid' => '1305'],
+		'RU-MOS' => ['rid' => '15'],
+		'RU-MUR' => ['rid' => '1335'],
+		'RU-NIZ' => ['rid' => '823'],
+		'RU-NGR' => ['rid' => '824'],
+		'RU-NVS' => ['rid' => '1075'],
+		'RU-OMS' => ['rid' => '1030'],
+		'RU-ORE' => ['rid' => '32'],
+		'RU-ORL' => ['rid' => '44'],
+		'RU-PNZ' => ['rid' => '29'],
+		'RU-PER' => ['rid' => '830'],
+		'RU-PSK' => ['rid' => '10'],
+		'RU-AD'  => ['rid' => '380'],
+		'RU-BA'  => ['rid' => '34'],
+		'RU-KB'  => ['rid' => '20'],
+		'RU-KL'  => ['rid' => '23'],
+		'RU-KC'  => ['rid' => '21'],
+		'RU-KR'  => ['rid' => '5'],
+		'RU-KO'  => ['rid' => '834'],
+		'RU-ME'  => ['rid' => '36'],
+		'RU-MO'  => ['rid' => '379'],
+		'RU-SE'  => ['rid' => '19'],
+		'RU-TA'  => ['rid' => '35'],
+		'RU-UD'  => ['rid' => '2817'],
+		'RU-KK'  => ['rid' => '1725'],
+		'RU-ROS' => ['rid' => '26'],
+		'RU-RYA' => ['rid' => '42'],
+		'RU-SAM' => ['rid' => '31'],
+		'RU-SPB' => ['rid' => '1334'],
+		'RU-SAR' => ['rid' => '28'],
+		'RU-SVE' => ['rid' => '820'],
+		'RU-SMO' => ['rid' => '7'],
+		'RU-STA' => ['rid' => '24'],
+		'RU-TAM' => ['rid' => '40'],
+		'RU-TVE' => ['rid' => '8'],
+		'RU-TOM' => ['rid' => '1391'],
+		'RU-TUL' => ['rid' => '18'],
+		'RU-TYU' => ['rid' => '1035'],
+		'RU-UD'  => ['rid' => '822'],
+		'RU-ULY' => ['rid' => '30'],
+		'RU-KHM' => ['rid' => '831'],
+		'RU-CHE' => ['rid' => '33'],
+		'RU-CU'  => ['rid' => '38'],
+		'RU-YAN' => ['rid' => '63627'],
+		'RU-YAR' => ['rid' => '11'],
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'shop' => '',
+		'name' => '',
+		'name:ru' => '',
+		'operator' => 'АО Тандер',
+		'contact:website' => 'http://www.magnit-info.ru',
+		'contact:phone' => '+7 800 2009002',
 		'opening_hours' => '',
-		'phone'    => '',
-		'lat'   => '',
-		'lon'   => '',
+		'lat' => '',
+		'lon' => '',
 		'_addr' => '',
-		);
+		'wikidata' => 'Q940518',
+		'wikipedia' => 'ru:Магнит_(сеть_магазинов)',
+	];
 
-	// фильтр для поиска объектов в OSM
-	protected $filter = array(
-        '[shop=supermarket][name="магнит"]',
-        '[shop=supermarket][name="Магнит"]',
-        );
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[shop][name~"[Мм]агнит"]',
+	];
 
-	// '[shop=supermarket][name~"[Мм]агнит"]'
-
-	/** обновление данных по региону */
+	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Search region pages');
+		// Запрашиваем что-то недалеко от центра...
+		$this->log('Update real data '.$this->region);
 
-		$page = $this->download($this->domain.self::$urls[$this->region]);
-		if (!preg_match('#index_tabs.+?</table>#s', $page, $m)) return false;
+		$rid = static::$urls[$this->region]['rid'];
+		$types = [
+			['id' => '1257', 'shop' => 'supermarket', 'name' => 'Магнит'], // гипермаркеты
+			['id' => '1258', 'shop' => 'convenience', 'name' => 'Магнит'], // универсамы
+			['id' => '1259', 'shop' => 'chemist',     'name' => 'Магнит Косметик'], // косметик
+		];
 
-		if (preg_match_all('#/buyers/adds/list.php[^"]+#', $m[0], $m))
-		{
-			self::$urls[$this->region] = $m[0];
-			parent::update();
+		$url = $this->domain.'/buyers/adds/1258/'.$rid.'/1';
+
+		// Загружаем страницу со списком cid
+		$page = $this->get_web_page($url);
+		if (is_null($page)) {
+			return;
+		}
+
+		$url = 'http://magnit-info.ru/functions/bmap/func.php';
+
+		phpQuery::newDocument($page);
+
+		$options = pq('#city_select')->children('option');
+		foreach ($options as $option) {
+			$cid= pq($option)->attr('value');
+			if ($cid == 0) continue; // пропускаем 1 строку
+
+			foreach ($types as $type) {
+				$query = 'op=get_shops&SECTION_ID='.$type['id'].'&RID='.$rid.'&CID='.$cid;
+
+				$page = $this->get_web_page($url, $query);
+				if (is_null($page)) { // если страница не загружена
+					return;
+				}
+				if (empty($page)) { // если страница пустая
+					continue;
+				}
+				$this->parse($page, $type);
+			}
 		}
 	}
 
-	// парсер страницы
-	protected function parse($st)
+	/* Парсер страницы */
+	protected function parse($st, $type)
 	{
-		if (!preg_match('#"addresses.+?</table>#s', $st, $m)) return false;
-		$st = $m[0];
-		if (preg_match_all('#'
-			.'<tr>'
-			.'.+?<td>'
-			.'.+?<td>(?<_addr>.+?)</td>'
-			.'.+?<td>(?<hours>.+?)</td>'
-			.'#us', $st, $m, PREG_SET_ORDER))
-		foreach ($m as $obj)
-		{
-			if ($obj['hours'] == '-') $obj['hours'] = '';
-			$obj['opening_hours'] = $this->time($obj['hours']);
+		// TODO: сделать так везде!!
+		$st = json_decode($st, true);
+		if (is_null($st)) {
+			return;
+		}
+		foreach ($st['list'] as $obj) {
+			$obj['shop'] = $type['shop'];
+			$obj['name'] = $type['name'];
+			$obj['name:ru'] = $type['name'];
+			$obj['_addr'] = $obj['addr'];
+			$obj['lat'] = $obj['cx'];
+			$obj['lon'] = $obj['cy'];
+			$obj['opening_hours'] = 'Mo-Su '.$obj['time'];
+			//$obj['opening_hours'] = $this->time($obj['time']);
 
 			$this->addObject($this->makeObject($obj));
 		}
