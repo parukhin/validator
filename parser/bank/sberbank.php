@@ -147,16 +147,15 @@ class sberbank extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		global $Russia;
+		$this->log('Update real data '.$this->region);
+
+		global $RU;
 
 		// Загружаем bbox региона
 		$bbox = $this->getbbox($this->region);
 		if (is_null($bbox)) {
 			return;
 		}
-
-		// Запрашиваем что-то недалеко от центра...
-		$this->log('Update real data '.$this->region);
 
 		$maxcount = 180; // максимальное количество страниц
 		$count = 0; // номер страницы
@@ -181,18 +180,18 @@ class sberbank extends Validator
 			.'%26page%3D'
 			.strval($count)
 			.'%26cbLat%3D'
-			.$Russia[$this->region]['lat']
+			.$RU[$this->region]['lat']
 			.'%26cbLon%3D'
-			.$Russia[$this->region]['lon']
+			.$RU[$this->region]['lon']
 			.'%26filter%255Btype%255D%255B%255D%3Dfilial';
-			
+
 			$page = $this->get_web_page($url);
 			if (is_null($page)) {
 				return;
 			}
 			$this->parse($page);
 			++$count;
-			
+
 		}
 	}
 
@@ -205,7 +204,7 @@ class sberbank extends Validator
 		if (!isset($a)) {
 			return;
 		}
-		
+
 		foreach ($a as $obj) {
 			// Если вылезли в соседние регионы
 			if (strcmp(substr($obj['code'], 3, 4), static::$urls[$this->region]['regId']) !== 0) {
@@ -222,7 +221,7 @@ class sberbank extends Validator
 					continue;
 				}
 			}
-			
+
 			// Исключение для Ленинградской области
 			if (strcmp($this->region, 'RU-LEN') === 0) { // если индекс не с 18, значит попали в Санкт-Петербург
 				if (substr($obj['postAddress'], 0, 2) != '18') {

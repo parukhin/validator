@@ -3,70 +3,90 @@ require_once 'Validator.class.php';
 
 class rosneft extends Validator
 {
-	// откуда скачиваем данные
-	protected $domain = 'http://www.rosneft.ru';
-	static $urls = array(
-		'RU-MOW' => array('Moscow-Region/Moscow' => '/Downstream/petroleum_product_sales/servicestations/$1/'),
-		'RU-MOS' => array('Moscow-Region/Region' => '/Downstream/petroleum_product_sales/servicestations/$1/'),
-		'RU-SPE' => array('St_Petersburg'        => '/Downstream/petroleum_product_sales/servicestations/$1/'),
-		'RU-LEN' => array('Leningrad_Region'     => '/Downstream/petroleum_product_sales/servicestations/$1/'),
-		'RU-VOR' => array('Voronezh_Region'      => '/Downstream/petroleum_product_sales/servicestations/$1/'),
-		'RU-KDA' => array('Krasnodar_Territory'  => '/Downstream/petroleum_product_sales/servicestations/$1/'),
-	);
-	// поля объекта
-	protected $fields = array(
-		'amenity'  => 'fuel',
-		'brand'    => 'Роснефть',
-		'operator' => 'ОАО "Роснефть"',
-		'website'  => 'http://www.rosneft.ru',
-		'ref'      => '',
-		'opening_hours' => '24/7',
-		'fuel:octane_98' => '',
-		'fuel:octane_95' => '',
-		'fuel:octane_92' => '',
-		'fuel:octane_80' => '',
-		'fuel:diesel'    => '',
-		'lat'   => '?',
-		'lon'   => '?',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
-        '[amenity=fuel][name~"оснефть"]'
-    );
+	protected $domain = 'https://komandacard.ru/home/getgasstations';
 
+	static $urls = [
+		'RU-MOW' => ['Moscow-Region/Moscow' => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+		'RU-MOS' => ['Moscow-Region/Region' => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+		'RU-SPE' => ['St_Petersburg'        => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+		'RU-LEN' => ['Leningrad_Region'     => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+		'RU-VOR' => ['Voronezh_Region'      => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+		'RU-KDA' => ['Krasnodar_Territory'  => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+	];
 
-	// парсер страницы
+	/* Поля объекта */
+	protected $fields = [
+		'amenity'         => 'fuel',
+		'name'            => '',
+		'name:ru'         => '',
+		'brand'           => 'Роснефть',
+		'operator'        => 'ОАО Роснефть',
+		'contact:website' => 'http://www.rosneft-azs.ru',
+		'contact:phone'   => '',
+		'ref'             => '',
+		'opening_hours'   => '24/7', // на всех АЗС сети?
+		'fuel:octane_98'  => '',
+		'fuel:octane_95'  => '',
+		'fuel:octane_92'  => '',
+		'fuel:octane_80'  => '',
+		'fuel:diesel'     => '',
+		'fuel:lpg'        => '',
+		'fuel:cng'        => '',
+		'fuel:discount'   => 'Семейная команда', // на всех АЗС сети?
+		'shop'            => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[amenity=fuel][name~"[Рр]оснефть"]'
+	];
+
+	/* Обновление данных по региону */
+	public function update()
+	{
+		$this->log('Update real data '.$this->region);
+
+		$url = $this->domain;
+
+		$page = $this->get_web_page($url);
+		if (is_null($page)) {
+			return;
+		}
+		$this->parse($page);
+	}
+
+	/* Парсер страницы */
 	protected function parse($st)
 	{
-		if (preg_replace_callback('#<tr>(.{1,100}нефтебаза.+?|.{1,200}[bg]>[АП]З[СК]?.+?)</tr>#su', function($x)
-		{
-			if (strpos($x[1], 'нефтебаза'))
-			{
-				if (strpos($x[1], 'Туапсе')) $GLOBALS['operator'] = 'ОАО "Роснефть-Туапсенефтепродукт"';
-				else
-				if ($this->region == 'RU-KDA')
-					$GLOBALS['operator'] = 'ОАО "Роснефть-Кубаньнефтепродукт"';
-				else
-					$GLOBALS['operator'] = '';
+		$st = json_decode($st, true);
+		if (is_null($st)) {
+			return;
+		}
+
+		foreach ($st as $obj) {
+			// Отсеиваем АЗС ТНК-BP
+			if ($obj['owner'] != '1') {
+				continue;
 			}
-			if (!preg_match('#'
-			."(?<ref>\d+)"
-			.'.+?/>(?<_addr>.+?)</td'
-			."#su", $x[0], $obj)) return;
+			$obj['lat'] = $obj['location'][0];
+			$obj['lon'] = $obj['location'][1];
+			$obj['_addr'] = $obj['description'];
+			$obj['name:ru'] = $obj['name'];
 
-			if (isset($GLOBALS['operator']))
-				$obj['operator'] = $GLOBALS['operator'];
-
-			$obj['_addr'] = trim(strip_tags(str_replace('&nbsp;', ' ', $obj['_addr'])));
-
-			$obj["fuel:octane_98"] = strpos($x[0], 'Аи-98') ? 'yes' : '';
-			$obj["fuel:octane_95"] = strpos($x[0], 'Аи-95') ? 'yes' : '';
-			$obj["fuel:octane_92"] = strpos($x[0], 'Аи-92') ? 'yes' : '';
-			$obj["fuel:octane_80"] = strpos($x[0], 'Аи-80') ? 'yes' : '';
-			$obj["fuel:diesel"]    = strpos($x[0], 'ДТ')    ? 'yes' : '';
+			if (in_array('1',  $obj['stationServiceTypes'])) $obj['fuel:diesel'] = 'yes';
+			if (in_array('3',  $obj['stationServiceTypes'])) $obj['fuel:lpg'] = 'yes';
+			if (in_array('5',  $obj['stationServiceTypes'])) $obj['fuel:octane_92'] = 'yes';
+			if (in_array('6',  $obj['stationServiceTypes'])) $obj['fuel:octane_95'] = 'yes';
+			if (in_array('7',  $obj['stationServiceTypes'])) $obj['fuel:octane_98'] = 'yes';
+			if (in_array('9',  $obj['stationServiceTypes'])) $obj['shop'] = 'convenience'; // магазин
+			//if (in_array('13', $obj['stationServiceTypes'])) $obj['amenity'] = ''; // шиномонтаж
+			//if (in_array('10', $obj['stationServiceTypes'])) $obj['amenity'] = 'car_wash'; // мойка
+			//if (in_array('11', $obj['stationServiceTypes'])) $obj['amenity'] = 'cafe'; // кафе
 
 			$this->addObject($this->makeObject($obj));
-		}, $st));
+		}
 	}
 }

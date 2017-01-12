@@ -19,11 +19,11 @@ class Validator extends OsmFunctions
 	/** конструктор - проверка возможности работы с заданным регионом */
 	public function __construct($region)
 	{
-        if (is_array(static::$urls) &&
-            !isset(static::$urls[$region])) 
-            throw new Exception('Unknow region!');
+		if (is_array(static::$urls) &&
+			!isset(static::$urls[$region]))
+			throw new Exception('Unknow region!');
 
-        $this->region = $region;
+		$this->region = $region;
 		$this->context = stream_context_create(array(
 			'http' => array('method' => 'GET', 'timeout' => 5, 'header' => "User-agent: OSM validator http://osm.kool.ru\r\n")
 		));
@@ -48,13 +48,13 @@ class Validator extends OsmFunctions
 	{
 		$this->log('Request real data');
 
-        if (is_array(static::$urls))
-		    $urls = static::$urls[$this->region];
-        else
-            $urls = static::$urls;
+		if (is_array(static::$urls))
+			$urls = static::$urls[$this->region];
+		else
+			$urls = static::$urls;
 
-        if (is_string($urls)) 
-            $urls = array('' => $urls);
+		if (is_string($urls))
+			$urls = array('' => $urls);
 		foreach ($urls as $id => $url)
 		{
 			$url = str_replace('$1', $id, $url);
@@ -76,16 +76,16 @@ class Validator extends OsmFunctions
 	{
 		$fname = $this->pageFileName($url);
 		$reload = 0;
-		if (!file_exists($fname)) 
-            $reload = 1;
-		else if ($this->useCacheHtml) 
-            $reload = 0;
-		else if (time() - filemtime($fname) < 3600*24) 
-            $reload = 0; // обновляли только что, поэтому больше не надо
-		else if ($this->updateHtml )    //|| mt_rand(0,9) == 0
-			$reload = 1;                // старые файлы обновляем с вероятностью 1/10
-		
-        return $reload ? false : file_get_contents($fname);
+		if (!file_exists($fname))
+			$reload = 1;
+		else if ($this->useCacheHtml)
+			$reload = 0;
+		else if (time() - filemtime($fname) < 3600*24)
+			$reload = 0; // обновляли только что, поэтому больше не надо
+		else if ($this->updateHtml ) //|| mt_rand(0,9) == 0
+			$reload = 1; // старые файлы обновляем с вероятностью 1/10
+
+		return $reload ? false : file_get_contents($fname);
 	}
 
 	/** имя файла для сохранения страницы */
@@ -118,44 +118,62 @@ class Validator extends OsmFunctions
 			if (!$force)
 				$page = $this->savePage($url, $page);
 		}
-        //else {
-		//	$this->log("Use cache: ".$this->pageFileName($url));
-        //}
-                
-        return $page;
+		//else {
+			//$this->log("Use cache: ".$this->pageFileName($url));
+		//}
+
+		return $page;
 	}
 
 	/* Скачивание страницы из интернета */
-	public function get_web_page($url, $query = NULL)
+	public function get_web_page($url, $query = NULL, $cookie = NULL)
 	{
-	  $useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
+		$useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
 
-	  $ch = curl_init($url);
+		$ch = curl_init($url);
 
-	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);      // возвращает веб-страницу
-	  curl_setopt($ch, CURLOPT_HEADER, 0);              // не возвращает заголовки
-	  curl_setopt($ch, CURLOPT_USERAGENT, $useragent);  // useragent
-	  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 180);     // таймаут соединения
-	  curl_setopt($ch, CURLOPT_TIMEOUT, 180);            // таймаут ответа
-	  //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-	  //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	  if (isset($query)) {
-		  curl_setopt($ch, CURLOPT_POST, 1);            // POST запрос
-		  curl_setopt($ch, CURLOPT_POSTFIELDS, $query);	// содержимое POST запроса
-	  }
-	  
-	  $page = curl_exec($ch);
-	  $errno = curl_errno($ch);
-	  $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	  
-	  if (($errno != 0) || ($http != 200)) { // если страница загружена с ошибкой
-		  $this->log('Download error! (CURL: '.$errno.'; HTTP: '.$http.'; URL: '.$url.').');
-		  $page = NULL; // в случае если ничего не смогли загрузить, возвращаем NULL
-	  }
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   // возвращает веб-страницу
+		curl_setopt($ch, CURLOPT_HEADER, false);          // не возвращает заголовки
+		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);  // useragent
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 180);    // таймаут соединения
+		curl_setopt($ch, CURLOPT_TIMEOUT, 180);           // таймаут ответа
 
-	  curl_close($ch);
+		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		//curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 
-	  return $page;
+		//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+		if (isset($query)) {
+			curl_setopt($ch, CURLOPT_POST, true);         // POST запрос
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $query); // содержимое POST запроса
+		}
+		if (isset($cookie)) {
+			$cookieFile = $_SERVER["DOCUMENT_ROOT"]."/data/cookie.txt";
+
+			//curl_setopt($curl, CURLOPT_COOKIESESSION, true);
+			//curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+			curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
+			curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
+		}
+
+		//Accept: application/json, text/javascript, */*; q=0.01
+		//Accept-Encoding: gzip, deflate
+		//Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
+
+		$page = curl_exec($ch);
+		$errno = curl_errno($ch);
+		$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$info = curl_getinfo($ch);
+
+		if (($errno != 0) || ($http != 200)) { // если страница загружена с ошибкой
+			$this->log('Download error! (CURL: '.$errno.'; HTTP: '.$http.'; URL: '.$url.').');
+			$page = NULL; // в случае если ничего не смогли загрузить, возвращаем NULL
+		}
+
+		curl_close($ch);
+
+		return $page;
 	}
 
 	/** функция валидации объектов */
@@ -225,54 +243,54 @@ class Validator extends OsmFunctions
 		$st = str_replace(
 			array('выходной', 'будни', 'выходные', 'ежедневно', 'круглосуточно', ' ', 'c', ' и ', ' в ',
 				' до ', ' по ',
-                '.',
-                '&ndash;', '&mdash;', '&nbsp;', '–', '—', '00:00'),
+				'.',
+				'&ndash;', '&mdash;', '&nbsp;', '–', '—', '00:00'),
 			array('off',      'Mo-Fr', 'Sa-Su',    'Mo-Su',     'Mo-Su',         ' ', 'с', ', ',  ' ',
 				'-',    '-',
-                '',
-                '-', '-', ' ', '-', '-', '24:00'), $st);
+				'',
+				'-', '-', ' ', '-', '-', '24:00'), $st);
 
-        //несколько  запятых в месте
-        $st = preg_replace('/,+/', ',', $st);
+		//несколько  запятых в месте
+		$st = preg_replace('/,+/', ',', $st);
 
-        //запятая НЕ между временемя... иначе как перервы разделять ?
-        ///(?<=[0-9]),(?=\ ?[A-Z])/i
-        $st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
+		//запятая НЕ между временемя... иначе как перервы разделять ?
+		///(?<=[0-9]),(?=\ ?[A-Z])/i
+		$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
 
 
 		$st = preg_replace('#(\D)(\d{1,2})\s*-\s*(\d{1,2})\s#', '$1$2:00-$3:00', $st);
 		$st = preg_replace(
 			array(
-                '/понедельник\.?/iu','/вторник\.?/iu','/среда\.?/iu','/четверг\.?/iu','/пятница\.?/iu','/суббота\.?/iu','/воскресенье?\.?/iu',
-                '/пн\.?/iu','/вт\.?/iu','/ср\.?/iu','/чт\.?/iu','/пт\.?/iu','/сб\.?/iu','/вск?\.?/iu',
-                '/\s(\d{1,2})\s*-/','/-\s*(\d{1,2})\s/','/-\s*(\d{1,2});/',
+				'/понедельник\.?/iu','/вторник\.?/iu','/среда\.?/iu','/четверг\.?/iu','/пятница\.?/iu','/суббота\.?/iu','/воскресенье?\.?/iu',
+				'/пн\.?/iu','/вт\.?/iu','/ср\.?/iu','/чт\.?/iu','/пт\.?/iu','/сб\.?/iu','/вск?\.?/iu',
+				'/\s(\d{1,2})\s*-/','/-\s*(\d{1,2})\s/','/-\s*(\d{1,2});/',
 				'/[ \s]*—[ \s]*/u',
-                '/([a-z])(\d)/','/\s+/', '/(\d)\s*([A-Z])/', '/([a-z])[^\da-z]+(\d)/', '/ [дп]о /u', '/(^|\D)(\d:)/',
+				'/([a-z])(\d)/','/\s+/', '/(\d)\s*([A-Z])/', '/([a-z])[^\da-z]+(\d)/', '/ [дп]о /u', '/(^|\D)(\d:)/',
 				'/[  ]?-[  ]?/', '/[^\d\s]00/', '/\s*;/', '/;(\S)/', '/;[; ]+/', '/;\s*$/',
-                //'/([a-z]); ([A-Z])/',  //'/([a-z]); ([A-Z])/i',
-                '/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i',
+				//'/([a-z]); ([A-Z])/',  //'/([a-z]); ([A-Z])/i',
+				'/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i',
 				'/(\d{2})(\d{2})/','/(\d{1})(\d{2})/', '/-off/',
 
 				),
 			array(
-                'Mo','Tu','We','Th', 'Fr','Sa','Su',
-                'Mo','Tu','We','Th', 'Fr','Sa','Su',
-                ' $1:00-', '-$1:00 ', '-$1:00;',
+				'Mo','Tu','We','Th', 'Fr','Sa','Su',
+				'Mo','Tu','We','Th', 'Fr','Sa','Su',
+				' $1:00-', '-$1:00 ', '-$1:00;',
 				'-',
-                '$1 $2',
+				'$1 $2',
 				' ', '$1; $2', '$1 $2', '-',
 				'${1}0$2', '-', ':00', ';', '; $1', '; ', '',
-                '$1-$2',
+				'$1-$2',
 				'$1:$2','0$1:$2', ' off',
 
 				), $st);
-        $st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
+		$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
 
-        // Tu-We; Th-Fr-Sa 10:00-11:00 ->  Tu-We-Th-Fr-Sa 10:00-11:00
-        //$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
-        $st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
+		// Tu-We; Th-Fr-Sa 10:00-11:00 ->  Tu-We-Th-Fr-Sa 10:00-11:00
+		//$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
+		$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
 
-        $st = str_replace(
+		$st = str_replace(
 			array('-Tu-', '-We-', '-Th-', '-Fr-', '-Sa-'),
 			array('-',    '-',    '-',    '-',    '-'),
 			$st
@@ -284,9 +302,9 @@ class Validator extends OsmFunctions
 		$st = trim($st);
 
 		// валидация запрещенных символов
-        //не вкурил, отчего запятая не катит...
-        //if ($st != '24/7' && preg_match('/[^\d:-a-z -]/i', $st)) return '';
-        if ($st != '24/7' && preg_match('/[^\d:-a-z -,]/i', $st)) return '';
+		//не вкурил, отчего запятая не катит...
+		//if ($st != '24/7' && preg_match('/[^\d:-a-z -]/i', $st)) return '';
+		if ($st != '24/7' && preg_match('/[^\d:-a-z -,]/i', $st)) return '';
 		return $st;
 	}
 	/** универсальная функция преобразования телефона в стандартный формат */
@@ -378,11 +396,11 @@ class Validator extends OsmFunctions
 	/** логирование */
 	function log($st)
 	{
-        //$nowUtc = new \DateTime( 'now',  new \DateTimeZone( 'UTC' ) );
-        //$line = $nowUtc->format('d.m H:i:s.u')." $st\n";
-        $line = date('d.m H:i:s')." $st\n";
+		//$nowUtc = new \DateTime( 'now',  new \DateTimeZone( 'UTC' ) );
+		//$line = $nowUtc->format('d.m H:i:s.u')." $st\n";
+		$line = date('d.m H:i:s')." $st\n";
 		echo $line;
-        //Кидаем в файлик...
+		//Кидаем в файлик...
 		if ($_SERVER["DOCUMENT_ROOT"] != "") {
 			$file = $_SERVER["DOCUMENT_ROOT"] . "/data/log.txt";
 			file_put_contents($file, $line, FILE_APPEND | LOCK_EX);

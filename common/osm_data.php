@@ -32,20 +32,20 @@ function osm_data($data, $region, $validator, $type)
 
 	$fname = $dir.'/'.$validator.'_'.$type.'.json';
 	$st = ' '.json_encode($data)."\n"; // пробел спереди - чтобы не evalил в ajax
-    //сохряняем буквы
-    file_put_contents($fname, $st); 
+	//сохряняем буквы
+	file_put_contents($fname, $st);
 
-    //// сжимаем
+	//// сжимаем
 	//$st = gzencode($st);
-    ////TODO Зачем забивать пустотой?
+	////TODO Зачем забивать пустотой?
 	////file_put_contents($fname, ''); // нужно для nginx на отладочном сервере
 	//$fname .= ".gz";
 	// сохраняем данные
 	//if (!file_exists($dir)) mkdir($dir);
 
 	// выходим, если содержимое не изменилось
-	if (file_exists($fname) && file_get_contents($fname, $st) == $st) 
-        $msg = "SKIP";
+	if (file_exists($fname) && file_get_contents($fname, $st) == $st)
+		$msg = "SKIP";
 	//else
 	//{
 	//	file_put_contents($fname, $st);
@@ -67,5 +67,5 @@ function osm_data($data, $region, $validator, $type)
 	$data = "_($data)";
 	file_put_contents($fname, $data);
 
-    return "Make JSON ".$region."/".$validator."_".$type." [".$count." objects] ".$msg;
+	return "Make JSON ".$region."/".$validator."_".$type." [".$count." objects] ".$msg;
 }

@@ -97,7 +97,6 @@ class magnit extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		// Запрашиваем что-то недалеко от центра...
 		$this->log('Update real data '.$this->region);
 
 		$rid = static::$urls[$this->region]['rid'];
@@ -121,7 +120,7 @@ class magnit extends Validator
 
 		$options = pq('#city_select')->children('option');
 		foreach ($options as $option) {
-			$cid= pq($option)->attr('value');
+			$cid = pq($option)->attr('value');
 			if ($cid == 0) continue; // пропускаем 1 строку
 
 			foreach ($types as $type) {

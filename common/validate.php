@@ -7,12 +7,12 @@ header('Content-type: text/plain; charset=utf-8');
 
 $validator = '';
 if (isset($_POST['validator']))
-    $validator = $_POST['validator'];     //alfabank
+	$validator = $_POST['validator']; //alfabank
 if (!$validator && isset($_GET['validator']))
-    $validator= $_GET['validator'];      //alfabank
+	$validator= $_GET['validator']; //alfabank
 
 if ($validator == "")
-    echo "Unknown validator ".$validator;
+	echo "Unknown validator ".$validator;
 
 //echo $validator;
 
@@ -20,22 +20,22 @@ if ($validator == "")
 $files = glob($_SERVER["DOCUMENT_ROOT"]."/parser/*/$validator.php");
 if (!$files)
 {
-    echo "Unknown validator".$validator;
-    return;
+	echo "Unknown validator".$validator;
+	return;
 }
 //Код валидатора, например parser\bank\alfabank.php
 require_once $files[0];
 
 $region = '';
 if (isset($_POST['region']))
-    $region = $_POST['region'];        //MOW-RU
+	$region = $_POST['region']; //MOW-RU
 if (!$region)
-    $region= $_GET['region'];      //MOW-RU
+	$region= $_GET['region']; //MOW-RU
 
 if ($region == '')
 {
-    echo "Unknown region".$region;
-    return;
+	echo "Unknown region".$region;
+	return;
 }
 
 //$st = implode('', $_SERVER['argv']);
@@ -53,32 +53,31 @@ else
 // запускаем каждую область
 foreach ($regions as $region)
 {
-    if ($validator::isRegion($region))
-	    validate($region);
+	if ($validator::isRegion($region))
+		validate($region);
 }
 
 function validate($region)
 {
 	global $validator;
 
-    $v = new $validator($region);
-	
-    $v->useCacheHtml = !empty($GLOBALS['html-cache']);
+	$v = new $validator($region);
+
+	$v->useCacheHtml = !empty($GLOBALS['html-cache']);
 	$v->updateHtml   = !empty($GLOBALS['update']);
-	
-    //Загружаем данные из ОСМ
-    $v->loadOSM();
-    //Загружаем данные со страницы парсера
+
+	//Загружаем данные из ОСМ
+	$v->loadOSM();
+	//Загружаем данные со страницы парсера
 	$v->update();
 	//$v->validate();
 
 	// временно сохраняем в старом формате
 	require_once './osm_data.php';
-    $objects = $v->getOSMObjects();
+	$objects = $v->getOSMObjects();
 	array_push($objects, $v->getNewestTimestamp());
 	$msg = osm_data($objects, $region, $validator, 'osm');
-    $v->log($msg);
+	$v->log($msg);
 	$msg = osm_data($v->getObjects(), $region, $validator, 'real');
-    $v->log($msg);
-
+	$v->log($msg);
 }
