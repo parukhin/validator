@@ -12,6 +12,7 @@ class rosneft extends Validator
 		'RU-LEN' => ['Leningrad_Region'     => '/Downstream/petroleum_product_sales/servicestations/$1/'],
 		'RU-VOR' => ['Voronezh_Region'      => '/Downstream/petroleum_product_sales/servicestations/$1/'],
 		'RU-KDA' => ['Krasnodar_Territory'  => '/Downstream/petroleum_product_sales/servicestations/$1/'],
+		'RU', // для всей страны
 	];
 
 	/* Поля объекта */
@@ -33,7 +34,11 @@ class rosneft extends Validator
 		'fuel:lpg'        => '',
 		'fuel:cng'        => '',
 		'fuel:discount'   => 'Семейная команда', // на всех АЗС сети?
-		'shop'            => '',
+		'shop'            => '', // отд. точка
+		'car_wash'        => '', // отд. точка
+		'cafe'            => '', // отд. точка
+		'toilets'         => '', // отд. точка
+		'compressed_air'  => '', // отд. точка
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
@@ -71,20 +76,24 @@ class rosneft extends Validator
 			if ($obj['owner'] != '1') {
 				continue;
 			}
+
 			$obj['lat'] = $obj['location'][0];
 			$obj['lon'] = $obj['location'][1];
 			$obj['_addr'] = $obj['description'];
 			$obj['name:ru'] = $obj['name'];
 
+			/* Виды топлива */
 			if (in_array('1',  $obj['stationServiceTypes'])) $obj['fuel:diesel'] = 'yes';
 			if (in_array('3',  $obj['stationServiceTypes'])) $obj['fuel:lpg'] = 'yes';
 			if (in_array('5',  $obj['stationServiceTypes'])) $obj['fuel:octane_92'] = 'yes';
 			if (in_array('6',  $obj['stationServiceTypes'])) $obj['fuel:octane_95'] = 'yes';
 			if (in_array('7',  $obj['stationServiceTypes'])) $obj['fuel:octane_98'] = 'yes';
-			if (in_array('9',  $obj['stationServiceTypes'])) $obj['shop'] = 'convenience'; // магазин
-			//if (in_array('13', $obj['stationServiceTypes'])) $obj['amenity'] = ''; // шиномонтаж
-			//if (in_array('10', $obj['stationServiceTypes'])) $obj['amenity'] = 'car_wash'; // мойка
-			//if (in_array('11', $obj['stationServiceTypes'])) $obj['amenity'] = 'cafe'; // кафе
+
+			/* Услуги */
+			if (in_array('9',  $obj['stationServiceTypes'])) $obj['shop'] = 'yes';
+			if (in_array('10', $obj['stationServiceTypes'])) $obj['car_wash'] = 'yes';
+			if (in_array('11', $obj['stationServiceTypes'])) $obj['cafe'] = 'yes';
+			//if (in_array('13', $obj['stationServiceTypes'])) $obj['amenity'] = '?'; // шиномонтаж
 
 			$this->addObject($this->makeObject($obj));
 		}

@@ -415,10 +415,10 @@ var fields = {
 	'azbuka': ['_addr', 'operator', 'name', 'website', 'opening_hours'],
 	'magnit': ['_addr', 'operator', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop'],
 
-	'gazprom':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'toilets', 'car_wash', 'cafe', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'toilets', 'car_wash', 'cafe', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'rosneft':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'toilets', 'car_wash', 'cafe', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'toilets', 'car_wash', 'cafe', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'gazprom':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'rosneft':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 
 	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
 	'russian_postomat': ['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],

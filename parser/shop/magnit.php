@@ -79,7 +79,7 @@ class magnit extends Validator
 		'name' => '',
 		'name:ru' => '',
 		'operator' => 'АО Тандер',
-		'contact:website' => 'http://www.magnit-info.ru',
+		'contact:website' => 'http://magnit-info.ru',
 		'contact:phone' => '+7 800 2009002',
 		'opening_hours' => '',
 		'lat' => '',

@@ -71,8 +71,11 @@ class gazprom extends Validator
 		'fuel:lpg'        => '',
 		'fuel:cng'        => '',
 		'fuel:discount'   => '',
-		'toilets'         => '',
-		'shop'            => '',
+		'shop'            => '', // отд. точка
+		'car_wash'        => '', // отд. точка
+		'cafe'            => '', // отд. точка
+		'toilets'         => '', // отд. точка
+		'compressed_air'  => '', // отд. точка
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
@@ -117,6 +120,7 @@ class gazprom extends Validator
 			.'#s', $st, $m, PREG_SET_ORDER))
 		foreach ($m as $item) {
 			$a = [];
+			/* Виды топлива */
 			if (mb_strpos($item['text'], '>98<'))  $a['fuel:octane_98'] = 'yes';
 			if (mb_strpos($item['text'], '>95<'))  $a['fuel:octane_95'] = 'yes';
 			if (mb_strpos($item['text'], '>92<'))  $a['fuel:octane_92'] = 'yes';
@@ -124,11 +128,16 @@ class gazprom extends Validator
 			if (mb_strpos($item['text'], '>ДТ<'))  $a['fuel:diesel']    = 'yes';
 			if (mb_strpos($item['text'], '>ГАЗ<')) $a['fuel:lpg']       = 'yes';
 			if (mb_strpos($item['text'], '>КПГ<')) $a['fuel:cng']       = 'yes';
-			if (mb_strpos($item['text'], 'Туал'))  $a['toilets']        = 'yes';
-			if (mb_strpos($item['text'], 'Магаз')) $a['shop']           = 'convenience';
-			if (mb_strpos($item['text'], 'руглосут')) $a['opening_hours'] = '24/7';
-			if (mb_strpos($item['text'], 'Пути')) $a['fuel:discount'] = 'Нам по пути';
-			//if (mb_strpos($item['text'], 'Подкачка')) $a['amenity']     = 'compressed_air'; // подкачка шин (точка)
+
+			/* Услуги */
+			if (mb_strpos($item['text'], 'Пути')) $a['fuel:discount']      = 'Нам по пути';
+			if (mb_strpos($item['text'], 'руглосут')) $a['opening_hours']  = '24/7';
+			if (mb_strpos($item['text'], 'Магаз')) $a['shop']              = 'yes';
+			// мойка
+			// кафе
+			if (mb_strpos($item['text'], 'Туал'))  $a['toilets']           = 'yes';
+			if (mb_strpos($item['text'], 'Подкачка')) $a['compressed_air'] = 'yes';
+
 			$this->ext[$item['ref']] = $a;
 		}
 

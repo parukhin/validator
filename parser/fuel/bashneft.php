@@ -52,7 +52,11 @@ class bashneft extends Validator
 		'fuel:lpg'        => '',
 		'fuel:cng'        => '',
 		'fuel:discount'   => '',
-		'shop'            => '',
+		'shop'            => '', // отд. точка
+		'car_wash'        => '', // отд. точка
+		'cafe'            => '', // отд. точка
+		'toilets'         => '', // отд. точка
+		'compressed_air'  => '', // отд. точка
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
@@ -90,14 +94,22 @@ class bashneft extends Validator
 			$obj['lat'] = $obj['x'];
 			$obj['lon'] = $obj['y'];
 
-			if (!preg_match('#'
-			.'.?№\s*(?<ref>[\dА-Я/-]+)'
-			.'.+?(?<operator>(Партнер )?О[ОА]О .+»)'
-			.'.+?address">(?<_addr>.+?)<'
-			."#su", $obj['header'], $m)) return;
+			if (mb_strpos($obj['caption'], 'Партнер')) {
+				if (!preg_match('#'
+				.'.?№\s*(?<ref>[\dА-Я/-]+)'
+				.'.+?(?<operator>(Партнер )?О[ОА]О .+»)'
+				.'.+?address">(?<_addr>.+?)<'
+				."#su", $obj['header'], $m)) continue;
+				$obj['operator'] = str_replace(['«','»'], "", $m['operator']);
+			} else {
+				if (!preg_match('#'
+				.'.?№\s*(?<ref>[\dА-Я/-]+)'
+				.'.+?address">(?<_addr>.+?)<'
+				."#su", $obj['header'], $m)) continue;
+				$obj['operator'] = 'ПАО АНК Башнефть';
+			}
 
 			$obj['ref'] = $m['ref'];
-			$obj['operator'] = str_replace(['«','»'], "", $m['operator']);
 			$obj['_addr'] = $m['_addr'];
 
 			/* Виды топлива */
@@ -111,7 +123,7 @@ class bashneft extends Validator
 			/* Услуги */
 			$obj['fuel:discount']  = mb_strpos($obj['body'], 'Дисконтные карты')      ? 'Башнефть' : '';
 			$obj['opening_hours']  = mb_strpos($obj['body'], 'Круглосуточная работа') ? '24/7'     : '';
-			$obj['toilets']        = mb_strpos($obj['body'], 'Туалет')                ? 'yes'      : '';
+			$obj['toilets']        = mb_strpos($obj['body'], 'Туалет')                ? 'yes'      : ''; // указывать отдельной точкой amenity=toilets
 			$obj['shop']           = mb_strpos($obj['body'], 'Магазин')               ? 'yes'      : ''; // указывать отдельной точкой shop=convenience или shop=kiosk
 			$obj['car_wash']       = mb_strpos($obj['body'], 'Мойка')                 ? 'yes'      : ''; // указывать отдельной точкой amenity=car_wash
 			$obj['cafe']           = mb_strpos($obj['body'], 'Кафе')                  ? 'yes'      : ''; // указывать отдельной точкой amenity=cafe
@@ -123,13 +135,13 @@ class bashneft extends Validator
 			// Банкомат
 
 			/* Способы оплаты */
-			$obj['payment:visa=']       = mb_strpos($obj['body'], 'Карта VISA')       ? 'yes' : '';
-			$obj['payment:mastercard']  = mb_strpos($obj['body'], 'Карта MasterCard') ? 'yes' : '';
+			$obj['payment:visa']       = mb_strpos($obj['body'], 'Карта VISA')       ? 'yes' : '';
+			$obj['payment:mastercard'] = mb_strpos($obj['body'], 'Карта MasterCard') ? 'yes' : '';
 			// Топливная карта (payment:fuel_cards = yes)
 			// Карта лояльности
 
 			// TODO: обработать все виды
-			// FIXME: учесть время технического перерыва, уточнить корректность использования тега (payment:fuel_cards = yes)
+			// FIXME: учесть время технического перерыва, уточнить корректность использования тегов (payment:fuel_cards = yes, payment:cards=yes)
 
 			$this->addObject($this->makeObject($obj));
 		}
