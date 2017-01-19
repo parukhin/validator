@@ -1,405 +1,286 @@
 var osm = new osm_cl()
 
-	.region('Ивановская область', 'RU-IVA')
-	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Магнит', 'magnit')
-	.validator('Газпромнефть', 'gazprom')
+var regions = {
+	'RU': {
+		name: 'Россия',
+	},
+	'RU-AD': {
+		name: 'Республика Адыгея',
+	},
+	'RU-AL': {
+		name: 'Республика Алтай',
+	},
+	'RU-BA': {
+		name: 'Республика Башкортостан',
+	},
+	'RU-BU': {
+		name: 'Республика Бурятия',
+	},
+	'RU-DA': {
+		name: 'Республика Дагестан',
+	},
+	'RU-IN': {
+		name: 'Республика Ингушетия',
+	},
+	'RU-KB': {
+		name: 'Кабардино-Балкарская республика',
+	},
+	'RU-KL': {
+		name: 'Республика Калмыкия',
+	},
+	'RU-KC': {
+		name: 'Карачаево-Черкесская республика',
+	},
+	'RU-KR': {
+		name: 'Республика Карелия',
+	},
+	'RU-KO': {
+		name: 'Республика Коми',
+	},
+	'RU-CR': {
+		name: 'Республика Крым',
+	},
+	'RU-ME': {
+		name: 'Республика Марий Эл',
+	},
+	'RU-MO': {
+		name: 'Республика Мордовия',
+	},
+	'RU-SA': {
+		name: 'Республика Саха (Якутия)',
+	},
+	'RU-SE': {
+		name: 'Республика Северная Осетия - Алания',
+	},
+	'RU-TA': {
+		name: 'Республика Татарстан',
+	},
+	'RU-TY': {
+		name: 'Республика Тыва',
+	},
+	'RU-UD': {
+		name: 'Удмуртская республика',
+	},
+	'RU-KK': {
+		name: 'Республика Хакасия',
+	},
+	'RU-CE': {
+		name: 'Чеченская республика',
+	},
+	'RU-CU': {
+		name: 'Чувашская республика',
+	},
+	'RU-ALT': {
+		name: 'Алтайский край',
+	},
+	'RU-ZAB': {
+		name: 'Забайкальский край',
+	},
+	'RU-KAM': {
+		name: 'Камчатский край',
+	},
+	'RU-KDA': {
+		name: 'Краснодарский край',
+	},
+	'RU-KYA': {
+		name: 'Красноярский край',
+	},
+	'RU-PER': {
+		name: 'Пермский край',
+	},
+	'RU-PRI': {
+		name: 'Приморский край',
+	},
+	'RU-STA': {
+		name: 'Ставропольский край',
+	},
+	'RU-KHA': {
+		name: 'Хабаровский край',
+	},
+	'RU-AMU': {
+		name: 'Амурская область',
+	},
+	'RU-ARK': {
+		name: 'Архангельская область',
+	},
+	'RU-AST': {
+		name: 'Астраханская область',
+	},
+	'RU-BEL': {
+		name: 'Белгородская область',
+	},
+	'RU-BRY': {
+		name: 'Брянская область',
+	},
+	'RU-VLA': {
+		name: 'Владимирская область',
+	},
+	'RU-VGG': {
+		name: 'Волгоградская область',
+	},
+	'RU-VLG': {
+		name: 'Вологодская область',
+	},
+	'RU-VOR': {
+		name: 'Воронежская область',
+	},
+	'RU-IVA': {
+		name: 'Ивановская область',
+	},
+	'RU-IRK': {
+		name: 'Иркутская область',
+	},
+	'RU-KGD': {
+		name: 'Калининградская область',
+	},
+	'RU-KLU': {
+		name: 'Калужская область',
+	},
+	'RU-KEM': {
+		name: 'Кемеровская область',
+	},
+	'RU-KIR': {
+		name: 'Кировская область',
+	},
+	'RU-KOS': {
+		name: 'Костромская область',
+	},
+	'RU-KGN': {
+		name: 'Курганская область',
+	},
+	'RU-KRS': {
+		name: 'Курская область',
+	},
+	'RU-LEN': {
+		name: 'Ленинградская область',
+	},
+	'RU-LIP': {
+		name: 'Липецкая область',
+	},
+	'RU-MAG': {
+		name: 'Магаданская область',
+	},
+	'RU-MOS': {
+		name: 'Московская область',
+	},
+	'RU-MUR': {
+		name: 'Мурманская область',
+	},
+	'RU-NIZ': {
+		name: 'Нижегородская область',
+	},
+	'RU-NGR': {
+		name: 'Новгородская область',
+	},
+	'RU-NVS': {
+		name: 'Новосибирская область',
+	},
+	'RU-OMS': {
+		name: 'Омская область',
+	},
+	'RU-ORE': {
+		name: 'Оренбургская область',
+	},
+	'RU-ORL': {
+		name: 'Орловская область',
+	},
+	'RU-PNZ': {
+		name: 'Пензенская область',
+	},
+	'RU-PSK': {
+		name: 'Псковская область',
+	},
+	'RU-ROS': {
+		name: 'Ростовская область',
+	},
+	'RU-RYA': {
+		name: 'Рязанская область',
+	},
+	'RU-SAM': {
+		name: 'Самарская область',
+	},
+	'RU-SAR': {
+		name: 'Саратовская область',
+	},
+	'RU-SAK': {
+		name: 'Сахалинская область',
+	},
+	'RU-SVE': {
+		name: 'Свердловская область',
+	},
+	'RU-SMO': {
+		name: 'Смоленская область',
+	},
+	'RU-TAM': {
+		name: 'Тамбовская область',
+	},
+	'RU-TVE': {
+		name: 'Тверская область',
+	},
+	'RU-TOM': {
+		name: 'Томская область',
+	},
+	'RU-TUL': {
+		name: 'Тульская область',
+	},
+	'RU-TYU': {
+		name: 'Тюменская область',
+	},
+	'RU-ULY': {
+		name: 'Ульяновская область',
+	},
+	'RU-CHE': {
+		name: 'Челябинская область',
+	},
+	'RU-YAR': {
+		name: 'Ярославская область',
+	},
+	'RU-MOW': {
+		name: 'Москва',
+	},
+	'RU-SPE': {
+		name: 'Санкт-Петербург',
+	},
+	'RU-SEV': {
+		name: 'Севастополь',
+	},
+	'RU-YEV': {
+		name: 'Еврейская автономная область',
+	},
+	'RU-NEN': {
+		name: 'Ненецкий автономный округ',
+	},
+	'RU-KHM': {
+		name: 'Ханты-Мансийский автономный округ - Югра',
+	},
+	'RU-CHU': {
+		name: 'Чукотский автономный округ',
+	},
+	'RU-YAN': {
+		name: 'Ямало-Ненецкий автономный округ',
+	}
+};
 
-	.region('Москва', 'RU-MOW')
-	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Магнит', 'magnit')
-	.validator('Роснефть', 'rosneft')
+/*
+'RU', 'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME', 'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA', 'RU-PER', 'RU-PRI', 'RU-STA', 'RU-KHA', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MAG', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-MOW', 'RU-SPE', 'RU-SEV', 'RU-YEV', 'RU-NEN', 'RU-KHM', 'RU-CHU', 'RU-YAN',
+*/
 
-	//.validator('Авто49', 'auto49')
-	.validator('Автопаскер', 'autopasker')
-	//.validator('Азбука вкуса', 'azbuka')
-	.validator('Альфабанк', 'alfabank')
-	//.validator('Альфабанк.Банкоматы', 'alfabank_atm')
-	.validator('Асна', 'asna')
-	//.validator('Атак', 'atak')
-	//.validator('Ашан', 'auchan')
-	//.validator('Белый ветер', 'beli_veter')
-	.validator('Велобайк', 'velobike')
-	.validator('Газпромнефть', 'gazprom')
-	.validator('Дикси', 'diksi')
-	//.validator('Зоомагазин "4 лапы"', 'lapy4')
-	.validator('Кофе Хауз', 'coffeehouse')
-	//.validator('Лукойл', 'lukoil')
-
-	//.validator('МИнБ', 'minbank')
-	.validator('МКБ', 'mkb')
-	.validator('Избёнка / ВкусВилл', 'izbenka')
-	//.validator('М.Видео', 'mvideo')
-	.validator('Перекресток', 'perekrestok')
-	//.validator('Подружка',    'podruzhka')
-	//.validator('Почтоматы',   'russian_postomat')
-	//.validator('Промсбербанк', 'promsberbank')
-	//.validator('Планета Cуши','planetasushi')
-
-	.validator('Росгосстрах', 'rgs')
-	.validator('Служба крови', 'blood')
-	.validator('Суд', 'sudrf')
-	.validator('Театры', 'mos531')
-	//.validator('Терволина',   'tervolina')
-	.validator('Церкви', 'temples')
-	.validator('Элекснет', 'elecsnet')
-	//.validator('IL Патио',    'ilpatio')
-
-	.region('Московская область', 'RU-MOS')
-	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Магнит', 'magnit')
-
-	//.validator('Авто49',      'auto49')
-	.validator('Автопаскер', 'autopasker')
-	//.validator('Атак',        'atak')
-	.validator('Азбука вкуса', 'azbuka')
-	.validator('Альфабанк', 'alfabank')
-	.validator('Асна', 'asna')
-	//.validator('Белый ветер', 'beli_veter')
-	.validator('Газпромнефть', 'gazprom')
-	.validator('Дикси', 'diksi')
-	//.validator('Зоомагазин "4 лапы"', 'lapy4')
-	//.validator('Лукойл',      'lukoil')
-
-	//.validator('МИнБ',        'minbank')
-	.validator('МКБ', 'mkb')
-	//.validator('М.Видео',     'mvideo')
-	.validator('Населенные пункты', 'wiki_places')
-	.validator('Перекресток', 'perekrestok')
-	//.validator('Подружка',    'podruzhka')
-	//.validator('Почтоматы',   'russian_postomat')
-	//.validator('Промсбербанк','promsberbank')
-	.validator('Роснефть', 'rosneft')
-	.validator('Служба крови', 'blood')
-	//.validator('Терволина',   'tervolina')
-	.validator('Церкви', 'temples')
-	.validator('Элекснет', 'elecsnet')
-
-	.region('Санкт-Петербург', 'RU-SPE')
-	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	//.validator('Авто49', 'auto49')
-	.validator('Альфабанк', 'alfabank')
-	//.validator('Ашан',        'auchan')
-	//.validator('Белый ветер', 'beli_veter')
-	.validator('Дикси', 'diksi')
-	.validator('Газпромнефть', 'gazprom')
-	//.validator('Лукойл',      'lukoil')
-	//.validator('МИнБ',        'minbank')
-	.validator('Перекресток', 'perekrestok')
-	//.validator('Планета Cуши','planetasushi')
-	//.validator('Почтоматы',   'russian_postomat')
-	.validator('Роснефть', 'rosneft')
-	.validator('Служба крови', 'blood')
-	.validator('Церкви', 'temples')
-	//.validator('IL Патио',    'ilpatio')
-
-	.region('Ленинградская область', 'RU-LEN')
-	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.validator('Населенные пункты', 'wiki_places')
-	.validator('Служба крови', 'blood')
-	.validator('Перекресток', 'perekrestok')
-	.validator('Роснефть', 'rosneft')
-	//.validator('Лукойл',      'lukoil')
-	.validator('Газпромнефть', 'gazprom')
-	.validator('Дикси', 'diksi')
-	//.validator('МИнБ',        'minbank')
-	.validator('Церкви', 'temples')
-
-	.region('Адыгея', 'RU-AD')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Архангельская область', 'RU-ARK')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Башкирия', 'RU-BA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Башнефть', 'bashneft')
-	.validator('Фармленд', 'farmlend')
-	.validator('Церкви', 'temples')
-	//.validator('Авто49',      'auto49')
-	//.validator('Лукойл',      'lukoil')
-
-	.region('Белгородская область', 'RU-BEL')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Церкви', 'temples')
-
-	.region('Брянская область', 'RU-BRY')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Церкви', 'temples')
-
-	.region('Владимирская область', 'RU-VLA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Дикси', 'diksi')
-
-	.region('Волгоградская область', 'RU-VGG')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	//.validator('Лукойл',      'lukoil')
-
-	.region('Вологодская область', 'RU-VLG')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	//.validator('Лукойл',      'lukoil')
-
-	.region('Воронежская область', 'RU-VOR')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Перекресток', 'perekrestok')
-	.validator('Роснефть', 'rosneft')
-	.validator('Автопаскер', 'autopasker')
-	.validator('Церкви', 'temples')
-	.validator('Башнефть', 'bashneft')
-	//.validator('Ашан',        'auchan')
-	//.validator('Авто49',      'auto49')
-
-	.region('Иркутская область', 'RU-IRK')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Калининградская область')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Альфабанк', 'alfabank')
-	//.validator('Лукойл',   'lukoil')
-
-	.region('Калужская область', 'RU-KLU')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Газпромнефть', 'gazprom')
-	//.validator('Промсбербанк','promsberbank')
-	.validator('Дикси', 'diksi')
-	.validator('Перекресток', 'perekrestok')
-	//.validator('Магнит',      'magnit')
-
-	.region('Кемеровская область', 'RU-KEM')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Церкви', 'temples')
-
-	.region('Кировская область', 'RU-KIR')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Хлынов', 'hlinov')
-
-	.region('Краснодарский край', 'RU-KDA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',     'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Служба крови', 'blood')
-	//.validator('Лукойл',       'lukoil')
-	.validator('Роснефть', 'rosneft')
-	//.validator('Магнит',       'magnit')
-
-	.region('Красноярский край', 'RU-KYA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Курская область', 'RU-KRS')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',          'sberbank')
-
-	.region('Липецкая область', 'RU-LIP')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',          'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Перекрёсток', 'perekrestok')
-
-	.region('Мурманская область', 'RU-MUR')
-	//.validator('Сбербанк',           'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Альфабанк', 'alfabank')
-	//.validator('Альфабанк.Банкоматы','alfabank_atm')
-	.validator('Дикси', 'diksi')
-
-	.region('Нижегородская область', 'RU-NIZ')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Перекресток', 'perekrestok')
-
-	.region('Новгородская область', 'RU-NGR')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Дикси', 'diksi')
-
-	.region('Новосибирская область', 'RU-NVS')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	//.validator('Почтоматы','russian_postomat')
-
-	.region('Омская область', 'RU-OMS')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',          'sberbank')
-	.validator('Почта', 'russian_post')
-	//.region('Орловская область', 'RU-ORL')
-	//.validator('Сбербанк', 'sberbank')
-
-	.region('Пензенская область', 'RU-PNZ')
-	//	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Пермский край', 'RU-PER')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	//.validator('Лукойл',   'lukoil')
-
-	.region('Приморский край', 'RU-PRI')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Ростовская область', 'RU-ROS')
-	.validator('Населенные пункты', 'wiki_places')
-	.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Рязанская область', 'RU-RYA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Самарская область', 'RU-SAM')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	//.validator('Белый ветер', 'beli_veter')
-	.validator('Перекресток', 'perekrestok')
-	//.validator('Ашан',        'auchan')
-
-	.region('Саратовская область', 'RU-SAR')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-
-	.region('Свердловская область', 'RU-SVE')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	//.validator('Почтоматы','russian_postomat')
-
-	.region('Ставропольский край', 'RU-STA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-
-	.region('Тверская область', 'RU-TVE')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Церкви', 'temples')
-
-	.region('Татарстан', 'RU-TA')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Башнефть', 'bashneft')
-	//.validator('Белый ветер', 'beli_veter')
-	.validator('Перекресток', 'perekrestok')
-
-	.region('Тульская область', 'RU-TUL')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-
-	.region('Ульяновская область', 'RU-ULY')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк',    'sberbank')
-	.validator('Почта', 'russian_post')
-	.validator('Поликлиники', 'ulgov27')
-
-	.region('Хабаровский край', 'RU-KHA')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Ханты-Мансийский АО - Югра', 'RU-KHM')
-	//.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Почта', 'russian_post')
-
-	.region('Челябинская область', 'RU-CHE')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Башнефть', 'bashneft')
-
-	.region('Чувашия', 'RU-CU')
-	.validator('Почта', 'russian_post')
-	//.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-
-	.region('Якутия', 'RU-SA')
-	.validator('Населенные пункты', 'wiki_places')
-
-	.region('Ярославская область', 'RU-YAR')
-	.validator('Населенные пункты', 'wiki_places')
-	//.validator('Сбербанк', 'sberbank')
-	.validator('Дикси', 'diksi')
-	//.validator('Белый ветер', 'beli_veter')
-	.validator('Перекресток', 'perekrestok')
-	.validator('Газпромнефть', 'gazprom')
-//.validator('Зоомагазин "4 лапы"', 'lapy4')
-
-var links = {
-	'sberbank': 'http://sbrf.ru/moscow/ru/about/branch/list_branch/',
-	'perekrestok': 'http://www.perekrestok.ru/shops/',
-	'azbuka': 'http://av.ru/index.aspx?sPage=63',
-	'beli_veter': 'http://www.digital.ru/shops/all/view',
-	'gazprom': 'http://www.gpnbonus.ru/our_azs/',
-	'hlinov': 'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
-	'asna': 'http://www.asna.ru/drugstores',
-	'alfabank': 'http://www.alfabank.ru/russia/moscow/',
-	'lukoil': 'http://www.lukoil.ru/new/azslocator',
-	'rosneft': 'http://www.rosneft.ru/Downstream/petroleum_product_sales/servicestations/',
-	'russian_post': 'https://www.pochta.ru/offices',
-	'russian_postomat': 'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
-	'sudrf': 'http://sudrf.ru/index.php?id=300',
-	'autopasker': 'http://avtopasker.ru/info/list.php?town=all',
-	'promsberbank': 'http://www.promsbank.ru/contact',
-	'rgs': 'http://www.rgs.ru/contacts/list.wbp',
-	'temples': 'http://www.temples.ru/tree.php',
-	'diksi': 'http://dixy.ru/shops',
-	'bashneft': 'http://www.bashneft-azs.ru/network_azs/',
-	'atak': 'http://www.ataksupermarket.ru/atak.html?rid=1',
-	'magnit': 'http://www.magnit-info.ru/buyers/adds/list.php?SECTION_ID=1258',
-	'auchan': 'http://www.auchan.ru/ru/moscow',
-	'farmlend': 'http://www.farmlend.ru/apteki/',
-	'izbenka': 'http://vkusvill.ru/shops/shoplist/',
-	'lapy4': 'http://4lapy.ru/pet_stores_amp_services/',
-	'auto49': 'http://www.auto49.ru/import',
-	'mkb': 'http://mkb.ru/about_bank/address/?type=office',
-	'tervolina': 'http://www.tervolina.ru/moscow.aspx',
-	'podruzka': 'http://www.podrygka.ru/shops/find/',
-	'mvideo': 'http://www.mvideo.ru/shops/',
-	'blood': 'http://yadonor.ru/where.htm',
-	'mos531': 'http://data.mos.ru/datasets/531',
-	'ulgov27': 'http://data.ulgov.ru/index/data/id/27/',
-	'coffeehouse': 'http://www.coffeehouse.ru/adress/',
-	'ilpatio': 'http://www.rosinter.ru/locator/?brand=Ilpatio',
-	'velobike': 'http://velobike.ru/parkings/',
-	'planetasushi': 'http://www.rosinter.ru/locator/?brand=PlanetSushi',
-	'elecsnet': 'http://elecsnet.ru',
-	_: 0
+var notes = {
+	fuel: 'Дополнительные теги: shop, car_wash, cafe, toilets, compressed_air следует указывать отдельными точками внутри полигона amenity=fuel.'
 };
 
 var fields = {
+	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wikipedia', 'wikidata', 'wheelchair'],
+	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+
+	atm: [],
+
+	'gazprom':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'rosneft':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+
+
 	'asna': ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
 	'autopasker': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
 
@@ -414,11 +295,6 @@ var fields = {
 	'diksi':  ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
 	'azbuka': ['_addr', 'operator', 'name', 'website', 'opening_hours'],
 	'magnit': ['_addr', 'operator', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop'],
-
-	'gazprom':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'rosneft':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 
 	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
 	'russian_postomat': ['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
@@ -450,7 +326,150 @@ var fields = {
 	'planetasushi': ['name', 'opening_hours', 'cuisine', 'contact:website', 'contact:phone', '_addr'],
 
 	'wiki_places': ['name', 'name:ru', 'official_status', 'place', 'abandoned:place', 'population', 'population:date', '_population2013', '_population2012', '_population2010', 'wikipedia', 'old_name', 'contact:website', 'addr:postcode', 'okato:user', 'addr:country', 'addr:region', 'addr:district'],
-}
+};
+
+var links = {
+	'perekrestok': 'http://www.perekrestok.ru/shops/',
+	'azbuka': 'http://av.ru/index.aspx?sPage=63',
+	'beli_veter': 'http://www.digital.ru/shops/all/view',
+	'hlinov': 'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
+	'asna': 'http://www.asna.ru/drugstores',
+	'alfabank': 'http://www.alfabank.ru/russia/moscow/',
+	'lukoil': 'http://www.lukoil.ru/new/azslocator',
+	'russian_postomat': 'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
+	'sudrf': 'http://sudrf.ru/index.php?id=300',
+	'autopasker': 'http://avtopasker.ru/info/list.php?town=all',
+	'promsberbank': 'http://www.promsbank.ru/contact',
+	'rgs': 'http://www.rgs.ru/contacts/list.wbp',
+	'temples': 'http://www.temples.ru/tree.php',
+	'diksi': 'http://dixy.ru/shops',
+	'atak': 'http://www.ataksupermarket.ru/atak.html?rid=1',
+	'auchan': 'http://www.auchan.ru/ru/moscow',
+	'farmlend': 'http://www.farmlend.ru/apteki/',
+	'izbenka': 'http://vkusvill.ru/shops/shoplist/',
+	'lapy4': 'http://4lapy.ru/pet_stores_amp_services/',
+	'auto49': 'http://www.auto49.ru/import',
+	'mkb': 'http://mkb.ru/about_bank/address/?type=office',
+	'tervolina': 'http://www.tervolina.ru/moscow.aspx',
+	'podruzka': 'http://www.podrygka.ru/shops/find/',
+	'mvideo': 'http://www.mvideo.ru/shops/',
+	'blood': 'http://yadonor.ru/where.htm',
+	'mos531': 'http://data.mos.ru/datasets/531',
+	'ulgov27': 'http://data.ulgov.ru/index/data/id/27/',
+	'coffeehouse': 'http://www.coffeehouse.ru/adress/',
+	'ilpatio': 'http://www.rosinter.ru/locator/?brand=Ilpatio',
+	'planetasushi': 'http://www.rosinter.ru/locator/?brand=PlanetSushi',
+	'elecsnet': 'http://elecsnet.ru',
+	_: 0
+};
+
+var validators = {
+	gazprom: {
+		name: 'Газпромнефть',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'https://www.gpnbonus.ru/our_azs/',
+		fields: fields.fuel,
+		regions: [
+			'RU-MOW', 'RU-MOS', 'RU-SPE', 'RU-LEN', 'RU-ALT', 'RU-VLG', 'RU-VLA', 'RU-IVA', 'RU-IRK', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-PER', 'RU-PNZ', 'RU-PSK', 'RU-KR', 'RU-KK', 'RU-RYA',
+			'RU-SAM', 'RU-SVE', 'RU-SMO', 'RU-TVE', 'RU-TUL', 'RU-TOM', 'RU-TYU', 'RU-KHM', 'RU-CHE', 'RU-YAN', 'RU-YAR'
+		]
+	},
+	russian_post: {
+		name: 'Почта России',
+		note: 'note message',
+		noteIsShow: false,
+		link: 'https://www.pochta.ru/offices',
+		fields: '',
+		regions: [
+			'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME',
+			'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA',
+			'RU-PER', 'RU-PRI', 'RU-STA', 'RU-KHA', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR',
+			'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MAG', 'RU-MOS',
+			'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR',
+			'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-MOW', 'RU-SPE',
+			'RU-SEV', 'RU-YEV', 'RU-NEN', 'RU-KHM', 'RU-CHU', 'RU-YAN'
+		]
+	},
+	rosneft: {
+		name: 'Роснефть',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'https://komandacard.ru/home/getgasstations',
+		fields: fields.fuel,
+		regions: ['RU']
+	},
+	tnk: {
+		name: 'ТНК',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'https://komandacard.ru/home/getgasstations',
+		fields: fields.fuel,
+		regions: ['RU']
+	},
+	bashneft: {
+		name: 'Башнефть',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'http://www.bashneft-azs.ru/network_azs/',
+		fields: fields.fuel,
+		regions: [
+			'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-KDA', 'RU-KGN', 'RU-NIZ', 'RU-ORE', 'RU-BA', 'RU-DA', 'RU-ME', 'RU-MO', 'RU-TA', 'RU-ROS',
+			'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-UD', 'RU-ULY', 'RU-CHE', 'RU-CU'
+		]
+	},
+	magnit: {
+		name: 'Магнит',
+		note: 'Не путайте типы магазинов: convenience; supermarket, chemist. см. вики и бла бла бла... предупреждения примерно такого содержания там, где они нужны!',
+		noteIsShow: true,
+		link: 'http://magnit-info.ru/buyers/adds/',
+		fields: '',
+		regions: [
+			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
+			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
+			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
+			'RU-TYU', 'RU-UD' , 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU' , 'RU-YAN', 'RU-YAR'
+		]
+	},
+	sberbank: {
+		name: 'Сбербанк (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'http://www.sberbank.ru/ru/about/today/oib',
+		fields: fields.bank,
+		regions: [
+			'RU-ZAB', 'RU-IRK', 'RU-BU', 'RU-SA', 'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO', 'RU-ME', 'RU-CU', 'RU-TA', 'RU-KHA', 'RU-PRI', 'RU-AMU', 'RU-SAK',
+			'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER', 'RU-KO', 'RU-UD', 'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE',
+			'RU-SAR', 'RU-VGG', 'RU-AST', 'RU-PNZ', 'RU-YAR', 'RU-KOS', 'RU-IVA', 'RU-VLG', 'RU-NEN', 'RU-ARK', 'RU-SPE', 'RU-LEN', 'RU-MUR', 'RU-KGD', 'RU-PSK',
+			'RU-NGR', 'RU-KR', 'RU-NVS', 'RU-TOM', 'RU-KEM', 'RU-ALT', 'RU-AL', 'RU-KYA', 'RU-TY', 'RU-KK', 'RU-MOS', 'RU-TVE', 'RU-KLU', 'RU-BRY', 'RU-SMO',
+			'RU-TUL', 'RU-RYA', 'RU-SVE', 'RU-CHE', 'RU-KGN', 'RU-BA', 'RU-VOR', 'RU-ORL', 'RU-LIP', 'RU-KRS', 'RU-BEL', 'RU-TAM', 'RU-ROS', 'RU-KDA', 'RU-AD',
+			'RU-STA', 'RU-SE', 'RU-KB', 'RU-IN', 'RU-DA', 'RU-KC', 'RU-KL', 'RU-CE'
+		]
+	},
+	velobike: {
+		name: 'Велобайк',
+		note: '',
+		noteIsShow: false,
+		link: 'http://velobike.ru/parkings/',
+		fields: ['_addr', 'ref', 'capacity', 'operator', 'contact:email', 'contact:phone', 'contact:website'],
+		regions: ['RU-MOW']
+	},
+
+	/*
+	validator: {                  // имя валидатора (совпадает с .php)
+		name: 'name',             // название валидатора
+		note: 'message',          // сообщение пользователю
+		noteIsShow: true,         // показ сообщения (true / false)
+		link: '',                 // ссылка на страницу источника данных
+		fields: [],               // поля валидатора // TODO: брать поля отсюда (сейчас берутся из fields)
+		regions: ['RU', 'RU-BEL'] // список поддерживаемых регионов
+	},
+	*/
+};
+
+// wiki_places note: <b>Внимание!</b> Если вы меняете тег place или name на точке, поменяйте его <a href="/places/errors/">также и на контуре</a>!
 
 C_Empty = 1;
 C_Skip = 2;
@@ -466,7 +485,6 @@ C_Total = 0;
 
 
 function osm_cl() {
-	this._regions = {};
 	this._filter = { page: 0 };
 	this._fast_filter = {};
 	this._fast_filter_enable = 0;
@@ -476,53 +494,60 @@ function osm_cl() {
 	this.activeValidator = '';
 	this.numPerPage = 30;
 
-	// добавить регион
-	this.region = function (title, code) {
-		this._regions[code] = { title: title, validators: {} };
-		this.activeRegion = code;
-		return this;
-	}
-
-	// добавить валидатор к текущему региону
-	this.validator = function (title, code, data) {
-		if (!data) data = this.activeRegion;
-		this._regions[this.activeRegion].validators[code] = { title: title, code: code, data: data }
-		return this;
-	}
-
-	// select список регионов
+	// Формируем список регионов, для которых есть хотя бы один валидатор
 	this.regions = function () {
-		var i, st = '';
-		for (i in this._regions)
-			st += '<option value="' + i + '">' + this._regions[i]['title'] + '</option>';
-		if (st) st = '<select id="region" onchange="osm.changeRegion(this.value)">' +
-			'<option value="">Выберите регион</option>' + st + '</select>';
+		var st = '';
+		for (region in regions) {
+			regions[region].validators = [];
+			for (validator in validators) { // если есть валидатор
+				if (validators[validator].regions.indexOf(region) != -1) { // с поддержкой данного региона
+					option = '<option value="' + region + '">' + regions[region]['name'] + '</option>'; // записываем опцию
+					regions[region].validators[validator] = {};
+				}
+			}
+			st += option;
+		}
+		if (st) {
+			st = '<select id="region" onchange="osm.changeRegion(this.value)">' + '<option value="">Выберите регион</option>' + st + '</select>';
+		}
 		return st;
 	}
 
 	// смена региона
 	this.changeRegion = function (x) {
-		if (!this._regions[x]) return;
+		if (!regions[x]) return;
 		this.activeRegion = x;
 		document.location = '#' + x;
 		$('validators', x ? osm.validators(x) : '');
 		this._filter = { page: 0 };
-		this.changeValidator(this.activeValidator || 'sberbank');
+
+		if (this.activeValidator == '') { // если текущий валидатор не выбран
+			for (validator in regions[x].validators) {
+				this.activeValidator = validator; // берём первый из списка доступных
+				break;
+			}
+		}
+
+		this.changeValidator(this.activeValidator);
 		style($$('div.hidden'), 'display: block');
 	}
 
 	// select список валидаторов региона
 	this.validators = function (region) {
-		var i, st = '';
-		for (i in this._regions[region].validators)
-			st += '<option value="' + i + '">' + this._regions[region].validators[i]['title'] + '</option>';
-		if (st) st = '<select id="validator" onchange="osm.changeValidator(this.value)">' + st + '</select>';
+		var st = '';
+		for (validator in regions[region].validators) {
+			st += '<option value="' + validator + '">' + validators[validator].name + '</option>';
+		}
+		if (st) {
+			st = '<select id="validator" onchange="osm.changeValidator(this.value)">' + st + '</select>';
+		}
 		return st;
 	}
 
 	// смена валидатора
 	this.changeValidator = function (x) {
-		if (!this._regions[this.activeRegion].validators[x]) return;
+		if (!regions[this.activeRegion].validators[x]) return;
+
 		this.activeValidator = x;
 		if ($('validator').value != x) $('validator').value = x;
 
@@ -530,16 +555,25 @@ function osm_cl() {
 		$('search').value = '';
 		$('validate', '');
 
-		style('wiki_note', 'display: ' + (x == 'wiki_places' ? 'block' : 'none'));
+		// Уведомление для конкретного валидатора
+		if (validators[x].noteIsShow == true) {
+			st = validators[x].note;
+			$('note', st);
+			style('note', 'display: block');
+		} else {
+			style('note', 'display: none');
+		}
 
 		this.loaded_objects = {};
 
-		// добавляем инфу о времени последнего обновления
-		var st = '', d = this._regions[this.activeRegion].validators[x].data;
+		// Добавляем информацию о времени последнего обновления данных
+		var st = '';
 		var _ = function (x, y, Z) { return state[x + '.' + y] ? '<span title="' + date('H:i:s', state[x + '.' + y][Z]) + '">' + date('d.m.Y', state[x + '.' + y][Z]) + '</span>' : '?'; }
+
 		st = 'Обновлено ' + _(this.activeRegion, x, 2) + ', OSM данные от ' + _(this.activeRegion, x, 3) +
-			', <a href="' + links[x] + '" target=_blank>объекты</a> от ' + _(x, (typeof (d) == 'string' ? d : d[0]), 2);
+			', <a href="' + validators[x].link + '" target=_blank>объекты</a> от ' + _(this.activeRegion, x, 4);
 		st += ' <input type="button" onclick="osm.update()" value="Перевалидировать" id="btn_revalidate">'
+
 		$('date', st);
 
 		this.validate(this.activeRegion, x);
@@ -554,7 +588,7 @@ function osm_cl() {
 
 	// генерация таблицы валидатора
 	this.validate = function (region, validator) {
-		var v = this._regions[region].validators[validator];
+		//var v = regions[region].validators[validator];
 		$('validate', '');
 
 		this.osm_data = {};
@@ -564,7 +598,7 @@ function osm_cl() {
 		this.log('Загрузка данных с сервера...');
 
 		// данные osm
-		ajax.load('data/' + region + '/' + v.code + '_osm.json', function (a) {
+		ajax.load('data/' + region + '/' + validator + '_osm.json', function (a) {
 			var i, hash, corr = {};
 
 			// первый эл-т массива - данные, остальные - поправки
@@ -596,17 +630,15 @@ function osm_cl() {
 
 			osm.revalidate();
 		});
-		// реальные данные
-		var data = v.data;
-		if (typeof (data) == 'string') data = [data];
-		for (var i = 0; i < data.length; i++)
-			ajax.load('data/' + region + '/' + v.code + '_real.json', function (a) {
-				if (typeof (a) == 'string') a = eval('(' + a + ')');
-				osm.real_data = osm.real_data.concat(a);
 
-				osm.revalidate();
-			});
+		// реальные данные
+		ajax.load('data/' + region + '/' + validator + '_real.json', function (a) {
+			if (typeof (a) == 'string') a = eval('(' + a + ')');
+			osm.real_data = osm.real_data.concat(a);
+			osm.revalidate();
+		});
 	};
+
 	// функция генерации таблицы валидатора
 	this.revalidate = function () {
 		if (this.timerRevalidate) clearInterval(this.timerRevalidate);

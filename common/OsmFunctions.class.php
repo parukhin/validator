@@ -24,9 +24,15 @@ class OsmFunctions
 		$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
 		//$url = "http://www.overpass-api.de/api/interpreter";
 
+		$admin_level = 4;
+
+		if (strcasecmp($region, 'RU') == 0) {
+			$admin_level = 2;
+		}
+
 		$query = "data=[out:xml] [timeout:180];";
 
-		$query = $query."area[ref=\"".$region."\"][admin_level=4][boundary=administrative]->.a; ";
+		$query = $query."area[ref=\"".$region."\"][admin_level=".$admin_level."][boundary=administrative]->.a; ";
 		$query = $query."( ";
 
 		foreach ($filter as $value)

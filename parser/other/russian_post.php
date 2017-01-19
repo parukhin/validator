@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class russian_post extends Validator
 {
@@ -191,7 +191,7 @@ class russian_post extends Validator
 			'region' => 'Приморский край',
 			'count' => 1664,
 		),
-	   'RU-ULY' => array(
+		'RU-ULY' => array(
 			'lat' => '53.74',
 			'lon' => '48.02',
 			'region' => 'Ульяновская обл',
@@ -284,10 +284,14 @@ class russian_post extends Validator
 				continue;
 			}
 
-			// Исключение передвижных отделений из поиска (typeId = 18, typeCode = "ПОПС")
+			// Исключение передвижных отделений из поиска (typeId = 18, typeCode = 'ПОПС')
 			if ($obj['typeId'] == 18) {
 				continue;
 			}
+
+			// typeCode = 'СОПС', typeId = 9 - сельское отделение почтовой связи
+			// typeCode = 'ГОПС', typeId = 8 - городское отделение почтовой связи
+			// typeCode = 'ПОПС', typeId = 18 - передвижное отделение почтовой связи
 
 			// Исключение повторений по ref
 			if (in_array($obj['postalCode'], $ref)) {
@@ -298,7 +302,8 @@ class russian_post extends Validator
 
 			$obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];
 			$obj['ref'] = $obj['postalCode'];
-			$obj['name'] = 'Отделение связи №'.$obj['ref'];
+			//$obj['name'] = 'Отделение связи №'.$obj['ref'];
+			$obj['name'] = $obj['settlement'].' '.$obj['ref'];
 			$obj['lat'] = $obj['latitude'];
 			$obj['lon'] = $obj['longitude'];
 

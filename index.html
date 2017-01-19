@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>OSM: универсальный валидатор брендов (Сбербанк, Почта и др.)</title>
+	<meta charset="utf-8">
+	<title>POI Inspector</title>
 	<script src="./js/lib.js"></script>
-	<!-- Yandex.Metrika counter -->
-	<script src="./js/ym.js"></script>
-
-	<meta charset="utf-8" />
 </head>
-
 <body>
 
 	<!--<script src="./js/header.js"></script>-->
@@ -143,7 +138,7 @@
 			width: 80px;
 		}
 
-		#wiki_note {
+		#note {
 			display: none;
 			background: #FAA;
 			padding: 10px;
@@ -151,10 +146,10 @@
 		}
 
 		#help {
+			display: none;
 			background: #F9F9F9;
 			border: 2px solid #999;
 			padding: 0px 20px;
-			display: none;
 		}
 
 		#validate,
@@ -211,8 +206,10 @@
 		<span id="date"></span>
 	</div>
 	<div id="checkJosm"></div>
-	<div id="wiki_note"><b>Внимание!</b> Если вы меняете тег place или name на точке, поменяйте его
-		<a href="/places/errors/">также и на контуре</a>!</div>
+
+	<!-- Блок заметок -->
+	<div id="note"></div>
+
 	<div id="state" class="hidden" style="display: none;"></div>
 	<div id="filter" class="hidden" style="display: none;">
 		<span id="city"></span>
@@ -263,11 +260,11 @@
 	<br />
 	<div style="font-size: small; color: GrayText">
 		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
+		| Версия 0.1b |
 		<a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
 		<a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">форум</a>
 
 	</div>
 
 </body>
-
 </html>

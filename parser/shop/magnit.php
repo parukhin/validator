@@ -54,7 +54,7 @@ class magnit extends Validator
 		'RU-ROS' => ['rid' => '26'],
 		'RU-RYA' => ['rid' => '42'],
 		'RU-SAM' => ['rid' => '31'],
-		'RU-SPB' => ['rid' => '1334'],
+		'RU-SPE' => ['rid' => '1334'],
 		'RU-SAR' => ['rid' => '28'],
 		'RU-SVE' => ['rid' => '820'],
 		'RU-SMO' => ['rid' => '7'],

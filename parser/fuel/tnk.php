@@ -1,7 +1,7 @@
 <?php
 require_once 'Validator.class.php';
 
-class rosneft extends Validator
+class tnk extends Validator
 {
 	protected $domain = 'https://komandacard.ru/home/getgasstations';
 
@@ -14,8 +14,8 @@ class rosneft extends Validator
 		'amenity'         => 'fuel',
 		'name'            => '',
 		'name:ru'         => '',
-		'brand'           => 'Роснефть',
-		'operator'        => 'ОАО Роснефть',
+		'brand'           => 'ТНК',
+		'operator'        => '',
 		'contact:website' => 'http://www.rosneft-azs.ru',
 		'contact:phone'   => '',
 		'ref'             => '',
@@ -40,7 +40,7 @@ class rosneft extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=fuel][name~"[Рр]оснефть"]'
+		'[amenity=fuel][name~"[Тт]нк"]'
 	];
 
 	/* Обновление данных по региону */
@@ -66,8 +66,8 @@ class rosneft extends Validator
 		}
 
 		foreach ($st as $obj) {
-			// Отсеиваем АЗС ТНК-BP
-			if ($obj['owner'] != '1') {
+			// Отсеиваем АЗС Роснефти
+			if ($obj['owner'] != '2') {
 				continue;
 			}
 

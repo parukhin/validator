@@ -10,10 +10,14 @@ if (isset($_SERVER['argv'][3]))
 
 function osm_data($data, $region, $validator, $type)
 {
-	if (is_string($data))
+	if (is_string($data)) {
 		$data = @unserialize(@file_get_contents($data));
+	}
 
-	if (!$data) { echo "Empty data! ".(is_string($data)?$data:$region)."\n"; return; }
+	if (!$data) { // если данные отсутствуют
+		echo "Empty data! ".(is_string($data)?$data:$region)."\n";
+		return;
+	}
 
 	$msg = 'OK';
 
@@ -60,7 +64,17 @@ function osm_data($data, $region, $validator, $type)
 	$data = json_decode($data, true);
 	if (!$data) $data = array();
 
-	$data["$region.$validator"] = array($region, $validator, time(), $timestamp);
+	if (!$data["$region.$validator"]) { // если поля не существует
+		$data["$region.$validator"] = [$region, $validator, 0, 0, 0]; // создаём
+	}
+
+	$data["$region.$validator"][2] = time(); // дата запуска валидатора
+
+	if (strcasecmp($type, 'osm') == 0) { // osm
+		$data["$region.$validator"][3] = $timestamp;
+	} else { // real
+		$data["$region.$validator"][4] = time();
+	}
 
 	$data = json_encode($data);
 
