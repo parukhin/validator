@@ -28,9 +28,9 @@ require_once $files[0];
 
 $region = '';
 if (isset($_POST['region']))
-	$region = $_POST['region']; //MOW-RU
+	$region = $_POST['region'];
 if (!$region)
-	$region= $_GET['region']; //MOW-RU
+	$region= $_GET['region'];
 
 if ($region == '')
 {
@@ -71,6 +71,8 @@ function validate($region)
 	//Загружаем данные со страницы парсера
 	$v->update();
 	//$v->validate();
+
+	// FIXME: даже если в OSM не найдено объектов (либо загрузка завершилась с ошибкой или по таймауту), всё равно записывает [1 objects], решить это!
 
 	// временно сохраняем в старом формате
 	require_once './osm_data.php';

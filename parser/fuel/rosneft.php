@@ -6,7 +6,7 @@ class rosneft extends Validator
 	protected $domain = 'https://komandacard.ru/home/getgasstations';
 
 	static $urls = [
-		'RU', // пока для всей страны
+		'RU' => [] // пока для всей страны
 	];
 
 	/* Поля объекта */

@@ -6,7 +6,7 @@ class tnk extends Validator
 	protected $domain = 'https://komandacard.ru/home/getgasstations';
 
 	static $urls = [
-		'RU', // пока для всей страны
+		'RU' => [] // пока для всей страны
 	];
 
 	/* Поля объекта */
@@ -16,7 +16,7 @@ class tnk extends Validator
 		'name:ru'         => '',
 		'brand'           => 'ТНК',
 		'operator'        => '',
-		'contact:website' => 'http://www.rosneft-azs.ru',
+		'contact:website' => 'http://www.tnk.ru',
 		'contact:phone'   => '',
 		'ref'             => '',
 		'opening_hours'   => '24/7', // на всех АЗС сети?
@@ -40,7 +40,7 @@ class tnk extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=fuel][name~"[Тт]нк"]'
+		'[amenity=fuel][name~"ТНК",i]'
 	];
 
 	/* Обновление данных по региону */

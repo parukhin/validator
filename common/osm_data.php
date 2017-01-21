@@ -64,7 +64,7 @@ function osm_data($data, $region, $validator, $type)
 	$data = json_decode($data, true);
 	if (!$data) $data = array();
 
-	if (!$data["$region.$validator"]) { // если поля не существует
+	if (!isset($data["$region.$validator"])) { // если поля не существует
 		$data["$region.$validator"] = [$region, $validator, 0, 0, 0]; // создаём
 	}
 

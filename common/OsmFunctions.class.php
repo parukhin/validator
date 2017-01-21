@@ -21,18 +21,22 @@ class OsmFunctions
 
 	private function updateOverPass($region, $filter)
 	{
-		$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
-		//$url = "http://www.overpass-api.de/api/interpreter";
+		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
+		$url = "http://www.overpass-api.de/api/interpreter";
 
-		$admin_level = 4;
-
-		if (strcasecmp($region, 'RU') == 0) {
-			$admin_level = 2;
+		if (strcasecmp($region, 'RU') == 0) { // определяем административную единицу
+			$admin_level = 2; // страна
+			$ref = 'ISO3166-1';
+			$timeout = '300';
+		} else {
+			$admin_level = 4; // субъект
+			$ref = 'ref';
+			$timeout = '180';
 		}
 
-		$query = "data=[out:xml] [timeout:180];";
+		$query = "data=[out:xml][timeout:$timeout];";
 
-		$query = $query."area[ref=\"".$region."\"][admin_level=".$admin_level."][boundary=administrative]->.a; ";
+		$query = $query."area[\"".$ref."\"=\"".$region."\"][admin_level=".$admin_level."][boundary=administrative]->.a; ";
 		$query = $query."( ";
 
 		foreach ($filter as $value)

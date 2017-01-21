@@ -279,14 +279,17 @@ var fields = {
 	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	'rosneft':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	'tnk':      ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 
+	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'contact:phone', 'contact:website', 'opening_hours'],
+	'magnit':      ['_addr', 'operator', 'name', 'name:ru', 'name:de', 'contact:website', 'opening_hours', 'shop'],
 
 	'asna': ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
 	'autopasker': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
 
 	'alfabank_atm': ['_addr', 'operator', 'website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR'],
 
-	'perekrestok': ['_addr', 'operator', 'name', 'phone', 'website', 'opening_hours'],
+
 	'beli_veter': ['_addr', 'ref', 'operator', 'name', 'phone', 'website', 'opening_hours'],
 
 	'elecsnet': ['_addr', 'brand', 'name', 'payment:notes', 'phone', 'ref', 'opening_hours', '_note'],
@@ -294,7 +297,7 @@ var fields = {
 
 	'diksi':  ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
 	'azbuka': ['_addr', 'operator', 'name', 'website', 'opening_hours'],
-	'magnit': ['_addr', 'operator', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop'],
+
 
 	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
 	'russian_postomat': ['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
@@ -456,6 +459,15 @@ var validators = {
 		fields: ['_addr', 'ref', 'capacity', 'operator', 'contact:email', 'contact:phone', 'contact:website'],
 		regions: ['RU-MOW']
 	},
+	perekrestok: {
+		name: 'Перекрёсток',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.perekrestok.ru/shops/',
+		fields: [],
+		regions: ['RU-MOW', 'RU-ROS', 'RU-TA', 'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME', 'RU-VOR', 'RU-LEN', 'RU-KDA', 'RU-SVE', 'RU-KLU', 'RU-KRS', 'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE', 'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO', 'RU-KHM', 'RU-TAM', 'RU-TVE', 'RU-TYU', 'RU-ULY', 'RU-BA', 'RU-CU', 'RU-YAR', 'RU']
+	}
+
 
 	/*
 	validator: {                  // имя валидатора (совпадает с .php)
@@ -482,7 +494,6 @@ C_FoundRef = 7;
 C_Double = 8;
 C_Excess = 9;
 C_Total = 0;
-
 
 function osm_cl() {
 	this._filter = { page: 0 };
@@ -770,7 +781,7 @@ function osm_cl() {
 				.replace('population', '<span title="Население">Нас.</span>')
 				.replace('_addr', 'Адрес')
 
-				.replace('opening_hours', 'Время')
+				.replace('opening_hours', 'График работы')
 				.replace('operator', 'Оператор')
 				.replace('brand', 'Бренд')
 				.replace('shop', 'Магазин')

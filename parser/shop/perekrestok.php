@@ -3,135 +3,114 @@ require_once 'Validator.class.php';
 
 class perekrestok extends Validator
 {
-	// откуда скачиваем данные
-    protected $domain = 'http://www.perekrestok.ru';
-	static $urls = array(
-	    'RU-MOW' => array('410'    => '/api/shops/?city=$1'),
-		'RU-MOS' => array('Московс'   => '/shops/moscow/#$1'),
-		'RU-IVA' => array('Иваново'   => '/shops/moscow/#$1'),
-		'RU-KLU' => array('Калуга'    => '/shops/moscow/#$1'),
-		'RU-RYA' => array('Рязань'    => '/shops/moscow/#$1'),
-		'RU-TVE' => array('Тверь'     => '/shops/moscow/#$1'),
-		'RU-YAR' => array('Ярославль' => '/shops/moscow/#$1'),
-		'RU-SPE' => array('Петерб'    => '/shops/northwest/#$1'),
-		'RU-LEN' => array('Ленин'     => '/shops/northwest/#$1'),
-		'RU-SAM' => array('Самара'    => '/shops/samara/#$1'),
-		'RU-PNZ' => array('Пенза'     => '/shops/samara/#$1'),
-		'RU-VOR' => array('Ворон'     => '/shops/cchernozem/#$1'),
-		'RU-KUR' => array('Курск'     => '/shops/cchernozem/#$1'),
-		'RU-LIP' => array('Липецк'    => '/shops/cchernozem/#$1'),
-		'RU-TA'  => array('Казань'    => '/shops/kazan/#$1'),
-		'RU-NIZ' => array('Ниж'       => '/shops/nnovgorod/#$1'),
-	);
-	// поля объекта
-	protected $fields = array(
+	protected $domain = 'https://www.perekrestok.ru/api/shops/?city=';
+
+	static $urls = [
+		'RU-MOW' => ['410', '109', '624', '170', '249', '539', '581'], // Москва, Внуково, Железнодорожный, Зеленоград, Климовск, Троицк, Щербинка
+		'RU-ROS' => ['37', '396', '179', '523'], // Азов, Новочеркасск, Ростов-на-Дону, Таганрог
+		'RU-TA'  => ['63', '196', '323', '374'], // Альметьевск, Казань, Набережные Челны, Нижнекамск
+		'RU-SAR' => ['26', '457', '587'], // Балаково, Саратов, Энгельс
+		'RU-MOS' => [
+			'28', '70', '95', '92', '627', '612', '611', '615', '165', '281', '251', '248', '264',
+			'261', '223', '315', '426', '327', '379', '334', '451', '350', '316', '413', '345', '172',
+			'188', '513', '515', '486', '503', '501', '559', '549', '650', '582', '585'
+		],
+		// Балашиха, Видное, Волоколамск, Голицыно, Дедовск, Дмитров, Долгопрудный, Дубна, Жуковский, Звенигород, Истра, Кимры, Клин, Коломна, Королев, Красногорск, Люберцы, Мытищи, Наро-Фоминск, Ногинск, Обнинск, Одинцово, Орехово-Зуево, п. Лесной Городок, Подольск, Протвино, Раменское, Реутов, Сергиев Посад, Серпухов, Солнечногорск, Ступино, Сходня, Томилино, Химки, Чехов, Щелково, Электросталь
+		'RU-BEL' => ['140'], // Белгород
+		'RU-NIZ' => ['40', '79', '128', '88', '604', '618', '160', '370', '458'], // Арзамас, Бор, Выкса, Городец, Дзержинск, Заволжье, Нижний Новгород, Саров
+		'RU-VLA' => ['56'], // Владимир
+		'RU-ME'  => ['102', '279'], // Волжск, Йошкар-Ола
+		'RU-VOR' => ['86'], // Воронеж
+		'RU-LEN' => ['114', '126', '489'], // Всеволожск, Выборг, Сосновый Бор
+		'RU-KDA' => ['150', '230', '382', '491'], // Геленджик, Краснодар, Новороссийск, Сочи
+		'RU-SVE' => ['594'], // Екатеринбург
+		'RU-KLU' => ['203'], // Калуга
+		'RU-KRS' => ['288'], // Курск
+		'RU-LIP' => ['253'], // Липецк
+		'RU-CHE' => ['322', '649'], // Магнитогорск, Челябинск
+		'RU-STA' => ['360', '453', '492'], // Минеральные Воды, Пятигорск, Ставрополь
+		'RU-TOM' => ['373'], // Нижневартовск
+		'RU-SAM' => ['384', '463', '505', '557'], // Новокуйбышевск, Самара, Сызрань, Тольятти
+		'RU-TUL' => ['387', '569'], // Новомосковск, Тула
+		'RU-ORL' => ['348'], // Орел
+		'RU-ORE' => ['349'], // Оренбург
+		'RU-SPE' => ['465', '521', '418'], // Санкт-Петербург, Сестрорецк, Отрадное
+		'RU-PNZ' => ['437'], // Пенза
+		'RU-PER' => ['433'], // Пермь
+		'RU-RYA' => ['189'], // Рязань
+		'RU-MO'  => ['455'], // Саранск
+		'RU-KHM' => ['499', '665'], // Сургут, Югорск
+		'RU-TAM' => ['530'], // Тамбов
+		'RU-TVE' => ['534'], // Тверь
+		'RU-TYU' => ['553', '579'], // Тобольск, Тюмень
+		'RU-ULY' => ['552'], // Ульяновск
+		'RU-BA'  => ['567'], // Уфа
+		'RU-CU'  => ['638'], // Чебоксары
+		'RU-YAR' => ['669'], // Ярославль
+		'RU'     => ['0'] // Россия
+	];
+
+	/* Поля объекта */
+	protected $fields = [
 		'shop'     => 'supermarket',
-		'name'     => 'Перекресток',
-		'operator' => 'ЗАО ТД "Перекресток"',
-		'website'  => 'http://www.perekrestok.ru',
+		'name'     => 'Перекрёсток',
+		'name:ru'  => 'Перекрёсток',
+		'name:en'  => '',
+		'operator' => '', // ЗАО Торговый дом Перекрёсток
+		'contact:website'  => 'https://www.perekrestok.ru',
+		'contact:phone'    => '',
 		'opening_hours' => '',
-		'phone'    => '',
 		'lat'   => '',
 		'lon'   => '',
 		'_addr' => '',
-		);
+	];
 
-	// фильтр для поиска объектов в OSM
-	protected $filter = array(
-        '[shop=supermarket][name~"[пП]ерекр"]',
-        );
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[shop=supermarket][name~"[Пп]ерекр"]',
+	];
 
-	// парсер страницы
+
+	/* Обновление данных по региону */
+	public function update()
+	{
+		$this->log('Update real data '.$this->region);
+
+		$url = $this->domain;
+		$cities = static::$urls[$this->region];
+
+		foreach ($cities as $city) {
+			$page = $this->get_web_page("$url$city");
+			if (is_null($page)) {
+				return;
+			}
+			$this->parse($page);
+		}
+	}
+
+	/* Парсер страницы */
 	protected function parse($st)
 	{
-        //echo $st;
-		$a = json_decode($st, 1);
-		foreach ($a as $obj)
-            //if ($obj['cat_name'] == 'Офисы') // TODO: добавить банкоматы
-        {
-            //print_r($a);
-            //print_r($obj);
-            //echo $a[0];
-            //echo $obj[0];
-                // фильтруем только "наш" регион
-                //if (!preg_match('/('.$this->code.')/', $obj['name'])) continue;
+		$st = json_decode($st, true);
+		if (is_null($st)) {
+			return;
+		}
 
-                // разделяем адрес и данные
-                /*$obj['body'] = str_replace('&nbsp;', ' ', $obj['body']);
-                //preg_match('/^(?<addr>.{10,}?)(?<data><.+)/s', $obj['body'], $d);
-                //$obj['_data'] = preg_replace('/<.+?>/', ' ', $d['data']);
-                */
-                // адрес
-                //$obj['_addr'] = strip_tags($d['addr']);
-                //if (!strpos($obj['_addr'], $obj['name']))
-                //    $obj['_addr'] = 'г. '.$obj['name'].', '.$obj['_addr'];
-            $obj['_addr'] = strip_tags($obj['address']);
+		foreach ($st as $obj) {
+			$obj['_addr'] = strip_tags($obj['address']);
 
-                // телефон
-                //if (preg_match('#\([\d\) -]+#', $obj['_data'], $m))
-            $obj['phone'] = $this->phone($obj['tel']);
+			$obj['contact:phone'] = $this->phone($obj['tel']);
 
-            //врея работы
-            if ($obj['time']['is_24'] == 1)
-                $hours = '24/7';
-            else
-                $hours = $obj['time']['open'].'-'.$obj['time']['close'];
-            $obj['opening_hours'] = $this->time($hours);
-
-            if ($obj['is_green'] == 1)
-                $obj['name'] = 'Зеленый Перекресток';
-
-                
-
-
-                // номер отделения
-                //if (0
-                //    || preg_match('/№\s*(\d+)/', $obj['_data'], $m)
-                //    || preg_match('/№\s*(\d+)/', $obj['title'], $m)
-                //) $obj['ref'] = $m[1];
-
-            list($obj['lat'], $obj['lon']) = explode(',', $obj['coordinates']);
-
-                //unset($obj['name']); // стираем неправильное название
-
-                $this->addObject($this->makeObject($obj));
-        }
-        /*
-		if (preg_replace_callback('#citytitle">(?<city>.+?)<(?<list>.+?worktime.+?)\n</table>#s', function($x)
-		{
-			if (!mb_strpos(' '.$x['city'], $this->code)) return; // фильтруем не наш регион
-
-			$this->city = $x['city'];
-
-			if (preg_match_all('#'
-				.'worktime.+?td>(?<time>[^<]+)<'
-				.'(.+?location">(?<place>[^<]+)<)?'
-				.'.+?tel">(?<phone>.+?)<'
-				.'.+?address">(?<_addr>.+?)<'
-				.'#s', $x['list'], $m, PREG_SET_ORDER))
-			foreach ($m as $obj)
-			{
-				$hours = $obj['time'];
-				if (preg_match('/24.*час/', $hours)) $hours = '24/7';
-				else $hours = preg_replace('/^(\d):/', '0$1:',
-					str_replace(
-						array('.', ' ', '—', '&mdash;'),
-						array(':', '',  '-', '-'),
-						$hours
-					)
-				);
-				$obj['opening_hours'] = $this->time($hours);
-				$obj['phone'] = $this->phone($obj['phone']);
-
-				if (mb_strpos(' '.$obj['place'], 'м. ')) // есть метро
-				$obj['_addr'] = $this->city.', '.$obj['_addr'];
-				else
-				$obj['_addr'] = $obj['place'].', '.$obj['_addr']; // добавляем город к адресу
-
-				$this->addObject($this->makeObject($obj));
+			// Время работы
+			if ($obj['time']['is_24'] == true) {
+				$obj['opening_hours'] = '24/7';
+			} else {
+				$obj['opening_hours'] = 'Mo-Su '.$obj['time']['open'].'-'.$obj['time']['close'];
 			}
 
-		}, $st));
-        */
+			list($obj['lat'], $obj['lon']) = explode(',', $obj['coordinates']);
+
+			$this->addObject($this->makeObject($obj));
+		}
 	}
 }
