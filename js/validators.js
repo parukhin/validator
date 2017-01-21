@@ -283,21 +283,18 @@ var fields = {
 
 	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'contact:phone', 'contact:website', 'opening_hours'],
 	'magnit':      ['_addr', 'operator', 'name', 'name:ru', 'name:de', 'contact:website', 'opening_hours', 'shop'],
+	'diksi':  ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
+	'azbuka': ['_addr', 'operator', 'name', 'website', 'opening_hours'],
+	'auchan': ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours'],
 
 	'asna': ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
 	'autopasker': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
 
 	'alfabank_atm': ['_addr', 'operator', 'website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR'],
 
-
-	'beli_veter': ['_addr', 'ref', 'operator', 'name', 'phone', 'website', 'opening_hours'],
-
+	'mvideo': ['_addr', 'ref', 'operator', 'name', 'brand', 'contact:phone', 'contact:website', 'opening_hours'],
 	'elecsnet': ['_addr', 'brand', 'name', 'payment:notes', 'phone', 'ref', 'opening_hours', '_note'],
 	'hlinov': ['_addr', 'operator', 'name', 'website'],
-
-	'diksi':  ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
-	'azbuka': ['_addr', 'operator', 'name', 'website', 'opening_hours'],
-
 
 	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
 	'russian_postomat': ['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
@@ -306,14 +303,12 @@ var fields = {
 	'sberbank':     ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wikipedia', 'wikidata', 'wheelchair'],
 	'alfabank':     ['_addr', 'operator', 'name', 'official_name', 'website', 'opening_hours'],
 	'minbank':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
-
 	'sudrf': ['_addr', 'name', 'contact:phone', 'contact:website', 'contact:email'],
 	'temples': ['_addr', 'ref:temples.ru', 'start_date', 'name', 'alt_name', 'community:gender', 'building', 'disused', 'denomination', 'denomination:ru', 'russian_orthodox', 'religion', 'phone'],
 	'atak': ['_addr', 'operator', 'brand', 'name', 'phone', 'website', 'opening_hours'],
 	'auto49': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
 	'ilpatio': ['name', 'opening_hours', 'cuisine', 'contact:website', 'contact:phone', '_addr'],
 	'blood': ['_addr', 'name', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email', 'operator'],
-	'auchan': ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours'],
 	'farmlend': ['_addr', 'ref', 'operator', 'phone', 'website', 'dispensing'],
 	'izbenka': ['_addr', 'operator', 'brand', 'name', 'website', 'opening_hours'],
 	'velobike': ['_addr', 'ref', 'capacity', 'operator', 'contact:email', 'contact:phone', 'contact:website'],
@@ -321,7 +316,6 @@ var fields = {
 	'coffeehouse': ['name', 'name:en', 'opening_hours', 'cuisine', 'internet_access', 'internet_access:fee', 'payment:cards', 'contact:website', 'operator'],
 	'mkb': ['_addr', 'operator', 'department', 'name', 'contact:phone', 'contact:website', 'opening_hours'],
 	'mos531': ['_addr', 'name', 'contact:website', '_name'],
-	'mvideo': ['_addr', 'ref', 'operator', 'name', 'brand', 'contact:phone', 'contact:website', 'opening_hours'],
 	'podruzhka': ['_addr', 'operator', 'name', 'brand', 'contact:phone', 'contact:website', 'opening_hours'],
 	'rgs': ['_addr', 'official_name', 'contact:phone', 'contact:website'],
 	'tervolina': ['_addr', 'operator', 'name', 'brand', 'phone', 'website', 'opening_hours'],
@@ -334,7 +328,6 @@ var fields = {
 var links = {
 	'perekrestok': 'http://www.perekrestok.ru/shops/',
 	'azbuka': 'http://av.ru/index.aspx?sPage=63',
-	'beli_veter': 'http://www.digital.ru/shops/all/view',
 	'hlinov': 'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
 	'asna': 'http://www.asna.ru/drugstores',
 	'alfabank': 'http://www.alfabank.ru/russia/moscow/',
@@ -599,7 +592,6 @@ function osm_cl() {
 
 	// генерация таблицы валидатора
 	this.validate = function (region, validator) {
-		//var v = regions[region].validators[validator];
 		$('validate', '');
 
 		this.osm_data = {};
