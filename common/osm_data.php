@@ -11,10 +11,8 @@ if (isset($_SERVER['argv'][3]))
 function osm_data($data, $region, $validator, $type, $timestamp = NULL)
 {
 	if (!$data) { // если данные отсутствуют
-		return "Empty $type data! $region/$validator";
+		return "Данные для ($region | $validator | $type) не были загружены.";
 	}
-
-	$msg = 'OK';
 
 	$count = count($data);
 
@@ -25,34 +23,22 @@ function osm_data($data, $region, $validator, $type, $timestamp = NULL)
 		$timestamp = time();
 	}
 
-	$dir = $_SERVER["DOCUMENT_ROOT"]."/data/".$region;
+	$dir = $_SERVER["DOCUMENT_ROOT"].'/data/'.$region;
 	if (!file_exists($dir)) mkdir($dir);
 
 	$fname = $dir.'/'.$validator.'_'.$type.'.json';
 	$st = ' '.json_encode($data)."\n"; // пробел спереди - чтобы не evalил в ajax
-	//сохряняем буквы
-	file_put_contents($fname, $st);
 
-	//// сжимаем
-	//$st = gzencode($st);
-	////TODO Зачем забивать пустотой?
-	////file_put_contents($fname, ''); // нужно для nginx на отладочном сервере
-	//$fname .= ".gz";
-	// сохраняем данные
-	//if (!file_exists($dir)) mkdir($dir);
+	if (file_exists($fname) && file_get_contents($fname, $st) == $st) { // если содержимое не изменилось
+		$msg = "Новые данные для ($region | $validator | $type) отсутствуют.";
+	} else { // если есть новые данные
+		file_put_contents($fname, $st);
+		$msg = "Данные для ($region | $validator | $type) успешно обновлены [$count].";
+	}
 
-	// выходим, если содержимое не изменилось
-	if (file_exists($fname) && file_get_contents($fname, $st) == $st)
-		$msg = "SKIP";
-	//else
-	//{
-	//	file_put_contents($fname, $st);
-	//	chmod($fname, 0666);
-	//}
-
-	// обновляем список валидаторов
+	// Обновление списка валидаторов
 	$fname = $_SERVER["DOCUMENT_ROOT"]."/data/state.js";
-	$data = @file_get_contents($fname);
+	$data = file_get_contents($fname);
 	$data = substr($data, 2, -1);
 
 	$data = json_decode($data, true);
@@ -75,5 +61,5 @@ function osm_data($data, $region, $validator, $type, $timestamp = NULL)
 	$data = "_($data)";
 	file_put_contents($fname, $data);
 
-	return "Make JSON $region/$validator"."_$type [$count objects] $msg";
+	return $msg;
 }
