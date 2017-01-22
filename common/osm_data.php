@@ -8,27 +8,21 @@
 if (isset($_SERVER['argv'][3]))
 	osm_data($_SERVER['argv'][3], $_SERVER['argv'][1], $_SERVER['argv'][2]);
 
-function osm_data($data, $region, $validator, $type)
+function osm_data($data, $region, $validator, $type, $timestamp = NULL)
 {
-	if (is_string($data)) {
-		$data = @unserialize(@file_get_contents($data));
-	}
-
 	if (!$data) { // если данные отсутствуют
-		echo "Empty data! ".(is_string($data)?$data:$region)."\n";
-		return;
+		return "Empty $type data! $region/$validator";
 	}
 
 	$msg = 'OK';
 
 	$count = count($data);
 
-	$timestamp = time();
-	if (is_string($data[count($data)-1]))
-	{
-		$timestamp = array_pop($data);
+	if (isset($timestamp) && is_string($timestamp)) {
 		date_default_timezone_set('UTC');
 		$timestamp = strtotime($timestamp);
+	} else {
+		$timestamp = time();
 	}
 
 	$dir = $_SERVER["DOCUMENT_ROOT"]."/data/".$region;
@@ -81,5 +75,5 @@ function osm_data($data, $region, $validator, $type)
 	$data = "_($data)";
 	file_put_contents($fname, $data);
 
-	return "Make JSON ".$region."/".$validator."_".$type." [".$count." objects] ".$msg;
+	return "Make JSON $region/$validator"."_$type [$count objects] $msg";
 }

@@ -19,51 +19,33 @@ class OsmFunctions
 		}
 	}
 
-	private function updateOverPass($region, $filter)
+	private function updateOverPass($region, $filters)
 	{
 		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
 		$url = "http://www.overpass-api.de/api/interpreter";
 
 		if (strcasecmp($region, 'RU') == 0) { // определяем административную единицу
-			$admin_level = 2; // страна
+			$admin_level = '2'; // страна
 			$ref = 'ISO3166-1';
 			$timeout = '300';
 		} else {
-			$admin_level = 4; // субъект
+			$admin_level = '4'; // субъект
 			$ref = 'ref';
 			$timeout = '180';
 		}
 
-		$query = "data=[out:xml][timeout:$timeout];";
+		$query = "data=[out:xml][timeout:$timeout]; ";
 
-		$query = $query."area[\"".$ref."\"=\"".$region."\"][admin_level=".$admin_level."][boundary=administrative]->.a; ";
-		$query = $query."( ";
+		$query .= "area['$ref'='$region'][admin_level=$admin_level][boundary=administrative]->.a; (";
 
-		foreach ($filter as $value)
+		foreach ($filters as $filter)
 		{
-			$query = $query."relation (area.a) ";
-			$query = $query.$value;
-			$query = $query."; >; ";
-			//$query = $query."; ";
+			$query .= "rel (area.a) $filter; >; ";
+			$query .= "way (area.a) $filter; >; ";
+			$query .= "node (area.a) $filter;";
 		}
 
-		foreach ($filter as $value)
-		{
-			$query = $query."way (area.a) ";
-			$query = $query.$value;
-			$query = $query.";>";
-			$query = $query."; ";
-		}
-
-		foreach ($filter as $value)
-		{
-			$query = $query."node (area.a) ";
-			$query = $query.$value;
-			//$query = $query.";>";
-			$query = $query."; ";
-		}
-		$query = $query.");  ";
-		$query = $query."out meta;";
+		$query .= "); out meta;";
 
 		$page = $this->get_web_page($url, $query);
 
@@ -131,7 +113,7 @@ class OsmFunctions
 		$a['id'] = $type.$a['id'];
 
 		// определяем средние координаты для площадных объектов
-		if (!isset($a['lat']) || !isset($a['lon']) )	//if (($type == 'w') || ($type == 'r'))
+		if (!isset($a['lat']) || !isset($a['lon']) )
 			$a += self::getObjectCenter($item, $coord);
 
 		//Запоминам координаты точек, пригодится, когда будем считать центры ...

@@ -66,19 +66,16 @@ function validate($region)
 	$v->useCacheHtml = !empty($GLOBALS['html-cache']);
 	$v->updateHtml   = !empty($GLOBALS['update']);
 
-	//Загружаем данные из ОСМ
+	// Загружаем данные из ОСМ
 	$v->loadOSM();
-	//Загружаем данные со страницы парсера
+	// Загружаем данные со страницы парсера
 	$v->update();
-	//$v->validate();
-
-	// FIXME: даже если в OSM не найдено объектов (либо загрузка завершилась с ошибкой или по таймауту), всё равно записывает [1 objects], решить это!
 
 	// временно сохраняем в старом формате
 	require_once './osm_data.php';
 	$objects = $v->getOSMObjects();
-	array_push($objects, $v->getNewestTimestamp());
-	$msg = osm_data($objects, $region, $validator, 'osm');
+	$timestamp = $v->getNewestTimestamp();
+	$msg = osm_data($objects, $region, $validator, 'osm', $timestamp);
 	$v->log($msg);
 	$msg = osm_data($v->getObjects(), $region, $validator, 'real');
 	$v->log($msg);
