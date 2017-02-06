@@ -259,7 +259,7 @@ class OsmFunctions
 		//$page = "{ 'bar': 'baz' }"; // ломаем json для проверки
 		$page = json_decode($page, true);
 
-		if (!$page){
+		if (!$page) {
 			$bbox = [];
 		} else {
 			$bbox = [

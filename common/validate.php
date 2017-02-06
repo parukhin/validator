@@ -8,6 +8,7 @@ header('Content-type: text/plain; charset=utf-8');
 $validator = '';
 if (isset($_POST['validator']))
 	$validator = $_POST['validator']; //alfabank
+
 if (!$validator && isset($_GET['validator']))
 	$validator= $_GET['validator']; //alfabank
 
@@ -18,11 +19,11 @@ if ($validator == "")
 
 //надо найти фаел с таким именем...
 $files = glob($_SERVER["DOCUMENT_ROOT"]."/parser/*/$validator.php");
-if (!$files)
-{
+if (!$files) {
 	echo "Unknown validator".$validator;
 	return;
 }
+
 //Код валидатора, например parser\bank\alfabank.php
 require_once $files[0];
 
@@ -32,8 +33,7 @@ if (isset($_POST['region']))
 if (!$region)
 	$region= $_GET['region'];
 
-if ($region == '')
-{
+if ($region == '') {
 	echo "Unknown region".$region;
 	return;
 }
@@ -51,10 +51,10 @@ else
 	$regions = explode(',', $region); // можно передать список, разделенный запятой
 
 // запускаем каждую область
-foreach ($regions as $region)
-{
-	if ($validator::isRegion($region))
+foreach ($regions as $region) {
+	if ($validator::isRegion($region)) {
 		validate($region);
+	}
 }
 
 function validate($region)
@@ -72,7 +72,7 @@ function validate($region)
 	$v->update();
 
 	// временно сохраняем в старом формате
-	require_once './osm_data.php';
+	require_once $_SERVER["DOCUMENT_ROOT"].'/common/osm_data.php';
 	$objects = $v->getOSMObjects();
 	$timestamp = $v->getNewestTimestamp();
 	$msg = osm_data($objects, $region, $validator, 'osm', $timestamp);

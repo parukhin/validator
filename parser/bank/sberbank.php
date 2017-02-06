@@ -1,6 +1,6 @@
 <?php
-require_once 'Validator.class.php';
-require_once 'regions.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
 class sberbank extends Validator
 {
@@ -120,23 +120,22 @@ class sberbank extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'  => 'bank',
-		'name'     => 'Сбербанк',
-		'name:ru'  => 'Сбербанк',
-		'name:en'  => 'Sberbank',
-		'operator' => 'ПАО Сбербанк',
-		'branch'   => '',
+		'amenity'         => 'bank',
+		'name'            => 'Сбербанк',
+		'name:ru'         => 'Сбербанк',
+		'name:en'         => 'Sberbank',
+		'operator'        => 'ПАО Сбербанк',
+		'branch'          => '',
 		'contact:website' => 'http://www.sberbank.ru',
-		'contact:phone' => '+7 800 5555550',
-		'ref'      => '',
-		'wheelchair'    => '',
-		'opening_hours' => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		'atm' => '',
-		'wikipedia' => 'ru:Сбербанк_России',
-		'wikidata'  => 'Q205012',
+		'contact:phone'   => '+7 495 5005550',
+		'ref'             => '',
+		'wheelchair'      => '',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikipedia'       => 'ru:Сбербанк_России',
+		'wikidata'        => 'Q205012',
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -160,7 +159,7 @@ class sberbank extends Validator
 		$maxcount = 180; // максимальное количество страниц
 		$count = 0; // номер страницы
 
-		while($count < $maxcount)
+		while ($count < $maxcount)
 		{
 			$url = 'http://www.sberbank.ru/portalserver/proxy?pipe=branchesPipe&url=http%3A%2F%2Foib-rs%2Foib-rs%2FbyBounds%2Fentities'
 			.'%3Fllat%3D'
@@ -250,7 +249,6 @@ class sberbank extends Validator
 			$obj['lon'] = $obj['coordinates']['longitude'];
 			$obj['_addr'] = $obj['address'];
 			$obj['wheelchair'] = $obj['mblt'];
-			//$obj['atm'] = ;
 
 			if ($obj['mblt'] == 1) {
 				$obj['wheelchair'] = 'yes';

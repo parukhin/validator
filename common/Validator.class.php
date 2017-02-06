@@ -239,6 +239,10 @@ class Validator extends OsmFunctions
 		$st = ' '.strip_tags(mb_strtolower($st, 'utf-8')).' ';
 		if (mb_stripos($st, 'круглос')) $st = '24/7';
 
+		// FIXME: костыль для сохранения регистра
+		$st = str_replace(
+			['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'],
+			['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], $st);
 
 		$st = str_replace(
 			array('выходной', 'будни', 'выходные', 'ежедневно', 'круглосуточно', ' ', 'c', ' и ', ' в ',
@@ -250,7 +254,7 @@ class Validator extends OsmFunctions
 				'',
 				'-', '-', ' ', '-', '-', '24:00'), $st);
 
-		//несколько  запятых в месте
+		//несколько запятых в месте
 		$st = preg_replace('/,+/', ',', $st);
 
 		//запятая НЕ между временемя... иначе как перервы разделять ?
@@ -273,8 +277,8 @@ class Validator extends OsmFunctions
 
 				),
 			array(
-				'Mo','Tu','We','Th', 'Fr','Sa','Su',
-				'Mo','Tu','We','Th', 'Fr','Sa','Su',
+				'Mo','Tu','We','Th','Fr','Sa','Su',
+				'Mo','Tu','We','Th','Fr','Sa','Su',
 				' $1:00-', '-$1:00 ', '-$1:00;',
 				'-',
 				'$1 $2',
@@ -396,9 +400,7 @@ class Validator extends OsmFunctions
 	/** логирование */
 	function log($st)
 	{
-		//$nowUtc = new \DateTime( 'now',  new \DateTimeZone( 'UTC' ) );
-		//$line = $nowUtc->format('d.m H:i:s.u')." $st\n";
-		$line = date('d.m H:i:s')." $st\n";
+		$line = date('d.m.Y H:i:s')." $st\n";
 		echo $line;
 		//Кидаем в файлик...
 		if ($_SERVER["DOCUMENT_ROOT"] != "") {

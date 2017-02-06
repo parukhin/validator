@@ -281,11 +281,11 @@ var fields = {
 	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	'tnk':      ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 
-	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'contact:phone', 'contact:website', 'opening_hours'],
-	'magnit':      ['_addr', 'operator', 'name', 'name:ru', 'name:de', 'contact:website', 'opening_hours', 'shop'],
-	'diksi':  ['_addr', 'operator', 'name', 'payment:cards', 'opening_hours'],
-	'azbuka': ['_addr', 'operator', 'name', 'website', 'opening_hours'],
-	'auchan': ['_addr', 'ref', 'operator', 'brand', 'name', 'website', 'opening_hours'],
+	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours'],
+	'magnit':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'diksi':       ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours'],
+	'azbuka':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'auchan':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'ref'],
 
 	'asna': ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
 	'autopasker': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
@@ -326,8 +326,6 @@ var fields = {
 };
 
 var links = {
-	'perekrestok': 'http://www.perekrestok.ru/shops/',
-	'azbuka': 'http://av.ru/index.aspx?sPage=63',
 	'hlinov': 'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
 	'asna': 'http://www.asna.ru/drugstores',
 	'alfabank': 'http://www.alfabank.ru/russia/moscow/',
@@ -417,7 +415,7 @@ var validators = {
 	},
 	magnit: {
 		name: 'Магнит',
-		note: 'Не путайте типы магазинов: convenience; supermarket, chemist. см. вики и бла бла бла... предупреждения примерно такого содержания там, где они нужны!',
+		note: 'Не путайте типы магазинов: convenience, supermarket, chemist. см. вики и бла бла бла... предупреждения примерно такого содержания там, где они нужны!',
 		noteIsShow: true,
 		link: 'http://magnit-info.ru/buyers/adds/',
 		fields: '',
@@ -459,6 +457,14 @@ var validators = {
 		link: 'https://www.perekrestok.ru/shops/',
 		fields: [],
 		regions: ['RU-MOW', 'RU-ROS', 'RU-TA', 'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME', 'RU-VOR', 'RU-LEN', 'RU-KDA', 'RU-SVE', 'RU-KLU', 'RU-KRS', 'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE', 'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO', 'RU-KHM', 'RU-TAM', 'RU-TVE', 'RU-TYU', 'RU-ULY', 'RU-BA', 'RU-CU', 'RU-YAR', 'RU']
+	},
+		azbuka: {
+		name: 'Азбука Вкуса',
+		note: 'Не путайте форматы магазинов: Азбука Вкуса, АВ Daily, AB Энотека и АВ Маркет. Для валидации Москвы и МО необходимо загружать всю Россию.',
+		noteIsShow: true,
+		link: 'https://av.ru/shops/',
+		fields: [],
+		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	}
 
 
@@ -525,7 +531,7 @@ function osm_cl() {
 		$('validators', x ? osm.validators(x) : '');
 		this._filter = { page: 0 };
 
-		if (this.activeValidator == '') { // если текущий валидатор не выбран
+		if (regions[x].validators[this.activeValidator] == undefined) { // если валидатор не поддерживает текущий регион или не выбран
 			for (validator in regions[x].validators) {
 				this.activeValidator = validator; // берём первый из списка доступных
 				break;
