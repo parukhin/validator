@@ -73,10 +73,10 @@ function validate($region)
 
 	// временно сохраняем в старом формате
 	require_once $_SERVER["DOCUMENT_ROOT"].'/common/osm_data.php';
-	$objects = $v->getOSMObjects();
-	$timestamp = $v->getNewestTimestamp();
-	$msg = osm_data($objects, $region, $validator, 'osm', $timestamp);
+
+	$msg = osm_data($v->getOSMObjects(), $region, $validator, 'osm', $v->get_timestamp());
 	$v->log($msg);
+
 	$msg = osm_data($v->getObjects(), $region, $validator, 'real');
 	$v->log($msg);
 }

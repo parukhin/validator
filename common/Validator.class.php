@@ -181,6 +181,7 @@ class Validator extends OsmFunctions
 	{
 		$this->log("Validate not supported yet!\n");
 	}
+
 	/** функция сравнения объектов */
 	protected function compare($osm, $real)
 	{
@@ -199,6 +200,7 @@ class Validator extends OsmFunctions
 		}
 		return $res;
 	}
+
 	/** универсальная функция преобразования времени в стандартный формат */
 	protected function time($st)
 	{
@@ -311,6 +313,7 @@ class Validator extends OsmFunctions
 		if ($st != '24/7' && preg_match('/[^\d:-a-z -,]/i', $st)) return '';
 		return $st;
 	}
+
 	/** универсальная функция преобразования телефона в стандартный формат */
 	protected function phone($st)
 	{
@@ -325,6 +328,7 @@ class Validator extends OsmFunctions
 		$st = str_replace('-', ' ', $st); // формат E.123, DIN 5008
 		return $st;
 	}
+
 	/** преобразование нескольких телефонов */
 	protected function phones($st)
 	{
@@ -334,6 +338,7 @@ class Validator extends OsmFunctions
 			$res .= ($res?';':'').$this->phone($item);
 		return $res;
 	}
+
 	/** создание объекта с нужными полями */
 	protected function makeObject($fields)
 	{
@@ -357,13 +362,15 @@ class Validator extends OsmFunctions
 			}
 		return $obj;
 	}
+
 	/** фильтрация объекта не нашего региона */
 	protected function isInRegion($city, $region, $text)
 	{
-		$t1 = $this->region == $region;   // совпадение по региону
+		$t1 = $this->region == $region;      // совпадение по региону
 		$t2 = preg_match("/$city/u", $text); // совпадение по адресу
 		return ($t1 && $t2) || (!$t1 && !$t2)? 1 : 0; // оба совпали или оба не совпали
 	}
+
 	/** преобразование html таблицы в массив */
 	protected function htmlTable2Array($html)
 	{
@@ -392,11 +399,13 @@ class Validator extends OsmFunctions
 		}
 		return $a;
 	}
+
 	/** добавление объекта во время парсинга страницы */
 	protected function addObject($object)
 	{
 		array_push($this->objects, $object);
 	}
+
 	/** логирование */
 	function log($st)
 	{

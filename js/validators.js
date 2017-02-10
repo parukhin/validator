@@ -272,8 +272,8 @@ var notes = {
 var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wikipedia', 'wikidata', 'wheelchair'],
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-
-	atm: [],
+	shop: ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	atm:  [],
 
 	'gazprom':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
@@ -281,11 +281,14 @@ var fields = {
 	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	'tnk':      ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 
-	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours'],
+	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
 	'magnit':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'diksi':       ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours'],
-	'azbuka':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'auchan':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'ref'],
+	'diksi':       ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'azbuka1':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'azbuka2':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'azbuka3':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'azbuka4':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	'auchan':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
 
 	'asna': ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
 	'autopasker': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
@@ -458,10 +461,34 @@ var validators = {
 		fields: [],
 		regions: ['RU-MOW', 'RU-ROS', 'RU-TA', 'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME', 'RU-VOR', 'RU-LEN', 'RU-KDA', 'RU-SVE', 'RU-KLU', 'RU-KRS', 'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE', 'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO', 'RU-KHM', 'RU-TAM', 'RU-TVE', 'RU-TYU', 'RU-ULY', 'RU-BA', 'RU-CU', 'RU-YAR', 'RU']
 	},
-		azbuka: {
+		azbuka1: {
 		name: 'Азбука Вкуса',
-		note: 'Не путайте форматы магазинов: Азбука Вкуса, АВ Daily, AB Энотека и АВ Маркет. Для валидации Москвы и МО необходимо загружать всю Россию.',
-		noteIsShow: true,
+		note: '',
+		noteIsShow: false,
+		link: 'https://av.ru/shops/',
+		fields: [],
+		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	},
+		azbuka2: {
+		name: 'АВ Daily',
+		note: '',
+		noteIsShow: false,
+		link: 'https://av.ru/shops/',
+		fields: [],
+		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	},
+		azbuka3: {
+		name: 'АВ Маркет',
+		note: '',
+		noteIsShow: false,
+		link: 'https://av.ru/shops/',
+		fields: [],
+		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	},
+		azbuka4: {
+		name: 'АВ Энотека',
+		note: '',
+		noteIsShow: false,
 		link: 'https://av.ru/shops/',
 		fields: [],
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
@@ -672,7 +699,7 @@ function osm_cl() {
 				osm._fast_filter[x][a[x]] = 1 + (osm._fast_filter[x][a[x]] || 0);
 			}
 		};
-		if (a != undefined)
+		if (a[0] != false) { // если данные есть
 			for (i = 0; i < a.length; i++) {
 				osm_data = osm.search(a[i], true);
 
@@ -697,7 +724,7 @@ function osm_cl() {
 				}
 
 				this.count[a[i]._state] = (this.count[a[i]._state] || 0) + 1;
-				this.count[0]++;
+				this.count[C_Total]++;
 
 				// формируем быстрый фильтр
 				t = this._fast_filter_search_osm ? osm_data : a[i];
@@ -718,7 +745,7 @@ function osm_cl() {
 						if (osm.activeValidator != 'temples')
 							_(t, 'name');
 			}
-
+		}
 		// кол-во непривязанных OSM объектов
 		for (i in this.osm_data)
 			for (j in this.osm_data[i])

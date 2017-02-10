@@ -4,10 +4,10 @@
  */
 class OsmFunctions
 {
-	protected $osm_objects = array();
+	protected $osm_objects = [];
 	private   $timestamp   = '';
 
-	/** загрузка данных OSM */
+	/* Загрузка данных из базы OSM */
 	public function loadOSM()
 	{
 		$this->log("Request OAPI for ".$this->region." / ".implode(" ", $this->filter));
@@ -15,13 +15,15 @@ class OsmFunctions
 
 		if (isset($page)) {
 			$this->log("Filter data ".$this->region." / ".implode(" ", $this->filter));
-			$this->filterOsm($page);
+			$this->filter_objects($page);
 		}
 	}
 
+	/* Запрос к Overpass API */
 	private function updateOverPass($region, $filters)
 	{
-		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
+		// TODO: сделать одну функцию для запросов к Overpass API
+		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // плохо ищет без учёта регистра (либо вообще не ищет??), например, '[shop][name~"Азбука Вкуса",i]'
 		$url = "http://www.overpass-api.de/api/interpreter";
 
 		if (strcasecmp($region, 'RU') == 0) { // определяем административную единицу
@@ -34,7 +36,7 @@ class OsmFunctions
 			$timeout = '180';
 		}
 
-		$query = "data=[out:xml][timeout:$timeout]; ";
+		$query = "data=[out:json][timeout:$timeout]; ";
 
 		$query .= "area['$ref'='$region'][admin_level=$admin_level][boundary=administrative]->.a; (";
 
@@ -45,198 +47,71 @@ class OsmFunctions
 			$query .= "node (area.a) $filter;";
 		}
 
-		$query .= "); out meta;";
+		$query .= "); out geom;";
 
 		$page = $this->get_web_page($url, $query);
 
 		return $page;
 	}
-	/** OSM объекты */
+
+	/* Возвращает OSM объекты */
 	public function getOSMObjects()
 	{
 		return $this->osm_objects;
 	}
-	/** самый "свежий" объект */
-	public function getNewestTimestamp()
+
+	/* Возвращает время обновления базы OSM */
+	public function get_timestamp()
 	{
 		return $this->timestamp;
 	}
-	/** загрузка и фильтрация объектов */
-	private function filterOsm($src)
+
+	/* Отфильтровывает объекты */
+	private function filter_objects($st)
 	{
-		//echo $src;
-		$xml = new SimpleXMLElement($src);
-		$this->osm_objects = array();
-		mb_internal_encoding('utf-8');
-		$this->timestamp = '';
-
-		//Подготовим фильтр
-		$filter = array();
-		foreach ($this->filter as $value) //  '[amenity=bank][name~"[Аа]льфа"]'
-			//  пережовываем на ключ/значение
-			if (preg_match_all('/\[(?<key>\w+)(?:(?<op>[=~])(?<val>(?:\w|"[^"]+")+))?\]/', $value, $m, PREG_SET_ORDER))
-			{
-				$f = array();
-				foreach ($m as $obj)
-				{
-					$fitem = array(
-							"k" => $obj['key'],
-							"o" => $obj['op'],
-							"v" => trim($obj['val'],'"')
-					);
-					array_push($f, $fitem);
-
-				}
-				array_push($filter, $f);
-			}
-
-		//print_r($filter);
-		//return;
-		//массив с координатами точек...
-		$nodesCoord = array();
-
-		foreach ($xml->node as $v)
-			$this->testObject($v, 'n', $nodesCoord, $filter);
-		foreach ($xml->way  as $v)
-			$this->testObject($v, 'w', $nodesCoord, $filter);
-		foreach ($xml->relation as $v)
-			$this->testObject($v, 'r', $nodesCoord, $filter);
-	}
-	/** попадает ли объект в фильтр? */
-	private function testObject($item, $type, &$coord, $filter)
-	{
-		$a = array();
-		foreach ($item->attributes() as $k => $v)
-			$a[$k] = (string)$v;
-		foreach ($item->tag as $tag)
-			$a[(string)$tag->attributes()['k']] = (string)$tag->attributes()['v'];
-		$a['id'] = $type.$a['id'];
-
-		// определяем средние координаты для площадных объектов
-		if (!isset($a['lat']) || !isset($a['lon']) )
-			$a += self::getObjectCenter($item, $coord);
-
-		//Запоминам координаты точек, пригодится, когда будем считать центры ...
-		$coord[$a["id"]] = array(
-				"lat" => (float)$a["lat"],
-				"lon" => (float)$a["lon"]);
-
-		// фильтруем
-		$found = 1;
-		foreach ($filter as $item) // фильтров можетбыть несколько, срабатывает какой-то один
-		{
-			$found = 1;
-			foreach ($item as $f) // '[amenity=bank][name~"[Аа]льфа"]'
-			{
-				if (!isset($a[$f['k']])) // Нет нужного ключа
-				{
-					$found = 0;
-					break;
-				}
-				if (isset($f['v'])) //Если надо фильтровать по значению...
-				{
-					if (($f['o'] == '=') &&
-						($f['v'] != $a[$f['k']]))
-					{
-						echo 'val '.$f['v'].' != '.$a[$f['k']].'\n';
-						$found = 0;
-						break;
-					}
-					else if (($f['o'] == '~') &&
-						!preg_match('/'.$f['v'].'/', $a[$f['k']]))
-					{
-						$found = 0;
-						break;
-					}
-				}
-
-			}
-			if ($found)
-				break;
-		}
-		if (!$found)
+		$a = json_decode($st, true);
+		if (is_null($a)) {
 			return;
-		// COMMENT: анонимные объекты тоже сохраняем
-		//if (!$ok && !isset($a['name']) && !isset($a['operator'])) $ok = 1;
+		}
 
+		$this->osm_objects = [];
+		$this->timestamp = $a['osm3s']['timestamp_osm_base'];
 
-		// опеделяем самую свежую правку
-		if ($this->timestamp < $a['timestamp'])
-			$this->timestamp = $a['timestamp'];
-
-		// убираем ненужные теги
-		unset($a['version']);
-		unset($a['timestamp']);
-		unset($a['uid']);
-		unset($a['user']);
-
-
-		array_push($this->osm_objects, $a);
-	}
-
-	static function file_get_content_timeout ($URL, $timeout = 60)
-	{
-		$timeout = (int) $timeout;
-		if ($timeout < 1)
-			$timeout = 1;
-		$Error = "Can't connect to remote URL";
-		$content = '';
-
-		if ($handler = fsockopen ($URL, 80, $Error, $Error, $timeout)){
-			$H = "GET / HTTP/1.1\r\n";
-			$H.= "Host: $URL\r\n";
-			$H.= "Connection: Close\r\n\r\n";
-
-			fwrite($handler, $H);
-
-			while (!feof ($handler)){
-				$content.= fread ($handler, 4096);
+		foreach ($a['elements'] as $item) {
+			if (substr_count($st, $item['id']) > 1) { // если точка или линия являются частью чего-либо (встречаются более 2 раз)
+				// FIXME: возможно совпадение по id у объектов разных типов
+				continue; // пропускаем
 			}
-
-			fclose ($handler);
-			echo $content;
+			$this->add_object($item);
 		}
 	}
 
-	/** получение центра площадного объекта */
-	static function getObjectCenter($item, $coord)
+	/* Добавляет объект в массив */
+	private function add_object($item)
 	{
-		//echo $item->attributes()->id;
-		$time_start = microtime(true);
+		if (strcmp($item['type'], 'node') === 0) {
+			$item['tags']['id'] = 'n'.$item['id'];
+			$item['tags']['lat'] = $item['lat'];
+			$item['tags']['lon'] = $item['lon'];
 
-		$a = array('lat' => 0, 'lon' => 0); $n = 0;
-		// рассчитываем средние координаты для веев
-		foreach ($item->nd as $nd)
-		{
-			$a['lat'] += $coord['n'.$nd->attributes()->ref]['lat'];
-			$a['lon'] += $coord['n'.$nd->attributes()->ref]['lon'];
-			$n++;
-		}
-		//Реляции... находим вей ... и считаем центр...
-		foreach ($item->member as $m)
-		{
-			//print_r($m);
-			//echo "//way[@id=".$m->attributes()->ref."]\r\n";
-			if ($m->attributes()->type=="way")
-			{
-				$a['lat'] += $coord['w'.$m->attributes()->ref]['lat'];
-				$a['lon'] += $coord['w'.$m->attributes()->ref]['lon'];
-				$n++;
-			}
-		}
+			array_push($this->osm_objects, $item['tags']);
+		} else
+		if (strcmp($item['type'], 'way') === 0) {
+			$item['tags']['id'] = 'w'.$item['id'];
+			/* Вычисление центра объекта */
+			$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
+			$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
 
-		if ($n)
-		{
-			$a['lat'] /= $n;
-			$a['lon'] /= $n;
-		}
-		//print_r($item);
-		//$time_end = microtime(true);
-		//$time = $time_end - $time_start;
+			array_push($this->osm_objects, $item['tags']);
+		} else
+		if (strcmp($item['type'], 'relation') === 0) {
+			$item['tags']['id'] = 'r'.$item['id'];
+			/* Вычисление центра объекта */
+			$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
+			$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
 
-		//echo $item->attributes()->id.': time '.$time.' n '.$n.' lat '.$a['lat'].' lon '.$a['lon'].";\r\n";
-		//echo $item->attributes()->id.':  n '.$n.' lat '.$a['lat'].' lon '.$a['lon'].";\r\n";
-		return $a;
+			array_push($this->osm_objects, $item['tags']);
+		}
 	}
 
 	/* Get bbox from OverPass API */
@@ -258,6 +133,9 @@ class OsmFunctions
 
 		//$page = "{ 'bar': 'baz' }"; // ломаем json для проверки
 		$page = json_decode($page, true);
+		if (is_null($page)) {
+			return NULL;
+		}
 
 		if (!$page) {
 			$bbox = [];
@@ -271,5 +149,30 @@ class OsmFunctions
 		}
 
 		return $bbox;
+	}
+
+	/* Возвращает адрес по координатам */
+	public function getAddressByCoords($lat, $lon)
+	{
+		// TODO: сделать функцию для проверки соотвествия координат выбранному региону
+		$url = "http://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lon";
+
+		$page = $this->get_web_page($url);
+		if (is_null($page)) {
+			return NULL;
+		}
+
+		$page = json_decode($page, true);
+		if (is_null($page)) {
+			return NULL;
+		}
+
+		if (isset($page['address']['state'])) {
+			$state = $page['address']['state'];
+		} else {
+			$state = NULL;
+		}
+
+		return $state;
 	}
 }
