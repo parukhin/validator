@@ -151,7 +151,7 @@ class sberbank extends Validator
 		global $RU;
 
 		// Загружаем bbox региона
-		$bbox = $this->getbbox($this->region);
+		$bbox = $this->get_bbox($this->region);
 		if (is_null($bbox)) {
 			return;
 		}

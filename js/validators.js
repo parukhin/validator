@@ -274,90 +274,6 @@ var fields = {
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
 	atm:  [],
-
-	'gazprom':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'lukoil':   ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'rosneft':  ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'bashneft': ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	'tnk':      ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-
-	'perekrestok': ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'magnit':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'diksi':       ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'azbuka1':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'azbuka2':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'azbuka3':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'azbuka4':     ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-	'auchan':      ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
-
-	'asna': ['_addr', 'ref', '_name', 'brand', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email'],
-	'autopasker': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
-
-	'alfabank_atm': ['_addr', 'operator', 'website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR'],
-
-	'mvideo': ['_addr', 'ref', 'operator', 'name', 'brand', 'contact:phone', 'contact:website', 'opening_hours'],
-	'elecsnet': ['_addr', 'brand', 'name', 'payment:notes', 'phone', 'ref', 'opening_hours', '_note'],
-	'hlinov': ['_addr', 'operator', 'name', 'website'],
-
-	'russian_post': ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
-	'russian_postomat': ['_addr', 'ref', 'postal_code', 'operator', '_inside', 'opening_hours'],
-
-	'promsberbank': ['_addr', 'ref', 'operator', 'name', 'website', 'phone', '_data'],
-	'sberbank':     ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wikipedia', 'wikidata', 'wheelchair'],
-	'alfabank':     ['_addr', 'operator', 'name', 'official_name', 'website', 'opening_hours'],
-	'minbank':      ['_addr', 'operator', 'name', 'website', 'opening_hours'],
-	'sudrf': ['_addr', 'name', 'contact:phone', 'contact:website', 'contact:email'],
-	'temples': ['_addr', 'ref:temples.ru', 'start_date', 'name', 'alt_name', 'community:gender', 'building', 'disused', 'denomination', 'denomination:ru', 'russian_orthodox', 'religion', 'phone'],
-	'atak': ['_addr', 'operator', 'brand', 'name', 'phone', 'website', 'opening_hours'],
-	'auto49': ['_addr', 'operator', 'brand', 'phone', 'website', 'opening_hours', 'payment:cards'],
-	'ilpatio': ['name', 'opening_hours', 'cuisine', 'contact:website', 'contact:phone', '_addr'],
-	'blood': ['_addr', 'name', 'contact:phone', 'opening_hours', 'contact:website', 'contact:email', 'operator'],
-	'farmlend': ['_addr', 'ref', 'operator', 'phone', 'website', 'dispensing'],
-	'izbenka': ['_addr', 'operator', 'brand', 'name', 'website', 'opening_hours'],
-	'velobike': ['_addr', 'ref', 'capacity', 'operator', 'contact:email', 'contact:phone', 'contact:website'],
-	'lapy4': ['_addr', 'name', 'phone', 'opening_hours', 'pets', 'aquarium', 'veterinary', 'grooming', 'payment:cards', 'website'],
-	'coffeehouse': ['name', 'name:en', 'opening_hours', 'cuisine', 'internet_access', 'internet_access:fee', 'payment:cards', 'contact:website', 'operator'],
-	'mkb': ['_addr', 'operator', 'department', 'name', 'contact:phone', 'contact:website', 'opening_hours'],
-	'mos531': ['_addr', 'name', 'contact:website', '_name'],
-	'podruzhka': ['_addr', 'operator', 'name', 'brand', 'contact:phone', 'contact:website', 'opening_hours'],
-	'rgs': ['_addr', 'official_name', 'contact:phone', 'contact:website'],
-	'tervolina': ['_addr', 'operator', 'name', 'brand', 'phone', 'website', 'opening_hours'],
-	'ulgov27': ['_addr', 'name', 'ref', 'contact:phone', '_name'],
-	'planetasushi': ['name', 'opening_hours', 'cuisine', 'contact:website', 'contact:phone', '_addr'],
-
-	'wiki_places': ['name', 'name:ru', 'official_status', 'place', 'abandoned:place', 'population', 'population:date', '_population2013', '_population2012', '_population2010', 'wikipedia', 'old_name', 'contact:website', 'addr:postcode', 'okato:user', 'addr:country', 'addr:region', 'addr:district'],
-};
-
-var links = {
-	'hlinov': 'http://bank-hlynov.ru/about/unit_of_the_bank/additional_offices/',
-	'asna': 'http://www.asna.ru/drugstores',
-	'alfabank': 'http://www.alfabank.ru/russia/moscow/',
-	'lukoil': 'http://www.lukoil.ru/new/azslocator',
-	'russian_postomat': 'http://www.russianpost.ru/rp/servise/ru/home/postuslug/pochtomats/adres_pochtomata',
-	'sudrf': 'http://sudrf.ru/index.php?id=300',
-	'autopasker': 'http://avtopasker.ru/info/list.php?town=all',
-	'promsberbank': 'http://www.promsbank.ru/contact',
-	'rgs': 'http://www.rgs.ru/contacts/list.wbp',
-	'temples': 'http://www.temples.ru/tree.php',
-	'diksi': 'http://dixy.ru/shops',
-	'atak': 'http://www.ataksupermarket.ru/atak.html?rid=1',
-	'auchan': 'http://www.auchan.ru/ru/moscow',
-	'farmlend': 'http://www.farmlend.ru/apteki/',
-	'izbenka': 'http://vkusvill.ru/shops/shoplist/',
-	'lapy4': 'http://4lapy.ru/pet_stores_amp_services/',
-	'auto49': 'http://www.auto49.ru/import',
-	'mkb': 'http://mkb.ru/about_bank/address/?type=office',
-	'tervolina': 'http://www.tervolina.ru/moscow.aspx',
-	'podruzka': 'http://www.podrygka.ru/shops/find/',
-	'mvideo': 'http://www.mvideo.ru/shops/',
-	'blood': 'http://yadonor.ru/where.htm',
-	'mos531': 'http://data.mos.ru/datasets/531',
-	'ulgov27': 'http://data.ulgov.ru/index/data/id/27/',
-	'coffeehouse': 'http://www.coffeehouse.ru/adress/',
-	'ilpatio': 'http://www.rosinter.ru/locator/?brand=Ilpatio',
-	'planetasushi': 'http://www.rosinter.ru/locator/?brand=PlanetSushi',
-	'elecsnet': 'http://elecsnet.ru',
-	_: 0
 };
 
 var validators = {
@@ -378,7 +294,7 @@ var validators = {
 		note: 'note message',
 		noteIsShow: false,
 		link: 'https://www.pochta.ru/offices',
-		fields: '',
+		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
 		regions: [
 			'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME',
 			'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA',
@@ -421,7 +337,7 @@ var validators = {
 		note: 'Не путайте типы магазинов: convenience, supermarket, chemist. см. вики и бла бла бла... предупреждения примерно такого содержания там, где они нужны!',
 		noteIsShow: true,
 		link: 'http://magnit-info.ru/buyers/adds/',
-		fields: '',
+		fields: fields.shop,
 		regions: [
 			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
@@ -458,15 +374,19 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://www.perekrestok.ru/shops/',
-		fields: [],
-		regions: ['RU-MOW', 'RU-ROS', 'RU-TA', 'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME', 'RU-VOR', 'RU-LEN', 'RU-KDA', 'RU-SVE', 'RU-KLU', 'RU-KRS', 'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE', 'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO', 'RU-KHM', 'RU-TAM', 'RU-TVE', 'RU-TYU', 'RU-ULY', 'RU-BA', 'RU-CU', 'RU-YAR', 'RU']
+		fields: fields.shop,
+		regions: [
+			'RU-MOW', 'RU-ROS', 'RU-TA', 'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME', 'RU-VOR', 'RU-LEN', 'RU-KDA', 'RU-SVE', 'RU-KLU', 'RU-KRS',
+			'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE', 'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO', 'RU-KHM', 'RU-TAM', 'RU-TVE',
+			'RU-TYU', 'RU-ULY', 'RU-BA', 'RU-CU', 'RU-YAR', 'RU'
+		]
 	},
 		azbuka1: {
 		name: 'Азбука Вкуса',
 		note: '',
 		noteIsShow: false,
 		link: 'https://av.ru/shops/',
-		fields: [],
+		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
 		azbuka2: {
@@ -474,7 +394,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://av.ru/shops/',
-		fields: [],
+		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
 		azbuka3: {
@@ -482,7 +402,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://av.ru/shops/',
-		fields: [],
+		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
 		azbuka4: {
@@ -490,10 +410,22 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://av.ru/shops/',
-		fields: [],
+		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	},
+		pyaterochka: {
+		name: 'Пятёрочка',
+		note: '',
+		noteIsShow: false,
+		link: 'https://5ka.ru/stores/',
+		fields: fields.shop,
+		regions: [
+			'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KC', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KDA',
+			'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK',
+			'RU-AD', 'RU-BA', 'RU-DA', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-TA', 'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE',
+			'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAR'
+		]
 	}
-
 
 	/*
 	validator: {                  // имя валидатора (совпадает с .php)
@@ -501,7 +433,7 @@ var validators = {
 		note: 'message',          // сообщение пользователю
 		noteIsShow: true,         // показ сообщения (true / false)
 		link: '',                 // ссылка на страницу источника данных
-		fields: [],               // поля валидатора // TODO: брать поля отсюда (сейчас берутся из fields)
+		fields: [],               // поля валидатора
 		regions: ['RU', 'RU-BEL'] // список поддерживаемых регионов
 	},
 	*/
@@ -688,8 +620,6 @@ function osm_cl() {
 
 		this.log('Обработка данных...');
 
-		f = fields[this.activeValidator];
-
 		this._fast_filter = {};
 
 		// вспомогательная функция регистрации быстрого фильтра
@@ -710,8 +640,8 @@ function osm_cl() {
 
 					if (!a[i].lat) { a[i]._ref = C_FoundRef; this.count[C_FoundRef]++; };
 					a[i]._state = 0;
-					for (j in f) {
-						state = osm.compareField(osm_data, a[i], f[j]);
+					for (field in validators[this.activeValidator].fields) {
+						state = osm.compareField(osm_data, a[i], validators[this.activeValidator].fields[field]);
 
 						if (state == C_Skip) continue;
 						if (state == C_Diff) { a[i]._state = state; break; }
@@ -777,8 +707,8 @@ function osm_cl() {
 
 		st += '<tr>';
 		st += '<th colspan="2"></th>';
-		for (i in fields[osm.activeValidator]) {
-			j = fields[osm.activeValidator][i];
+		for (field in validators[this.activeValidator].fields) {
+			j = validators[this.activeValidator].fields[field];
 			st += '<th title="' + j + '">';
 			j = j
 				.replace('ref:temples.ru', '<span title="temples.ru">ref</span>')
@@ -847,7 +777,7 @@ function osm_cl() {
 					? osm.link_open_josm(osm_data.id) + ' ' +
 					(osm_data._used > 1 ? '' : osm.link_export_update(a[i], osm_data))
 					: osm.link_find_josm(a[i]) + ' ' + osm.link_export_create(a[i])) + '</td>'
-				+ osm.compare(osm_data ? osm_data : {}, a[i], fields[osm.activeValidator])
+				+ osm.compare(osm_data ? osm_data : {}, a[i], validators[this.activeValidator].fields)
 				+ '</tr>';
 
 
@@ -1175,7 +1105,7 @@ function osm_cl() {
 	{
 		if (!a.id) return '';
 		var i, url = '';//'http://'+document.domain+'/validator/import.php?';
-		var f = fields[this.activeValidator], k, v;
+		var f = validators[this.activeValidator].fields, k, v;
 		for (i in f) if (f[i].charAt(0) != '_')
 			if (this.compareField(b, a, f[i]) != C_Equal) {
 				k = f[i]; v = a[k];
@@ -1481,22 +1411,6 @@ function osm_cl() {
 			}
 		);
 
-		//ajax.send('revalidate.php',
-		//	{region: osm.activeRegion, validator: osm.activeValidator,
-		//		code: osm._regions[osm.activeRegion].validators[osm.activeValidator].data,
-		//		objects:objects, fields: fields[osm.activeValidator]},
-		//	function(x){
-		//		if (x)
-		//		{
-		//			alert(x);
-		//			$('btn_revalidate').value    = 'Перевалидировать';
-		//			$('btn_revalidate').disabled = false;
-		//			return;
-		//		}
-		//		document.location = '#'+osm.activeRegion+'/'+osm.activeValidator;
-		//		document.location.reload();
-		//	}
-		//);
 		osm.loaded_objects = {};
 	}
 

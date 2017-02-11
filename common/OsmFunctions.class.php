@@ -23,7 +23,7 @@ class OsmFunctions
 	private function updateOverPass($region, $filters)
 	{
 		// TODO: сделать одну функцию для запросов к Overpass API
-		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // плохо ищет без учёта регистра (либо вообще не ищет??), например, '[shop][name~"Азбука Вкуса",i]'
+		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
 		$url = "http://www.overpass-api.de/api/interpreter";
 
 		if (strcasecmp($region, 'RU') == 0) { // определяем административную единицу
@@ -115,9 +115,28 @@ class OsmFunctions
 	}
 
 	/* Get bbox from OverPass API */
-	public function getbbox($region)
+	public function get_bbox($region)
 	{
-		$url = "http://overpass.osm.rambler.ru/cgi/interpreter";
+		$dir = $_SERVER["DOCUMENT_ROOT"].'/data';
+		if (!file_exists($dir)) mkdir($dir);
+
+		$fname = "$dir/bbox.json";
+
+		if (file_exists($fname)) {
+
+			$st = file_get_contents($fname);
+
+			$a = json_decode($st, true);
+			if (is_null($st)) {
+				return NULL;
+			}
+
+			if (isset($a[$region])) {
+				return $a[$region];
+			}
+		}
+
+		$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
 		//$url = "http://www.overpass-api.de/api/interpreter";
 
 		// FIXME: запрос слишком много инфы загружает, поправить
@@ -131,14 +150,13 @@ class OsmFunctions
 			return NULL;
 		}
 
-		//$page = "{ 'bar': 'baz' }"; // ломаем json для проверки
 		$page = json_decode($page, true);
 		if (is_null($page)) {
 			return NULL;
 		}
 
 		if (!$page) {
-			$bbox = [];
+			$bbox = NULL;
 		} else {
 			$bbox = [
 			'minlat' => $page['elements'][0]['bounds']['minlat'],
@@ -146,6 +164,10 @@ class OsmFunctions
 			'maxlat' => $page['elements'][0]['bounds']['maxlat'],
 			'maxlon' => $page['elements'][0]['bounds']['maxlon'],
 			];
+
+			$a[$region] = $bbox;
+			$str = json_encode($a);
+			file_put_contents($fname, $str);
 		}
 
 		return $bbox;

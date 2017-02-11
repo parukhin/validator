@@ -1,6 +1,6 @@
 <?php
-require_once 'Validator.class.php';
-require_once 'lib/phpquery/phpQuery-onefile.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/lib/phpquery/phpQuery-onefile.php';
 
 class magnit extends Validator
 {
@@ -75,23 +75,24 @@ class magnit extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop' => '',
-		'name' => '',
-		'name:ru' => '',
-		'operator' => 'АО Тандер',
+		'shop'            => '',
+		'name'            => '',
+		'name:ru'         => '',
+		'name:en'         => '',
+		'operator'        => 'АО Тандер',
 		'contact:website' => 'http://magnit-info.ru',
-		'contact:phone' => '+7 800 2009002',
-		'opening_hours' => '',
-		'lat' => '',
-		'lon' => '',
-		'_addr' => '',
-		'wikidata' => 'Q940518',
-		'wikipedia' => 'ru:Магнит_(сеть_магазинов)',
+		'contact:phone'   => '+7 800 2009002',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikidata'        => 'Q940518',
+		'wikipedia'       => 'ru:Магнит_(сеть_магазинов)',
 	];
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[shop][name~"[Мм]агнит"]',
+		'[shop][name~"[Мм]агнит"]'
 	];
 
 	/* Обновление данных по региону */
@@ -141,12 +142,12 @@ class magnit extends Validator
 	/* Парсер страницы */
 	protected function parse($st, $type)
 	{
-		// TODO: сделать так везде!!
-		$st = json_decode($st, true);
-		if (is_null($st)) {
+		$a = json_decode($st, true);
+		if (is_null($a)) {
 			return;
 		}
-		foreach ($st['list'] as $obj) {
+
+		foreach ($a['list'] as $obj) {
 			$obj['shop'] = $type['shop'];
 			$obj['name'] = $type['name'];
 			$obj['name:ru'] = $type['name'];
@@ -154,6 +155,7 @@ class magnit extends Validator
 			$obj['lat'] = $obj['cx'];
 			$obj['lon'] = $obj['cy'];
 			$obj['opening_hours'] = 'Mo-Su '.$obj['time'];
+			//FIXME: не писать Mo-Su
 			//$obj['opening_hours'] = $this->time($obj['time']);
 
 			$this->addObject($this->makeObject($obj));
