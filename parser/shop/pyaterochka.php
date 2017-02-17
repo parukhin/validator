@@ -145,10 +145,14 @@ class pyaterochka extends Validator
 			$obj['_addr'] = $obj['properties']['address'];
 
 			// Время работы
-			if ($obj['properties']['is_24h'] == true) {
+			if ($obj['properties']['is_24h'] == TRUE) {
 				$obj['opening_hours'] = '24/7';
 			} else {
-				$obj['opening_hours'] = $this->time(substr($obj['properties']['work_start_time'], 0, -3).'-'.substr($obj['properties']['work_end_time'], 0, -3));
+				if (isset($obj['properties']['work_start_time']) && isset($obj['properties']['work_end_time'])) {
+					if ((strcmp($obj['properties']['work_start_time'], "00:00:00") !== 0) || (strcmp($obj['properties']['work_end_time'], "00:00:00") !== 0)) {
+						$obj['opening_hours'] = substr($obj['properties']['work_start_time'], 0, -3).'-'.substr($obj['properties']['work_end_time'], 0, -3);
+					}
+				}
 			}
 
 			$this->addObject($this->makeObject($obj));

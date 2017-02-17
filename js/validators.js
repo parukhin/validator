@@ -291,7 +291,7 @@ var validators = {
 	},
 	russian_post: {
 		name: 'Почта России',
-		note: 'note message',
+		note: '',
 		noteIsShow: false,
 		link: 'https://www.pochta.ru/offices',
 		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
@@ -333,9 +333,37 @@ var validators = {
 		]
 	},
 	magnit: {
-		name: 'Магнит',
-		note: 'Не путайте типы магазинов: convenience, supermarket, chemist. см. вики и бла бла бла... предупреждения примерно такого содержания там, где они нужны!',
-		noteIsShow: true,
+		name: 'Магнит (универсамы)',
+		note: '',
+		noteIsShow: false,
+		link: 'http://magnit-info.ru/buyers/adds/',
+		fields: fields.shop,
+		regions: [
+			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
+			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
+			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
+			'RU-TYU', 'RU-UD' , 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU' , 'RU-YAN', 'RU-YAR'
+		]
+	},
+	magnitgipermarket: {
+		name: 'Магнит (гипермаркеты)',
+		note: '',
+		noteIsShow: false,
+		link: 'http://magnit-info.ru/buyers/adds/',
+		fields: fields.shop,
+		regions: [
+			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
+			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
+			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
+			'RU-TYU', 'RU-UD' , 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU' , 'RU-YAN', 'RU-YAR'
+		]
+	},
+	magnitkosmetic: {
+		name: 'Магнит Косметик',
+		note: '',
+		noteIsShow: false,
 		link: 'http://magnit-info.ru/buyers/adds/',
 		fields: fields.shop,
 		regions: [

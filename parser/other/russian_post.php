@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
 class russian_post extends Validator
 {
@@ -208,7 +209,7 @@ class russian_post extends Validator
 		static $ref = [];
 
 		$a = json_decode($st, true);
-		if (!isset($a)) {
+		if (is_null($a)) {
 			return;
 		}
 
@@ -255,7 +256,7 @@ class russian_post extends Validator
 
 				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 
-				$time = '';
+				$time = [];
 
 				foreach ($obj['workingHours'] as $day => $wh) {
 					if (isset($wh['beginWorkTime'])) { // рабочий день

@@ -25,6 +25,7 @@ class OsmFunctions
 		// TODO: сделать одну функцию для запросов к Overpass API
 		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
 		$url = "http://www.overpass-api.de/api/interpreter";
+		//$url = "http://192.168.0.103/api/interpreter";
 
 		if (strcasecmp($region, 'RU') == 0) { // определяем административную единицу
 			$admin_level = '2'; // страна
@@ -36,20 +37,20 @@ class OsmFunctions
 			$timeout = '180';
 		}
 
-		$query = "data=[out:json][timeout:$timeout]; ";
+		$query = "[out:json][timeout:$timeout]; ";
 
 		$query .= "area['$ref'='$region'][admin_level=$admin_level][boundary=administrative]->.a; (";
 
 		foreach ($filters as $filter)
 		{
-			$query .= "rel (area.a) $filter; >; ";
-			$query .= "way (area.a) $filter; >; ";
-			$query .= "node (area.a) $filter;";
+			$query .= "rel(area.a) $filter; >; ";
+			$query .= "way(area.a) $filter; >; ";
+			$query .= "node(area.a) $filter;";
 		}
 
 		$query .= "); out geom;";
 
-		$page = $this->get_web_page($url, $query);
+		$page = $this->get_web_page($url.'?data='.urlencode($query));
 
 		return $page;
 	}

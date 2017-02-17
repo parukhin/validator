@@ -2,7 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/lib/phpquery/phpQuery-onefile.php';
 
-class magnit extends Validator
+class magnitgipermarket extends Validator
 {
 	protected $domain = 'http://www.magnit-info.ru';
 	static $urls = [
@@ -75,9 +75,9 @@ class magnit extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop'            => '',
-		'name'            => '',
-		'name:ru'         => '',
+		'shop'            => 'supermarket',
+		'name'            => 'Магнит',
+		'name:ru'         => 'Магнит',
 		'name:en'         => '',
 		'operator'        => 'АО Тандер',
 		'contact:website' => 'http://magnit-info.ru',
@@ -92,7 +92,7 @@ class magnit extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[shop=convenience][name~"Магнит",i]'
+		'[shop=supermarket][name~"Магнит",i]'
 	];
 
 	/* Обновление данных по региону */
@@ -102,8 +102,8 @@ class magnit extends Validator
 
 		$rid = static::$urls[$this->region]['rid'];
 
-		//$id = '1257'; // гипермаркеты
-		$id = '1258'; // универсамы
+		$id = '1257'; // гипермаркеты
+		//$id = '1258'; // универсамы
 		//$id = '1259'; // косметик
 
 		$url = $this->domain.'/buyers/adds/1258/'.$rid.'/1';
