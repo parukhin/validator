@@ -7,11 +7,11 @@ class OsmFunctions
 	protected $osm_objects = [];
 	private   $timestamp   = '';
 
-	/* Загрузка данных из базы OSM */
-	public function loadOSM()
+	/* Обновление данных из базы OSM */
+	public function update_osm()
 	{
 		$this->log("Request OAPI for ".$this->region." / ".implode(" ", $this->filter));
-		$page = $this->updateOverPass($this->region, $this->filter);
+		$page = $this->query_overpass($this->region, $this->filter);
 
 		if (isset($page)) {
 			$this->log("Filter data ".$this->region." / ".implode(" ", $this->filter));
@@ -20,7 +20,7 @@ class OsmFunctions
 	}
 
 	/* Запрос к Overpass API */
-	private function updateOverPass($region, $filters)
+	private function query_overpass($region, $filters)
 	{
 		// TODO: сделать одну функцию для запросов к Overpass API
 		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
@@ -56,7 +56,7 @@ class OsmFunctions
 	}
 
 	/* Возвращает OSM объекты */
-	public function getOSMObjects()
+	public function get_objects_osm()
 	{
 		return $this->osm_objects;
 	}
@@ -95,7 +95,7 @@ class OsmFunctions
 			$item['tags']['lat'] = $item['lat'];
 			$item['tags']['lon'] = $item['lon'];
 
-			array_push($this->osm_objects, $item['tags']);
+			$this->osm_objects[] = $item['tags'];
 		} else
 		if (strcmp($item['type'], 'way') === 0) {
 			$item['tags']['id'] = 'w'.$item['id'];
@@ -103,7 +103,7 @@ class OsmFunctions
 			$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
 			$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
 
-			array_push($this->osm_objects, $item['tags']);
+			$this->osm_objects[] = $item['tags'];
 		} else
 		if (strcmp($item['type'], 'relation') === 0) {
 			$item['tags']['id'] = 'r'.$item['id'];
@@ -111,7 +111,7 @@ class OsmFunctions
 			$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
 			$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
 
-			array_push($this->osm_objects, $item['tags']);
+			$this->osm_objects[] = $item['tags'];
 		}
 	}
 
@@ -128,7 +128,7 @@ class OsmFunctions
 			$st = file_get_contents($fname);
 
 			$a = json_decode($st, true);
-			if (is_null($st)) {
+			if (is_null($a)) {
 				return NULL;
 			}
 
@@ -167,20 +167,46 @@ class OsmFunctions
 			];
 
 			$a[$region] = $bbox;
-			$str = json_encode($a);
-			file_put_contents($fname, $str);
+			$st = json_encode($a);
+			file_put_contents($fname, $st);
 		}
 
 		return $bbox;
 	}
 
-	/* Возвращает адрес по координатам */
-	public function getAddressByCoords($lat, $lon)
+	/* Get geometry from OverPass API */
+	public function get_geometry()
 	{
-		// TODO: сделать функцию для проверки соотвествия координат выбранному региону
-		$url = "http://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lon";
+		$region = $this->region;
+		$dir = $_SERVER["DOCUMENT_ROOT"].'/data';
+		if (!file_exists($dir)) mkdir($dir);
 
-		$page = $this->get_web_page($url);
+		$fname = "$dir/$region/geometry.json";
+
+		if (file_exists($fname)) {
+
+			$st = file_get_contents($fname);
+
+			$a = json_decode($st, true);
+			if (is_null($a)) {
+				return NULL;
+			}
+
+			if (isset($a)) {
+				return $a;
+			}
+		}
+
+		$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
+		//$url = "http://www.overpass-api.de/api/interpreter";
+
+		// FIXME: запрос слишком много инфы загружает, поправить
+		$query =
+			'[out:json][timeout:180];
+			rel[ref="'.$region.'"][admin_level=4][boundary=administrative];
+			out geom;';
+
+		$page = $this->get_web_page($url, $query);
 		if (is_null($page)) {
 			return NULL;
 		}
@@ -190,12 +216,18 @@ class OsmFunctions
 			return NULL;
 		}
 
-		if (isset($page['address']['state'])) {
-			$state = $page['address']['state'];
-		} else {
-			$state = NULL;
+		foreach ($page['elements'][0]['members'] as $member) {
+			if ($member['type'] == 'way') {
+				foreach ($member['geometry'] as $node) {
+					$a[] = $node;
+				}
+			}
 		}
 
-		return $state;
+		$st = json_encode($a);
+		file_put_contents($fname, $st);
+
+		return $a;
 	}
+
 }

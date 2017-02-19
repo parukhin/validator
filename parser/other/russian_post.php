@@ -234,7 +234,7 @@ class russian_post extends Validator
 				continue;
 			}
 
-			array_push($ref, $obj['postalCode']); // сохраняем ref отделения в массив
+			$ref[] = $obj['postalCode']; // сохраняем ref отделения в массив
 
 			$obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];
 			$obj['ref'] = $obj['postalCode'];

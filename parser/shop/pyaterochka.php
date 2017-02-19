@@ -110,7 +110,6 @@ class pyaterochka extends Validator
 		$page = substr($page, 0, -2);
 
 		$this->parse($page);
-
 	}
 
 	/* Парсер страницы */
@@ -130,13 +129,7 @@ class pyaterochka extends Validator
 
 			// Отсеиваем по региону
 			if (strcmp($this->region, 'RU') !== 0) {
-
-				$state = $this->getAddressByCoords($obj['lat'], $obj['lon']);
-				if (is_null($state)) {
-					return;
-				}
-
-				if (strcmp($state, $RU[$this->region]['name']) !== 0) {
+				if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 					continue;
 				}
 			}
@@ -145,7 +138,7 @@ class pyaterochka extends Validator
 			$obj['_addr'] = $obj['properties']['address'];
 
 			// Время работы
-			if ($obj['properties']['is_24h'] == TRUE) {
+			if ($obj['properties']['is_24h'] == true) {
 				$obj['opening_hours'] = '24/7';
 			} else {
 				if (isset($obj['properties']['work_start_time']) && isset($obj['properties']['work_end_time'])) {

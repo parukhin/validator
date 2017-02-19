@@ -1,17 +1,17 @@
 <?php
-require_once 'OsmFunctions.class.php';
-require_once 'Geocoder.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/OsmFunctions.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Geocoder.class.php';
 
 mb_internal_encoding('utf-8');
 
 class Validator extends OsmFunctions
 {
 	protected $domain  = '';
-	static    $urls    = array();
-	protected $fields  = array();
+	static    $urls    = [];
+	protected $fields  = [];
 	protected $region  = '';
-	protected $objects = array();
-	protected $filter  = array();
+	protected $objects = [];
+	protected $filter  = [];
 	protected $context = null; // для download
 	public    $useCacheHtml = false; // страницы только из кеша
 	public    $updateHtml   = false; // перезакачать html страницы
@@ -28,21 +28,25 @@ class Validator extends OsmFunctions
 			'http' => array('method' => 'GET', 'timeout' => 5, 'header' => "User-agent: OSM validator http://osm.kool.ru\r\n")
 		));
 	}
+
 	/** список областей */
 	static function getRegions()
 	{
 		return array_keys(static::$urls); // COMMENT: позднее статическое связывание
 	}
+
 	/** доступна ли область для валидации */
 	static function isRegion($x)
 	{
 		return isset(static::$urls[$x]);
 	}
+
 	/** реальные объекты */
-	public function getObjects()
+	public function get_objects_real()
 	{
 		return $this->objects;
 	}
+
 	/** обновление данных по региону */
 	public function update()
 	{
@@ -64,6 +68,7 @@ class Validator extends OsmFunctions
 			$this->parse($page);
 		}
 	}
+
 	/** сохранение страницы */
 	protected function savePage($url, $content)
 	{
@@ -71,6 +76,7 @@ class Validator extends OsmFunctions
 		file_put_contents($fname, $content);
 		return $content;
 	}
+
 	/** загрузка страницы */
 	protected function loadPage($url)
 	{
@@ -135,8 +141,8 @@ class Validator extends OsmFunctions
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   // возвращает веб-страницу
 		curl_setopt($ch, CURLOPT_HEADER, false);          // не возвращает заголовки
 		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);  // useragent
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 180);    // таймаут соединения
-		curl_setopt($ch, CURLOPT_TIMEOUT, 180);           // таймаут ответа
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);    // таймаут соединения
+		curl_setopt($ch, CURLOPT_TIMEOUT, 300);           // таймаут ответа
 
 		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		//curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
@@ -180,25 +186,6 @@ class Validator extends OsmFunctions
 	public function validate()
 	{
 		$this->log("Validate not supported yet!\n");
-	}
-
-	/** функция сравнения объектов */
-	protected function compare($osm, $real)
-	{
-		$res = array('result' => 'ok');
-		foreach ($real as $k => $v)
-		if (!isset($osm[$k]))
-		{
-			$res[$k] = array('result' => 'empty', 'right' => $real[$k]);
-			if ($res['result'] != 'error') $res['result'] = 'empty';
-		}
-		else
-		if ($v != $osm[$k])
-		{
-			$res[$k] = array('result' => 'error', 'value' => $v, 'right' => $real[$k]);
-			$res['result'] = 'error';
-		}
-		return $res;
 	}
 
 	/** универсальная функция преобразования времени в стандартный формат */
@@ -342,21 +329,21 @@ class Validator extends OsmFunctions
 	/** создание объекта с нужными полями */
 	protected function makeObject($fields)
 	{
-		if (!empty($fields['_addr']))
+		if (!empty($fields['_addr'])) {
 			$fields['_addr'] = trim(strip_tags($fields['_addr']));
+		}
+
 		// добавляем координаты
-		if (empty($fields['lat']) && !empty($fields['_addr']))
-		{
+		if (empty($fields['lat']) && !empty($fields['_addr'])) {
 			$geocoder = new Geocoder();
 			$fields += $geocoder->getCoordsByAddress($fields['_addr']);
 		}
 
-		$obj = array();
+		$obj = [];
 		foreach ($this->fields as $k => $v)
-			if (isset($fields[$k]) && $fields[$k] !== '')
+			if (isset($fields[$k]) && $fields[$k] !== '') {
 				$obj[$k] = ''.$fields[$k];
-			else
-			{
+			} else {
 				if (is_array($v)) $v = @$v[$this->region];
 				if ($v) $obj[$k] = ''.$v;
 			}
@@ -369,6 +356,21 @@ class Validator extends OsmFunctions
 		$t1 = $this->region == $region;      // совпадение по региону
 		$t2 = preg_match("/$city/u", $text); // совпадение по адресу
 		return ($t1 && $t2) || (!$t1 && !$t2)? 1 : 0; // оба совпали или оба не совпали
+	}
+
+	/* Принадлежность объекта региону */
+	protected function isInRegionByCoords($lat, $lon)
+	{
+		static $polygon = [];
+
+		if (!isset($polygon[0]['lat'])) {
+			$polygon = $this->get_geometry();
+		}
+
+		$geocoder = new Geocoder();
+		$result = $geocoder->pointInPolygon($lat, $lon, $polygon);
+
+		return $result;
 	}
 
 	/** преобразование html таблицы в массив */
@@ -403,7 +405,7 @@ class Validator extends OsmFunctions
 	/** добавление объекта во время парсинга страницы */
 	protected function addObject($object)
 	{
-		array_push($this->objects, $object);
+		$this->objects[] = $object;
 	}
 
 	/** логирование */

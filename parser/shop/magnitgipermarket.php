@@ -78,7 +78,7 @@ class magnitgipermarket extends Validator
 		'shop'            => 'supermarket',
 		'name'            => 'Магнит',
 		'name:ru'         => 'Магнит',
-		'name:en'         => '',
+		'name:en'         => 'Magnit',
 		'operator'        => 'АО Тандер',
 		'contact:website' => 'http://magnit-info.ru',
 		'contact:phone'   => '+7 800 2009002',

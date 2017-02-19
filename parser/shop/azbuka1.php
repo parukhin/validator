@@ -1,4 +1,4 @@
-id<?php
+<?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
@@ -64,13 +64,7 @@ class azbuka1 extends Validator
 
 			// Отсеиваем по региону
 			if (strcmp($this->region, 'RU') !== 0) {
-
-				$state = $this->getAddressByCoords($obj['lat'], $obj['lon']);
-				if (is_null($state)) {
-					return;
-				}
-
-				if (strcmp($state, $RU[$this->region]['name']) !== 0) {
+				if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 					continue;
 				}
 			}

@@ -241,7 +241,7 @@ class sberbank extends Validator
 				continue;
 			}
 
-			array_push($ref, $obj['ref']); // сохраняем ref отделения в массив
+			$ref[] = $obj['ref']; // сохраняем ref отделения в массив
 
 			$obj['name'] = 'Сбербанк';
 			$obj['branch'] = static::$urls[$this->region]['branch'];

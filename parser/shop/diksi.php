@@ -1,109 +1,110 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class diksi extends Validator
 {
-	// откуда скачиваем данные
-	protected $domain = 'http://dixy.ru';
-	static $urls = array(
-		'RU-BRY' => 'Брянская область',
-		'RU-VLA' => 'Владимирская область',
-		'RU-VLG' => 'Вологодская область',
-		'RU-IVA' => 'Ивановская область',
-		'RU-KLU' => 'Калужская область',
-		'RU-KOS' => 'Костромская область',
-		'RU-LEN' => 'Ленинградская область',
-		'RU-MOW' => 'Москва',
-        //'RU-MOW' => array(
-        //    'moscow' => '/russia/$1/',
-        //    'zelenograd' => '/russia/$1/',
-        //),
-		'RU-MOS' => 'Московская область',
-		'RU-MUR' => 'Мурманская область',
-		'RU-NGR' => 'Новгородская область',
-		'RU-PSK' => 'Псковская область',
-		'RU-KR'  => 'Республика Карелия',
-		'RU-RYA' => 'Рязанская область',
-		'RU-SPE' => 'Санкт-Петербург',
-		'RU-SMO' => 'Смоленская область',
-		'RU-TVE' => 'Тверская область',
-		'RU-TUL' => 'Тульская область',
-		'RU-CHE' => 'Челябинская область',
-		'RU-YAR' => 'Ярославская область',
-	);
-	// поля объекта
-	protected $fields = array(
-		'shop'     => 'supermarket',
-		'name'     => 'Дикси',
-		'operator' => '', // ЗАО "Дикси Юг"
-		'website'  => 'http://dixy.ru',
-		'opening_hours' => '',
-		'payment:cards' => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-	protected $filter = array(
-        '[shop=supermarket][name="Дикси"]', 
-        '[shop=supermarket][name="дикси"]', 
-        '[shop=convenience][name="Дикси"]', 
-        '[shop=convenience][name="дикси"]'
-    );
+	protected $domain = 'https://dixy.ru';
 
-	/** обновление данных по региону */
+	static $urls = [
+		'RU-MOW' => '',
+		'RU-MOS' => '',
+		'RU-SPE' => '',
+		'RU-LEN' => '',
+		'RU-ARK' => '',
+		'RU-KR'  => '',
+		'RU-VLG' => '',
+		'RU-PSK' => '',
+		'RU-NGR' => '',
+		'RU-MUR' => '',
+		'RU-TUL' => '',
+		'RU-BRY' => '',
+		'RU-KLU' => '',
+		'RU-SMO' => '',
+		'RU-RYA' => '',
+		'RU-ORL' => '',
+		'RU-TAM' => '',
+		'RU-LIP' => '',
+		'RU-VLA' => '',
+		'RU-IVA' => '',
+		'RU-KOS' => '',
+		'RU-YAR' => '',
+		'RU-NIZ' => '',
+		'RU-CHE' => '',
+		'RU-SVE' => '',
+		'RU-TYU' => '',
+		'RU-TVE' => ''
+	];
+
+
+
+	/* Поля объекта */
+	protected $fields = [
+		'shop'            => 'convenience',
+		'ref'             => '',
+		'name'            => 'Дикси',
+		'name:ru'         => 'Дикси',
+		'name:en'         => '',
+		'operator'        => '',
+		'contact:website' => 'https://dixy.ru',
+		'contact:phone'   => '',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => '',
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[shop][name~"Дикси",i]'
+	];
+
+	/* Обновление данных по региону */
 	public function update()
 	{
 		$this->log('Update real data '.$this->region);
 
-		$regionStr = static::$urls[$this->region];
+		$url = "https://dixy.ru/local/ajax/requests/nearest_shop_get_placemarks.php";
+		$query = "request_mode=ajax&site_id=s1";
 
-        //Некоторые магазины все еще в МО
-		// устанавливаем куку с регионом
-		$this->context = stream_context_create(array(
-			'http' => array(
-				'method'  => 'GET',
-				'header'  => "Cookie: dixy_region=".urlencode($regionStr)."\n",
-			)
-		));
-		$this->parse($this->download($this->domain.'/shops#'.$regionStr));
+		// Загружаем страницу со списком cid
+		$page = $this->get_web_page($url, $query);
+		if (is_null($page)) {
+			return;
+		}
+
+		$this->parse($page);
 	}
-	// парсер страницы
+
+	/* Парсер страницы */
 	protected function parse($st)
 	{
-		// получаем города на каждую точку
-		$GLOBALS['city'] = array();
-		if (preg_match_all('/town">(\d+). (?<name>[^,]+)/s', $st, $m, PREG_SET_ORDER))
-		foreach ($m as $item) $GLOBALS['city'][$item[1] - 1] = $item[2];
-		// основная инфа
-		if (preg_replace_callback('#\d+\]=new YMaps.+?Overlay#s', function($x)
-		{
-			if (!preg_match('#'
-			."(?<id>\d+)"
-			.".+?(?<lon>[\d\.]+), (?<lat>[\d\.]+)"
-			.".+?description='(?<_addr>[^<]+)"
-			.".+?работы.{1,30}?(?<hours>\d[\d-: ]+)?</p>"
-			.".+?Overlay#su", $x[0], $obj)) return;
+		$a = json_decode($st, true);
+		if (is_null($a)) {
+			return;
+		}
 
-			// валидируем часы работы
-			$time = @$obj['hours'];
-			$time = str_replace(' ', '', $time);
-			$time = preg_replace('/^(\d):/', '0$1:', $time);
-			if (strpos($obj[0], '24 часа')) $time = '24/7';
-			$obj['opening_hours'] = $time;
+		foreach ($a['features'] as $obj) {
+			$obj['ref'] = $obj['id'];
 
-			// банковские карты
-			if (strpos($obj[0], 'карты не'))   $obj['payment:cards'] = 'no';
-			if (0
-				|| strpos($obj[0], 'Прием банк')
-				|| strpos($obj[0], 'visa.png')
-			) $obj['payment:cards'] = 'yes';
+			// Координаты
+			$obj['lat'] = $obj['geometry']['coordinates'][0];
+			$obj['lon'] = $obj['geometry']['coordinates'][1];
 
-			// добавляем к адресу название города
-			if (isset($GLOBALS['city'][$obj['id']]))
-				$obj['_addr'] = 'г. '. $GLOBALS['city'][$obj['id']].', '.$obj['_addr'];
+			// Отсеиваем по региону
+			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+				continue;
+			}
+
+			//"<div class="dixy_placemark_baloon_content">ул.Мира д.2/18<br>09:00-22:00</div>"
+
+			if (preg_match_all('#.+?>(?<address>.+?)<.+?>(?<hours>.+?)<#s', $obj['properties']['balloonContent'], $m, PREG_SET_ORDER)) {
+				$obj['_addr'] = $m[0]['address'];
+				$obj['opening_hours'] = $this->time($m[0]['hours']);
+			}
 
 			$this->addObject($this->makeObject($obj));
-		}, $st));
+		}
 	}
 }

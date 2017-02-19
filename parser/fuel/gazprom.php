@@ -147,8 +147,7 @@ class gazprom extends Validator
 			.'.+?№(?<ref>\d+)'
 			.'.+?>(?<_addr>.+?)"'
 			.'#s', $st, $m, PREG_SET_ORDER))
-		foreach ($m as $obj)
-		{
+		foreach ($m as $obj) {
 			$obj['operator'] = static::$urls[$this->region]['operator'];
 			// фильтруем заправки не нашего региона
 			if ($id == 136)

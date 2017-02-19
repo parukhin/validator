@@ -66,17 +66,17 @@ function validate($region)
 	$v->useCacheHtml = !empty($GLOBALS['html-cache']);
 	$v->updateHtml   = !empty($GLOBALS['update']);
 
-	// Загружаем данные из ОСМ
-	$v->loadOSM();
-	// Загружаем данные со страницы парсера
+	// Обновление данных из базы OSM
+	$v->update_osm();
+	// Обновление данных по региону
 	$v->update();
 
 	// временно сохраняем в старом формате
 	require_once $_SERVER["DOCUMENT_ROOT"].'/common/osm_data.php';
 
-	$msg = osm_data($v->getOSMObjects(), $region, $validator, 'osm', $v->get_timestamp());
+	$msg = osm_data($v->get_objects_osm(), $region, $validator, 'osm', $v->get_timestamp());
 	$v->log($msg);
 
-	$msg = osm_data($v->getObjects(), $region, $validator, 'real');
+	$msg = osm_data($v->get_objects_real(), $region, $validator, 'real');
 	$v->log($msg);
 }

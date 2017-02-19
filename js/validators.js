@@ -453,7 +453,19 @@ var validators = {
 			'RU-AD', 'RU-BA', 'RU-DA', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-TA', 'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE',
 			'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAR'
 		]
+	},
+		diksi: {
+		name: 'Дикси',
+		note: '',
+		noteIsShow: false,
+		link: 'https://dixy.ru/nearest-shop/',
+		fields: fields.shop,
+		regions: [
+			'RU-MOW', 'RU-MOS', 'RU-SPE', 'RU-LEN', 'RU-ARK', 'RU-KR', 'RU-VLG', 'RU-PSK', 'RU-NGR', 'RU-MUR', 'RU-TUL', 'RU-BRY', 'RU-KLU', 'RU-SMO', 'RU-RYA',
+			'RU-ORL', 'RU-TAM', 'RU-LIP', 'RU-VLA', 'RU-IVA', 'RU-KOS', 'RU-YAR', 'RU-NIZ', 'RU-CHE', 'RU-SVE', 'RU-TYU', 'RU-TVE'
+		]
 	}
+
 
 	/*
 	validator: {                  // имя валидатора (совпадает с .php)

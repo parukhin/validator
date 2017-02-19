@@ -13,7 +13,8 @@ class Geocoder
 			))
 		);
 	}
-	/** геокодирование адреса */
+
+	/* Геокодирование адреса */
 	public function getCoordsByAddress($st)
 	{
 		$st = preg_replace('/ /',   ' ', $st);
@@ -37,6 +38,7 @@ class Geocoder
 
 		return $res;
 	}
+
 	/** геокодирование */
 	private function geocode($st)
 	{
@@ -51,6 +53,7 @@ class Geocoder
 
 		return $res;
 	}
+
 	/** выдача закешированного значения */
 	private function load($st)
 	{
@@ -59,6 +62,7 @@ class Geocoder
 			return unserialize(file_get_contents($fname));
 		return false;
 	}
+
 	/** сохранение значения в кеше */
 	private function save($st, $value)
 	{
@@ -67,6 +71,7 @@ class Geocoder
 		if (!file_exists($dir)) mkdir($dir, 0777, true);
 		return file_put_contents($fname, serialize($value));
 	}
+
 	/** имя файла на основе запроса */
 	private function getFileName($st)
 	{
@@ -86,5 +91,47 @@ class Geocoder
 
 		return $_SERVER["DOCUMENT_ROOT"].'/_/_geocoder/'.$folder."/$md5.sz";
 
+	}
+
+	/* Обратное геокодиорование */
+	public function getAddressByCoords($lat, $lon)
+	{
+		$url = "http://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lon";
+
+		$page = $this->get_web_page($url);
+		if (is_null($page)) {
+			return NULL;
+		}
+
+		$page = json_decode($page, true);
+		if (is_null($page)) {
+			return NULL;
+		}
+
+		if (isset($page['address']['state'])) {
+			$state = $page['address']['state'];
+		} else {
+			$state = NULL;
+		}
+
+		return $state;
+	}
+
+	/* Проверяет нахождение точки в полигоне */
+	public function pointInPolygon($lat, $lon, $polygon)
+	{
+		$c = 0;
+		$npol = count($polygon);
+
+		for ($i = 0, $j = $npol - 1; $i < $npol; $j = $i++) {
+			if (((($polygon[$i]['lon'] <= $lon) && ($lon < $polygon[$j]['lon'])) || (($polygon[$j]['lon'] <= $lon) && ($lon < $polygon[$i]['lon'])))
+			&& ($lat > ($polygon[$j]['lat'] - $polygon[$i]['lat']) * ($lon - $polygon[$i]['lon']) / ($polygon[$j]['lon'] - $polygon[$i]['lon']) + $polygon[$i]['lat']))
+				$c = !$c;
+			}
+		if ($c % 2 != 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

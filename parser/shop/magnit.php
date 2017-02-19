@@ -75,10 +75,10 @@ class magnit extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop'            => '',
-		'name'            => '',
-		'name:ru'         => '',
-		'name:en'         => '',
+		'shop'            => 'convenience',
+		'name'            => 'Магнит',
+		'name:ru'         => 'Магнит',
+		'name:en'         => 'Magnit',
 		'operator'        => 'АО Тандер',
 		'contact:website' => 'http://magnit-info.ru',
 		'contact:phone'   => '+7 800 2009002',
