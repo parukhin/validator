@@ -464,8 +464,15 @@ var validators = {
 			'RU-MOW', 'RU-MOS', 'RU-SPE', 'RU-LEN', 'RU-ARK', 'RU-KR', 'RU-VLG', 'RU-PSK', 'RU-NGR', 'RU-MUR', 'RU-TUL', 'RU-BRY', 'RU-KLU', 'RU-SMO', 'RU-RYA',
 			'RU-ORL', 'RU-TAM', 'RU-LIP', 'RU-VLA', 'RU-IVA', 'RU-KOS', 'RU-YAR', 'RU-NIZ', 'RU-CHE', 'RU-SVE', 'RU-TYU', 'RU-TVE'
 		]
+	},
+		lapy4: {
+		name: 'Четыре лапы',
+		note: '',
+		noteIsShow: false,
+		link: 'https://4lapy.ru/pet_stores_amp_services/',
+		fields: ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'pets', 'aquarium', 'veterinary', 'grooming'],
+		regions: ['RU-MOW', 'RU-MOS', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KOS', 'RU-LIP', 'RU-NIZ', 'RU-TUL', 'RU-ORL', 'RU-RYA', 'RU-TVE', 'RU-YAR', 'RU']
 	}
-
 
 	/*
 	validator: {                  // имя валидатора (совпадает с .php)
@@ -779,7 +786,7 @@ function osm_cl() {
 				.replace('opening_hours', 'График работы')
 				.replace('operator', 'Оператор')
 				.replace('brand', 'Бренд')
-				.replace('shop', 'Магазин')
+				.replace('shop', 'Тип')
 				.replace('fuel:octane_98', '98')
 				.replace('fuel:octane_95', '95')
 				.replace('fuel:octane_92', '92')

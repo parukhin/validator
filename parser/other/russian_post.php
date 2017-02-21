@@ -191,8 +191,7 @@ class russian_post extends Validator
 
 		$url = "https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.nearby.details?latitude=$lat&longitude=$lon&top=$count&currentDateTime=2016-2-28T2%3A12%3A22&filter=ALL&hideTemporaryClosed=false&fullAddressOnly=true&searchRadius=10000&offset=$offset";
 
-		while($offset < $maxcount)
-		{
+		while ($offset < $maxcount) {
 			$page = $this->get_web_page($url);
 			if (is_null($page)) {
 				return;
@@ -213,8 +212,7 @@ class russian_post extends Validator
 			return;
 		}
 
-		foreach ($a as $obj)
-		{
+		foreach ($a as $obj) {
 			// Если вылезли в соседние регионы
 			if ($obj['region'] != static::$urls[$this->region]['region']) {
 				continue;

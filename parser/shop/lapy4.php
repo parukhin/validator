@@ -1,66 +1,114 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class lapy4 extends Validator
 {
-	// откуда скачиваем данные
-	protected $domain = 'http://4lapy.ru';
-	static $urls = array(
-		'RU-MOW' => '/pet_stores_amp_services/30/',
-		'RU-MOS' => '/pet_stores_amp_services/31/',
-		'RU-YAR' => '/pet_stores_amp_services/34/',
-	);
-	// поля объекта
-	protected $fields = array(
-		'shop'     => 'pet',
-		'name'     => 'Четыре лапы',
-		'website'  => 'http://4lapy.ru',
-		'phone'    => '',
-		'opening_hours' => '',
-		'payment:cards' => '',
-		'pets'       => '',
-		'aquarium'   => '',
-		'veterinary' => '',
-		'grooming'   => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
-        '[shop=pet][name~"лапы"]'
-    );
+	protected $domain = 'https://4lapy.ru';
+
+	static $urls = [
+		'RU-MOW' => '9839',
+		'RU-MOS' => '9591',
+		'RU-VLA' => '9587',
+		'RU-VGG' => '9654',
+		'RU-VOR' => '9723',
+		'RU-IVA' => '9588',
+		'RU-KLU' => '9589',
+		'RU-KOS' => '9683',
+		'RU-LIP' => '9590',
+		'RU-NIZ' => '9836',
+		'RU-TUL' => '9691',
+		'RU-ORL' => '9991',
+		'RU-RYA' => '9592',
+		'RU-TVE' => '9722',
+		'RU-YAR' => '9593',
+		'RU'     => ''
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'shop'            => 'pet',
+		'name'            => 'Четыре лапы',
+		'name:ru'         => 'Четыре лапы',
+		'name:en'         => '',
+		'contact:website' => 'https://4lapy.ru',
+		'contact:phone'   => '',
+		'opening_hours'   => '',
+		'pets'            => '',
+		'aquarium'        => '',
+		'veterinary'      => '',
+		'grooming'        => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[shop=pet][name~"лапы",i]'
+	];
 
 
-	/** обновление данных по региону */
+	/* Обновление данных по региону */
 	public function update()
 	{
-		$url  = $this->domain.self::$urls[$this->region];
-		$page = $this->download($url);
-		if (!preg_match_all("#href='(/pet_stores_amp_services/\d+/\d+/)'#su", $page, $m)) return false;
-		self::$urls[$this->region] = $m[1];
-		parent::update();
+		$this->log('Update real data '.$this->region);
+
+		$id = static::$urls[$this->region];
+
+		$url = "https://4lapy.ru/ajax/ajax.php";
+		$query = "operation=get-list-shop-on-map&filter-region=$id&filter-city=";
+
+		$page = $this->get_web_page($url, $query);
+		if (is_null($page)) {
+			return;
+		}
+
+		$this->parse($page);
 	}
-	// парсер страницы
+
+	/* Парсер страницы */
 	protected function parse($st)
 	{
-		if (preg_match_all('#var placemark'
-			.'.+?Point.(?<lon>[\d\.]+),(?<lat>[\d\.]+)'
-			.'.+?<h3>(?<_addr>.+?)</h3>'
-			.'.+?Телефон: (?<phone>.+?)<'
-			.'.+?работы: (?<hours>.+?)<'
-			.".+?class=.card(?<ext>.+?)\t</div>"
-			."#su", $st, $m, PREG_SET_ORDER))
-		foreach ($m as $obj)
-		{
-			$obj['_addr'] = html_entity_decode(strip_tags($obj['_addr']));
-			$obj['phone'] = strip_tags($this->phone($obj['phone']));
-			$obj['opening_hours'] = $this->time($obj['hours']);
-			if (strpos($obj['ext'], 'visa.')) $obj['payment:cards'] = 'yes';
-			if (strpos($obj['ext'], 'fish.')) $obj['aquarium']      = 'yes';
-			if (strpos($obj['ext'], 'helf.')) $obj['veterinary']    = 'yes';
-			if (strpos($obj['ext'], 'slon.')) $obj['pets']          = 'yes';
-			if (strpos($obj['ext'], 'str.'))  $obj['grooming']      = 'yes';
+		$a = json_decode($st, true);
+		if (is_null($a)) {
+			return;
+		}
+
+		foreach ($a['shops'] as $obj) {
+			// Координаты
+			$obj['lat'] = $obj['gps']['longitude']; // на сайте перепутано
+			$obj['lon'] = $obj['gps']['latitude'];
+
+			// Адрес
+			$obj['_addr'] = $obj['address'];
+
+			// Время работы
+			$obj['opening_hours'] = $this->time($obj['workTime']);
+
+			// Сервисы
+			foreach ($obj['services'] as $service) {
+				switch ($service['cssClass']) {
+					case 'aquarium':
+						$obj['aquarium'] = 'yes';
+						break;
+					case 'pharmacy':
+						$obj['veterinary'] = 'yes';
+						break;
+					case 'animals':
+						$obj['pets'] = 'yes';
+						break;
+					case 'gravirovka':
+						//$obj['?'] = 'yes';
+						break;
+					case 'grooming':
+						$obj['grooming'] = 'yes';
+						break;
+				}
+			}
+
+			// Телефон
+			$obj['contact:phone'] = $this->phone($obj['phone']);
+
 			$this->addObject($this->makeObject($obj));
 		}
 	}

@@ -35,15 +35,13 @@ class diksi extends Validator
 		'RU-TVE' => ''
 	];
 
-
-
 	/* Поля объекта */
 	protected $fields = [
 		'shop'            => 'convenience',
 		'ref'             => '',
 		'name'            => 'Дикси',
 		'name:ru'         => 'Дикси',
-		'name:en'         => '',
+		'name:en'         => 'Dixy',
 		'operator'        => '',
 		'contact:website' => 'https://dixy.ru',
 		'contact:phone'   => '',
@@ -68,7 +66,6 @@ class diksi extends Validator
 		$url = "https://dixy.ru/local/ajax/requests/nearest_shop_get_placemarks.php";
 		$query = "request_mode=ajax&site_id=s1";
 
-		// Загружаем страницу со списком cid
 		$page = $this->get_web_page($url, $query);
 		if (is_null($page)) {
 			return;
