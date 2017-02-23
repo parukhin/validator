@@ -47,7 +47,6 @@ class lapy4 extends Validator
 		'[shop=pet][name~"лапы",i]'
 	];
 
-
 	/* Обновление данных по региону */
 	public function update()
 	{
@@ -75,6 +74,8 @@ class lapy4 extends Validator
 		}
 
 		foreach ($a['shops'] as $obj) {
+			$obj['name'] = 'Четыре лапы';
+
 			// Координаты
 			$obj['lat'] = $obj['gps']['longitude']; // на сайте перепутано
 			$obj['lon'] = $obj['gps']['latitude'];

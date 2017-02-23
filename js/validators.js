@@ -472,6 +472,17 @@ var validators = {
 		link: 'https://4lapy.ru/pet_stores_amp_services/',
 		fields: ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'pets', 'aquarium', 'veterinary', 'grooming'],
 		regions: ['RU-MOW', 'RU-MOS', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KOS', 'RU-LIP', 'RU-NIZ', 'RU-TUL', 'RU-ORL', 'RU-RYA', 'RU-TVE', 'RU-YAR', 'RU']
+	},
+	alfabank: {
+		name: 'Альфа-Банк (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://alfabank.ru/office/',
+		fields: fields.bank,
+		regions: [
+			'RU-KK', 'RU-TA', 'RU-IRK', 'RU-ARK', 'RU-KYA', 'RU-MOS', 'RU-ALT', 'RU-BEL', 'RU-NVS', 'RU-ORE', 'RU-PRI', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-UD', 'RU-NIZ',
+			'RU-SVE', 'RU-MOW', 'RU-CHE', 'RU-ME', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KHA', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-KHM', 'RU-MUR', 'RU-ROS'
+		]
 	}
 
 	/*

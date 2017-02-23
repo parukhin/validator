@@ -121,6 +121,7 @@ class sberbank extends Validator
 	/* Поля объекта */
 	protected $fields = [
 		'amenity'         => 'bank',
+		'ref'             => '',
 		'name'            => 'Сбербанк',
 		'name:ru'         => 'Сбербанк',
 		'name:en'         => 'Sberbank',
@@ -128,7 +129,6 @@ class sberbank extends Validator
 		'branch'          => '',
 		'contact:website' => 'http://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
-		'ref'             => '',
 		'wheelchair'      => '',
 		'opening_hours'   => '',
 		'lat'             => '',

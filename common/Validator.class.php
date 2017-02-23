@@ -228,20 +228,42 @@ class Validator extends OsmFunctions
 		$st = ' '.strip_tags(mb_strtolower($st, 'utf-8')).' ';
 		if (mb_stripos($st, 'круглос')) $st = '24/7';
 
+		$replace = [
+			'выходной'      => 'off',
+			'будни'         => 'Mo-Fr',
+			'выходные'      => 'Sa-Su',
+			'ежедневно'     => 'Mo-Su',
+			'круглосуточно' => 'Mo-Su',
+			' '             => ' ',
+			'c'             => 'с',
+			' и '           => ', ',
+			' в '           => ' ',
+			' до '          => '-',
+			' по '          => '-',
+			'.'             => '',
+			'&ndash;'       => '-',
+			'&mdash;'       => '-',
+			'&nbsp;'        => ' ',
+			'–'             => '-',
+			'—'             => '-',
+			'00:00'         => '24:00',
+			'день'          => ''
+		];
+
 		// FIXME: костыль для сохранения регистра
 		$st = str_replace(
 			['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'],
 			['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], $st);
 
 		$st = str_replace(
-			array('выходной', 'будни', 'выходные', 'ежедневно', 'круглосуточно', ' ', 'c', ' и ', ' в ',
+			['выходной', 'будни', 'выходные', 'ежедневно', 'круглосуточно', ' ', 'c', ' и ', ' в ',
 				' до ', ' по ',
 				'.',
-				'&ndash;', '&mdash;', '&nbsp;', '–', '—', '00:00'),
-			array('off',      'Mo-Fr', 'Sa-Su',    'Mo-Su',     'Mo-Su',         ' ', 'с', ', ',  ' ',
+				'&ndash;', '&mdash;', '&nbsp;', '–', '—', '00:00', 'день'],
+			['off',      'Mo-Fr', 'Sa-Su',    'Mo-Su',     'Mo-Su',         ' ', 'с', ', ',  ' ',
 				'-',    '-',
 				'',
-				'-', '-', ' ', '-', '-', '24:00'), $st);
+				'-', '-', ' ', '-', '-', '24:00', ''], $st);
 
 		//несколько запятых в месте
 		$st = preg_replace('/,+/', ',', $st);
@@ -280,7 +302,6 @@ class Validator extends OsmFunctions
 		$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
 
 		// Tu-We; Th-Fr-Sa 10:00-11:00 ->  Tu-We-Th-Fr-Sa 10:00-11:00
-		//$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
 		$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
 
 		$st = str_replace(
