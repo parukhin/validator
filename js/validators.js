@@ -270,9 +270,9 @@ var notes = {
 };
 
 var fields = {
-	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wikipedia', 'wikidata', 'wheelchair'],
+	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	shop: ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop'],
+	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'wikidata', 'wikipedia'],
 	atm:  [],
 };
 
@@ -483,6 +483,14 @@ var validators = {
 			'RU-KK', 'RU-TA', 'RU-IRK', 'RU-ARK', 'RU-KYA', 'RU-MOS', 'RU-ALT', 'RU-BEL', 'RU-NVS', 'RU-ORE', 'RU-PRI', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-UD', 'RU-NIZ',
 			'RU-SVE', 'RU-MOW', 'RU-CHE', 'RU-ME', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KHA', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-KHM', 'RU-MUR', 'RU-ROS'
 		]
+	},
+		kenguru: {
+		name: 'Кенгуру',
+		note: '',
+		noteIsShow: false,
+		link: 'http://kenguru.ru/info/shops.php',
+		fields: fields.shop,
+		regions: ['RU-IVA','RU-YAR','RU-VLA','RU-KOS','RU-MOS','RU-MOW']
 	}
 
 	/*
@@ -782,7 +790,8 @@ function osm_cl() {
 				.replace('website', 'Сайт')
 				.replace('building', 'Здание')
 				.replace('old_name', '<span title="Прежнее название">Прежн.</span>')
-				.replace('name:ru', 'Русское')
+				.replace('name:ru', '<span title="Название по русски">RU</span>')
+				.replace('name:en', '<span title="Название по английски">EN</span>')
 				.replace('name', 'Название')
 				.replace('internet_access', '<span title="Доступ в интернет">www</span>')
 				.replace('addr:postcode', 'Индекс')
@@ -793,11 +802,10 @@ function osm_cl() {
 				.replace('population:date', '<span title="Год переписи">Год</span>')
 				.replace('population', '<span title="Население">Нас.</span>')
 				.replace('_addr', 'Адрес')
-
 				.replace('opening_hours', 'График работы')
 				.replace('operator', 'Оператор')
 				.replace('brand', 'Бренд')
-				.replace('shop', 'Тип')
+				.replace('shop', 'Магазин')
 				.replace('fuel:octane_98', '98')
 				.replace('fuel:octane_95', '95')
 				.replace('fuel:octane_92', '92')
@@ -1411,8 +1419,6 @@ function osm_cl() {
 				v = '<a href="http://www.temples.ru/card.php?ID=' + real[fields[i]] + '" target="_blank">' + v + '</a>';
 			if (fields[i] == 'wikipedia' && real[fields[i]]) {
 				v = '<a href="http://ru.wikipedia.org/wiki/' + real[fields[i]] + '" target="_blank">' + v + '</a>';
-				if (location.hostname != 'osm.cupivan.ru') // локальная фича только на тестовом сайте
-					v += ' <small><a href="/validator/clearWikiCache.php?id=' + osm.id + '&region=' + this.activeRegion + '">[очистить]</a></small>';
 			}
 
 			if (cl) cl = 'class="' + cl + '"';

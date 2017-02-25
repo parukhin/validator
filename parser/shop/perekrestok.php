@@ -52,17 +52,19 @@ class perekrestok extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop'     => 'supermarket',
-		'name'     => 'Перекрёсток',
-		'name:ru'  => 'Перекрёсток',
-		'name:en'  => '',
-		'operator' => '', // ЗАО Торговый дом Перекрёсток
-		'contact:website'  => 'https://www.perekrestok.ru',
-		'contact:phone'    => '',
-		'opening_hours' => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
+		'shop'            => 'supermarket',
+		'name'            => 'Перекрёсток',
+		'name:ru'         => 'Перекрёсток',
+		'name:en'         => 'Perekryostok',
+		'operator'        => 'ЗАО "Торговый дом Перекрёсток"',
+		'contact:website' => 'https://www.perekrestok.ru',
+		'contact:phone'   => '',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikidata'        => 'Q1684639',
+		'wikipedia'       => 'ru:Перекрёсток_(сеть_магазинов)',
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -105,7 +107,7 @@ class perekrestok extends Validator
 			if ($obj['time']['is_24'] == true) {
 				$obj['opening_hours'] = '24/7';
 			} else {
-				$obj['opening_hours'] = 'Mo-Su '.$obj['time']['open'].'-'.$obj['time']['close'];
+				$obj['opening_hours'] = $obj['time']['open'].'-'.$obj['time']['close'];
 			}
 
 			list($obj['lat'], $obj['lon']) = explode(',', $obj['coordinates']);

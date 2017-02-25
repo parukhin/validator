@@ -50,7 +50,7 @@ class diksi extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikidata'        => '',
-		'wikipedia'       => '',
+		'wikipedia'       => 'ru:Дикси_(сеть_магазинов)',
 	];
 
 	/* Фильтр для поиска объектов в OSM */
