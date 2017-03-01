@@ -7,164 +7,109 @@ class russian_post extends Validator
 	protected $domain = 'https://www.pochta.ru/';
 
 	static $urls = [
-		'RU-ARK' => [
-			'region' => 'Архангельская обл',
-			'count' => 1400,
-		],
-		'RU-BRY' => [
-			'region' => 'Брянская обл',
-			'count' => 1400,
-		],
-		'RU-BEL' => [
-			'region' => 'Белгородская обл',
-			'count' => 1400,
-		],
-		'RU-CU' => [
-			'region' => 'Чувашская Республика - Чувашия',
-			'count' => 700,
-		],
-		'RU-KDA' => [
-			'region' => 'Краснодарский край',
-			'count' => 2000,
-		],
-		'RU-KEM' => [
-			'region' => 'Кемеровская обл',
-			'count' => 1600,
-		],
-		'RU-KHA'=> [
-			'region' => 'Хабаровский край',
-			'count' => 1280,
-		],
-		'RU-KHM'=> [
-			'region' => 'Ханты-Мансийский Автономный округ - Югра АО',
-			'count' => 1000,
-		],
-		'RU-KGD' => [
-			'region' => 'Калининградская обл',
-			'count' => 300,
-		],
-		'RU-KIR' => [
-			'region' => 'Кировская обл',
-			'count' => 1792,
-		],
-		'RU-KYA' => [
-			'region' => 'Красноярский край',
-			'count' => 6000,
-		],
-		'RU-LIP' => [
-			'region' => 'Липецкая обл',
-			'count' => 1280,
-		],
-		'RU-LEN' => [
-			'region' => 'Ленинградская обл',
-			'count' => 1300,
-		],
-		'RU-MOS' => [
-			'region' => 'Московская обл',
-			'count' => 5000,
-		],
-		'RU-MOW' => [
-			'region' => 'Москва г',
-			'count' => 1000,
-		],
-		'RU-MUR' => [
-			'region' => 'Мурманская обл',
-			'count' => 256,
-		],
-		'RU-RYA' => [
-			'region' => 'Рязанская обл',
-			'count' => 1000,
-		],
-		'RU-TVE' => [
-			'region' => 'Тверская обл',
-			'count' => 2000,
-		],
-		'RU-ROS' => [
-			'region' => 'Ростовская обл',
-			'count' => 3000,
-		],
-		'RU-SPE' => [
-			'region' => 'Санкт-Петербург г',
-			'count' => 400,
-		],
-		'RU-AD' => [
-			'region' => 'Адыгея Респ',
-			'count' => 600,
-		],
-		'RU-TA' => [
-			'region' => 'Татарстан Респ',
-			'count' => 2700,
-		],
-		'RU-PNZ' => [
-			'region' => 'Пензенская обл',
-			'count' => 1300,
-		],
-		'RU-BA' => [
-			'region' => 'Башкортостан Респ' ,
-			'count' => 2500,
-		],
-		'RU-CHE' => [
-			'region' => 'Челябинская обл',
-			'count' => 1500,
-		],
-		'RU-VLA' => [
-			'region' => 'Владимирская обл',
-			'count' => 1100,
-		],
-		'RU-PER' => [
-			'region' => 'Пермский край',
-			'count' => 1664,
-		],
-		'RU-NVS' => [
-			'region' => 'Новосибирская обл',
-			'count' => 1300,
-		],
-		'RU-OMS' => [
-			'region' => 'Омская обл',
-			'count' => 1000,
-		],
-		'RU-IRK' => [
-			'region' => 'Иркутская обл',
-			'count' => 1300,
-		],
-		'RU-PRI' => [
-			'region' => 'Приморский край',
-			'count' => 1664,
-		],
-		'RU-ULY' => [
-			'region' => 'Ульяновская обл',
-			'count' => 1200,
-		],
-		'RU-VGG' => [
-			'region' => 'Волгоградская обл',
-			'count' => 1500,
-		],
-		'RU-VLG' => [
-			'region' => 'Вологодская обл',
-			'count' => 5000,
-		],
-		'RU-VOR' => [
-			'region' => 'Воронежская обл',
-			'count' => 2000,
-		],
-		'RU-IVA' => [
-			'region' => 'Ивановская обл',
-			'count' => 2000,
-		],
+		'RU-AD'  => [],
+		'RU-AL'  => [],
+		'RU-BA'  => [],
+		'RU-BU'  => [],
+		'RU-DA'  => [],
+		'RU-IN'  => [],
+		'RU-KB'  => [],
+		'RU-KL'  => [],
+		'RU-KC'  => [],
+		'RU-KR'  => [],
+		'RU-KO'  => [],
+		'RU-CR'  => [],
+		'RU-ME'  => [],
+		'RU-MO'  => [],
+		'RU-SA'  => [],
+		'RU-SE'  => [],
+		'RU-TA'  => [],
+		'RU-TY'  => [],
+		'RU-UD'  => [],
+		'RU-KK'  => [],
+		'RU-CE'  => [],
+		'RU-CU'  => [],
+		'RU-ALT' => [],
+		'RU-ZAB' => [],
+		'RU-KAM' => [],
+		'RU-KDA' => [],
+		'RU-KYA' => [],
+		'RU-PER' => [],
+		'RU-PRI' => [],
+		'RU-STA' => [],
+		'RU-KHA' => [],
+		'RU-AMU' => [],
+		'RU-ARK' => [],
+		'RU-AST' => [],
+		'RU-BEL' => [],
+		'RU-BRY' => [],
+		'RU-VLA' => [],
+		'RU-VGG' => [],
+		'RU-VLG' => [],
+		'RU-VOR' => [],
+		'RU-IVA' => [],
+		'RU-IRK' => [],
+		'RU-KGD' => [],
+		'RU-KLU' => [],
+		'RU-KEM' => [],
+		'RU-KIR' => [],
+		'RU-KOS' => [],
+		'RU-KGN' => [],
+		'RU-KRS' => [],
+		'RU-LEN' => [],
+		'RU-LIP' => [],
+		'RU-MAG' => [],
+		'RU-MOS' => [],
+		'RU-MUR' => [],
+		'RU-NIZ' => [],
+		'RU-NGR' => [],
+		'RU-NVS' => [],
+		'RU-OMS' => [],
+		'RU-ORE' => [],
+		'RU-ORL' => [],
+		'RU-PNZ' => [],
+		'RU-PSK' => [],
+		'RU-ROS' => [],
+		'RU-RYA' => [],
+		'RU-SAM' => [],
+		'RU-SAR' => [],
+		'RU-SAK' => [],
+		'RU-SVE' => [],
+		'RU-SMO' => [],
+		'RU-TAM' => [],
+		'RU-TVE' => [],
+		'RU-TOM' => [],
+		'RU-TUL' => [],
+		'RU-TYU' => [],
+		'RU-ULY' => [],
+		'RU-CHE' => [],
+		'RU-YAR' => [],
+		'RU-MOW' => [],
+		'RU-SPE' => [],
+		'RU-SEV' => [],
+		'RU-YEV' => [],
+		'RU-NEN' => [],
+		'RU-KHM' => [],
+		'RU-CHU' => [],
+		'RU-YAN' => []
 	];
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'         => 'post_office',
-		'ref'             => '',
-		'name'            => '',
-		'operator'        => 'Почта России',
-		'contact:website' => 'https://www.pochta.ru',
-		'contact:phone'   => '',
-		'opening_hours'   => '',
-		'lat'             => '',
-		'lon'             => '',
-		'_addr'           => '',
+		'amenity'          => 'post_office',
+		'ref'              => '',
+		'name'             => '',
+		'operator'         => 'Почта России',
+		'contact:website'  => 'https://www.pochta.ru',
+		'contact:facebook' => 'https://www.facebook.com/ruspost',
+		'contact:vk'       => 'https://vk.com/russianpost',
+		'contact:phone'    => '',
+		'opening_hours'    => '',
+		'lat'              => '',
+		'lon'              => '',
+		'_addr'            => '',
+		'wikidata'         => 'Q1502763',
+		'wikipedia'        => 'ru:Почта_России',
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -179,22 +124,21 @@ class russian_post extends Validator
 
 		global $RU;
 
-		$maxcount = 4000;
-		if (isset(static::$urls[$this->region]['count'])) {
-			$maxcount = static::$urls[$this->region]['count'];
-		}
-
-		$count = 64;
+		$count = 100;
 		$offset = 0;
 		$lat = $RU[$this->region]['lat'];
 		$lon = $RU[$this->region]['lon'];
 
-		$url = "https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.nearby.details?latitude=$lat&longitude=$lon&top=$count&currentDateTime=2016-2-28T2%3A12%3A22&filter=ALL&hideTemporaryClosed=false&fullAddressOnly=true&searchRadius=10000&offset=$offset";
+		while (1) {
+			$url = "https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.nearby.details?latitude=$lat&longitude=$lon&top=$count&currentDateTime=2016-2-28T2%3A12%3A22&offset=$offset&filter=ALL&hideTemporaryClosed=false&fullAddressOnly=true&searchRadius=500";
 
-		while ($offset < $maxcount) {
 			$page = $this->get_web_page($url);
 			if (is_null($page)) {
 				return;
+			}
+
+			if ($page == '[]') { // если данные закончились
+				break; // заканчиваем поиск
 			}
 
 			$this->parse($page);
@@ -213,8 +157,13 @@ class russian_post extends Validator
 		}
 
 		foreach ($a as $obj) {
-			// Если вылезли в соседние регионы
-			if ($obj['region'] != static::$urls[$this->region]['region']) {
+
+			// Координаты
+			$obj['lat'] = $obj['latitude'];
+			$obj['lon'] = $obj['longitude'];
+
+			// Отсеиваем по региону
+			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 
@@ -238,8 +187,6 @@ class russian_post extends Validator
 			$obj['ref'] = $obj['postalCode'];
 			//$obj['name'] = 'Отделение связи №'.$obj['ref'];
 			$obj['name'] = $obj['settlement'].' '.$obj['ref'];
-			$obj['lat'] = $obj['latitude'];
-			$obj['lon'] = $obj['longitude'];
 
 			foreach ($obj['phones'] as $ph) {
 				if (!isset($obj['contact:phone']))

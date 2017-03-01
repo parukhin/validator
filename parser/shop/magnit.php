@@ -76,6 +76,7 @@ class magnit extends Validator
 	/* Поля объекта */
 	protected $fields = [
 		'shop'            => 'convenience',
+		'ref'             => '',
 		'name'            => 'Магнит',
 		'name:ru'         => 'Магнит',
 		'name:en'         => 'Magnit',
@@ -147,6 +148,7 @@ class magnit extends Validator
 		}
 
 		foreach ($a['list'] as $obj) {
+			$obj['ref'] = $obj['id'];
 			$obj['_addr'] = $obj['addr'];
 			$obj['lat'] = $obj['cx'];
 			$obj['lon'] = $obj['cy'];

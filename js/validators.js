@@ -294,7 +294,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://www.pochta.ru/offices',
-		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:phone', 'opening_hours'],
+		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'wikidata', 'wikipedia'],
 		regions: [
 			'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME',
 			'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA',
@@ -786,6 +786,8 @@ function osm_cl() {
 				.replace('russian_orthodox', '<span title="признают Патриарха?">ПП</span>')
 				.replace('contact:phone', 'Телефон')
 				.replace('contact:website', 'Сайт')
+				.replace('contact:facebook', 'facebook')
+				.replace('contact:vk', 'vk')
 				.replace('phone', 'Телефон')
 				.replace('website', 'Сайт')
 				.replace('building', 'Здание')
