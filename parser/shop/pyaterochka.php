@@ -5,6 +5,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 class pyaterochka extends Validator
 {
 	protected $domain = 'https://5ka.ru/api/stores/?bbox=';
+
 	static $urls = [
 		'RU-ARK' => [],
 		'RU-AST' => [],
@@ -16,7 +17,7 @@ class pyaterochka extends Validator
 		'RU-VOR' => [],
 		'RU-IVA' => [],
 		'RU-KLU' => [],
-		'RU-KC' => [],
+		'RU-KC'  => [],
 		'RU-KEM' => [],
 		'RU-KIR' => [],
 		'RU-KOS' => [],
@@ -36,16 +37,16 @@ class pyaterochka extends Validator
 		'RU-PNZ' => [],
 		'RU-PER' => [],
 		'RU-PSK' => [],
-		'RU-AD' => [],
-		'RU-BA' => [],
-		'RU-DA' => [],
-		'RU-KR' => [],
-		'RU-KO' => [],
-		'RU-ME' => [],
-		'RU-MO' => [],
-		'RU-TA' => [],
-		'RU-UD' => [],
-		'RU-KK' => [],
+		'RU-AD'  => [],
+		'RU-BA'  => [],
+		'RU-DA'  => [],
+		'RU-KR'  => [],
+		'RU-KO'  => [],
+		'RU-ME'  => [],
+		'RU-MO'  => [],
+		'RU-TA'  => [],
+		'RU-UD'  => [],
+		'RU-KK'  => [],
 		'RU-ROS' => [],
 		'RU-RYA' => [],
 		'RU-SAM' => [],
@@ -61,13 +62,14 @@ class pyaterochka extends Validator
 		'RU-ULY' => [],
 		'RU-KHM' => [],
 		'RU-CHE' => [],
-		'RU-CU' => [],
+		'RU-CU'  => [],
 		'RU-YAR' => []
 	];
 
 	/* Поля объекта */
 	protected $fields = [
 		'shop'            => 'convenience',
+		'ref'             => '',
 		'name'            => 'Пятёрочка',
 		'name:ru'         => 'Пятёрочка',
 		'name:en'         => '',
@@ -79,7 +81,7 @@ class pyaterochka extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikidata'        => '',
-		'wikipedia'       => '',
+		'wikipedia'       => 'ru:Пятёрочка'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

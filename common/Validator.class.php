@@ -147,8 +147,8 @@ class Validator extends OsmFunctions
 		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		//curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
 
-		//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 		if (isset($query)) {
 			curl_setopt($ch, CURLOPT_POST, true);         // POST запрос
@@ -192,28 +192,30 @@ class Validator extends OsmFunctions
 	protected function time($st)
 	{
 		// передали массив - формируем строку
-		if (is_array($st))
-		{
+		if (is_array($st)) {
+
 			// формируем хэш: время => день
-			$a = array();
-			foreach ($st as $k => $v)
-			{
-				if (!isset($a[$v])) $a[$v] = array();
-				array_push($a[$v], $k);
+			$a = [];
+			foreach ($st as $k => $v) {
+				$a[$v][] = $k;
 			}
+
 			// перемещаем off в конец
-			if (isset($a['off']))
-			{
+			if (isset($a['off'])) {
 				$off = $a['off'];
 				unset($a['off']);
 				$a['off'] = $off;
 			}
+
 			// склеиваем в строку учитывая одинаковое время работы
 			$res = '';
-			foreach ($a as $time => $days)
+			foreach ($a as $time => $days) {
 				$res .= ($res?'; ':'').implode(',', $days).' '.$time;
+			}
+
 			// перечисляем нерабочие дни
 			$edays = array('Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su');
+
 			// склеиваем соседние дни
 			for ($i = 1; $i < count($edays); $i++)
 				$res = str_replace($edays[$i-1].','.$edays[$i], $edays[$i-1].'-'.$edays[$i], $res);

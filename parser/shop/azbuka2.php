@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
-require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
 class azbuka2 extends Validator
 {
@@ -26,6 +25,8 @@ class azbuka2 extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => ''
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -49,8 +50,6 @@ class azbuka2 extends Validator
 	/* Парсер страницы */
 	protected function parse($st)
 	{
-		global $RU;
-
 		$a = json_decode($st, true);
 		if (is_null($a)) {
 			return;

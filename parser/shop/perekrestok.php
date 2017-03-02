@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class perekrestok extends Validator
 {
@@ -64,14 +64,13 @@ class perekrestok extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikidata'        => 'Q1684639',
-		'wikipedia'       => 'ru:Перекрёсток_(сеть_магазинов)',
+		'wikipedia'       => 'ru:Перекрёсток_(сеть_магазинов)'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[shop=supermarket][name~"[Пп]ерекр"]',
+		'[shop=supermarket][name~"Перекр[её]сток",i]'
 	];
-
 
 	/* Обновление данных по региону */
 	public function update()

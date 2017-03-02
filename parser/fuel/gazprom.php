@@ -43,7 +43,7 @@ class gazprom extends Validator
 		'RU-KHM' => ['id' => '584143',  'name' => 'ХМАО+-+Югра',           'operator' => 'АО "Газпромнефть-Урал"'],
 		'RU-CHE' => ['id' => '144',     'name' => 'Челябинская+область',   'operator' => 'АО "Газпромнефть-Урал"'],
 		'RU-YAN' => ['id' => '588981',  'name' => 'Ямало-Ненецкий+АО',     'operator' => 'АО "Газпромнефть-Урал"'],
-		'RU-YAR' => ['id' => '145',     'name' => 'Ярославская+область',   'operator' => 'АО "Газпромнефть-Северо-Запад"'],
+		'RU-YAR' => ['id' => '145',     'name' => 'Ярославская+область',   'operator' => 'АО "Газпромнефть-Северо-Запад"']
 		//'' => ['id' => '', 'name' => '', '' => ''],
 		// http://www.spb.gazprom-neft.ru/about/ - АО "Газпромнефть-Северо-Запад"
 		// http://eburg.gazprom-neft.ru/about/ - АО "Газпромнефть-Урал"
@@ -54,6 +54,7 @@ class gazprom extends Validator
 	/* Поля объекта */
 	protected $fields = [
 		'amenity'         => 'fuel',
+		'ref'             => '',
 		'name'            => 'Газпромнефть',
 		'name:ru'         => 'Газпромнефть',
 		'name:en'         => 'Gazpromneft',
@@ -62,7 +63,6 @@ class gazprom extends Validator
 		'owner'           => 'ПАО "Газпром нефть"',
 		'contact:website' => 'http://www.gazprom-neft.ru',
 		'contact:phone'   => '',
-		'ref'             => '',
 		'opening_hours'   => '',
 		'fuel:octane_98'  => '',
 		'fuel:octane_95'  => '',
@@ -80,11 +80,13 @@ class gazprom extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => 'ru:Газпром_нефть'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=fuel][name~"Газпром",i]',
+		'[amenity=fuel][name~"Газпром",i]'
 	];
 
 	/* Обновление данных по региону */

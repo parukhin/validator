@@ -4,6 +4,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 class kenguru extends Validator
 {
 	protected $domain = 'http://kenguru.ru/info/getshopsformap.php?city_id=';
+
 	static $urls = [
 		'RU-IVA' => [1, 34, 19 ,30, 17, 31, 29, 11, 35, 15 ,27],
 		'RU-YAR' => [51, 48, 50, 49],
@@ -16,6 +17,7 @@ class kenguru extends Validator
 	/* Поля объекта */
 	protected $fields = [
 		'shop'            => 'doityourself',
+		'ref'             => '',
 		'name'            => 'Кенгуру',
 		'name:ru'         => 'Кенгуру',
 		'name:en'         => '',
@@ -27,7 +29,7 @@ class kenguru extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikidata'        => '',
-		'wikipedia'       => '',
+		'wikipedia'       => ''
 	];
 
 	/* Фильтр для поиска объектов в OSM */

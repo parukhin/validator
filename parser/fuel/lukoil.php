@@ -1,118 +1,236 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class lukoil extends Validator
 {
-	// откуда скачиваем данные
 	protected $domain = 'http://www.lukoil.ru';
-	static $urls = array(
-		'RU-BA'  => 33,
-		'RU-KGD' =>  8,
-		'RU-KDA' => 44,
-		'RU-LEN' => 22,
-		'RU-MOS' => 38,
-		'RU-MOW' => 36,
-		'RU-PER' => 72,
-		'RU-SPE' => 21,
-		'RU-VLG' =>  7,
-		'RU-VGG' =>  2,
-	);
-	// поля объекта
-	protected $fields = array(
-		'amenity'  => 'fuel',
-		'brand'    => 'Лукойл',
-		'operator' => array(
-			'RU-BA'  => 'ООО "ЛУКОЙЛ-Уралнефтепродукт"',
-			'RU-KGD' => 'ООО "ЛУКОЙЛ-Северо-Западнефтепродукт"',
-			'RU-KDA' => 'ООО "ЛУКОЙЛ-Югнефтепродукт"',
-			'RU-MOS' => 'ООО "ЛУКОЙЛ-Центрнефтепродукт"',
-			'RU-MOW' => 'ООО "ЛУКОЙЛ-Центрнефтепродукт"',
-			'RU-PER' => 'ООО "ЛУКОЙЛ-Пермнефтепродукт"',
-			'RU-SPE' => 'ООО "ЛУКОЙЛ-Северо-Западнефтепродукт"',
-			'RU-LEN' => 'ООО "ЛУКОЙЛ-Северо-Западнефтепродукт"',
-			'RU-VLG' => 'ООО "ЛУКОЙЛ-Волганефтепродукт"',
-			'RU-VGG' => 'ООО "ЛУКОЙЛ-Нижневолжскнефтепродукт"',
-		),
-		'contact:website' => 'http://www.lukoil.ru',
-		'ref'      => '',
-		'opening_hours' => '24/7',
-		'fuel:octane_98' => '',
-		'fuel:octane_95' => '',
-		'fuel:octane_92' => '',
-		'fuel:diesel'    => '',
-		'fuel:lpg'       => '',
-		'shop'    => '',
-		'toilets' => '',
-		'compressed_air' => '',
-		'payment:cards'  => '',
-		'car_wash'       => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-	protected $filter = array(
-        '[amenity=fuel][name~"лукойл"]',
-        '[amenity=fuel][name~"Лукойл"]',
-    );
 
-	/** обновление данных по региону */
+	static $urls = [
+		'RU-BA'  => [],
+		'RU-KGD' => [],
+		'RU-KDA' => [],
+		'RU-LEN' => [],
+		'RU-MOS' => [],
+		'RU-MOW' => [],
+		'RU-PER' => [],
+		'RU-SPE' => [],
+		'RU-VLG' => [],
+		'RU-VGG' => [],
+		'RU-IVA' => []
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'amenity'         => 'fuel',
+		'ref'             => '',
+		'name'            => 'Лукойл',
+		'name:ru'         => 'Лукойл',
+		'name:en'         => 'Lukoil',
+		'brand'           => 'Лукойл',
+		'operator'        => '',
+		'owner'           => 'ПАО "Лукойл"',
+		'contact:website' => 'http://www.lukoil.ru',
+		'contact:phone'   => '',
+		'opening_hours'   => '24/7',
+		'fuel:octane_98'  => '',
+		'fuel:octane_95'  => '',
+		'fuel:octane_92'  => '',
+		'fuel:octane_80'  => '',
+		'fuel:diesel'     => '',
+		'fuel:lpg'        => '',
+		'fuel:cng'        => '',
+		'fuel:discount'   => '',
+		'atm'             => '', // отд. точка
+		'shop'            => '', // отд. точка
+		'car_wash'        => '', // отд. точка
+		'toilets'         => '', // отд. точка
+		'cafe'            => '', // отд. точка
+		'compressed_air'  => '', // отд. точка
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => 'ru:Лукойл'
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[amenity=fuel][name~"Лукойл",i]'
+	];
+
+	/* Обновление данных по региону */
 	public function update()
 	{
 		$this->log('Update real data '.$this->region);
 
-		$regionId = static::$urls[$this->region];
+		$url = 'https://auto.lukoil.ru/api/cartography/GetSearchObjects?form=gasStation';
 
-		$url = '/new/azslocator/GetStations/';
-		$this->context = stream_context_create(array(
-			'http' => array(
-				'method'  => 'POST',
-				'header'  => "Cookie: azslocator=SelectedTerritory=r$regionId\n",
-				'content' => "bounds=36.237417495195615,2.9783614218749817,75.50938204012901,-164.365388578125",
-			)
-		));
-		$page = $this->download($this->domain.$url.'#'.$this->region);
-		$a = json_decode($page, true);
+		$page = $this->get_web_page($url);
+		if (is_null($page)) {
+			return;
+		}
 
-		if ($a)
-			$this->parse($a['Stations']);
+		$this->parse($page);
 	}
-	// парсер страницы
-	protected function parse($stations)
+
+	/* Парсер страницы */
+	protected function parse($st)
 	{
-		foreach ($stations as $a)
-		{
-			$obj = array(); $new = true;
+		$a = json_decode($st, true);
+		if (is_null($a)) {
+			return;
+		}
 
-			if (isset($a['Number'])) $new = false;
+		foreach ($a['GasStations'] as $obj) {
+			$obj['ref'] = $obj['GasStationId']; // внутренний ref лукойла, у самих заправок другие номера
 
-			if ($new) {
-				$obj['ref']   = $a['n'];
-				$obj['_addr'] = $a['a'];
-				$obj['lat']   = $a['y'];
-				$obj['lon']   = $a['x'];
-			} else {
-				$obj['ref']   = $a['Number'];
-				$obj['_addr'] = $a['Address'];
-				$obj['lat']   = $a['Lat'];
-				$obj['lon']   = $a['Lng'];
+			// Координаты
+			$obj['lat'] = $obj['Latitude'];
+			$obj['lon'] = $obj['Longitude'];
+
+			// Отсеиваем по региону
+			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+				continue;
 			}
 
-			$fuel = array_fill_keys(array_values($new ? $a['f'] : $a['FuelIds']), 1);
-			$obj["fuel:octane_98"] = empty($fuel['98'])     && empty($fuel['ekto-sport'])  ? 'no' : 'yes';
-			$obj["fuel:octane_95"] = empty($fuel['95'])     && empty($fuel['ekto-plus'])   ? 'no' : 'yes';
-			$obj["fuel:octane_92"] = empty($fuel['92'])     && empty($fuel['ekto'])        ? 'no' : 'yes';
-			$obj["fuel:diesel"]    = empty($fuel['diesel']) && empty($fuel['ekto-diesel']) ? 'no' : 'yes';
-			$obj["fuel:lpg"]       = empty($fuel['gas']) ? 'no' : 'yes';
+			$url = 'https://auto.lukoil.ru/api/cartography/GetObjects?ids=gasStation'.$obj['ref'].'&lng=RU';
 
-			$service = array_fill_keys(array_values($new ? $a['s'] : $a['ServiceIds']), 1);
-			if (!empty($service['market']))      $obj['shop']     = 'yes';
-			if (!empty($service['bankomat']))    $obj['atm']      = 'yes';
-			if (!empty($service['wc']))          $obj['toilets']  = 'yes';
-			if (!empty($service['car-washing'])) $obj['car_wash'] = 'yes';
-			if (!empty($service['card']))        $obj['payment:cards']  = 'yes';
-			if (!empty($service['licard']))      $obj['fuel:discount']  = 'licard';
-			if (!empty($service['tyre']))        $obj['compressed_air'] = 'yes';
+			$page = $this->get_web_page($url);
+			if (is_null($page)) {
+				return;
+			}
+
+			$b = json_decode($page, true);
+			if (is_null($b)) {
+				return;
+			}
+
+			$obj['_addr'] = $b[0]['GasStation']['Address'];
+			$obj['operator'] = 'ООО '.$b[0]['GasStation']['Company']['Name'];
+
+			/* Виды топлива
+			$fuels = [
+				'АИ 80'          => 'fuel:octane_80',
+				'АИ 87'          => '',
+				'АИ 92 ЕВРО'     => 'fuel:octane_92',
+				'АИ 92 ЭКТО'     => 'fuel:octane_92',
+				'АИ 93'          => '',
+				'АИ 95 ЕВРО'     => 'fuel:octane_95',
+				'АИ 95 ЭКТО'     => 'fuel:octane_95',
+				'АИ 98 ЕВРО'     => 'fuel:octane_98',
+				'АИ 98 ЭКТО'     => 'fuel:octane_98',
+				'ГАЗ'            => 'fuel:lpg',
+				'ДИЗЕЛЬ'         => 'fuel:diesel',
+				'ДИЗЕЛЬ ЕВРО'    => 'fuel:diesel',
+				'ДИЗЕЛЬ ЭКТО'    => 'fuel:diesel',
+				'КЕРОСИН'        => '',
+				'МАСЛО'          => '',
+				'ПЕЧНОЕ ТОПЛИВО' => '',
+				'СНО'            => ''
+			]; */
+			foreach ($b[0]['Fuels'] as $fuel) {
+				switch ($fuel['Name']) {
+					case 'АИ 80':
+						$obj['fuel:octane_80'] = 'yes';
+						break;
+					case 'АИ 92 ЕВРО': case 'АИ 92 ЭКТО':
+						$obj['fuel:octane_92'] = 'yes';
+						break;
+					case 'АИ 95 ЕВРО': case 'АИ 95 ЭКТО':
+						$obj['fuel:octane_95'] = 'yes';
+						break;
+					case 'АИ 98 ЕВРО': case 'АИ 98 ЭКТО':
+						$obj['fuel:octane_98'] = 'yes';
+						break;
+					case 'ГАЗ':
+						$obj['fuel:lpg'] = 'yes';
+						break;
+					case 'ДИЗЕЛЬ': case 'ДИЗЕЛЬ ЕВРО': case 'ДИЗЕЛЬ ЭКТО':
+						$obj['fuel:diesel'] = 'yes';
+						break;
+					default:
+						break;
+				}
+			}
+
+			/* Услуги
+			$services = [
+				'1422121' => '',               // Wi-Fi
+				'1422117' => 'atm',            // Банкомат
+				'1422129' => '',               // Возврат сдачи на телефон на автоматической АЗС
+				'1676387' => '',               // Выдача карт лояльности (ППКЛ)
+				'149697'  => '',               // Гостиница
+				'1422135' => 'shop',           // Магазин
+				'209845'  => 'car_wash',       // Мойка
+				'1676383' => '',               // Накопление и трата баллов лояльности (ППКЛ)
+				'1422137' => '',               // Обслуживание карт ППКЛ (Накопление баллов)
+				'1676386' => '',               // Обслуживание по виртуальной карте лояльности (ППКЛ)
+				'149646'  => '',               // Парковка для большегрузного транспорта
+				'1422144' => '',               // Получение карты лояльности на АЗС
+				'1422145' => '',               // Пополнение ко-бренд карты "Рапида"
+				'149664'  => 'compressed_air', // Пост подкачки шин
+				'1422146' => '',               // Постоплата
+				'149704'  => '',               // Прачечная
+				'1676388' => '',               // Прием платежей через систему "Рапида"
+				'1422148' => '',               // Приобретение ко-бренд карты "Рапида"
+				'1422150' => '',               // ПТО
+				'1422151' => '',               // Пылесос
+				'1422154' => '',               // Специальные условия обслуживания по картам в акциях.
+				'12623'   => '',               // Страхование
+				'1422156' => '',               // Терминал оплаты
+				'149703'  => 'toilets',        // Туалет
+				'1422162' => '',               // Туалет для маломобильных групп населения
+				'149659'  => ''                // Шиномонтаж
+			]; */
+			foreach ($b[0]['GasStation']['Services'] as $service) {
+				switch ($service['ServiceId']) {
+					case '1422117':
+						$obj['atm'] = 'yes';
+						break;
+					case '1422135':
+						$obj['shop'] = 'yes';
+						break;
+					case '209845':
+						$obj['car_wash'] = 'yes';
+						break;
+					case '149664':
+						$obj['compressed_air'] = 'yes';
+						break;
+					case '149703':
+						$obj['toilets'] = 'yes';
+						break;
+					default:
+						break;
+				}
+			}
+
+			/*
+			$property = [
+				'Автоматическая АЗС'          => '',
+				'Заправка водного транспорта' => '',
+				'Кафе'                        => 'cafe',
+				'Кофе-автомат'                => '',
+				'ЛИКАРД-ТРАНЗИТ'              => '',
+				'Скоростная ТРК'              => ''
+			]; */
+			foreach ($b[0]['GasStation']['Properties'] as $service) {
+				switch ($fuel['Name']) {
+					case 'Кафе':
+						$obj['cafe'] = 'yes';
+						break;
+					default:
+						break;
+				}
+			}
+
+			/* Методы оплаты
+			$payments = [
+				'7'       => '', // Безналичные расчеты по банковским картам VISA/MasterCard
+				'2'       => '', // Бе зналичный расчет
+				'401'     => '', // Бесконтактные платежи
+				'1607057' => '', // Постоплата
+				'1001'    => '', // Топливные карты Лукойл
+			]; */
 
 			$this->addObject($this->makeObject($obj));
 		}

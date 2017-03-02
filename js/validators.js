@@ -491,6 +491,14 @@ var validators = {
 		link: 'http://kenguru.ru/info/shops.php',
 		fields: fields.shop,
 		regions: ['RU-IVA','RU-YAR','RU-VLA','RU-KOS','RU-MOS','RU-MOW']
+	},
+		lukoil: {
+		name: 'Лукойл',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'https://auto.lukoil.ru/ru/ProductsAndServices/PetrolStations',
+		fields: fields.fuel,
+		regions: ['RU-BA', 'RU-KGD','RU-KDA','RU-LEN','RU-MOS','RU-MOW','RU-PER','RU-SPE','RU-VLG','RU-VGG', 'RU-IVA']
 	}
 
 	/*

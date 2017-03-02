@@ -99,6 +99,8 @@ class russian_post extends Validator
 		'amenity'          => 'post_office',
 		'ref'              => '',
 		'name'             => '',
+		'name:ru'          => '',
+		'name:en'          => '',
 		'operator'         => 'Почта России',
 		'contact:website'  => 'https://www.pochta.ru',
 		'contact:facebook' => 'https://www.facebook.com/ruspost',
@@ -109,7 +111,7 @@ class russian_post extends Validator
 		'lon'              => '',
 		'_addr'            => '',
 		'wikidata'         => 'Q1502763',
-		'wikipedia'        => 'ru:Почта_России',
+		'wikipedia'        => 'ru:Почта_России'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -187,6 +189,7 @@ class russian_post extends Validator
 			$obj['ref'] = $obj['postalCode'];
 			//$obj['name'] = 'Отделение связи №'.$obj['ref'];
 			$obj['name'] = $obj['settlement'].' '.$obj['ref'];
+			$obj['name:ru'] = $obj['name'];
 
 			foreach ($obj['phones'] as $ph) {
 				if (!isset($obj['contact:phone']))

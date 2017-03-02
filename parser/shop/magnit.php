@@ -70,7 +70,7 @@ class magnit extends Validator
 		'RU-CHE' => ['rid' => '33'],
 		'RU-CU'  => ['rid' => '38'],
 		'RU-YAN' => ['rid' => '63627'],
-		'RU-YAR' => ['rid' => '11'],
+		'RU-YAR' => ['rid' => '11']
 	];
 
 	/* Поля объекта */
@@ -88,7 +88,7 @@ class magnit extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikidata'        => 'Q940518',
-		'wikipedia'       => 'ru:Магнит_(сеть_магазинов)',
+		'wikipedia'       => 'ru:Магнит_(сеть_магазинов)'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

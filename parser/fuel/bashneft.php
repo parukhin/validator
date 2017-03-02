@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class bashneft extends Validator
 {
@@ -29,7 +29,7 @@ class bashneft extends Validator
 		'RU-UD'  => ['id' => '225'],
 		'RU-ULY' => ['id' => '233'],
 		'RU-CHE' => ['id' => '237'],
-		'RU-CU'  => ['id' => '236'],
+		'RU-CU'  => ['id' => '236']
 		//'' => ['id' => ''],
 	];
 
@@ -60,6 +60,8 @@ class bashneft extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => 'ru:Башнефть'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

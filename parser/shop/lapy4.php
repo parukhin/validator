@@ -27,6 +27,7 @@ class lapy4 extends Validator
 	/* Поля объекта */
 	protected $fields = [
 		'shop'            => 'pet',
+		'ref'             => '',
 		'name'            => 'Четыре лапы',
 		'name:ru'         => 'Четыре лапы',
 		'name:en'         => '',
@@ -40,6 +41,8 @@ class lapy4 extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => ''
 	];
 
 	/* Фильтр для поиска объектов в OSM */
