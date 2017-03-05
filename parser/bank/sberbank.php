@@ -140,7 +140,7 @@ class sberbank extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=bank][name~"[Сс]бер"]'
+		'[amenity=bank][name~"Сбербанк",i]'
 	];
 
 	/* Обновление данных по региону */
@@ -177,7 +177,7 @@ class sberbank extends Validator
 			.'%26size%3D'
 			.'9'
 			.'%26page%3D'
-			.strval($count)
+			.$count
 			.'%26cbLat%3D'
 			.$RU[$this->region]['lat']
 			.'%26cbLon%3D'

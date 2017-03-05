@@ -81,7 +81,7 @@ class magnitkosmetic extends Validator
 		'name:ru'         => 'Магнит Косметик',
 		'name:en'         => '',
 		'operator'        => 'АО Тандер',
-		'contact:website' => 'http://magnit-info.ru',
+		'contact:website' => 'https://magnitcosmetic.ru',
 		'contact:phone'   => '+7 800 2009002',
 		'opening_hours'   => '',
 		'lat'             => '',
