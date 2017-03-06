@@ -130,9 +130,10 @@ class russian_post extends Validator
 		$offset = 0;
 		$lat = $RU[$this->region]['lat'];
 		$lon = $RU[$this->region]['lon'];
+		$searchRadius = 1000;
 
 		while (1) {
-			$url = "https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.nearby.details?latitude=$lat&longitude=$lon&top=$count&currentDateTime=2016-2-28T2%3A12%3A22&offset=$offset&filter=ALL&hideTemporaryClosed=false&fullAddressOnly=true&searchRadius=500";
+			$url = "https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.nearby.details?latitude=$lat&longitude=$lon&top=$count&currentDateTime=2016-2-28T2%3A12%3A22&offset=$offset&filter=ALL&hideTemporaryClosed=false&fullAddressOnly=true&searchRadius=$searchRadius";
 
 			$page = $this->get_web_page($url);
 			if (is_null($page)) {

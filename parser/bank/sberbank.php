@@ -157,25 +157,21 @@ class sberbank extends Validator
 		}
 
 		$maxcount = 180; // максимальное количество страниц
-		$count = 0; // номер страницы
+		$count =    0;   // номер страницы
+		$size =     99;  // количество отделений на странице
 
-		while ($count < $maxcount)
-		{
+		while ($count < $maxcount) {
 			$url = 'http://www.sberbank.ru/portalserver/proxy?pipe=branchesPipe&url=http%3A%2F%2Foib-rs%2Foib-rs%2FbyBounds%2Fentities'
 			.'%3Fllat%3D'
 			.$bbox['minlat']
-			//.'55.01'
 			.'%26llon%3D'
 			.$bbox['minlon']
-			//.'39.31'
 			.'%26rlat%3D'
 			.$bbox['maxlat']
-			//.'59.01'
 			.'%26rlon%3D'
 			.$bbox['maxlon']
-			//.'43.31'
 			.'%26size%3D'
-			.'9'
+			.$size
 			.'%26page%3D'
 			.$count
 			.'%26cbLat%3D'
@@ -188,6 +184,7 @@ class sberbank extends Validator
 			if (is_null($page)) {
 				return;
 			}
+
 			$this->parse($page);
 			++$count;
 

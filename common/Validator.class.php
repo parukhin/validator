@@ -141,7 +141,7 @@ class Validator extends OsmFunctions
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   // возвращает веб-страницу
 		curl_setopt($ch, CURLOPT_HEADER, false);          // не возвращает заголовки
 		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);  // useragent
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);    // таймаут соединения
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);     // таймаут соединения
 		curl_setopt($ch, CURLOPT_TIMEOUT, 300);           // таймаут ответа
 
 		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);

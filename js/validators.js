@@ -703,17 +703,23 @@ function osm_cl() {
 				osm._fast_filter[x][a[x]] = 1 + (osm._fast_filter[x][a[x]] || 0);
 			}
 		};
+
 		if (a[0] != false) { // если данные есть
 			for (i = 0; i < a.length; i++) {
 				osm_data = osm.search(a[i], true);
 
-				if (!osm_data)
+				if (!osm_data) {
 					a[i]._state = a[i].lat ? C_NotFound : C_NoCoords;
-				else {
-					if (osm_data._used > 1) a[i]._double = C_Double; // дубликат
+				} else {
+					if (osm_data._used > 1) {
+						a[i]._double = C_Double; // дубликат
+					}
+					if (!a[i].lat) {
+						a[i]._ref = C_FoundRef; this.count[C_FoundRef]++;
+					};
 
-					if (!a[i].lat) { a[i]._ref = C_FoundRef; this.count[C_FoundRef]++; };
 					a[i]._state = 0;
+
 					for (field in validators[this.activeValidator].fields) {
 						state = osm.compareField(osm_data, a[i], validators[this.activeValidator].fields[field]);
 
@@ -750,10 +756,15 @@ function osm_cl() {
 							_(t, 'name');
 			}
 		}
-		// кол-во непривязанных OSM объектов
-		for (i in this.osm_data)
-			for (j in this.osm_data[i])
-				if (!this.osm_data[i][j]._used) this.count[C_Excess]++;
+
+		// Подсчёт количества непривязанных OSM объектов
+		for (i in this.osm_data) {
+			for (j in this.osm_data[i]) {
+				if (!this.osm_data[i][j]._used) {
+					this.count[C_Excess]++;
+				}
+			}
+		}
 
 		osm._cityList = null;
 
@@ -1059,19 +1070,28 @@ function osm_cl() {
 		if (osm.timerSearchRef)
 			clearInterval(osm.timerSearchRef);
 		osm.timerSearchRef = setTimeout(function () {
-			//			document.location = '#'+osm.activeRegion+'/'+osm.activeValidator+'/'+x;
+			//document.location = '#'+osm.activeRegion+'/'+osm.activeValidator+'/'+x;
 			osm.filter({ ref: x });
 		}, 1000);
 	};
 
-	// поиск osm объекта
+	// Поиск OSM объекта
 	this.search = function (a, saveId) // a - реальный объект для поиска
 	{
 		var i, ref, hash, data, delta = 0.005, minObjId = -1;
 		if (this.activeValidator == 'wiki_places') delta = 0.02;
 		this.delta = delta;
 
-		if (a.lat) {
+		// Поиск по ref
+		if (a.ref) {
+			if (i = this.osm_data_by_ref[a.ref]) {
+				data = this.osm_data[i.hash];
+				minObjId = i.id;
+			}
+		}
+
+		// Поиск по координатам
+		if (minObjId < 0 && a.lat) {
 			hash = this.hash(a.lat, a.lon);
 			data = this.osm_data[hash];
 			if (!data) return null;
@@ -1079,7 +1099,7 @@ function osm_cl() {
 			var minDistance = 0;
 
 			// пробуем найти в окрестности точки
-			for (i = 0; i < data.length; i++)
+			for (i = 0; i < data.length; i++) {
 				if (1
 					&& mod(a.lat - data[i].lat) < delta / 2
 					&& mod(a.lon - data[i].lon) < delta
@@ -1099,13 +1119,8 @@ function osm_cl() {
 						minDistance = d;
 					}
 				}
-		}
-
-		if (minObjId < 0 && a.ref) // если не найдено объектов - пробуем найти по ref
-			if (i = this.osm_data_by_ref[a.ref]) {
-				data = this.osm_data[i.hash];
-				minObjId = i.id;
 			}
+		}
 
 		if (saveId && minObjId >= 0) {
 			data[minObjId]._used = (data[minObjId]._used || 0) + 1;
@@ -1257,13 +1272,7 @@ function osm_cl() {
 
 	// сравнение одного поля в объектах
 	this.compareField = function (osm, real, field) {
-		/*
-				// не проверяем телефон 8800* у сбера
-				if (real.name == 'Сбербанк'
-					&& real.phone.indexOf('+7-800') != -1
-					&& osm .phone.indexOf('-800-')  == -1)
-					real[field] = '';
-		*/
+
 		if (!osm) osm = {};
 		var a = osm[field] || '', b = real[field];
 		if (b === '' || b == undefined || field.charAt(0) == '_') return C_Skip;
