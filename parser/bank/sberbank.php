@@ -5,6 +5,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 class sberbank extends Validator
 {
 	protected $domain = 'http://www.sberbank.ru';
+
 	static $urls = [
 		// Байкальский банк
 		'RU-ZAB' => ['regId' => '8600', 'branch' => 'Байкальский банк'],
@@ -116,7 +117,7 @@ class sberbank extends Validator
 		'RU-KC'  => ['regId' => '8585', 'branch' => 'Юго-Западный банк'],
 		'RU-KL'  => ['regId' => '8579', 'branch' => 'Юго-Западный банк'],
 		'RU-CE'  => ['regId' => '8643', 'branch' => 'Юго-западный банк'],
-		];
+	];
 
 	/* Поля объекта */
 	protected $fields = [
@@ -135,7 +136,7 @@ class sberbank extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikipedia'       => 'ru:Сбербанк_России',
-		'wikidata'        => 'Q205012',
+		'wikidata'        => 'Q205012'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -150,7 +151,7 @@ class sberbank extends Validator
 
 		global $RU;
 
-		// Загружаем bbox региона
+		// Загрузка bbox региона
 		$bbox = $this->get_bbox($this->region);
 		if (is_null($bbox)) {
 			return;
@@ -161,7 +162,7 @@ class sberbank extends Validator
 		$size =     99;  // количество отделений на странице
 
 		while ($count < $maxcount) {
-			$url = 'http://www.sberbank.ru/portalserver/proxy?pipe=branchesPipe&url=http%3A%2F%2Foib-rs%2Foib-rs%2FbyBounds%2Fentities'
+			$url = 'https://www.sberbank.ru/portalserver/proxy?pipe=branchesPipe&url=http%3A%2F%2Foib-rs%2Foib-rs%2FbyBounds%2Fentities'
 			.'%3Fllat%3D'
 			.$bbox['minlat']
 			.'%26llon%3D'
@@ -206,10 +207,6 @@ class sberbank extends Validator
 			if (strcmp(substr($obj['code'], 3, 4), static::$urls[$this->region]['regId']) !== 0) {
 				continue;
 			}
-			// Если попали в Южу
-			//if (strcmp(substr($obj['code'], -3), '089') === 0) {
-			//	continue;
-			//}
 
 			// Исключение для Санкт-Петербурга
 			if (strcmp($this->region, 'RU-SPE') === 0) { // если индекс не с 19, значит попали в Ленинградскую область
@@ -225,12 +222,6 @@ class sberbank extends Validator
 				}
 			}
 
-			// Исключение передвижных отделений из поиска
-			if (stristr($obj['name'], 'ППКМБ') !== FALSE) {
-				continue;
-			}
-			// NOTE: Можно удалить, Сбербанк их не выдаёт
-
 			$obj['ref'] = substr($obj['code'], 3, 4).'/'.substr($obj['code'], 7);
 
 			// Исключение повторений по ref
@@ -240,12 +231,10 @@ class sberbank extends Validator
 
 			$ref[] = $obj['ref']; // сохраняем ref отделения в массив
 
-			$obj['name'] = 'Сбербанк';
 			$obj['branch'] = static::$urls[$this->region]['branch'];
 			$obj['lat'] = $obj['coordinates']['latitude'];
 			$obj['lon'] = $obj['coordinates']['longitude'];
 			$obj['_addr'] = $obj['address'];
-			$obj['wheelchair'] = $obj['mblt'];
 
 			if ($obj['mblt'] == 1) {
 				$obj['wheelchair'] = 'yes';
@@ -254,7 +243,7 @@ class sberbank extends Validator
 				$obj['wheelchair'] = 'no';
 			}
 
-			/* Режим работы */
+			// Режим работы
 			if (isset($obj['workTimeList'])) {
 
 				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];

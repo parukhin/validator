@@ -271,9 +271,9 @@ var notes = {
 
 var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
-	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	fuel: ['_addr', 'ref', 'operator', 'brand','name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'wikidata', 'wikipedia'],
-	atm:  [],
+	atm:  ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'wikidata', 'wikipedia'],
 };
 
 var validators = {
@@ -380,6 +380,21 @@ var validators = {
 		noteIsShow: false,
 		link: 'http://www.sberbank.ru/ru/about/today/oib',
 		fields: fields.bank,
+		regions: [
+			'RU-ZAB', 'RU-IRK', 'RU-BU', 'RU-SA', 'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO', 'RU-ME', 'RU-CU', 'RU-TA', 'RU-KHA', 'RU-PRI', 'RU-AMU', 'RU-SAK',
+			'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER', 'RU-KO', 'RU-UD', 'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE',
+			'RU-SAR', 'RU-VGG', 'RU-AST', 'RU-PNZ', 'RU-YAR', 'RU-KOS', 'RU-IVA', 'RU-VLG', 'RU-NEN', 'RU-ARK', 'RU-SPE', 'RU-LEN', 'RU-MUR', 'RU-KGD', 'RU-PSK',
+			'RU-NGR', 'RU-KR', 'RU-NVS', 'RU-TOM', 'RU-KEM', 'RU-ALT', 'RU-AL', 'RU-KYA', 'RU-TY', 'RU-KK', 'RU-MOS', 'RU-TVE', 'RU-KLU', 'RU-BRY', 'RU-SMO',
+			'RU-TUL', 'RU-RYA', 'RU-SVE', 'RU-CHE', 'RU-KGN', 'RU-BA', 'RU-VOR', 'RU-ORL', 'RU-LIP', 'RU-KRS', 'RU-BEL', 'RU-TAM', 'RU-ROS', 'RU-KDA', 'RU-AD',
+			'RU-STA', 'RU-SE', 'RU-KB', 'RU-IN', 'RU-DA', 'RU-KC', 'RU-KL', 'RU-CE'
+		]
+	},
+	sberbank_atm: {
+		name: 'Сбербанк (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'http://www.sberbank.ru/ru/about/today/oib',
+		fields: fields.atm,
 		regions: [
 			'RU-ZAB', 'RU-IRK', 'RU-BU', 'RU-SA', 'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO', 'RU-ME', 'RU-CU', 'RU-TA', 'RU-KHA', 'RU-PRI', 'RU-AMU', 'RU-SAK',
 			'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER', 'RU-KO', 'RU-UD', 'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE',
@@ -834,7 +849,12 @@ function osm_cl() {
 				.replace('fuel:diesel', 'ДТ')
 				.replace('fuel:lpg', 'ГАЗ')
 				.replace('fuel:cng', 'КПГ')
-				.replace('fuel:discount', 'Скидки');
+				.replace('fuel:discount', 'Скидки')
+				.replace('cash_in', 'Приём наличности')
+				// Валюты
+				.replace('currency:RUR', '<span title="Рубль">₽</span>')
+				.replace('currency:USD', '<span title="Доллар">$</span>')
+				.replace('currency:EUR', '<span title="Евро">€</span>');
 			st += j + '</th>';
 		}
 		st += '</tr>';

@@ -94,7 +94,7 @@ class pyaterochka extends Validator
 	{
 		$this->log('Update real data '.$this->region);
 
-		// Загружаем bbox региона
+		// Загрузка bbox региона
 		$bbox = $this->get_bbox($this->region);
 		if (is_null($bbox)) {
 			return;
