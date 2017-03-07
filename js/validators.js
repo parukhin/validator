@@ -620,14 +620,14 @@ function osm_cl() {
 		$('date', st);
 
 		this.validate(this.activeRegion, x);
-	};
+	}
 
 	// хэш функция по координтам
 	this.hash = function (lat, lon) {
 		lat = Math.round(parseFloat(lat));
 		lon = Math.round(parseFloat(lon));
 		return '' + lat + '' + lon;
-	};
+	}
 
 	// генерация таблицы валидатора
 	this.validate = function (region, validator) {
@@ -679,7 +679,7 @@ function osm_cl() {
 			osm.real_data = osm.real_data.concat(a);
 			osm.revalidate();
 		});
-	};
+	}
 
 	// функция генерации таблицы валидатора
 	this.revalidate = function () {
@@ -779,7 +779,7 @@ function osm_cl() {
 					else
 						this.filter()
 		this.log();
-	};
+	}
 
 	// функция отрисовки страницы с данными
 	this.updatePage = function () {
@@ -932,7 +932,7 @@ function osm_cl() {
 		$('pages', st);
 		$('pages_bottom', numPages > 1 ? st_nav : '');
 		this.log();
-	};
+	}
 
 	// отрисовка быстрого фильтра
 	this.drawFastFilter = function () {
@@ -950,13 +950,21 @@ function osm_cl() {
 			+ '<label><input type="checkbox" ' + (this._fast_filter_search_osm ? 'checked' : '')
 			+ ' name="tsearch" onchange="osm.fastFilterOSMToggle(this.checked)">поиск по OSM объектам</label>'
 			+ '<ul>' + st + '</ul>';
-	};
+	}
 
 	// выключатель быстрого фильтра
-	this.fastFilterToggle = function () { this._fast_filter_enable ^= 1; this.filter(); return false; }
+	this.fastFilterToggle = function () {
+		this._fast_filter_enable ^= 1;
+		this.filter();
+		return false;
+	}
 
 	// выключатель поиска по OSM
-	this.fastFilterOSMToggle = function (x) { this._fast_filter_search_osm = x; this.revalidate(); return false; }
+	this.fastFilterOSMToggle = function (x) {
+		this._fast_filter_search_osm = x;
+		this.revalidate();
+		return false;
+	}
 
 	// быстрая фильтрация
 	this.fastFilter = function (x) {
@@ -964,14 +972,14 @@ function osm_cl() {
 		$('search').value = value;
 		osm.searchByName(value);
 		return false;
-	};
+	}
 
 	// смена страницы
 	this.page = function (x) {
 		this._filter.page = x;
 		this.filter(this._filter, 1);
 		return false;
-	};
+	}
 
 	// фильтрация записей
 	this.filter = function (x, skipFilter) {
@@ -1030,7 +1038,7 @@ function osm_cl() {
 		this.updatePage();
 
 		return false;
-	};
+	}
 
 	// обновление списка городов отфильтрованных записей
 	this.updateCityList = function () {
@@ -1053,7 +1061,7 @@ function osm_cl() {
 			if (y.count > N && x.count <= N) return 1;
 			return x.name < y.name ? -1 : (x.name > y.name ? 1 : 0);
 		});
-	};
+	}
 
 	// поиск по названию
 	this.searchByName = function (x) {
@@ -1063,7 +1071,7 @@ function osm_cl() {
 			document.location = '#' + osm.activeRegion + '/' + osm.activeValidator + '/' + x;
 			osm.filter({ _addr: x });
 		}, 1000);
-	};
+	}
 
 	// поиск по номеру
 	this.searchByRef = function (x) {
@@ -1073,12 +1081,11 @@ function osm_cl() {
 			//document.location = '#'+osm.activeRegion+'/'+osm.activeValidator+'/'+x;
 			osm.filter({ ref: x });
 		}, 1000);
-	};
+	}
 
 	// Поиск OSM объекта
-	this.search = function (a, saveId) // a - реальный объект для поиска
-	{
-		var i, ref, hash, data, delta = 0.005, minObjId = -1;
+	this.search = function (a, saveId) { // a - реальный объект для поиска
+		var i, ref, hash, data, delta = 0.005, id = -1;
 		if (this.activeValidator == 'wiki_places') delta = 0.02;
 		this.delta = delta;
 
@@ -1086,12 +1093,12 @@ function osm_cl() {
 		if (a.ref) {
 			if (i = this.osm_data_by_ref[a.ref]) {
 				data = this.osm_data[i.hash];
-				minObjId = i.id;
+				id = i.id;
 			}
 		}
 
 		// Поиск по координатам
-		if (minObjId < 0 && a.lat) {
+		if (id < 0 && a.lat) {
 			hash = this.hash(a.lat, a.lon);
 			data = this.osm_data[hash];
 			if (!data) return null;
@@ -1109,33 +1116,34 @@ function osm_cl() {
 						|| (a[ref = 'ref:temples.ru'] && a[ref] == data[i][ref])
 						|| (a[ref = 'okato:user'] && a[ref] == data[i][ref])
 					) {
-						minObjId = i; break;
+						id = i;
+						break;
 					}
 
 					// или ищем минимальное удаление от адреса
 					d = this.calcDistance(a, data[i]);
-					if (minObjId < 0 || d < minDistance) {
-						minObjId = i;
+					if (id < 0 || d < minDistance) {
+						id = i;
 						minDistance = d;
 					}
 				}
 			}
 		}
 
-		if (saveId && minObjId >= 0) {
-			data[minObjId]._used = (data[minObjId]._used || 0) + 1;
-			if (!data[minObjId]._used_name) data[minObjId]._used_name = '';
-			data[minObjId]._used_name += '\n' + (a['name:ru'] || a['name']) +
+		if (saveId && id >= 0) { // если объект привязан
+			data[id]._used = (data[id]._used || 0) + 1;
+			if (!data[id]._used_name) data[id]._used_name = '';
+			data[id]._used_name += '\n' + (a['name:ru'] || a['name']) +
 				' (ref=' + a[ref] + ', lat=' + (Math.round(a.lat * 1000) / 1000) + ', lon=' + (Math.round(a.lon * 1000) / 1000) + ');';
 		}
 
-		return minObjId < 0 ? null : data[minObjId];
-	};
+		return id < 0 ? null : data[id];
+	}
 
 	// расстояние между объектами
 	this.calcDistance = function (x, y) {
 		return mod(x.lat - y.lat) * mod(x.lat - y.lat) + mod(x.lon - y.lon) * mod(x.lon - y.lon);
-	};
+	}
 
 	// ссылка на сайт OSM
 	this.link = function (id) {
@@ -1166,18 +1174,27 @@ function osm_cl() {
 			'</a>';
 	}
 
-	// ссылка на "добавление ноды"
-	//validator/ todo port
+	// ссылка на "добавление объекта"
 	this.link_export_create = function (a) {
-		if (!a.lat) return '';
-		var i, url = 'http://' + document.domain + '/import.php?';
-		for (i in a) if (i.charAt(0) != '_')
-			url += '&' + i + '=' + encodeURIComponent(a[i]);
-		return '<a href="#create" onclick="return osm.export_create(\'' + url + '\')" target="josm" title="Добавить объект в OSM" class="btn">add</a>';
+		if (!a.lat) {
+			return '';
+		}
+
+		var i, tags = '';
+
+		for (i in a) {
+			if ((i.charAt(0) != '_') && (i != 'lon') && (i != 'lat')) {
+				tags += (tags ? '|' : '') + i + '=' + a[i];
+			}
+		}
+		tags = tags.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+		return '<a href="#create" onclick="return osm.export_create(' + a.lon + ', ' + a.lat + ', \''+ tags + '\')" title="Добавить объект в JOSM" class="btn">ADD</a>';
 	}
 
-	this.export_create = function (url) {
-		$('josm').src = 'http://localhost:8111/import?url=' + encodeURIComponent(url);
+	this.export_create = function (lon, lat, tags) {
+		tags = encodeURIComponent(tags);
+		ajax.load('http://localhost:8111/add_node?lon=' + lon + '&lat=' + lat + '&addtags=' + tags, function () {});
+		return false;
 	}
 
 	// координаты в формате top/bottom/left/right
@@ -1191,11 +1208,15 @@ function osm_cl() {
 			+ '&right=' + (a.lon + d)
 			+ '&left=' + (a.lon - d);
 	}
-	// ссылка на "обновление информации"
-	this.link_export_update = function (a, b) // a - real, b - osm
-	{
-		if (!a.id) return '';
-		var i, url = '';//'http://'+document.domain+'/validator/import.php?';
+
+	// ссылка на "обновление объекта"
+	this.link_export_update = function (a, b) { // a - real, b - osm
+		if (!a.id) {
+			return '';
+		}
+
+		var i, tags = '';
+
 		var f = validators[this.activeValidator].fields, k, v;
 		for (i in f) if (f[i].charAt(0) != '_')
 			if (this.compareField(b, a, f[i]) != C_Equal) {
@@ -1209,49 +1230,52 @@ function osm_cl() {
 				// пропускаем неправильный ОКАТО
 				if (k == 'okato:user' && v == '46') continue;
 
-				url += (url ? '|' : '') + encodeURIComponent(k) + '=' + encodeURIComponent(v);
+				tags += (tags ? '|' : '') + k + '=' + v;
 			}
-		if (!url) return '';
+		if (!tags) return '';
 
 		// заодно стираем устаревшие теги, если в OSM есть замена
 		if (this.josmCanDeleteTags) {
-			i = 'phone'; if (b[i] && a['contact:' + i]) url += '|' + i + '=%20';
-			i = 'website'; if (b[i] && a['contact:' + i]) url += '|' + i + '=%20';
-			i = 'population:year'; if (b[i] && a['population:date']) url += '|' + i + '=%20';
+			i = 'phone'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=%20';
+			i = 'website'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=%20';
+			i = 'population:year'; if (b[i] && a['population:date']) tags += '|' + i + '=%20';
 		}
 
 		var d; if (a.id.charAt(0) != 'n') d = 0.001; // FIXME: лучше передавать координату одного из угла, чтобы загружался только один объект!
-		url = url.replace(/"/g, '&quot;').replace(/'/g, "\\'");
-		return '<a href="#export" onclick="return osm.export_update(\'' + a.id + '\', \'' + url + '\')" title="Обновить объект в OSM" class="btn">upd</a>';
+		tags = tags.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+		return '<a href="#export" onclick="return osm.export_update(\'' + a.id + '\', \'' + tags + '\')" title="Обновить объект в JOSM" class="btn">UPD</a>';
 	}
 
-	this.export_update = function (id, url) {
+	this.export_update = function (id, tags) {
 		osm.loaded_objects[id] = 1;
-		url = encodeURIComponent(url);
-		$('josm').src = 'http://localhost:8111/load_object?objects=' + id + '&addtags=' + url;
+		tags = encodeURIComponent(tags);
+		ajax.load('http://localhost:8111/load_object?objects=' + id + '&addtags=' + tags, function () {});
 		return false;
 	}
 
 	// ссылка "открыть в JOSM"
 	this.link_open_josm = function (id) {
-		return '<a href="#load" onclick="return osm.open_josm(\'' + id + '\')" title="Открыть объект в OSM" class="btn">josm</a>';
+		return '<a href="#load" onclick="return osm.open_josm(\'' + id + '\')" title="Открыть объект в JOSM" class="btn">LOAD</a>';
 	}
 
 	this.open_josm = function (id) {
 		osm.loaded_objects[id] = 1;
-		$('josm').src = 'http://localhost:8111/load_object?objects=' + id;
+		ajax.load('http://localhost:8111/load_object?objects=' + id, function () {});
 		return false;
 	}
 
 	// ссылка "координаты в JOSM"
 	this.link_find_josm = function (a) {
-		if (!a.lat) return '';
-		return '<a href="#bbox" onclick="osm.find_josm(\'' + osm.coords(a, 0.001) + '\')" title="Найти координаты в OSM" class="btn">josm</a>';
+		if (!a.lat) {
+			return '';
+		}
+		return '<a href="#bbox" onclick="return osm.find_josm(\'' + osm.coords(a, 0.001) + '\')" title="Найти координаты в JOSM" class="btn">FIND</a>';
 	}
 
 	this.find_josm = function (coords) {
 		osm.loaded_objects[''] = 1;
-		$('josm').src = 'http://localhost:8111/load_and_zoom?' + coords;
+		ajax.load('http://localhost:8111/load_and_zoom?' + coords, function () {});
+		return false;
 	}
 
 	// поиск по адресу в яндекс картах
@@ -1259,20 +1283,20 @@ function osm_cl() {
 		return '<a href="/OSMvsNarod.html#q=' + st + '" target="_blank" title="Поиск адреса в НЯКе">' +
 			'<img src="http://yandex.st/lego/2.2.6/common/block/b-service-icon/_ico/b-service-icon_maps.ico"/></a>';
 	}
+
 	this.link_eatlas = function (lat, lon) {
 		//пока не нашел как показать страницу...
 		//return '<a href="http://atlas.mos.ru/?x=' + lon + '&y=' + lat + '&z=9&lang=ru" target="_blank" title="eAtlas">' +
 		//	'eAtlas</a>';
 		return '';
 	}
+
 	this.link_ya = function (lat, lon) {
 		return '<a href="http://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="Яндекс Карта"><img src="http://maps.yandex.ru/favicon.ico"></a>';
 	}
 
-
 	// сравнение одного поля в объектах
 	this.compareField = function (osm, real, field) {
-
 		if (!osm) osm = {};
 		var a = osm[field] || '', b = real[field];
 		if (b === '' || b == undefined || field.charAt(0) == '_') return C_Skip;
@@ -1477,18 +1501,14 @@ function osm_cl() {
 		$('btn_revalidate').value = 'Ждите...';
 		$('btn_revalidate').disabled = true;
 
-
 		ajax.send('/common/validate.php',
 			{
 				region: osm.activeRegion, validator: osm.activeValidator
 			},
 			function (x) {
-				//if (x) {
 				alert(x);
 				$('btn_revalidate').value = 'Перевалидировать';
 				$('btn_revalidate').disabled = false;
-				//    return;
-				//}
 				document.location = '#' + osm.activeRegion + '/' + osm.activeValidator;
 				document.location.reload();
 			}
@@ -1535,8 +1555,7 @@ function osm_cl() {
 			if (!x) {
 				st = '<b>Не запущен JOSM!</b>'; color = '#D33';
 				setTimeout(osm.checkJosm, 30 * 1000); // проверяем снова через 30 секунд
-			}
-			else {
+			} else {
 				var version = x.protocolversion.major + '.' + x.protocolversion.minor;
 				if (version >= '1.5')
 					osm.josmCanDeleteTags = true;
@@ -1552,22 +1571,28 @@ function osm_cl() {
 	return this;
 }
 
-function mod(x) { return x < 0 ? -x : x; }
+/* */
+function mod(x) {
+	return x < 0 ? -x : x;
+}
 
+/* */
 String.prototype.repeat = function (x) {
 	var i = 0, s = '', st = this;
 	while (i < x) { s += st; i++; }
 	return s;
 }
 
-/** сортировка хэша */
+/* сортировка хэша */
 function asort(a) {
 	var i, tmp = [];
-	for (i in a)
+	for (i in a) {
 		tmp.push([i, a[i]]);
+	}
 	tmp.sort(function (x, y) { x = x[0]; y = y[0]; if (x == y) return 0; return x > y ? 1 : -1; });
 	a = {};
-	for (i in tmp)
+	for (i in tmp) {
 		a[tmp[i][0]] = tmp[i][1];
+	}
 	return a;
 }
