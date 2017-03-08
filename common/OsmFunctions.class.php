@@ -160,10 +160,10 @@ class OsmFunctions
 			$bbox = NULL;
 		} else {
 			$bbox = [
-			'minlat' => $page['elements'][0]['bounds']['minlat'],
-			'minlon' => $page['elements'][0]['bounds']['minlon'],
-			'maxlat' => $page['elements'][0]['bounds']['maxlat'],
-			'maxlon' => $page['elements'][0]['bounds']['maxlon'],
+				'minlat' => $page['elements'][0]['bounds']['minlat'],
+				'minlon' => $page['elements'][0]['bounds']['minlon'],
+				'maxlat' => $page['elements'][0]['bounds']['maxlat'],
+				'maxlon' => $page['elements'][0]['bounds']['maxlon'],
 			];
 
 			$a[$region] = $bbox;

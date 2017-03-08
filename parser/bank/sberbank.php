@@ -126,7 +126,7 @@ class sberbank extends Validator
 		'name'            => 'Сбербанк',
 		'name:ru'         => 'Сбербанк',
 		'name:en'         => 'Sberbank',
-		'operator'        => 'ПАО Сбербанк',
+		'operator'        => 'ПАО "Сбербанк"', // https://www.cbr.ru/credit/coinfo.asp?id=350000004
 		'branch'          => '',
 		'contact:website' => 'http://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
@@ -222,6 +222,11 @@ class sberbank extends Validator
 				}
 			}
 
+			// Исключение передвижных отделений из поиска
+			if (stristr($obj['name'], 'ППКМБ') !== FALSE) {
+				continue;
+			}
+
 			$obj['ref'] = substr($obj['code'], 3, 4).'/'.substr($obj['code'], 7);
 
 			// Исключение повторений по ref
@@ -242,6 +247,9 @@ class sberbank extends Validator
 			if ($obj['mblt'] == 0) {
 				$obj['wheelchair'] = 'no';
 			}
+
+			// Переопределение названия
+			$obj['name'] = 'Сбербанк';
 
 			// Режим работы
 			if (isset($obj['workTimeList'])) {

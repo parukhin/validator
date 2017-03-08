@@ -1,99 +1,147 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class alfabank_atm extends Validator
 {
-	// откуда скачиваем данные
 	protected $domain = 'http://alfabank.ru';
-	static $urls = array(
-		'RU-MOW' => array(
-            'moscow' => '/$1/atms/$1/list/',
-		),
-		'RU-MOS' => array(
-			'balashiha' => '/russia/$1/',
-			'korolev'   => '/russia/$1/',
-			'odintsovo' => '/russia/$1/',
-			'khimki'    => '/russia/$1/',
-		),
-		'RU-KGD' => array(
-			'kaliningrad' => '/$1/address/',
-		),
-		'RU-MUR' => array(
-			'murmansk' => '/$1/atm/$1/',
-		),
-	);
-	// поля объекта
-	protected $fields = array(
-		'amenity'  => 'atm',
-		'name'     => 'Альфа-Банк',
-		'operator' => 'Альфа-Банк',
-		'website'  => 'http://alfabank.ru',
-		'opening_hours' => '',
-		'currency:RUR' => '',
-		'currency:USD' => '',
-		'currency:EUR' => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-	protected $filter = array(
-        '[amenity=atm][name~"[аА]льфа"]',
-    );
-	// парсер страницы
+
+	static $urls = [
+		'RU-KK'  => [30],
+		'RU-TA'  => [24, 14, 26],
+		'RU-IRK' => [73, 46, 74],
+		'RU-ARK' => [39, 178],
+		'RU-KYA' => [723, 78, 49],
+		'RU-MOS' => [236, 237, 410, 438, 239, 521, 241, 536, 334],
+		'RU-ALT' => [13, 66],
+		'RU-BEL' => [40],
+		'RU-NVS' => [336, 337, 54],
+		'RU-ORE' => [83, 86, 32, 33, 382],
+		'RU-PRI' => [1, 69, 70],
+		'RU-VLA' => [89],
+		'RU-VGG' => [41, 67],
+		'RU-VOR' => [43],
+		'RU-UD'  => [68, 45],
+		'RU-NIZ' => [125, 53],
+		'RU-SVE' => [44, 71, 151, 152],
+		'RU-MOW' => [235, 21],
+		'RU-CHE' => [120, 12, 119, 65],
+		'RU-ME'  => [552],
+		'RU-KGD' => [47],
+		'RU-KLU' => [37],
+		'RU-KEM' => [16, 2, 147, 435],
+		'RU-KIR' => [31],
+		'RU-KHA' => [420, 63],
+		'RU-KDA' => [48, 75, 22, 77],
+		'RU-KGN' => [50],
+		'RU-KRS' => [3],
+		'RU-LIP' => [51],
+		'RU-KHM' => [87, 5, 88, 8],
+		'RU-MUR' => [52],
+		'RU-ROS' => [101, 57, 106]
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'amenity'         => 'atm',
+		'ref'             => '',
+		'name'            => 'Альфа-Банк',
+		'name:ru'         => 'Альфа-Банк',
+		'name:en'         => 'Alfa-Bank',
+		'official_name'   => '',
+		'operator'        => 'АО "Альфа-Банк"', // https://www.cbr.ru/credit/coinfo.asp?id=450000036
+		'branch'          => '',
+		'contact:website' => 'https://alfabank.ru',
+		'contact:phone'   => '+7 495 7888878',
+		'currency:RUR'    => 'no',
+		'currency:USD'    => 'no',
+		'currency:EUR'    => 'no',
+		'cash_in'         => 'yes',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikipedia'       => 'ru:Альфа-банк',
+		'wikidata'        => 'Q1377835'
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[amenity=atm][operator~"Альфа",i]'
+	];
+
+	/* Обновление данных по региону */
+	public function update()
+	{
+		$this->log('Update real data '.$this->region);
+
+		foreach (static::$urls[$this->region] as $id) {
+
+			$maxcount = 300;
+			$offset = 0;
+			$count = 30;
+
+			while ($offset < $maxcount) {
+				$url = "https://alfabank.ru/ext-json/0.2/atm/list?city=$id&limit=$count&offset=$offset&mode=array&property=own";
+				// Только собственные банкоматы!
+
+				$page = $this->get_web_page($url);
+				if (is_null($page)) {
+					return;
+				}
+
+				$maxcount = $this->parse($page);
+				$offset+= $count;
+			}
+		}
+	}
+
+	/* Парсер страницы */
 	protected function parse($st)
 	{
-		if (preg_replace_callback('/is_online.+?atm_currency.+?},/s', function($x)
-		{
-			if (!preg_match('/'
-			."is24h:'(?<is24>.)"
-			.".+?lat:'(?<lat>[^']+)"
-			.".+?lon:'(?<lon>[^']+)"
-			.".+?external_name:'(?<ext>[^']*)"
-			.".+?processing_time:'(?<time>[^']*)"
-			.".+?address:'(?<_addr>[^']+)"
-			.".+?cout:(?<curr>[^}]+])"
-			."/su", $x[0], $obj)) return;
+		$a = json_decode($st, true);
+		if (is_null($a)) {
+			return;
+		}
 
-			// банкоматы партнеров
-			if (mb_strpos(' '.$obj['ext'], 'Росб'))
-			{
-				$obj['name']     = 'Росбанк';
-				$obj['operator'] = 'ОАО АКБ "Росбанк"';
-				$obj['website']  = 'http://www.rosbank.ru';
-			}
-			else
-			if (mb_strpos(' '.$obj['ext'], 'МДМ'))
-			{
-				$obj['name']     = 'МДМ Банк';
-				$obj['operator'] = 'ОАО "МДМ Банк"';
-				$obj['website']  = 'http://www.mdm.ru';
-			}
-			else
-			if (mb_strpos(' '.$obj['ext'], 'Промсв'))
-			{
-				$obj['name']     = 'Промсвязьбанк';
-				$obj['operator'] = 'ОАО "Промсвязьбанк"';
-				$obj['website']  = 'http://www.psbank.ru/';
-			}
-			// партнеров пропускаем, т.к. там говорят ошибки :-(
-			if (isset($obj['name'])) return;
+		$maxcount = $a['response']['count'];
 
-			// валюта выдачи
-			$currency = str_replace("'", '"', $obj['curr']);
-			$currency = json_decode($currency);
-			foreach ($currency as $v)
-			if (0);
-			elseif ($v == 'rur') $obj['currency:RUR'] = 'yes';
-			elseif ($v == 'usd') $obj['currency:USD'] = 'yes';
-			elseif ($v == 'eur') $obj['currency:EUR'] = 'yes';
+		foreach ($a['response']['data'] as $obj) {
 
-			if ($obj['is24']) $obj['opening_hours'] = '24/7';
-			else
-			if (preg_match('/\d{2}.\d{2}-\d{2}.\d{2}/', $obj['time'], $m))
-				$obj['opening_hours'] = str_replace('.', ':', $m[0]);
+			$obj['_addr'] = $obj['address'];
+			$obj['ref'] = $obj['id'];
+
+			// Приём наличных
+			if (empty($obj['in'])) {
+				$obj['cash_in'] = 'no';
+			}
+
+			// Валюты выдачи
+			foreach ($obj['out'] as $currency) {
+				switch ($currency) {
+					case 'rur':
+						$obj['currency:RUR'] = 'yes';
+						break;
+					case 'usd':
+						$obj['currency:USD'] = 'yes';
+						break;
+					case 'eur':
+						$obj['currency:EUR'] = 'yes';
+						break;
+					default:
+						$this->log("Parse error! (alfabank_atm: Неизвестный код валюты: '$currency').");
+						break;
+				}
+			}
+
+			// Время работы
+			if ($obj['is24'] == 1) {
+				$obj['opening_hours'] = '24/7';
+			} else {
+				$obj['opening_hours'] = $this->time($obj['processing']);
+			}
 
 			$this->addObject($this->makeObject($obj));
-		}, $st));
+		}
+		return $maxcount;
 	}
 }

@@ -49,7 +49,7 @@ class alfabank extends Validator
 		'name:ru'         => 'Альфа-Банк',
 		'name:en'         => 'Alfa-Bank',
 		'official_name'   => '',
-		'operator'        => 'Альфа-Банк',
+		'operator'        => 'АО "Альфа-Банк"', // https://www.cbr.ru/credit/coinfo.asp?id=450000036
 		'branch'          => '',
 		'contact:website' => 'https://alfabank.ru',
 		'contact:phone'   => '+7 495 7888878',
@@ -59,7 +59,7 @@ class alfabank extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikipedia'       => 'ru:Альфа-банк',
-		'wikidata'        => 'Q1377835',
+		'wikidata'        => 'Q1377835'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -142,10 +142,6 @@ class alfabank extends Validator
 			$obj['official_name'] = str_replace('"', '', $obj['title']);
 			$obj['_addr'] = $obj['address'];
 			$obj['ref'] = $obj['pid'];
-
-			if ($obj['pid'] == '0420') {
-				$obj['pid'] = 0;
-			}
 
 			// Время работы
 			$str = html_entity_decode($obj['processing']['retail']);

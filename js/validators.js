@@ -499,6 +499,17 @@ var validators = {
 			'RU-SVE', 'RU-MOW', 'RU-CHE', 'RU-ME', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KHA', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-KHM', 'RU-MUR', 'RU-ROS'
 		]
 	},
+	alfabank_atm: {
+		name: 'Альфа-Банк (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://alfabank.ru/office/',
+		fields: fields.atm,
+		regions: [
+			'RU-KK', 'RU-TA', 'RU-IRK', 'RU-ARK', 'RU-KYA', 'RU-MOS', 'RU-ALT', 'RU-BEL', 'RU-NVS', 'RU-ORE', 'RU-PRI', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-UD', 'RU-NIZ',
+			'RU-SVE', 'RU-MOW', 'RU-CHE', 'RU-ME', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KHA', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-KHM', 'RU-MUR', 'RU-ROS'
+		]
+	},
 		kenguru: {
 		name: 'Кенгуру',
 		note: '',
@@ -1204,7 +1215,7 @@ function osm_cl() {
 
 		for (i in a) {
 			if ((i.charAt(0) != '_') && (i != 'lon') && (i != 'lat')) {
-				tags += (tags ? '|' : '') + i + '=' + a[i];
+				tags += (tags ? '|' : '') + encodeURIComponent(i) + '=' + encodeURIComponent(a[i]);
 			}
 		}
 		tags = tags.replace(/"/g, '&quot;').replace(/'/g, "\\'");
@@ -1250,7 +1261,7 @@ function osm_cl() {
 				// пропускаем неправильный ОКАТО
 				if (k == 'okato:user' && v == '46') continue;
 
-				tags += (tags ? '|' : '') + k + '=' + v;
+				tags += (tags ? '|' : '') + encodeURIComponent(k) + '=' + encodeURIComponent(v);
 			}
 		if (!tags) return '';
 
@@ -1435,15 +1446,13 @@ function osm_cl() {
 						// простая раскраска, данные из OSM
 						if (!this.color || this.color == 'osm') {
 							if (real[fields[i]] != v) cl = 'err';
-						}
-						else
+						} else {
 							// в таблице выводим реальные данные
 							if (this.color == 'real') {
 								t = 'В OSM значение: ' + v;
 								if (real[fields[i]] != v) cl = 'err';
 								v = real[fields[i]];
-							}
-							else
+							} else {
 								// отмечаем посимвольно где ошибка
 								if (this.color == 'diff')
 									v = (function (from, to) {
@@ -1457,6 +1466,8 @@ function osm_cl() {
 										}
 										return res;
 									})(v, real[fields[i]]);
+							}
+						}
 						break;
 					}
 				case C_Equal:

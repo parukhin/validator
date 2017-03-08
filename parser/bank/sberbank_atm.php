@@ -126,14 +126,14 @@ class sberbank_atm extends Validator
 		'name'            => 'Сбербанк',
 		'name:ru'         => 'Сбербанк',
 		'name:en'         => 'Sberbank',
-		'operator'        => 'ПАО "Сбербанк"',
+		'operator'        => 'ПАО "Сбербанк"', // https://www.cbr.ru/credit/coinfo.asp?id=350000004
 		'branch'          => '',
 		'contact:website' => 'http://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
-		'currency:RUR'    => '',
-		'currency:USD'    => '',
-		'currency:EUR'    => '',
-		'cash_in'         => '',
+		'currency:RUR'    => 'no',
+		'currency:USD'    => 'no',
+		'currency:EUR'    => 'no',
+		'cash_in'         => 'no',
 		'opening_hours'   => '',
 		'lat'             => '',
 		'lon'             => '',
@@ -217,8 +217,6 @@ class sberbank_atm extends Validator
 			// Приём наличных
 			if ($obj['cashin'] == true) {
 				$obj['cash_in'] = 'yes';
-			} else {
-				$obj['cash_in'] = 'no';
 			}
 
 			$obj['branch'] = static::$urls[$this->region]['branch'];
@@ -231,7 +229,8 @@ class sberbank_atm extends Validator
 				$obj['contact:phone'] = $this->phone($obj['phone']);
 			}
 
-			// Валюты
+			// Валюты выдачи
+			// FIXME: добавить обработку
 			$obj['currency:RUR'] = 'yes';
 			//$obj['currency:USD'] = 'yes';
 			//$obj['currency:EUR'] = 'yes';
