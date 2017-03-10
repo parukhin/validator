@@ -252,6 +252,8 @@ class Validator extends OsmFunctions
 			'день'          => ''
 		];
 
+		//$st = str_replace(array_keys($replace), $replace, $st);
+
 		// FIXME: костыль для сохранения регистра
 		$st = str_replace(
 			['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'],

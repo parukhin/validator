@@ -145,6 +145,13 @@
 			margin: 10px 0;
 		}
 
+		#josm {
+			display: none;
+			padding: 5px 20px;
+			margin: 10px 0;
+			border: 1px dashed;
+		}
+
 		#help {
 			display: none;
 			background: #F9F9F9;
@@ -183,7 +190,7 @@
 			<p>Данный валидатор предназначен для проверки правильности нанесения сетей магазинов и предприятий. Информация о точках берется с официальных сайтов и обновляется несколько раз в месяц. Информация из базы OSM обновляется по возможности раз в сутки, если
 				есть какая-то активность в данном регионе.</p>
 			<p>Валидатор отображает только те, данные, которые необходимо исправить - таким образом, задача сводится к тому, откорректировать объекты, чтобы они здесь не отображались :-)</p>
-			<p>Для удобства редактирования во второй колонке есть кнопки: <span class="btn">add</span> - создание точки в редакторе JOSM и <span class="btn">upd</span> - обновление некорректных полей у заданного объекта в JOSM. Стоит заметить, что эти кнопки работают
+			<p>Для удобства редактирования во второй колонке есть кнопки: <span class="btn">ADD</span> - создание точки в редакторе JOSM и <span class="btn">UPD</span> - обновление некорректных полей у заданного объекта в JOSM. Стоит заметить, что эти кнопки работают
 				когда программа JOSM запущена и в ней включена опция удаленного контроля (remote control).</p>
 			<p>Цветовые обозначения: <b class="ok">Правильное значение</b>, <b class="err">Ошибка</b> (при наведении мыши можно увидеть правильное значение),
 				<b class="unknow">Значение не задано</b>. <b class="multi">Красноватый фон</b> на всей строке говорит о том, что этот OSM объект привязан к нескольким адресам. В этом случае необходимо создать еще один объект.
@@ -205,9 +212,11 @@
 		<span id="validators"></span>
 		<span id="date"></span>
 	</div>
-	<div id="checkJosm"></div>
 
-	<!-- Блок заметок -->
+	<!-- Блок предупреждений JOSM -->
+	<div id="josm"></div>
+
+	<!-- Блок предупреждений валидатора -->
 	<div id="note"></div>
 
 	<div id="state" class="hidden" style="display: none;"></div>
@@ -255,15 +264,12 @@
 		}
 	</script>
 
-	<iframe id="josm" name="josm" style="display: none"></iframe>
-
 	<br />
 	<div style="font-size: small; color: GrayText">
 		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
-		| Версия 0.3.13b |
-		<a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
-		<a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">форум</a>
-
+		| Версия 0.3.14b
+		| <a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
+		| <a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">Форум</a>
 	</div>
 
 </body>

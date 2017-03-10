@@ -5,6 +5,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/lib/phpquery/phpQuery-onefile.ph
 class magnitkosmetic extends Validator
 {
 	protected $domain = 'http://www.magnit-info.ru';
+
 	static $urls = [
 		'RU-ARK' => ['rid' => '829'],
 		'RU-ALT' => ['rid' => '1389'],

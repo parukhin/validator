@@ -271,7 +271,7 @@ var notes = {
 
 var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
-	fuel: ['_addr', 'ref', 'operator', 'brand','name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	fuel: ['_addr', 'ref', 'operator', 'brand','name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'wikidata', 'wikipedia'],
 	atm:  ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'wikidata', 'wikipedia'],
 };
@@ -320,6 +320,22 @@ var validators = {
 		link: 'https://komandacard.ru/home/getgasstations',
 		fields: fields.fuel,
 		regions: ['RU']
+	},
+	/* ivnefttorg: {
+		name: 'Ивнефтеторг',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'https://xn--b1acfam5ajqpbt.xn--p1ai/nashi-azs/',
+		fields: fields.fuel,
+		regions: ['RU-IVA']
+	}, */
+	eka: {
+		name: 'ЕКА',
+		note: notes.fuel,
+		noteIsShow: true,
+		link: 'http://www.eka.ru/network_azk/map_azs/',
+		fields: fields.fuel,
+		regions: ['RU-MOS', 'RU-MOW']
 	},
 	bashneft: {
 		name: 'Башнефть',
@@ -424,7 +440,7 @@ var validators = {
 			'RU-TYU', 'RU-ULY', 'RU-BA', 'RU-CU', 'RU-YAR', 'RU'
 		]
 	},
-		azbuka1: {
+	azbuka1: {
 		name: 'Азбука Вкуса',
 		note: '',
 		noteIsShow: false,
@@ -432,7 +448,7 @@ var validators = {
 		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
-		azbuka2: {
+	azbuka2: {
 		name: 'АВ Daily',
 		note: '',
 		noteIsShow: false,
@@ -440,7 +456,7 @@ var validators = {
 		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
-		azbuka3: {
+	azbuka3: {
 		name: 'АВ Маркет',
 		note: '',
 		noteIsShow: false,
@@ -448,7 +464,7 @@ var validators = {
 		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
-		azbuka4: {
+	azbuka4: {
 		name: 'АВ Энотека',
 		note: '',
 		noteIsShow: false,
@@ -456,7 +472,7 @@ var validators = {
 		fields: fields.shop,
 		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
 	},
-		pyaterochka: {
+	pyaterochka: {
 		name: 'Пятёрочка',
 		note: '',
 		noteIsShow: false,
@@ -469,7 +485,7 @@ var validators = {
 			'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAR'
 		]
 	},
-		diksi: {
+	diksi: {
 		name: 'Дикси',
 		note: '',
 		noteIsShow: false,
@@ -480,7 +496,7 @@ var validators = {
 			'RU-ORL', 'RU-TAM', 'RU-LIP', 'RU-VLA', 'RU-IVA', 'RU-KOS', 'RU-YAR', 'RU-NIZ', 'RU-CHE', 'RU-SVE', 'RU-TYU', 'RU-TVE'
 		]
 	},
-		lapy4: {
+	lapy4: {
 		name: 'Четыре лапы',
 		note: '',
 		noteIsShow: false,
@@ -510,7 +526,7 @@ var validators = {
 			'RU-SVE', 'RU-MOW', 'RU-CHE', 'RU-ME', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KHA', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-KHM', 'RU-MUR', 'RU-ROS'
 		]
 	},
-		kenguru: {
+	kenguru: {
 		name: 'Кенгуру',
 		note: '',
 		noteIsShow: false,
@@ -518,7 +534,7 @@ var validators = {
 		fields: fields.shop,
 		regions: ['RU-IVA','RU-YAR','RU-VLA','RU-KOS','RU-MOS','RU-MOW']
 	},
-		lukoil: {
+	lukoil: {
 		name: 'Лукойл',
 		note: notes.fuel,
 		noteIsShow: true,
@@ -1584,8 +1600,8 @@ function osm_cl() {
 		ajax.load('http://localhost:8111/version', function (x) {
 			var st = '', color = '';
 			if (!x) {
-				st = '<b>Не запущен JOSM!</b>'; color = '#D33';
-				setTimeout(osm.checkJosm, 30 * 1000); // проверяем снова через 30 секунд
+				st = '<b>Не запущен JOSM!</b>';
+				color = '#D33';
 			} else {
 				var version = x.protocolversion.major + '.' + x.protocolversion.minor;
 				if (version >= '1.5')
@@ -1594,8 +1610,15 @@ function osm_cl() {
 					st = 'Требуется обновление JOSM! <a href="http://josm.ru/">Загрузить</a>';
 				color = '#990';
 			}
-			if (st) st = '<div style="display: table; color: ' + color + '; padding: 5px 20px; margin: 10px 0; border: 1px dashed ' + color + '">' + st + '</div>';
-			$('checkJosm', st);
+
+			if (st) {
+				$('josm', st);
+				style('josm', 'display: table; color: ' + color + ';');
+			} else {
+				style('josm', 'display: none');
+			}
+
+			setTimeout(osm.checkJosm, 30 * 1000); // проверяем каждые 30 секунд
 		});
 	}
 
