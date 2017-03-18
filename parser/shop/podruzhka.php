@@ -1,10 +1,10 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class podruzhka extends Validator
 {
 	// откуда скачиваем данные
-	protected $domain = 'http://www.podrygka.ru';
+	protected $domain = 'http://www.podrygka.ru/shops/find/';
 	static $urls = array(
 		'RU-MOW' => '/shops/find/',
 		'RU-MOS' => '/shops/find/',
@@ -23,10 +23,9 @@ class podruzhka extends Validator
 		'_addr' => '',
 		);
 	// фильтр для поиска объектов в OSM
-    protected $filter = array(
-        '[shop=chemist][name~"подруж"]'
-    );
-
+	protected $filter = array(
+		'[shop=chemist][name~"подруж"]'
+	);
 
 	// парсер страницы
 	protected function parse($st)

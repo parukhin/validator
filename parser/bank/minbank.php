@@ -1,36 +1,54 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class minbank extends Validator
 {
-	// откуда скачиваем данные
-	protected $domain = 'http://www.minbank.ru';
-	static $urls = array(
-		'RU-MOW' => array('MOW' => '/include/ajax_map.php?region=95#$1'),
-		'RU-MOS' => array('MOS' => '/include/ajax_map.php?region=95#$1'),
-		'RU-SPE' => array('SPE' => '/include/ajax_map.php?region=173#$1'),
-		'RU-LEN' => array('LEN' => '/include/ajax_map.php?region=173#$1'),
-	);
-	// поля объекта
-	protected $fields = array(
-		'amenity'  => 'bank',
-		'name'     => 'Московский индустриальный банк',
-		'operator' => 'ОАО "МИнБ"',
-		'website'  => 'http://www.minbank.ru',
-		'opening_hours' => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
-        '[amenity=bank][name~"[Ии]ндустр"]'
-    );
+	protected $domain = 'https://www.minbank.ru/ajax/isic_address.php?acc_reserve_request=0&region_id=';
 
+	// для банкоматов
+	// https://telebank.minbank.ru/geoapi/getTerminals?region=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0&class=1&lat=55.75396&lon=37.620393&count=10000&max_dist=1000000000
 
-	// парсер страницы
+	static $urls = [
+		'RU-MOW' => '20327'
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'amenity'         => 'bank',
+		'ref'             => '',
+		'name'            => 'Московский индустриальный банк',
+		'name:ru'         => 'Московский индустриальный банк',
+		'name:en'         => '',
+		'official_name'   => '',
+		'operator'        => 'ОАО "МИнБ"',
+		'branch'          => '',
+		'contact:website' => 'http://www.minbank.ru',
+		'contact:phone'   => '',
+		'currency:RUR'    => '',
+		'currency:USD'    => '',
+		'currency:EUR'    => '',
+		'cash_in'         => '',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => ''
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[amenity=bank][name~"индустриальный",i]'
+	];
+
+	/* Парсер страницы */
 	protected function parse($st)
 	{
+		$a = json_decode($st, true);
+		if (is_null($a)) {
+			return;
+		}
+		/*
 		if (preg_match_all('/options = {.+?group\.add/s', $st, $m, PREG_SET_ORDER))
 		foreach ($m as $item)
 		if (preg_match('#'
@@ -57,5 +75,6 @@ class minbank extends Validator
 			$obj['opening_hours'] = $this->time($hours);
 			$this->addObject($this->makeObject($obj));
 		}
+		*/
 	}
 }

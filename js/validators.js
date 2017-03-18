@@ -541,6 +541,22 @@ var validators = {
 		link: 'https://auto.lukoil.ru/ru/ProductsAndServices/PetrolStations',
 		fields: fields.fuel,
 		regions: ['RU-BA', 'RU-KGD','RU-KDA','RU-LEN','RU-MOS','RU-MOW','RU-PER','RU-SPE','RU-VLG','RU-VGG', 'RU-IVA']
+	},
+	/* minbank: {
+		name: 'Московский индустриальный банк (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.minbank.ru/map/',
+		fields: fields.bank,
+		regions: ['RU-MOW']
+	}, */
+	mkb: {
+		name: 'Московский кредитный банк (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'http://mkb.ru/about_bank/address/?type=office',
+		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
+		regions: ['RU-MOW', 'RU-MOS']
 	}
 
 	/*

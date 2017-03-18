@@ -38,13 +38,6 @@ if ($region == '') {
 	return;
 }
 
-//$st = implode('', $_SERVER['argv']);
-//if (preg_match_all('#--([a-z-]+)#', $st, $m))
-//	foreach ($m[1] as $p) $GLOBALS[$p] = true;
-
-//if (empty($GLOBALS['no-cache']))
-//	$GLOBALS['html-cache'] = true;
-
 if (!$region) // регион не указан - обрабатываем все
 	$regions = $validator::getRegions();
 else

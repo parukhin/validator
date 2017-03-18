@@ -37,7 +37,7 @@ class azbuka2 extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$page = $this->get_web_page($this->domain);
 		if (is_null($page)) {
@@ -62,10 +62,8 @@ class azbuka2 extends Validator
 			$obj['lon'] = $obj['coords'][1];
 
 			// Отсеиваем по региону
-			if (strcmp($this->region, 'RU') !== 0) {
-				if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
-					continue;
-				}
+			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+				continue;
 			}
 
 			//$obj['convenience_shop'] // ??, видимо, тоже самое что и round_the_clock

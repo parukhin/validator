@@ -1,33 +1,38 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class atak extends Validator
 {
-	// откуда скачиваем данные
 	protected $domain = 'http://www.ataksupermarket.ru/';
-	static $urls = array(
+
+	static $urls = [
 		'RU-MOW' => 'atak.html?rid=1',
 		'RU-MOS' => 'atak.html?rid=2',
-	);
-	// поля объекта
-	protected $fields = array(
-		'shop'     => 'supermarket',
-		'brand'    => 'Атак',
-		'operator' => 'ООО "Атак"',
-		'website'  => 'http://www.ataksupermarket.ru',
-		'phone'    => '',
-		'opening_hours' => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
-        '[shop=supermarket][name="Атак"]'
-    );
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'shop'            => 'supermarket',
+		'ref'             => '',
+		'brand'           => 'Атак',
+		'operator'        => 'ООО "Атак"',
+		'contact:website' => 'http://www.ataksupermarket.ru',
+		'contact:phone'   => '',
+		'opening_hours'   => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
+		'wikidata'        => '',
+		'wikipedia'       => ''
+	];
+
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[shop=supermarket][name="Атак",i]'
+	];
 
 
-	// получение страниц
+	/* Обновление данных по региону */
 	public function update()
 	{
 		// формируем ссылки по каждому отделению
@@ -41,7 +46,7 @@ class atak extends Validator
 		}
 	}
 
-	// парсер страницы
+	/* Парсер страницы */
 	protected function parse($st)
 	{
 		if (preg_match('#'.

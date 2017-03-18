@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class tnk extends Validator
 {
@@ -46,7 +46,7 @@ class tnk extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$url = $this->domain;
 

@@ -66,13 +66,13 @@ class bashneft extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=fuel][name~"[Бб]ашн"]'
+		'[amenity=fuel][name~"Башнефть",i]'
 	];
 
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$id = static::$urls[$this->region]['id'];
 		$url = $this->domain.'/include_areas/new_azs_filter.php?region_azs='.$id;

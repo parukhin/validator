@@ -3,23 +3,23 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class eka extends Validator
 {
-	protected $domain = 'https://xn--b1acfam5ajqpbt.xn--p1ai';
+	protected $domain = 'http://www.eka.ru/network_azk/map_azs/ajax/points.php';
 
 	static $urls = [
-		'RU-MOS' => [],
-		'RU-MOW' => []
+		'RU-MOS' => '',
+		'RU-MOW' => ''
 	];
 
 	/* Поля объекта */
 	protected $fields = [
 		'amenity'         => 'fuel',
+		'ref'             => '',
 		'name'            => 'ЕКА',
 		'name:ru'         => 'ЕКА',
 		'brand'           => 'ЕКА',
 		'operator'        => 'ООО "Топливная компания ЕКА"', // http://www.kartoteka.ru/card/b53293f840ed5eeb184a439e9a693b00/f957c93abfa95c68446e5dfeb07a9315/#path_Main_Card_CardUl_Okved_Egrul
 		'contact:website' => 'http://www.eka.ru',
 		'contact:phone'   => '',
-		'ref'             => '',
 		'opening_hours'   => '24/7',
 		'fuel:octane_98'  => '',
 		'fuel:octane_95'  => '',
@@ -47,26 +47,10 @@ class eka extends Validator
 		'[amenity=fuel][name~"ЕКА",i]'
 	];
 
-	/* Обновление данных по региону */
-	public function update()
-	{
-		$this->log('Update real data '.$this->region);
-
-		$url = 'http://www.eka.ru/network_azk/map_azs/ajax/points.php';
-
-		$page = $this->get_web_page($url);
-		if (is_null($page)) {
-			return;
-		}
-
-		$this->parse($page);
-	}
-
 	/* Парсер страницы */
 	protected function parse($st)
 	{
 		$st = mb_substr($st, 1);
-		//$st = trim($st);
 
 		$a = json_decode($st, true);
 		if (is_null($a)) {
@@ -74,21 +58,27 @@ class eka extends Validator
 		}
 
 		foreach ($a['fstation'] as $obj) {
-			$obj['ref'] = preg_replace("/[^0-9]/", '', $obj['name']);
-
-			$obj['name'] = 'ЕКА';
-
-			// Адрес
-			$obj['_addr'] = $obj['adr'];
 
 			// Координаты
 			//$obj['lat'] = $obj['lat'];
 			$obj['lon'] = $obj['long'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (!$this->isInRegionByCoordsFromSputnik($obj['lat'], $obj['lon'])) {
 				continue;
 			}
+
+			$obj['ref'] = preg_replace("/[^0-9]/", '', $obj['name']);
+
+			// Исключение моек
+			if (strripos($obj['name'], 'Мойка') !== false) {
+				continue;
+			}
+
+			$obj['name'] = 'ЕКА';
+
+			// Адрес
+			$obj['_addr'] = $obj['adr'];
 
 			// Контакты
 			$obj['contact:phone'] = $this->phone($obj['phone']);

@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class russian_postomat extends Validator
 {
@@ -35,7 +35,7 @@ class russian_postomat extends Validator
 	protected function parse($st)
 	{
 		if (!preg_match('#out_txt_'.$this->code.'.+?(<table.+?</table>)#', $st, $m)) return false;
-		$a = $this->htmlTable2Array($m[1]);
+		//$a = $this->htmlTable2Array($m[1]); // Функция больше не поддерживается
 		for ($i = 1; $i < count($a); $i++)
 		{
 			$isInText = '(отделение почтовой связи)';

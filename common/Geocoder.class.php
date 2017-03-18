@@ -39,7 +39,7 @@ class Geocoder
 		return $res;
 	}
 
-	/** геокодирование */
+	/* Геокодирование */
 	private function geocode($st)
 	{
 		$res = $this->load($st);
@@ -54,7 +54,7 @@ class Geocoder
 		return $res;
 	}
 
-	/** выдача закешированного значения */
+	/* Выдача закешированного значения */
 	private function load($st)
 	{
 		$fname = $this->getFileName($st);
@@ -63,7 +63,7 @@ class Geocoder
 		return false;
 	}
 
-	/** сохранение значения в кеше */
+	/* Сохранение значения в кеше */
 	private function save($st, $value)
 	{
 		$fname = $this->getFileName($st);
@@ -72,7 +72,7 @@ class Geocoder
 		return file_put_contents($fname, serialize($value));
 	}
 
-	/** имя файла на основе запроса */
+	/* Имя файла на основе запроса */
 	private function getFileName($st)
 	{
 		$md5 = md5($st);
@@ -100,24 +100,24 @@ class Geocoder
 
 		$page = $this->get_web_page($url);
 		if (is_null($page)) {
-			return NULL;
+			return null;
 		}
 
 		$page = json_decode($page, true);
 		if (is_null($page)) {
-			return NULL;
+			return null;
 		}
 
 		if (isset($page['address']['state'])) {
 			$state = $page['address']['state'];
 		} else {
-			$state = NULL;
+			$state = null;
 		}
 
 		return $state;
 	}
 
-	/* Проверяет нахождение точки в полигоне */
+	/* Проверка нахождение точки в полигоне */
 	public function pointInPolygon($lat, $lon, $polygon)
 	{
 		$c = 0;

@@ -27,7 +27,8 @@ class OsmFunctions
 		$url = "http://www.overpass-api.de/api/interpreter";
 		//$url = "http://192.168.0.103/api/interpreter";
 
-		if (strcasecmp($region, 'RU') == 0) { // определяем административную единицу
+		// Определение административной единицы
+		if (strcasecmp($region, 'RU') == 0) {
 			$admin_level = '2'; // страна
 			$ref = 'ISO3166-1';
 			$timeout = '300';
@@ -129,7 +130,7 @@ class OsmFunctions
 
 			$a = json_decode($st, true);
 			if (is_null($a)) {
-				return NULL;
+				return null;
 			}
 
 			if (isset($a[$region])) {
@@ -148,16 +149,16 @@ class OsmFunctions
 
 		$page = $this->get_web_page($url, $query);
 		if (is_null($page)) {
-			return NULL;
+			return null;
 		}
 
 		$page = json_decode($page, true);
 		if (is_null($page)) {
-			return NULL;
+			return null;
 		}
 
 		if (!$page) {
-			$bbox = NULL;
+			$bbox = null;
 		} else {
 			$bbox = [
 				'minlat' => $page['elements'][0]['bounds']['minlat'],
@@ -189,7 +190,7 @@ class OsmFunctions
 
 			$a = json_decode($st, true);
 			if (is_null($a)) {
-				return NULL;
+				return null;
 			}
 
 			if (isset($a)) {
@@ -208,12 +209,12 @@ class OsmFunctions
 
 		$page = $this->get_web_page($url, $query);
 		if (is_null($page)) {
-			return NULL;
+			return null;
 		}
 
 		$page = json_decode($page, true);
 		if (is_null($page)) {
-			return NULL;
+			return null;
 		}
 
 		foreach ($page['elements'][0]['members'] as $member) {

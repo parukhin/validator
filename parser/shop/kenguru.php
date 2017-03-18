@@ -37,24 +37,6 @@ class kenguru extends Validator
 		'[shop][name~"Кенгуру",i]'
 	];
 
-	/* Обновление данных по региону */
-	public function update()
-	{
-		$this->log('Update real data '.$this->region);
-
-		foreach (static::$urls[$this->region] as $id) {
-
-			$url = $this->domain.$id;
-
-			$page = $this->get_web_page($url);
-			if (is_null($page)) {
-				return;
-			}
-
-			$this->parse($page);
-		}
-	}
-
 	/* Парсер страницы */
 	protected function parse($st)
 	{

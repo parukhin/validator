@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class rgs extends Validator
 {
@@ -33,7 +33,7 @@ class rgs extends Validator
 	{
         //echo $st;
 		$a = json_decode($st, 1);
-		
+
         foreach ($a['offices']['Data']['offices'] as $obj)
         {
             $obj['_addr'] = $obj['address'];
@@ -41,26 +41,26 @@ class rgs extends Validator
             //$obj['ref'] = $obj['id'];
             $obj['official_name'] = $obj['name'];
             unset($obj['name']);
-            
+
 			$time = $obj['time'];
 			$time = preg_replace('/<b>.+/', '', $time);
 			$time = preg_replace('/-?выходной/', ' off', $time);
 			$time = preg_replace('/.+Обслуживание физических лиц.+?>/', '', $time);
 			$time = preg_replace('/<br>/', '', $time);
-            
+
             $obj['opening_hours'] = $this->time($time);
 			$obj['opening_hours'] = preg_replace('/\s*[а-я].+$/ui', '$1', $obj['opening_hours']);
 			$obj['opening_hours'] = preg_replace('/(.+(0|ff)).*/',  '$1', $obj['opening_hours']);
             //echo $obj['opening_hours'];
 
             //$obj['capacity'] = $obj['TotalPlaces'];
-            
+
             $obj['lat'] = $obj['lat'];
             $obj['lon'] = $obj['lng'];
 
 
             $obj['contact:phone'] = '+7 '.$obj['phoneCode'].' '.$obj['phoneNumber'];
-            
+
             $this->addObject($this->makeObject($obj));
         }
 	}

@@ -3,30 +3,30 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class velobike extends Validator
 {
-	protected $domain = 'http://velobike.ru';
+	protected $domain = 'http://velobike.ru/proxy/parkings/';
 
 	static $urls = [
-		'RU-MOW' => '/proxy/parkings',
+		'RU-MOW' => ''
 	];
 
 	/* Поля объекта */
 	protected $fields = [
-		'network'           => 'Велобайк',
-		'amenity'           => 'bicycle_rental',
-		'capacity'          => '',
-		'contact:email'     => 'info@velobike.ru',
-		'contact:phone'     => '+7 495 9568286',
-		'contact:website'   => 'http://velobike.ru',
-		'operator'          => 'ЗАО "СитиБайк"',
-		'ref'               => '',
-		'lat'               => '',
-		'lon'               => '',
-		'_addr'             => '',
+		'network'         => 'Велобайк',
+		'amenity'         => 'bicycle_rental',
+		'capacity'        => '',
+		'contact:email'   => 'info@velobike.ru',
+		'contact:phone'   => '+7 495 9568286',
+		'contact:website' => 'http://velobike.ru',
+		'operator'        => 'ЗАО "СитиБайк"',
+		'ref'             => '',
+		'lat'             => '',
+		'lon'             => '',
+		'_addr'           => '',
 		];
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=bicycle_rental][network="Велобайк"]'
+		'[amenity=bicycle_rental][network="Велобайк",i]'
 	];
 
 	/* Парсер страницы */

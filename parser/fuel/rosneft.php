@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.class.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class rosneft extends Validator
 {
@@ -40,13 +40,13 @@ class rosneft extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=fuel][name~"[Рр]оснефть"]'
+		'[amenity=fuel][name~"[Роснефть",i]'
 	];
 
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$url = $this->domain;
 

@@ -61,7 +61,7 @@ class diksi extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$url = "https://dixy.ru/local/ajax/requests/nearest_shop_get_placemarks.php";
 		$query = "request_mode=ajax&site_id=s1";

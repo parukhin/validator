@@ -104,7 +104,7 @@ class alfabank extends Validator
 		}
 		*/
 
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		foreach (static::$urls[$this->region] as $id) {
 

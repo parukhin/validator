@@ -6,17 +6,16 @@ mb_internal_encoding('utf-8');
 
 class Validator extends OsmFunctions
 {
-	protected $domain  = '';
 	static    $urls    = [];
+	protected $domain  = '';
 	protected $fields  = [];
 	protected $region  = '';
 	protected $objects = [];
 	protected $filter  = [];
-	protected $context = null; // для download
 	public    $useCacheHtml = false; // страницы только из кеша
 	public    $updateHtml   = false; // перезакачать html страницы
 
-	/** конструктор - проверка возможности работы с заданным регионом */
+	/* Конструктор - проверка возможности работы с заданным регионом */
 	public function __construct($region)
 	{
 		if (is_array(static::$urls) &&
@@ -24,115 +23,50 @@ class Validator extends OsmFunctions
 			throw new Exception('Unknow region!');
 
 		$this->region = $region;
-		$this->context = stream_context_create(array(
-			'http' => array('method' => 'GET', 'timeout' => 5, 'header' => "User-agent: OSM validator http://osm.kool.ru\r\n")
-		));
 	}
 
-	/** список областей */
+	/* Список областей */
 	static function getRegions()
 	{
 		return array_keys(static::$urls); // COMMENT: позднее статическое связывание
 	}
 
-	/** доступна ли область для валидации */
+	/* Доступна ли область для валидации */
 	static function isRegion($x)
 	{
 		return isset(static::$urls[$x]);
 	}
 
-	/** реальные объекты */
+	/* Реальные объекты */
 	public function get_objects_real()
 	{
 		return $this->objects;
 	}
 
-	/** обновление данных по региону */
+	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Request real data');
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
-		if (is_array(static::$urls))
+		if (is_array(static::$urls[$this->region])) {
 			$urls = static::$urls[$this->region];
-		else
-			$urls = static::$urls;
+		} else {
+			$urls[] = static::$urls[$this->region];
+		}
 
-		if (is_string($urls))
-			$urls = array('' => $urls);
-		foreach ($urls as $id => $url)
-		{
-			$url = str_replace('$1', $id, $url);
-			$page = $this->download($this->domain.$url);
-			$this->code = $id;
-			$this->url  = $url;
+		foreach ($urls as $url) {
+
+			$page = $this->get_web_page($this->domain.$url);
+			if (is_null($page)) {
+				return;
+			}
+
 			$this->parse($page);
 		}
 	}
 
-	/** сохранение страницы */
-	protected function savePage($url, $content)
-	{
-		$fname = $this->pageFileName($url);
-		file_put_contents($fname, $content);
-		return $content;
-	}
-
-	/** загрузка страницы */
-	protected function loadPage($url)
-	{
-		$fname = $this->pageFileName($url);
-		$reload = 0;
-		if (!file_exists($fname))
-			$reload = 1;
-		else if ($this->useCacheHtml)
-			$reload = 0;
-		else if (time() - filemtime($fname) < 3600*24)
-			$reload = 0; // обновляли только что, поэтому больше не надо
-		else if ($this->updateHtml ) //|| mt_rand(0,9) == 0
-			$reload = 1; // старые файлы обновляем с вероятностью 1/10
-
-		return $reload ? false : file_get_contents($fname);
-	}
-
-	/** имя файла для сохранения страницы */
-	protected function pageFileName($url)
-	{
-		$md5 = md5($url);
-		$fname = '../_/_html/'.get_called_class().'/'.$this->region.'/'.substr($md5, 0, 2);
-		if (!file_exists($fname)) mkdir($fname, 0777, 1);
-		$fname .= "/$md5.html";
-		return $fname;
-	}
-
-	/** скачивание страницы из интернета, force - не использовать кеш */
-	protected function download($url, $force = 0)
-	{
-		$page = $force ? '' : $this->loadPage($url);
-		if (!$page)
-		{
-			$this->log("Download: ".urldecode($url));
-			$page = @file_get_contents($url, false, $this->context);
-			if (!$page)
-			{
-				$this->log("Error download: $url\n");
-				return '';
-			}
-			$this->response = $http_response_header; // заголовки ответа
-			if (stripos($page.implode('', $this->response), 'windows-1251'))
-				$page = iconv('cp1251', 'utf-8', $page);
-
-			if (!$force)
-				$page = $this->savePage($url, $page);
-		}
-		//else {
-			//$this->log("Use cache: ".$this->pageFileName($url));
-		//}
-
-		return $page;
-	}
-
 	/* Скачивание страницы из интернета */
-	public function get_web_page($url, $query = NULL, $cookie = NULL)
+	public function get_web_page($url, $query = null, $cookie = null, $log = true)
 	{
 		$useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
 
@@ -163,18 +97,16 @@ class Validator extends OsmFunctions
 			curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
 		}
 
-		//Accept: application/json, text/javascript, */*; q=0.01
-		//Accept-Encoding: gzip, deflate
-		//Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4
-
 		$page = curl_exec($ch);
 		$errno = curl_errno($ch);
 		$http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$info = curl_getinfo($ch);
+		//$info = curl_getinfo($ch);
 
 		if (($errno != 0) || ($http != 200)) { // если страница загружена с ошибкой
-			$this->log('Download error! (CURL: '.$errno.'; HTTP: '.$http.'; URL: '.$url.').');
-			$page = NULL; // в случае если ничего не смогли загрузить, возвращаем NULL
+			if ($log) {
+				$this->log('Download error! (CURL: '.$errno.'; HTTP: '.$http.'; URL: '.$url.').');
+			}
+			$page = null; // в случае если ничего не смогли загрузить, возвращаем null
 		}
 
 		curl_close($ch);
@@ -182,13 +114,8 @@ class Validator extends OsmFunctions
 		return $page;
 	}
 
-	/** функция валидации объектов */
-	public function validate()
-	{
-		$this->log("Validate not supported yet!\n");
-	}
 
-	/** универсальная функция преобразования времени в стандартный формат */
+	/* Универсальная функция преобразования времени в стандартный формат */
 	protected function time($st)
 	{
 		// передали массив - формируем строку
@@ -326,7 +253,7 @@ class Validator extends OsmFunctions
 		return $st;
 	}
 
-	/** универсальная функция преобразования телефона в стандартный формат */
+	/* Универсальная функция преобразования телефона в стандартный формат */
 	protected function phone($st)
 	{
 		$st = preg_split('/[,;\/]/', $st); $st = $st[0]; // возможно несколько телефонов, берем первый
@@ -341,17 +268,17 @@ class Validator extends OsmFunctions
 		return $st;
 	}
 
-	/** преобразование нескольких телефонов */
-	protected function phones($st)
+	/* Преобразование нескольких телефонов */
+	protected function phones($st, $delimiter = ';')
 	{
 		$res = '';
-		$list = explode(';', $st);
+		$list = explode($delimiter, $st);
 		foreach ($list as $item)
-			$res .= ($res?';':'').$this->phone($item);
+			$res .= ($res?'; ':'').$this->phone($item);
 		return $res;
 	}
 
-	/** создание объекта с нужными полями */
+	/* Создание объекта с нужными полями */
 	protected function makeObject($fields)
 	{
 		if (!empty($fields['_addr'])) {
@@ -375,7 +302,7 @@ class Validator extends OsmFunctions
 		return $obj;
 	}
 
-	/** фильтрация объекта не нашего региона */
+	/* Фильтрация объекта не нашего региона */
 	protected function isInRegion($city, $region, $text)
 	{
 		$t1 = $this->region == $region;      // совпадение по региону
@@ -386,6 +313,10 @@ class Validator extends OsmFunctions
 	/* Принадлежность объекта региону */
 	protected function isInRegionByCoords($lat, $lon)
 	{
+		if ($this->region == 'RU') {
+			return true;
+		}
+
 		static $polygon = [];
 
 		if (!isset($polygon[0]['lat'])) {
@@ -398,42 +329,52 @@ class Validator extends OsmFunctions
 		return $result;
 	}
 
-	/** преобразование html таблицы в массив */
-	protected function htmlTable2Array($html)
+	/* Принадлежность объекта региону */
+	// FIXME: тестовая функция
+	protected function isInRegionByCoordsFromSputnik($lat, $lon) // для Москвы и МО
 	{
-		$a = [];
-		$rowId = 0; $columnId = 0; $rowspan = []; $colspan = [];
-		foreach (new SimpleXMLElement($html) as $tr)
-		{
-			$a[$rowId] = []; $columnId = 0;
-			foreach ($tr->td as $td)
-			{
-				$value = (string)$td;
+		$result = false;
 
-				while (!empty($rowspan[$columnId]))
-				{
-					$a[$rowId][$columnId] = trim($rowspan[$columnId][1]);
-					if (--$rowspan[$columnId][0] < 1) unset($rowspan[$columnId]);
-					$columnId++;
-				}
-				if ($n = (int)($td->attributes()['rowspan']))
-					$rowspan[$columnId] = [$n-1, $value];
+		static $regions = [
+			'RU-MOS' => 'Московская область',
+			'RU-MOW' => 'Москва'
+		];
 
-				$a[$rowId][$columnId] = trim($value);
-				$columnId++;
-			}
-			$rowId++;
+		$url = "http://whatsthere.maps.sputnik.ru/point?lat=$lat&lon=$lon&houses=false";
+
+		$st = $this->get_web_page($url, null, null, false);
+
+		$a = json_decode($st, true);
+		if (is_null($a)) {
+			$this->log('Geocoder: Неверный формат ответа!');
 		}
-		return $a;
+
+		if (isset($a['result']['address'][0]['features'][0]['properties']['address_components'][1]['value'])) {
+			$region = $a['result']['address'][0]['features'][0]['properties']['address_components'][1]['value'];
+		} else if (isset($a['result']['address'][0]['features'][0]['properties']['description'])) {
+			$region = $a['result']['address'][0]['features'][0]['properties']['description'];
+			$region = str_replace('Россия, ', '', $region);
+		} else {
+			$result = $this->isInRegionByCoords($lat, $lon);
+		}
+
+		if (isset($region)) {
+			$key = array_search($region, $regions);
+			if ($key != false && $key == $this->region) {
+				$result = true;
+			}
+		}
+
+		return $result;
 	}
 
-	/** добавление объекта во время парсинга страницы */
+	/* Добавление объекта во время парсинга страницы */
 	protected function addObject($object)
 	{
 		$this->objects[] = $object;
 	}
 
-	/** логирование */
+	/* Запись лог файла */
 	function log($st)
 	{
 		$line = date('d.m.Y H:i:s')." $st\n";
@@ -443,5 +384,85 @@ class Validator extends OsmFunctions
 			$file = $_SERVER["DOCUMENT_ROOT"] . "/data/log.txt";
 			file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 		}
+	}
+
+	/* */
+	function xmlToArray($xml, $options = [])
+	{
+		$defaults = [
+			'namespaceSeparator' => ':',   // you may want this to be something other than a colon
+			'attributePrefix'    => '@',   // to distinguish between attributes and nodes with the same name
+			'alwaysArray'        => [],    // array of xml tag names which should always become arrays
+			'autoArray'          => true,  // only create arrays for tags which appear more than once
+			'textContent'        => '$',   // key used for the text content of elements
+			'autoText'           => true,  // skip textContent key if node has no attributes or child nodes
+			'keySearch'          => false, // optional search and replace on tag and attribute names
+			'keyReplace'         => false  // replace values for above search values (as passed to str_replace())
+		];
+
+		$options = array_merge($defaults, $options);
+		$namespaces = $xml->getDocNamespaces();
+		$namespaces[''] = null; // add base (empty) namespace
+
+		//get attributes from all namespaces
+		$attributesArray = [];
+		foreach ($namespaces as $prefix => $namespace) {
+			foreach ($xml->attributes($namespace) as $attributeName => $attribute) {
+				//replace characters in attribute name
+				if ($options['keySearch']) $attributeName =
+						str_replace($options['keySearch'], $options['keyReplace'], $attributeName);
+				$attributeKey = $options['attributePrefix']
+						. ($prefix ? $prefix . $options['namespaceSeparator'] : '')
+						. $attributeName;
+				$attributesArray[$attributeKey] = (string)$attribute;
+			}
+		}
+
+		//get child nodes from all namespaces
+		$tagsArray = [];
+		foreach ($namespaces as $prefix => $namespace) {
+			foreach ($xml->children($namespace) as $childXml) {
+				//recurse into child nodes
+				$childArray = $this->xmlToArray($childXml, $options);
+				list($childTagName, $childProperties) = each($childArray);
+
+				//replace characters in tag name
+				if ($options['keySearch']) $childTagName =
+						str_replace($options['keySearch'], $options['keyReplace'], $childTagName);
+				//add namespace prefix, if any
+				if ($prefix) $childTagName = $prefix . $options['namespaceSeparator'] . $childTagName;
+
+				if (!isset($tagsArray[$childTagName])) {
+					//only entry with this key
+					//test if tags of this type should always be arrays, no matter the element count
+					$tagsArray[$childTagName] =
+							in_array($childTagName, $options['alwaysArray']) || !$options['autoArray']
+							? array($childProperties) : $childProperties;
+				} elseif (
+					is_array($tagsArray[$childTagName]) && array_keys($tagsArray[$childTagName])
+					=== range(0, count($tagsArray[$childTagName]) - 1)
+				) {
+					//key already exists and is integer indexed array
+					$tagsArray[$childTagName][] = $childProperties;
+				} else {
+					//key exists so convert to integer indexed array with previous value in position 0
+					$tagsArray[$childTagName] = [$tagsArray[$childTagName], $childProperties];
+				}
+			}
+		}
+
+		//get text content of node
+		$textContentArray = [];
+		$plainText = trim((string)$xml);
+		if ($plainText !== '') $textContentArray[$options['textContent']] = $plainText;
+
+		//stick it all together
+		$propertiesArray = !$options['autoText'] || $attributesArray || $tagsArray || ($plainText === '')
+				? array_merge($attributesArray, $tagsArray, $textContentArray) : $plainText;
+
+		//return node as array
+		return [
+			$xml->getName() => $propertiesArray
+		];
 	}
 }

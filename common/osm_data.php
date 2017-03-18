@@ -8,7 +8,7 @@
 if (isset($_SERVER['argv'][3]))
 	osm_data($_SERVER['argv'][3], $_SERVER['argv'][1], $_SERVER['argv'][2]);
 
-function osm_data($data, $region, $validator, $type, $timestamp = NULL)
+function osm_data($data, $region, $validator, $type, $timestamp = null)
 {
 	if (!$data) { // если данные отсутствуют
 		return "Данные для ($region | $validator | $type) не были загружены.";

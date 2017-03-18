@@ -100,7 +100,7 @@ class magnitgipermarket extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Update real data '.$this->region);
+		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$rid = static::$urls[$this->region]['rid'];
 
