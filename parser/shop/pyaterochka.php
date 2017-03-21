@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
-require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
 class pyaterochka extends Validator
 {
@@ -72,7 +71,7 @@ class pyaterochka extends Validator
 		'ref'             => '',
 		'name'            => 'Пятёрочка',
 		'name:ru'         => 'Пятёрочка',
-		'name:en'         => '',
+		'name:en'         => 'Pyatyorochka',
 		'operator'        => 'X5 Retail Group',
 		'contact:website' => 'https://5ka.ru',
 		'contact:phone'   => '+7 800 5555505',
@@ -80,7 +79,7 @@ class pyaterochka extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => '',
+		'wikidata'        => 'Q1768969',
 		'wikipedia'       => 'ru:Пятёрочка'
 	];
 
@@ -117,8 +116,6 @@ class pyaterochka extends Validator
 	/* Парсер страницы */
 	protected function parse($st)
 	{
-		global $RU;
-
 		$a = json_decode($st, true);
 		if (is_null($a)) {
 			return;

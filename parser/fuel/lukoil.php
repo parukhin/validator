@@ -3,20 +3,20 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class lukoil extends Validator
 {
-	protected $domain = 'http://www.lukoil.ru';
+	protected $domain = 'https://auto.lukoil.ru/api/cartography/GetSearchObjects?form=gasStation';
 
 	static $urls = [
-		'RU-BA'  => [],
-		'RU-KGD' => [],
-		'RU-KDA' => [],
-		'RU-LEN' => [],
-		'RU-MOS' => [],
-		'RU-MOW' => [],
-		'RU-PER' => [],
-		'RU-SPE' => [],
-		'RU-VLG' => [],
-		'RU-VGG' => [],
-		'RU-IVA' => []
+		'RU-BA'  => '',
+		'RU-KGD' => '',
+		'RU-KDA' => '',
+		'RU-LEN' => '',
+		'RU-MOS' => '',
+		'RU-MOW' => '',
+		'RU-PER' => '',
+		'RU-SPE' => '',
+		'RU-VLG' => '',
+		'RU-VGG' => '',
+		'RU-IVA' => ''
 	];
 
 	/* Поля объекта */
@@ -58,21 +58,6 @@ class lukoil extends Validator
 	protected $filter = [
 		'[amenity=fuel][name~"Лукойл",i]'
 	];
-
-	/* Обновление данных по региону */
-	public function update()
-	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
-		$url = 'https://auto.lukoil.ru/api/cartography/GetSearchObjects?form=gasStation';
-
-		$page = $this->get_web_page($url);
-		if (is_null($page)) {
-			return;
-		}
-
-		$this->parse($page);
-	}
 
 	/* Парсер страницы */
 	protected function parse($st)

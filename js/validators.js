@@ -271,9 +271,9 @@ var notes = {
 
 var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
-	fuel: ['_addr', 'ref', 'operator', 'brand','name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'wikidata', 'wikipedia'],
-	atm:  ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'wikidata', 'wikipedia'],
+	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'wikidata', 'wikipedia'],
 };
 
 var validators = {
@@ -359,7 +359,7 @@ var validators = {
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
 			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
 			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
-			'RU-TYU', 'RU-UD' , 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU' , 'RU-YAN', 'RU-YAR'
+			'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
 	magnitgipermarket: {
@@ -373,7 +373,7 @@ var validators = {
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
 			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
 			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
-			'RU-TYU', 'RU-UD' , 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU' , 'RU-YAN', 'RU-YAR'
+			'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
 	magnitkosmetic: {
@@ -387,7 +387,7 @@ var validators = {
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
 			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
 			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
-			'RU-TYU', 'RU-UD' , 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU' , 'RU-YAN', 'RU-YAR'
+			'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
 	sberbank: {
@@ -532,7 +532,7 @@ var validators = {
 		noteIsShow: false,
 		link: 'http://kenguru.ru/info/shops.php',
 		fields: fields.shop,
-		regions: ['RU-IVA','RU-YAR','RU-VLA','RU-KOS','RU-MOS','RU-MOW']
+		regions: ['RU-IVA', 'RU-YAR', 'RU-VLA', 'RU-KOS', 'RU-MOS', 'RU-MOW']
 	},
 	lukoil: {
 		name: 'Лукойл',
@@ -540,7 +540,7 @@ var validators = {
 		noteIsShow: true,
 		link: 'https://auto.lukoil.ru/ru/ProductsAndServices/PetrolStations',
 		fields: fields.fuel,
-		regions: ['RU-BA', 'RU-KGD','RU-KDA','RU-LEN','RU-MOS','RU-MOW','RU-PER','RU-SPE','RU-VLG','RU-VGG', 'RU-IVA']
+		regions: ['RU-BA', 'RU-KGD', 'RU-KDA', 'RU-LEN', 'RU-MOS', 'RU-MOW', 'RU-PER', 'RU-SPE', 'RU-VLG', 'RU-VGG', 'RU-IVA']
 	},
 	/* minbank: {
 		name: 'Московский индустриальный банк (отделения)',
@@ -687,7 +687,7 @@ function osm_cl() {
 		return '' + lat + '' + lon;
 	}
 
-	// генерация таблицы валидатора
+	// Генерация таблицы валидатора
 	this.validate = function (region, validator) {
 		$('validate', '');
 
@@ -697,55 +697,46 @@ function osm_cl() {
 
 		this.log('Загрузка данных с сервера...');
 
-		// данные osm
-		ajax.load('data/' + region + '/' + validator + '_osm.json', function (a) {
-			var i, hash, corr = {};
+		// Загрузка данных OSM
+		axios.get('/data/' + region + '/' + validator + '_osm.json')
+			.then(function (response) {
+				for (i = 0; i < response.data.length; i++) {
 
-			// первый эл-т массива - данные, остальные - поправки
-			if (typeof (a) == 'string')
-				a = eval('([' + a + '])');
-
-			// находим поправки
-			for (i = 1; i < a.length; i++)
-				corr[a[i].id] = a[i];
-
-			a = a[0];
-			if (a != undefined)
-				for (i = 0; i < a.length; i++) {
-					if (corr[a[i].id]) // применяем поправку
-					{
-						corr[a[i].id].lat = a[i].lat;
-						corr[a[i].id].lon = a[i].lon;
-						a[i] = corr[a[i].id];
+					hash = osm.hash(response.data[i].lat, response.data[i].lon); // берем хэш от координат, чтобы было легко найти
+					if (!osm.osm_data[hash]) {
+						osm.osm_data[hash] = [];
 					}
-
-					hash = osm.hash(a[i].lat, a[i].lon); // берем хэш от координат, чтобы было легко найти
-					if (!osm.osm_data[hash]) osm.osm_data[hash] = [];
-					osm.osm_data[hash].push(a[i]);
+					osm.osm_data[hash].push(response.data[i]);
 
 					// индекс по ref
-					if (a[i].ref)
-						osm.osm_data_by_ref[a[i].ref] = { hash: hash, id: osm.osm_data[hash].length - 1 };
+					if (response.data[i].ref) {
+						osm.osm_data_by_ref[response.data[i].ref] = { hash: hash, id: osm.osm_data[hash].length - 1 };
+					}
 				}
+				osm.revalidate();
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 
-			osm.revalidate();
-		});
-
-		// реальные данные
-		ajax.load('data/' + region + '/' + validator + '_real.json', function (a) {
-			if (typeof (a) == 'string') a = eval('(' + a + ')');
-			osm.real_data = osm.real_data.concat(a);
-			osm.revalidate();
-		});
+		// Загрузка реальных данных
+		axios.get('/data/' + region + '/' + validator + '_real.json')
+			.then(function (response) {
+				osm.real_data = osm.real_data.concat(response.data);
+				osm.revalidate();
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 	}
 
-	// функция генерации таблицы валидатора
+	// Функция генерации таблицы валидатора
 	this.revalidate = function () {
 		if (this.timerRevalidate) clearInterval(this.timerRevalidate);
 		this.timerRevalidate = setTimeout(function () { osm.revalidate_(); }, 200);
 	}
 
-	// валидация подсчет кол-ва объектов
+	// Валидация подсчет кол-ва объектов
 	this.revalidate_ = function () {
 		var a = osm.real_data, osm_data, state, f, i, j, t;
 		this.count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -1250,13 +1241,21 @@ function osm_cl() {
 				tags += (tags ? '|' : '') + encodeURIComponent(i) + '=' + encodeURIComponent(a[i]);
 			}
 		}
+
 		tags = tags.replace(/"/g, '&quot;').replace(/'/g, "\\'");
-		return '<a href="#create" onclick="return osm.export_create(' + a.lon + ', ' + a.lat + ', \''+ tags + '\')" title="Добавить объект в JOSM" class="btn">ADD</a>';
+		return '<a href="#create" onclick="return osm.export_create(' + a.lon + ', ' + a.lat + ', \'' + tags + '\')" title="Добавить объект в JOSM" class="btn">ADD</a>';
 	}
 
+	//
 	this.export_create = function (lon, lat, tags) {
 		tags = encodeURIComponent(tags);
-		ajax.load('http://localhost:8111/add_node?lon=' + lon + '&lat=' + lat + '&addtags=' + tags, function () {});
+		axios.get('http://localhost:8111/add_node?lon=' + lon + '&lat=' + lat + '&addtags=' + tags)
+			.catch(function (error) {
+				if (error.response) {
+					$('josm', error.response.data);
+					style('josm', 'display: table; color: #D33;');
+				}
+			});
 		return false;
 	}
 
@@ -1281,21 +1280,28 @@ function osm_cl() {
 		var i, tags = '';
 
 		var f = validators[this.activeValidator].fields, k, v;
-		for (i in f) if (f[i].charAt(0) != '_')
-			if (this.compareField(b, a, f[i]) != C_Equal) {
-				k = f[i]; v = a[k];
-				if (!v) continue;
 
-				// не устанавливаем устаревшие теги
-				if (k == 'phone') a[k = 'contact:phone'] = v;
-				if (k == 'website') a[k = 'contact:website'] = v;
+		for (i in f) {
+			if (f[i].charAt(0) != '_') {
+				if (this.compareField(b, a, f[i]) != C_Equal) {
+					k = f[i]; v = a[k];
+					if (!v) continue;
 
-				// пропускаем неправильный ОКАТО
-				if (k == 'okato:user' && v == '46') continue;
+					// не устанавливаем устаревшие теги
+					if (k == 'phone') a[k = 'contact:phone'] = v;
+					if (k == 'website') a[k = 'contact:website'] = v;
 
-				tags += (tags ? '|' : '') + encodeURIComponent(k) + '=' + encodeURIComponent(v);
+					// пропускаем неправильный ОКАТО
+					if (k == 'okato:user' && v == '46') continue;
+
+					tags += (tags ? '|' : '') + encodeURIComponent(k) + '=' + encodeURIComponent(v);
+				}
 			}
-		if (!tags) return '';
+		}
+
+		if (!tags) {
+			return '';
+		}
 
 		// заодно стираем устаревшие теги, если в OSM есть замена
 		if (this.josmCanDeleteTags) {
@@ -1304,15 +1310,21 @@ function osm_cl() {
 			i = 'population:year'; if (b[i] && a['population:date']) tags += '|' + i + '=%20';
 		}
 
-		var d; if (a.id.charAt(0) != 'n') d = 0.001; // FIXME: лучше передавать координату одного из угла, чтобы загружался только один объект!
+		var d;
+
+		if (a.id.charAt(0) != 'n') {
+			d = 0.001; // FIXME: лучше передавать координату одного из угла, чтобы загружался только один объект!
+		}
+
 		tags = tags.replace(/"/g, '&quot;').replace(/'/g, "\\'");
 		return '<a href="#export" onclick="return osm.export_update(\'' + a.id + '\', \'' + tags + '\')" title="Обновить объект в JOSM" class="btn">UPD</a>';
 	}
 
+	//
 	this.export_update = function (id, tags) {
 		osm.loaded_objects[id] = 1;
 		tags = encodeURIComponent(tags);
-		ajax.load('http://localhost:8111/load_object?objects=' + id + '&addtags=' + tags, function () {});
+		axios.get('http://localhost:8111/load_object?objects=' + id + '&addtags=' + tags);
 		return false;
 	}
 
@@ -1321,9 +1333,10 @@ function osm_cl() {
 		return '<a href="#load" onclick="return osm.open_josm(\'' + id + '\')" title="Открыть объект в JOSM" class="btn">LOAD</a>';
 	}
 
+	//
 	this.open_josm = function (id) {
 		osm.loaded_objects[id] = 1;
-		ajax.load('http://localhost:8111/load_object?objects=' + id, function () {});
+		axios.get('http://localhost:8111/load_object?objects=' + id);
 		return false;
 	}
 
@@ -1335,9 +1348,14 @@ function osm_cl() {
 		return '<a href="#bbox" onclick="return osm.find_josm(\'' + osm.coords(a, 0.001) + '\')" title="Найти координаты в JOSM" class="btn">FIND</a>';
 	}
 
+	//
 	this.find_josm = function (coords) {
 		osm.loaded_objects[''] = 1;
-		ajax.load('http://localhost:8111/load_and_zoom?' + coords, function () {});
+
+		changeset_comment = '#validator.agily.ru ' + this.activeRegion + ':' + this.activeValidator;
+		changeset_comment = encodeURIComponent(changeset_comment);
+
+		axios.get('http://localhost:8111/load_and_zoom?' + coords + '&changeset_comment=' + changeset_comment);
 		return false;
 	}
 
@@ -1347,6 +1365,7 @@ function osm_cl() {
 			'<img src="http://yandex.st/lego/2.2.6/common/block/b-service-icon/_ico/b-service-icon_maps.ico"/></a>';
 	}
 
+	//
 	this.link_eatlas = function (lat, lon) {
 		//пока не нашел как показать страницу...
 		//return '<a href="http://atlas.mos.ru/?x=' + lon + '&y=' + lat + '&z=9&lang=ru" target="_blank" title="eAtlas">' +
@@ -1354,6 +1373,7 @@ function osm_cl() {
 		return '';
 	}
 
+	//
 	this.link_ya = function (lat, lon) {
 		return '<a href="http://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="Яндекс Карта"><img src="http://maps.yandex.ru/favicon.ico"></a>';
 	}
@@ -1549,33 +1569,21 @@ function osm_cl() {
 
 		var N = objects.length;
 
-		//if (!N && !is_new)
-		//{
-		//	var st = this._regions[this.activeRegion].validators[this.activeValidator].title;
-		//	if (!confirm(st+' будет перевалидирован в регионе '+this._regions[this.activeRegion].title
-		//	))
-		//	    return;
-		//}
-		//else
-		//	if (!confirm('Будет перевалидирован'+ok(N,'','о','о')+' '+objects.length+' объект'+ok(N,'','а','ов')+'.\n'
-		//		+(is_new?'Только что созданные объекты будут обработаны не раньше чем через день.\n':'')
-		//		+'\nПеред запуском удостоверьтесь, что вы отправили изменения на сервер и закрыли пакет правок!')) return;
-
 		$('btn_revalidate').value = 'Ждите...';
 		$('btn_revalidate').disabled = true;
 
-		ajax.send('/common/validate.php',
-			{
-				region: osm.activeRegion, validator: osm.activeValidator
-			},
-			function (x) {
-				alert(x);
+		axios.get('/common/validate.php?region=' + osm.activeRegion + '&validator=' + osm.activeValidator)
+			.then(function (response) {
+				alert(response.data);
+
 				$('btn_revalidate').value = 'Перевалидировать';
 				$('btn_revalidate').disabled = false;
-				document.location = '#' + osm.activeRegion + '/' + osm.activeValidator;
-				document.location.reload();
-			}
-		);
+
+				osm.validate(osm.activeRegion, osm.activeValidator)
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
 
 		osm.loaded_objects = {};
 	}
@@ -1613,32 +1621,26 @@ function osm_cl() {
 
 	// проверка включен ли JOSM нужной версии
 	this.checkJosm = function () {
-		ajax.load('http://localhost:8111/version', function (x) {
-			var st = '', color = '';
-			if (!x) {
-				st = '<b>Не запущен JOSM!</b>';
-				color = '#D33';
-			} else {
-				var version = x.protocolversion.major + '.' + x.protocolversion.minor;
-				if (version >= '1.5')
+		axios.get('http://localhost:8111/version')
+			.then(function (response) {
+				if (response.data.protocolversion.major >= 1 && response.data.protocolversion.minor >= 5) {
 					osm.josmCanDeleteTags = true;
-				else
-					st = 'Требуется обновление JOSM! <a href="http://josm.ru/">Загрузить</a>';
-				color = '#990';
-			}
+					style('josm', 'display: none');
+				} else {
+					$('josm', '<b>Требуется обновление JOSM! <a href="http://josm.ru/">Загрузить</a></b>');
+					style('josm', 'display: table; color: #990;');
+				}
+			})
+			.catch(function (error) {
+				$('josm', '<b>JOSM не запущен!</b>');
+				style('josm', 'display: table; color: #D33;');
+			});
 
-			if (st) {
-				$('josm', st);
-				style('josm', 'display: table; color: ' + color + ';');
-			} else {
-				style('josm', 'display: none');
-			}
-
-			setTimeout(osm.checkJosm, 30 * 1000); // проверяем каждые 30 секунд
-		});
+		// Проверка каждые 30 секунд
+		setTimeout(osm.checkJosm, 30 * 1000);
 	}
-
 	return this;
+
 }
 
 /* */

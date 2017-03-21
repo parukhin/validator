@@ -6,7 +6,7 @@ class rosneft extends Validator
 	protected $domain = 'https://komandacard.ru/home/getgasstations';
 
 	static $urls = [
-		'RU' => [] // пока для всей страны
+		'RU' => ''
 	];
 
 	/* Поля объекта */
@@ -42,20 +42,6 @@ class rosneft extends Validator
 	protected $filter = [
 		'[amenity=fuel][name~"[Роснефть",i]'
 	];
-
-	/* Обновление данных по региону */
-	public function update()
-	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
-		$url = $this->domain;
-
-		$page = $this->get_web_page($url);
-		if (is_null($page)) {
-			return;
-		}
-		$this->parse($page);
-	}
 
 	/* Парсер страницы */
 	protected function parse($st)

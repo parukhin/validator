@@ -79,7 +79,6 @@ class mkb extends Validator
 			$obj['opening_hours'] = $this->time($obj['workingtime']['interval']);
 
 			// Контакты
-			// FIXME: добавить обработку второго номера телефона
 			if (is_array($obj['phones']['phone'])) {
 				$obj['contact:phone'] = $this->phone($obj['phones']['phone'][0]);
 			} else {
