@@ -3,47 +3,117 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class temples extends Validator
 {
-	// откуда скачиваем данные
-	protected $domain = 'http://www.temples.ru';
-	static $urls = array(
-		'RU-MOW' => array('41' => '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-MOS' => array('42' => '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-BA'  => array('688'=> '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-BEL' => array('32'=>  '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-BRY' => array('33' => '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-KEM' => array('720'=> '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-LEN' => array('709'=> '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-SPE' => array('703'=> '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-TVE' => array('47' => '/export_osm.php?send=on&RegionID=$1#$1'),
-		'RU-VOR' => array('35' => '/export_osm.php?send=on&RegionID=$1#$1'),
-	);
-	// поля объекта
-	protected $fields = array(
-		'amenity'  => 'place_of_worship',
-		'building' => '',
-		'name'     => '',
-		'religion' => 'christian',
-		'denomination'    => 'russian_orthodox',
-		'denomination:ru' => '',
-		'russian_orthodox'=> '',
-		'disused'      => '',
-		'alt_name'     => '',
-		'ref:temples.ru' => '',
+	protected $domain = 'http://www.temples.ru/export_osm.php?send=on&RegionID=';
+
+	static $urls = [
+		'RU-ALT' => '717',
+		'RU-AMU' => '682',
+		'RU-ARK' => '706',
+		'RU-AST' => '740',
+		'RU-BEL' => '32',
+		'RU-VLA' => '34',
+		'RU-VGG' => '741',
+		'RU-VLG' => '707',
+		'RU-VOR' => '35',
+		'RU-ZAB' => '725',
+		'RU-IVA' => '36',
+		'RU-IRK' => '719',
+		'RU-KGD' => '708',
+		'RU-KLU' => '37',
+		'RU-KAM' => '683',
+		'RU-KC' => '735',
+		'RU-KEM' => '720',
+		'RU-KIR' => '694',
+		'RU-KOS' => '38',
+		'RU-KDA' => '738',
+		'RU-KYA' => '718',
+		'RU-KGN' => '726',
+		'RU-KRS' => '39',
+		'RU-LEN' => '709',
+		'RU-LIP' => '40',
+		'RU-MAG' => '684',
+		'RU-MOW' => '41',
+		'RU-MOS' => '42',
+		'RU-MUR' => '1785',
+		'RU-NIZ' => '695',
+		'RU-NGR' => '711',
+		'RU-NVS' => '721',
+		'RU-OMS' => '722',
+		'RU-ORE' => '696',
+		'RU-ORL' => '43',
+		'RU-PNZ' => '697',
+		'RU-PER' => '702',
+		'RU-PRI' => '680',
+		'RU-PSK' => '712',
+		'RU-AD' => '730',
+		'RU-AL' => '713',
+		'RU-BA' => '688',
+		'RU-BU' => '714',
+		'RU-DA' => '731',
+		'RU-IN' => '732',
+		'RU-KL' => '734',
+		'RU-KR' => '704',
+		'RU-KO' => '705',
+		'RU-CR' => '11015',
+		'RU-ME' => '689',
+		'RU-MO' => '690',
+		'RU-SA' => '679',
+		'RU-SE' => '736',
+		'RU-TA' => '691',
+		'RU-TY' => '715',
+		'RU-KK' => '716',
+		'RU-ROS' => '742',
+		'RU-RYA' => '44',
+		'RU-SAM' => '699',
+		'RU-SPE' => '703',
+		'RU-SAR' => '700',
+		'RU-SAK' => '685',
+		'RU-SVE' => '727',
+		'RU-SEV' => '11052',
+		'RU-SMO' => '45',
+		'RU-STA' => '739',
+		'RU-TAM' => '46',
+		'RU-TVE' => '47',
+		'RU-TOM' => '723',
+		'RU-TUL' => '48',
+		'RU-TYU' => '728',
+		'RU-UD' => '692',
+		'RU-ULY' => '701',
+		'RU-KHA' => '681',
+		'RU-CHE' => '729',
+		'RU-CE' => '737',
+		'RU-CU' => '693',
+		'RU-CHU' => '687',
+		'RU-YAR' => '49'
+	];
+
+	/* Поля объекта */
+	protected $fields = [
+		'amenity'          => 'place_of_worship',
+		'building'         => '',
+		'name'             => '',
+		'religion'         => 'christian',
+		'denomination'     => 'russian_orthodox',
+		'denomination:ru'  => '',
+		'russian_orthodox' => '',
+		'disused'          => '',
+		'alt_name'         => '',
+		'ref:temples.ru'   => '',
 		'community:gender' => '',
-		'start_date' => '',
-		'website'    => '',
-		'lat'   => '',
-		'lon'   => '',
-		'_id'   => '',
-		'_addr' => '',
-		);
-	// фильтр для поиска объектов в OSM
-    protected $filter = array(
-        '[amenity=place_of_worship]'
-    );
+		'start_date'       => '',
+		'contact:website'  => '',
+		'lat'              => '',
+		'lon'              => '',
+		'_id'              => '',
+		'_addr'            => '',
+	];
 
+	/* Фильтр для поиска объектов в OSM */
+	protected $filter = [
+		'[amenity=place_of_worship]'
+	];
 
-	// парсер страницы
+	/* Парсер страницы */
 	protected function parse($st)
 	{
 		$st = str_replace(' />', '></end>', $st);
@@ -123,7 +193,7 @@ class temples extends Validator
 			$date = preg_replace('/(\d)-(\d|C)/', '$1..$2', $date);
 			$obj['start_date'] = trim($date);
 
-			$obj['website'] = preg_replace('#/$#', '', $obj['website']);
+			$obj['contact:website'] = preg_replace('#/$#', '', $obj['website']);
 
 			if (mb_stripos(' '.$obj['name'],  'собор'))     $obj['building'] = 'cathedral';
 			if (mb_stripos(' '.$obj['name'],  'часовня'))   $obj['building'] = 'chapel';

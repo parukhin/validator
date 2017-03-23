@@ -557,6 +557,21 @@ var validators = {
 		link: 'http://mkb.ru/about_bank/address/?type=office',
 		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
 		regions: ['RU-MOW', 'RU-MOS']
+	},
+	temples: {
+		name: 'Церкви (temples.ru)',
+		note: '',
+		noteIsShow: false,
+		link: 'http://www.temples.ru/tree.php',
+		fields: ['_addr', 'ref:temples.ru', 'building', 'name', 'alt_name', 'religion', 'denomination', 'denomination:ru', 'russian_orthodox', 'disused', 'community:gender', 'start_date', 'contact:website', '_id'],
+		regions: [
+			'RU-ALT', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-ZAB', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KLU',
+			'RU-KAM', 'RU-KC', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MAG', 'RU-MOW', 'RU-MOS',
+			'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-AD', 'RU-AL', 'RU-BA',
+			'RU-BU', 'RU-DA', 'RU-IN', 'RU-KL', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME', 'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-KK', 'RU-ROS',
+			'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SEV', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU',
+			'RU-UD', 'RU-ULY', 'RU-KHA', 'RU-CHE', 'RU-CE', 'RU-CU', 'RU-CHU', 'RU-YAR'
+		]
 	}
 
 	/*
@@ -673,11 +688,17 @@ function osm_cl() {
 
 		st = 'Обновлено ' + _(this.activeRegion, x, 2) + ', OSM данные от ' + _(this.activeRegion, x, 3) +
 			', <a href="' + validators[x].link + '" target=_blank>объекты</a> от ' + _(this.activeRegion, x, 4);
-		st += ' <input type="button" onclick="osm.update()" value="Перевалидировать" id="btn_revalidate">'
-
 		$('date', st);
 
+		style('btn_revalidate', 'display: inline');
+
 		this.validate(this.activeRegion, x);
+
+	}
+
+	// Обновление времени обновления данных
+	this.updateDate = function () {
+		// FIXME: Добавить
 	}
 
 	// хэш функция по координтам
@@ -697,8 +718,11 @@ function osm_cl() {
 
 		this.log('Загрузка данных с сервера...');
 
+		// Получаем новое время для принудительной загрузки .json
+		var time = new Date().getTime();
+
 		// Загрузка данных OSM
-		axios.get('/data/' + region + '/' + validator + '_osm.json')
+		axios.get('/data/' + region + '/' + validator + '_osm.json?' + time)
 			.then(function (response) {
 				for (i = 0; i < response.data.length; i++) {
 
@@ -716,17 +740,17 @@ function osm_cl() {
 				osm.revalidate();
 			})
 			.catch(function (error) {
-				console.log(error);
+				osm.log('Данные отсутствуют, необходимо запустить валидатор.');
 			});
 
 		// Загрузка реальных данных
-		axios.get('/data/' + region + '/' + validator + '_real.json')
+		axios.get('/data/' + region + '/' + validator + '_real.json?' + time)
 			.then(function (response) {
 				osm.real_data = osm.real_data.concat(response.data);
 				osm.revalidate();
 			})
 			.catch(function (error) {
-				console.log(error);
+				osm.log('Данные отсутствуют, необходимо запустить валидатор.');
 			});
 	}
 

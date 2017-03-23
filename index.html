@@ -164,7 +164,6 @@
 			margin-top: 20px;
 		}
 	</style>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="./js/validators.js"></script>
 
 	<script>
@@ -212,6 +211,7 @@
 	<div>
 		<span id="validators"></span>
 		<span id="date"></span>
+		<input type="button" onclick="osm.update()" value="Перевалидировать" id="btn_revalidate" style="display: none;">
 	</div>
 
 	<!-- Блок предупреждений JOSM -->
@@ -268,7 +268,7 @@
 	<br />
 	<div style="font-size: small; color: GrayText">
 		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
-		| Версия 0.3.16b
+		| Версия 0.3.17b
 		| <a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
 		| <a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">Форум</a>
 	</div>
