@@ -37,9 +37,8 @@ function osm_data($data, $region, $validator, $type, $timestamp = null)
 	}
 
 	// Обновление списка валидаторов
-	$fname = $_SERVER["DOCUMENT_ROOT"]."/data/state.js";
+	$fname = $_SERVER["DOCUMENT_ROOT"]."/data/state.json";
 	$data = file_get_contents($fname);
-	$data = substr($data, 2, -1);
 
 	$data = json_decode($data, true);
 	if (!$data) $data = array();
@@ -58,7 +57,6 @@ function osm_data($data, $region, $validator, $type, $timestamp = null)
 
 	$data = json_encode($data);
 
-	$data = "_($data)";
 	file_put_contents($fname, $data);
 
 	return $msg;

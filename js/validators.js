@@ -1,3 +1,4 @@
+// validators.js v0.2
 var osm = new osm_cl()
 
 var regions = {
@@ -613,6 +614,7 @@ function osm_cl() {
 	// Формируем список регионов, для которых есть хотя бы один валидатор
 	this.regions = function () {
 		var st = '';
+
 		for (region in regions) {
 			regions[region].validators = [];
 			for (validator in validators) { // если есть валидатор
@@ -623,13 +625,15 @@ function osm_cl() {
 			}
 			st += option;
 		}
+
 		if (st) {
 			st = '<select id="region" onchange="osm.changeRegion(this.value)">' + '<option value="">Выберите регион</option>' + st + '</select>';
 		}
-		return st;
+
+		$('regions', st);
 	}
 
-	// смена региона
+	// Cмена региона
 	this.changeRegion = function (x) {
 		if (!regions[x]) return;
 		this.activeRegion = x;
@@ -671,24 +675,11 @@ function osm_cl() {
 		$('search').value = '';
 		$('validate', '');
 
-		// Уведомление для конкретного валидатора
-		if (validators[x].noteIsShow == true) {
-			st = validators[x].note;
-			$('note', st);
-			style('note', 'display: block');
-		} else {
-			style('note', 'display: none');
-		}
+		this.update_note();
+
+		this.update_state();
 
 		this.loaded_objects = {};
-
-		// Добавляем информацию о времени последнего обновления данных
-		var st = '';
-		var _ = function (x, y, Z) { return state[x + '.' + y] ? '<span title="' + date('H:i:s', state[x + '.' + y][Z]) + '">' + date('d.m.Y', state[x + '.' + y][Z]) + '</span>' : '?'; }
-
-		st = 'Обновлено ' + _(this.activeRegion, x, 2) + ', OSM данные от ' + _(this.activeRegion, x, 3) +
-			', <a href="' + validators[x].link + '" target=_blank>объекты</a> от ' + _(this.activeRegion, x, 4);
-		$('date', st);
 
 		style('btn_revalidate', 'display: inline');
 
@@ -696,9 +687,55 @@ function osm_cl() {
 
 	}
 
-	// Обновление времени обновления данных
-	this.updateDate = function () {
-		// FIXME: Добавить
+	// Обновление уведомления
+	this.update_note = function () {
+		if (validators[this.activeValidator].noteIsShow == true) {
+			st = validators[this.activeValidator].note;
+			$('note', st);
+			style('note', 'display: block');
+		} else {
+			style('note', 'display: none');
+		}
+	}
+
+	// Загрузка информации о времени запуска валидаторов
+	this.load_state = function (force = false) {
+		this.stateIsLoad = false;
+
+		url = '/data/state.json';
+		if (force) {
+			url += '?' + new Date().getTime()
+		}
+
+		axios.get(url)
+			.then(function (response) {
+				this.state.length = 0;
+				this.state = response.data;
+				osm.stateIsLoad = true;
+				osm.update_state();
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+
+	// Обновление информации о времени запуска валидаторов
+	this.update_state = function () {
+		if (this.stateIsLoad) {
+
+			var _ = function (x, y, z) {
+				if ((x + '.' + y) in this.state) {
+					return this.state[x + '.' + y][z] ? '<span title="' + date('H:i:s', this.state[x + '.' + y][z]) + '">' + date('d.m.Y', this.state[x + '.' + y][z]) + '</span>' : '?';
+				} else {
+					return '?';
+				}
+			}
+
+			var st = '';
+			st = 'Обновлено ' + _(this.activeRegion, this.activeValidator, 2) + ', OSM данные от ' + _(this.activeRegion, this.activeValidator, 3) +
+				', <a href="' + validators[this.activeValidator].link + '" target=_blank>объекты</a> от ' + _(this.activeRegion, this.activeValidator, 4);
+			$('date', st);
+		}
 	}
 
 	// хэш функция по координтам
@@ -1603,6 +1640,7 @@ function osm_cl() {
 				$('btn_revalidate').value = 'Перевалидировать';
 				$('btn_revalidate').disabled = false;
 
+				osm.load_state(true);
 				osm.validate(osm.activeRegion, osm.activeValidator)
 			})
 			.catch(function (error) {

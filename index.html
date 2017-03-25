@@ -164,16 +164,7 @@
 			margin-top: 20px;
 		}
 	</style>
-	<script src="./js/validators.js"></script>
-
-	<script>
-		var state = 0;
-
-		function _(x) {
-			state = x;
-		}
-	</script>
-	<script src="./data/state.js"></script>
+	<script src="./js/validators.js?v0.2"></script>
 
 	<div>
 		<span id="regions"></span>
@@ -236,7 +227,9 @@
 
 		// открываем нужный валидатор
 		var hash = (document.location + '/#/#/#').replace('//', '/').replace(/.+?#/, '').split('/');
-		$('regions', osm.regions());
+		osm.load_state();
+		osm.regions();
+
 		if (hash[1] != '#') osm.activeValidator = hash[1];
 		if (hash[0].indexOf('RU') != -1) {
 			$('region').value = hash[0];
@@ -268,7 +261,7 @@
 	<br />
 	<div style="font-size: small; color: GrayText">
 		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
-		| Версия 0.3.17b
+		| Версия 0.3.18b
 		| <a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
 		| <a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">Форум</a>
 	</div>
