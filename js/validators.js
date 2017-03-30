@@ -1,4 +1,4 @@
-// validators.js v0.2
+// validators.js v0.3
 var osm = new osm_cl()
 
 var regions = {
@@ -573,6 +573,14 @@ var validators = {
 			'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SEV', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU',
 			'RU-UD', 'RU-ULY', 'RU-KHA', 'RU-CHE', 'RU-CE', 'RU-CU', 'RU-CHU', 'RU-YAR'
 		]
+	},
+	moscow_parkomats: {
+		name: 'Паркоматы',
+		note: '',
+		noteIsShow: false,
+		link: 'https://data.mos.ru/opendata/1421',
+		fields: ['_addr', 'ref', 'ref:mos_parking', 'zone:parking', 'vending', 'operator', 'contact:website' ,'contact:phone', 'opening_hours', 'payment:cash', 'payment:credit_cards', 'payment:debit_cards'],
+		regions: ['RU-MOW']
 	}
 
 	/*
@@ -699,10 +707,14 @@ function osm_cl() {
 	}
 
 	// Загрузка информации о времени запуска валидаторов
-	this.load_state = function (force = false) {
+	this.load_state = function (force) {
+		if (force === undefined) {
+			force = false;
+		}
+
 		this.stateIsLoad = false;
 
-		url = '/data/state.json';
+		var url = '/data/state.json';
 		if (force) {
 			url += '?' + new Date().getTime()
 		}
