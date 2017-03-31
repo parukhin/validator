@@ -11,7 +11,7 @@ class moscow_parkomats extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'              => 'post_office',
+		'amenity'              => 'vending_machine',
 		'vending'              => 'parking_tickets',
 		'zone:parking'         => '',
 		'ref'                  => '',
@@ -52,7 +52,7 @@ class moscow_parkomats extends Validator
 
 		$zip = new ZipArchive;
 
-		if ($zip->open("$dir/moscow_parkomats.zip") === TRUE) {
+		if ($zip->open("$dir/moscow_parkomats.zip") === true) {
 			$zip->extractTo($dir);
 			$filename = $zip->getNameIndex(0);
 			$zip->close();

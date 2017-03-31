@@ -227,7 +227,7 @@
 
 		// открываем нужный валидатор
 		var hash = (document.location + '/#/#/#').replace('//', '/').replace(/.+?#/, '').split('/');
-		osm.load_state();
+		osm.load_state(true);
 		osm.regions();
 
 		if (hash[1] != '#') osm.activeValidator = hash[1];
@@ -261,7 +261,7 @@
 	<br />
 	<div style="font-size: small; color: GrayText">
 		Модификация <a href="http://osm.cupivan.ru/validator" style="color: GrayText">валидатора от CupIvan</a>
-		| Версия 0.3.19b
+		| Версия 0.3.20b
 		| <a href="https://github.com/Avlaak/validator" style="color: GrayText">GitHub</a>
 		| <a href="http://forum.openstreetmap.org/viewtopic.php?id=18399&p=27" style="color: GrayText">Форум</a>
 	</div>
