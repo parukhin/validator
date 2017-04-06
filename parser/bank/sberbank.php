@@ -131,7 +131,7 @@ class sberbank extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikipedia'       => 'ru:Сбербанк_России',
+		'wikipedia'       => 'ru:Сбербанк России',
 		'wikidata'        => 'Q205012'
 	];
 

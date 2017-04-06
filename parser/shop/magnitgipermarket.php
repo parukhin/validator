@@ -89,7 +89,7 @@ class magnitgipermarket extends Validator
 		'lon'             => '',
 		'_addr'           => '',
 		'wikidata'        => 'Q940518',
-		'wikipedia'       => 'ru:Магнит_(сеть_магазинов)'
+		'wikipedia'       => 'ru:Магнит (сеть магазинов)'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
