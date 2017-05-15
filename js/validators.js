@@ -1,4 +1,4 @@
-// validators.js v0.3
+// validators.js v0.4
 var osm = new osm_cl()
 
 var regions = {
@@ -581,7 +581,24 @@ var validators = {
 		link: 'https://data.mos.ru/opendata/1421',
 		fields: ['_addr', 'ref', 'ref:mos_parking', 'zone:parking', 'vending', 'operator', 'contact:website' ,'contact:phone', 'opening_hours', 'payment:cash', 'payment:credit_cards', 'payment:debit_cards'],
 		regions: ['RU-MOW']
+	},
+	burgerking: {
+		name: 'Бургер Кинг',
+		note: '',
+		noteIsShow: false,
+		link: 'https://burgerking.ru/restaurants',
+		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'wikipedia', 'wikidata'],
+		regions: ['RU']
 	}
+	/* krasnoeibeloe: {
+		name: 'Красное & белое',
+		note: '',
+		noteIsShow: false,
+		link: 'https://krasnoeibeloe.ru/address/',
+		fields: fields.shop,
+		regions: ['RU-IVA']
+	} */
+
 
 	/*
 	validator: {                  // имя валидатора (совпадает с .php)
