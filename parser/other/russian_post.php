@@ -126,7 +126,7 @@ class russian_post extends Validator
 
 		global $RU;
 
-		$count = 100;
+		$count = 1000;
 		$offset = 0;
 		$lat = $RU[$this->region]['lat'];
 		$lon = $RU[$this->region]['lon'];
@@ -192,15 +192,18 @@ class russian_post extends Validator
 			$obj['name'] = $obj['settlement'].' '.$obj['ref'];
 			$obj['name:ru'] = $obj['name'];
 
-			foreach ($obj['phones'] as $ph) {
-				if (!isset($obj['contact:phone']))
+			foreach ($obj['phones'] as $phone) {
+				if (!isset($obj['contact:phone'])) {
 					$obj['contact:phone'] = '';
-				else
+				} else {
 					$obj['contact:phone'] .= '; ';
-				$obj['contact:phone'] .= '+7 '.((isset($ph['phoneTownCode']))?($ph['phoneTownCode'].' '):'').$ph['phoneNumber'];
+				}
+				if (isset($phone['phoneNumber'])) {
+					$obj['contact:phone'] .= '+7 '.((isset($phone['phoneTownCode']))?($phone['phoneTownCode'].' '):'').$phone['phoneNumber'];
+				}
 			}
 
-			/* Режим работы */
+			// Режим работы
 			if (isset($obj['workingHours'])) {
 
 				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];

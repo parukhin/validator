@@ -38,26 +38,28 @@ function osm_data($data, $region, $validator, $type, $timestamp = null)
 
 	// Обновление списка валидаторов
 	$fname = $_SERVER["DOCUMENT_ROOT"]."/data/state.json";
-	$data = file_get_contents($fname);
-
-	$data = json_decode($data, true);
-	if (!$data) $data = array();
-
-	if (!isset($data["$region.$validator"])) { // если поля не существует
-		$data["$region.$validator"] = [$region, $validator, 0, 0, 0]; // создаём
+	if (file_exists($fname)) {
+		$state = file_get_contents($fname);
+		$state = json_decode($state, true);
 	}
 
-	$data["$region.$validator"][2] = time(); // дата запуска валидатора
+	if (!$state) $state = array();
+
+	if (!isset($state["$region.$validator"])) { // если поля не существует
+		$state["$region.$validator"] = [$region, $validator, 0, 0, 0]; // создаём
+	}
+
+	$state["$region.$validator"][2] = time(); // дата запуска валидатора
 
 	if (strcasecmp($type, 'osm') == 0) { // osm
-		$data["$region.$validator"][3] = $timestamp;
+		$state["$region.$validator"][3] = $timestamp;
 	} else { // real
-		$data["$region.$validator"][4] = time();
+		$state["$region.$validator"][4] = time();
 	}
 
-	$data = json_encode($data);
+	$state = json_encode($state);
 
-	file_put_contents($fname, $data);
+	file_put_contents($fname, $state);
 
 	return $msg;
 }

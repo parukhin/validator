@@ -3,7 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class velobike extends Validator
 {
-	protected $domain = 'http://velobike.ru/proxy/parkings/';
+	protected $domain = 'https://velobike.ru/proxy/parkings/';
 
 	static $urls = [
 		'RU-MOW' => ''
@@ -16,17 +16,17 @@ class velobike extends Validator
 		'capacity'        => '',
 		'contact:email'   => 'info@velobike.ru',
 		'contact:phone'   => '+7 495 9568286',
-		'contact:website' => 'http://velobike.ru',
+		'contact:website' => 'https://velobike.ru',
 		'operator'        => 'ЗАО "СитиБайк"',
 		'ref'             => '',
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		];
+	];
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=bicycle_rental][network="Велобайк",i]'
+		'[amenity=bicycle_rental][network="Велобайк"]'
 	];
 
 	/* Парсер страницы */
@@ -38,9 +38,9 @@ class velobike extends Validator
 		}
 
 		foreach ($a['Items'] as $obj) {
-			$obj['_addr'] = substr($obj['Address'], 6);
+			$obj['_addr'] = $obj['Name'];
 
-			$obj['ref'] = sprintf("%d", $obj['Id']);
+			$obj['ref'] = (int)$obj['Id'];
 			$obj['capacity'] = $obj['TotalPlaces'];
 
 			$obj['lat'] = $obj['Position']['Lat'];

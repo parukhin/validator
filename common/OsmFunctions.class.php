@@ -25,7 +25,6 @@ class OsmFunctions
 		// TODO: сделать одну функцию для запросов к Overpass API
 		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
 		$url = "http://www.overpass-api.de/api/interpreter";
-		//$url = "http://192.168.0.103/api/interpreter";
 
 		// Определение административной единицы
 		if (strcasecmp($region, 'RU') == 0) {

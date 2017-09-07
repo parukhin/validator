@@ -49,7 +49,7 @@ class diksi extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => '',
+		'wikidata'        => 'Q4161561',
 		'wikipedia'       => 'ru:Дикси (сеть магазинов)'
 	];
 

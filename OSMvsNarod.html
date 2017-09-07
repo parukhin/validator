@@ -104,11 +104,11 @@ ymaps.ready(function () {
 	var c = getCoords(), t, oldLayer = 0;
 
 	var layerSelector = new ymaps.control.TypeSelector([]);
-	layerSelector.addMapType(t = new ymaps.MapType('OpenStreetMap', layer('tile.openstreetmap.org')));
-	layerSelector.addMapType(    new ymaps.MapType('Транспорт',     layer('tile2.opencyclemap.org/transport')));
-	layerSelector.addMapType(    new ymaps.MapType('Велокарта',     layer('tile.opencyclemap.org/cycle')));
-	layerSelector.addMapType(    new ymaps.MapType('Belarus',       layer('tile.osmosnimki.ru/kosmo-be')));
-	layerSelector.addMapType(    new ymaps.MapType('Bing',          layerBing()));
+	layerSelector.addMapType(t = new ymaps.MapType('Стандартный',  layer('tile.openstreetmap.org')));
+	layerSelector.addMapType(    new ymaps.MapType('Велокарта',    layer('tile.opencyclemap.org/cycle')));
+	layerSelector.addMapType(    new ymaps.MapType('Транспорт',    layer('tile2.opencyclemap.org/transport')));
+	layerSelector.addMapType(    new ymaps.MapType('Гуманитарная', layer('tile.openstreetmap.fr/hot')));
+	layerSelector.addMapType(    new ymaps.MapType('Bing',         layerBing()));
 
 	map1 = new ymaps.Map("map1", {center: [c.lat, c.lon], zoom: c.zoom, type: "yandex#publicMap", behaviors: ['default', 'scrollZoom']});
 	map2 = new ymaps.Map("map2", {center: [c.lat, c.lon], zoom: c.zoom, type: null, behaviors: ['default', 'scrollZoom']}, {maxZoom: 18});

@@ -148,14 +148,17 @@ class magnit extends Validator
 			return;
 		}
 
-		foreach ($a['list'] as $obj) {
-			$obj['ref'] = $obj['id'];
-			$obj['_addr'] = $obj['addr'];
-			$obj['lat'] = $obj['cx'];
-			$obj['lon'] = $obj['cy'];
-			$obj['opening_hours'] = $this->time($obj['time']);
+		if (is_array($a['list'])) {
+			foreach ($a['list'] as $obj) {
+				$obj['ref'] = $obj['id'];
+				$obj['_addr'] = $obj['addr'];
+				$obj['lat'] = $obj['cx'];
+				$obj['lon'] = $obj['cy'];
+				$obj['opening_hours'] = $this->time($obj['time']);
 
-			$this->addObject($this->makeObject($obj));
+				$this->addObject($this->makeObject($obj));
+			}
 		}
+
 	}
 }
