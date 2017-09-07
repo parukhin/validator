@@ -26,7 +26,7 @@ class velobike extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=bicycle_rental][network="Велобайк",i]'
+		'[amenity=bicycle_rental][network="Велобайк"]'
 	];
 
 	/* Парсер страницы */
