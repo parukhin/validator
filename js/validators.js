@@ -1452,7 +1452,7 @@ function osm_cl() {
 	// поиск по адресу в яндекс картах
 	this.link_yasearch = function (st) {
 		return '<a href="/OSMvsNarod.html#q=' + st + '" target="_blank" title="Поиск адреса в НЯКе">' +
-			'<img src="http://yandex.st/lego/2.2.6/common/block/b-service-icon/_ico/b-service-icon_maps.ico"/></a>';
+		       '<img valign="absmiddle" width="16" src="http://yandex.st/lego/2.2.6/common/block/b-service-icon/_ico/b-service-icon_maps.ico"/></a>';
 	}
 
 	//
@@ -1465,7 +1465,8 @@ function osm_cl() {
 
 	//
 	this.link_ya = function (lat, lon) {
-		return '<a href="http://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="Яндекс Карта"><img src="http://maps.yandex.ru/favicon.ico"></a>';
+		return '<a href="http://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="Яндекс Карта">' +
+		       '<img valign="absmiddle" width="16" src="http://maps.yandex.ru/favicon.ico"></a>';
 	}
 
 	// сравнение одного поля в объектах
