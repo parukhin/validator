@@ -1278,7 +1278,7 @@ function osm_cl() {
 			data[id]._used = (data[id]._used || 0) + 1;
 			if (!data[id]._used_name) data[id]._used_name = '';
 			data[id]._used_name += '\n' + (a['name:ru'] || a['name']) +
-				' (ref=' + a[ref] + ', lat=' + (Math.round(a.lat * 1000) / 1000) + ', lon=' + (Math.round(a.lon * 1000) / 1000) + ');';
+				' (ref=' + (a.ref) + ', lat=' + (Math.round(a.lat * 1000) / 1000) + ', lon=' + (Math.round(a.lon * 1000) / 1000) + ');';
 		}
 
 		return id < 0 ? null : data[id];
