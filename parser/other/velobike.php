@@ -3,7 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class velobike extends Validator
 {
-	protected $domain = 'https://velobike.ru/proxy/parkings/';
+	protected $domain = 'https://apivelobike.velobike.ru/ride/parkings';
 
 	static $urls = [
 		'RU-MOW' => ''
