@@ -63,8 +63,8 @@ class perekrestok extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => 'Q1684639',
-		'wikipedia'       => 'ru:Перекрёсток (сеть магазинов)'
+		'operator:wikidata'        => 'Q1684639',
+		'operator:wikipedia'       => 'ru:Перекрёсток (сеть магазинов)'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

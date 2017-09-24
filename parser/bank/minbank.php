@@ -32,8 +32,8 @@ class minbank extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => '',
-		'wikipedia'       => ''
+		'operator:wikidata'        => '',
+		'operator:wikipedia'       => ''
 	];
 
 	/* Фильтр для поиска объектов в OSM */

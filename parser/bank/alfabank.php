@@ -58,8 +58,8 @@ class alfabank extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikipedia'       => 'ru:Альфа-банк',
-		'wikidata'        => 'Q1377835'
+		'operator:wikipedia'       => 'ru:Альфа-банк',
+		'operator:wikidata'        => 'Q1377835'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

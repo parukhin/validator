@@ -60,8 +60,8 @@ class bashneft extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => '',
-		'wikipedia'       => 'ru:Башнефть'
+		'operator:wikidata'        => '',
+		'operator:wikipedia'       => 'ru:Башнефть'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

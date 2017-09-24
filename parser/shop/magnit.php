@@ -88,8 +88,8 @@ class magnit extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => 'Q940518',
-		'wikipedia'       => 'ru:Магнит (сеть магазинов)'
+		'operator:wikidata'        => 'Q940518',
+		'operator:wikipedia'       => 'ru:Магнит (сеть магазинов)'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

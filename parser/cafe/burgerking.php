@@ -32,8 +32,8 @@ class burgerking extends Validator
 		'lat'                 => '',
 		'lon'                 => '',
 		'_addr'               => '',
-		'wikipedia'           => 'ru:Burger King',
-		'wikidata'            => 'Q177054'
+		'operator:wikipedia'           => 'ru:Burger King',
+		'operator:wikidata'            => 'Q177054'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

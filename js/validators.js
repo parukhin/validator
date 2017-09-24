@@ -1,4 +1,4 @@
-// validators.js v0.4
+// validators.js v0.5
 var osm = new osm_cl()
 
 var regions = {
@@ -271,10 +271,10 @@ var notes = {
 };
 
 var fields = {
-	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
+	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'operator:wikidata', 'operator:wikipedia'],
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'wikidata', 'wikipedia'],
-	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'wikidata', 'wikipedia'],
+	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'operator:wikidata', 'operator:wikipedia'],
+	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'operator:wikidata', 'operator:wikipedia'],
 };
 
 var validators = {
@@ -295,7 +295,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://www.pochta.ru/offices',
-		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'wikidata', 'wikipedia'],
+		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'operator:wikidata', 'operator:wikipedia'],
 		regions: [
 			'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME',
 			'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA',
@@ -556,7 +556,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'http://mkb.ru/about_bank/address/?type=office',
-		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'wikidata', 'wikipedia'],
+		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'operator:wikidata', 'operator:wikipedia'],
 		regions: ['RU-MOW', 'RU-MOS']
 	},
 	temples: {
@@ -587,7 +587,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://burgerking.ru/restaurants',
-		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'wikipedia', 'wikidata'],
+		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'operator:wikipedia', 'operator:wikidata'],
 		regions: ['RU']
 	}
 	/* krasnoeibeloe: {
@@ -1381,6 +1381,10 @@ function osm_cl() {
 					if (k == 'phone') a[k = 'contact:phone'] = v;
 					if (k == 'website') a[k = 'contact:website'] = v;
 
+					// новые ссылки на wikipedia и wikidata
+					if (k == 'wikipedia') a[k = 'operator:wikipedia'] = v;
+					if (k == 'wikidata') a[k = 'operator:wikidata'] = v;
+
 					// пропускаем неправильный ОКАТО
 					if (k == 'okato:user' && v == '46') continue;
 
@@ -1398,6 +1402,8 @@ function osm_cl() {
 			i = 'phone'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=%20';
 			i = 'website'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=%20';
 			i = 'population:year'; if (b[i] && a['population:date']) tags += '|' + i + '=%20';
+			i = 'wikipedia'; if (b[i] && a['operator:' + i]) tags += '|' + i + '=%20';
+			i = 'wikidata'; if (b[i] && a['operator:' + i]) tags += '|' + i + '=%20';
 		}
 
 		var d;
@@ -1634,7 +1640,7 @@ function osm_cl() {
 
 			if (fields[i] == 'ref:temples.ru' && real[fields[i]])
 				v = '<a href="http://www.temples.ru/card.php?ID=' + real[fields[i]] + '" target="_blank">' + v + '</a>';
-			if (fields[i] == 'wikipedia' && real[fields[i]]) {
+			if (fields[i] == 'operator:wikipedia' && real[fields[i]]) {
 				v = '<a href="http://ru.wikipedia.org/wiki/' + real[fields[i]] + '" target="_blank">' + v + '</a>';
 			}
 

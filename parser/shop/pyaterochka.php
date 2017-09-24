@@ -79,8 +79,8 @@ class pyaterochka extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => 'Q1768969',
-		'wikipedia'       => 'ru:Пятёрочка'
+		'operator:wikidata'        => 'Q1768969',
+		'operator:wikipedia'       => 'ru:Пятёрочка'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

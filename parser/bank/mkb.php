@@ -28,8 +28,8 @@ class mkb extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikipedia'       => '',
-		'wikidata'        => 'ru:Московский_кредитный_банк'
+		'operator:wikipedia'       => '',
+		'operator:wikidata'        => 'ru:Московский_кредитный_банк'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

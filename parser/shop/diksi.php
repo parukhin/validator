@@ -49,8 +49,8 @@ class diksi extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => 'Q4161561',
-		'wikipedia'       => 'ru:Дикси (сеть магазинов)'
+		'operator:wikidata'        => 'Q4161561',
+		'operator:wikipedia'       => 'ru:Дикси (сеть магазинов)'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

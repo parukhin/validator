@@ -80,8 +80,8 @@ class gazprom extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => '',
-		'wikipedia'       => 'ru:Газпром нефть'
+		'operator:wikidata'        => '',
+		'operator:wikipedia'       => 'ru:Газпром нефть'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

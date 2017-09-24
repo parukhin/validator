@@ -135,8 +135,8 @@ class sberbank_atm extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikipedia'       => 'ru:Сбербанк России',
-		'wikidata'        => 'Q205012'
+		'operator:wikipedia'       => 'ru:Сбербанк России',
+		'operator:wikidata'        => 'Q205012'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

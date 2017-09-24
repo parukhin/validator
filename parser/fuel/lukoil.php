@@ -50,8 +50,8 @@ class lukoil extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
-		'wikidata'        => '',
-		'wikipedia'       => 'ru:Лукойл'
+		'operator:wikidata'        => '',
+		'operator:wikipedia'       => 'ru:Лукойл'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
