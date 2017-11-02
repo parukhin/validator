@@ -110,8 +110,8 @@ class russian_post extends Validator
 		'lat'              => '',
 		'lon'              => '',
 		'_addr'            => '',
-		'operator:wikidata'         => 'Q1502763',
-		'operator:wikipedia'        => 'ru:Почта России'
+		'brand:wikidata'   => 'Q1502763',
+		'brand:wikipedia'  => 'ru:Почта России'
 	];
 
 	/* Фильтр для поиска объектов в OSM */

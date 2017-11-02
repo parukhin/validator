@@ -1,4 +1,4 @@
-// validators.js v0.5
+// validators.js v0.6
 var osm = new osm_cl()
 
 var regions = {
@@ -271,10 +271,10 @@ var notes = {
 };
 
 var fields = {
-	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'operator:wikidata', 'operator:wikipedia'],
+	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'brand:wikidata', 'brand:wikipedia'],
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
-	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'operator:wikidata', 'operator:wikipedia'],
-	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'operator:wikidata', 'operator:wikipedia'],
+	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'brand:wikidata', 'brand:wikipedia'],
+	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:USD', 'currency:EUR', 'cash_in', 'brand:wikidata', 'brand:wikipedia'],
 };
 
 var validators = {
@@ -295,7 +295,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://www.pochta.ru/offices',
-		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'operator:wikidata', 'operator:wikipedia'],
+		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'brand:wikidata', 'brand:wikipedia'],
 		regions: [
 			'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME',
 			'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA',
@@ -556,7 +556,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'http://mkb.ru/about_bank/address/?type=office',
-		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'operator:wikidata', 'operator:wikipedia'],
+		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'operator:wikidata', 'brand:wikipedia'],
 		regions: ['RU-MOW', 'RU-MOS']
 	},
 	temples: {
@@ -587,7 +587,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://burgerking.ru/restaurants',
-		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'operator:wikipedia', 'operator:wikidata'],
+		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'brand:wikipedia', 'operator:wikidata'],
 		regions: ['RU']
 	}
 	/* krasnoeibeloe: {
@@ -1382,8 +1382,10 @@ function osm_cl() {
 					if (k == 'website') a[k = 'contact:website'] = v;
 
 					// новые ссылки на wikipedia и wikidata
-					if (k == 'wikipedia') a[k = 'operator:wikipedia'] = v;
-					if (k == 'wikidata') a[k = 'operator:wikidata'] = v;
+					if (k == 'wikipedia')          a[k = 'brand:wikipedia'] = v;
+					if (k == 'wikidata')           a[k = 'brand:wikidata'] = v;
+					if (k == 'operator:wikipedia') a[k = 'brand:wikipedia'] = v;
+					if (k == 'operator:wikidata')  a[k = 'brand:wikidata'] = v;
 
 					// пропускаем неправильный ОКАТО
 					if (k == 'okato:user' && v == '46') continue;
@@ -1640,7 +1642,7 @@ function osm_cl() {
 
 			if (fields[i] == 'ref:temples.ru' && real[fields[i]])
 				v = '<a href="http://www.temples.ru/card.php?ID=' + real[fields[i]] + '" target="_blank">' + v + '</a>';
-			if (fields[i] == 'operator:wikipedia' && real[fields[i]]) {
+			if (fields[i] == 'brand:wikipedia' && real[fields[i]]) {
 				v = '<a href="http://ru.wikipedia.org/wiki/' + real[fields[i]] + '" target="_blank">' + v + '</a>';
 			}
 
