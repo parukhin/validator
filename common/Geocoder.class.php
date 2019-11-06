@@ -9,7 +9,7 @@ class Geocoder
 			array('http' => array(
 				'method'  => 'GET',
 				'timeout' => 3,
-				'header'  => "User-agent: OSM geocoder http://osm.cupivan.ru\r\n"
+				'header'  => "User-agent: OSM geocoder https://osm.cupivan.ru\r\n"
 			))
 		);
 	}
@@ -44,7 +44,7 @@ class Geocoder
 	{
 		$res = $this->load($st);
 		if ($res) return $res;
-		$url = 'http://openstreetmap.ru/api/autocomplete?q='.urlencode($st);
+		$url = 'https://openstreetmap.ru/api/autocomplete?q='.urlencode($st);
 		$res = @file_get_contents($url.'&email=cupivan@narod.ru&from=validator', false, $this->context);
 		if (!$res) { echo "Error geocode: $st\n"; return false; }
 
@@ -96,7 +96,7 @@ class Geocoder
 	/* Обратное геокодиорование */
 	public function getAddressByCoords($lat, $lon)
 	{
-		$url = "http://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lon";
+		$url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lon";
 
 		$page = $this->get_web_page($url);
 		if (is_null($page)) {

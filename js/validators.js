@@ -1,4 +1,4 @@
-// validators.js v0.6
+// validators.js v0.8
 var osm = new osm_cl()
 
 var regions = {
@@ -1297,10 +1297,10 @@ function osm_cl() {
 		if (typeof (id) == 'object')
 			if (!id.lat) return '';
 			else
-				return '<a href="http://www.openstreetmap.org/?box=yes&' +
+				return '<a href="https://www.openstreetmap.org/?box=yes&' +
 					'bbox=' + encodeURIComponent([id.lon - d, id.lat - 0 + d / 2, id.lon - 0 + d, id.lat - d / 2]) +
-					'" target="_blank" title="открыть на openstreetmap.org">' +
-					'<img valign="absmiddle" width="16" src="http://www.openstreetmap.org/favicon.ico"/>' +
+					'" target="_blank" title="открыть в openstreetmap.org">' +
+					'<img valign="absmiddle" width="16" src="https://www.openstreetmap.org/favicon.ico"/>' +
 					'</a>';
 
 		var pic = '';
@@ -1308,13 +1308,13 @@ function osm_cl() {
 		if (id.charAt(0) == 'w') pic = '0/0f/Mf_area';
 		if (id.charAt(0) == 'r') pic = 'd/d9/Mf_Relation';
 
-		var url = 'http://www.openstreetmap.org/browse/' + id
+		var url = 'https://www.openstreetmap.org/browse/' + id
 			.replace('n', 'node/').replace('w', 'way/').replace('r', 'relation/');
 
 		id = id.replace(/\D/g, '');
 
-		return '<a href="' + url + '" target="_blank" title="открыть на openstreetmap.org">' +
-			'<img valign="absmiddle" width="16" src="http://wiki.openstreetmap.org/w/images/' + pic + '.svg"/>' +
+		return '<a href="' + url + '" target="_blank" title="открыть в openstreetmap.org">' +
+			'<img valign="absmiddle" width="16" src="https://wiki.openstreetmap.org/w/images/' + pic + '.svg"/>' +
 			'</a>';
 	}
 
@@ -1457,10 +1457,10 @@ function osm_cl() {
 		return false;
 	}
 
-	// поиск по адресу в яндекс картах
+	// Поиск по адресу в Яндекс.Картах
 	this.link_yasearch = function (st) {
-		return '<a href="/OSMvsNarod.html#q=' + st + '" target="_blank" title="Поиск адреса в НЯКе">' +
-		       '<img valign="absmiddle" width="16" src="http://yandex.st/lego/2.2.6/common/block/b-service-icon/_ico/b-service-icon_maps.ico"/></a>';
+		return '<a href="/OSMvsNarod.html#q=' + st + '" target="_blank" title="Сравнение с Яндекс.Картами">' +
+		       '<img valign="absmiddle" width="16" src="https://maps.yandex.ru/favicon.ico"/></a>';
 	}
 
 	//
@@ -1473,8 +1473,8 @@ function osm_cl() {
 
 	//
 	this.link_ya = function (lat, lon) {
-		return '<a href="http://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="Яндекс Карта">' +
-		       '<img valign="absmiddle" width="16" src="http://maps.yandex.ru/favicon.ico"></a>';
+		return '<a href="https://maps.yandex.ru/?ll=' + lon + '%2C' + lat + '&z=18" target="_blank" title="открыть в Яндекс.Карте">' +
+		       '<img valign="absmiddle" width="16" src="https://maps.yandex.ru/favicon.ico"></a>';
 	}
 
 	// сравнение одного поля в объектах
@@ -1643,7 +1643,7 @@ function osm_cl() {
 			if (fields[i] == 'ref:temples.ru' && real[fields[i]])
 				v = '<a href="http://www.temples.ru/card.php?ID=' + real[fields[i]] + '" target="_blank">' + v + '</a>';
 			if (fields[i] == 'brand:wikipedia' && real[fields[i]]) {
-				v = '<a href="http://ru.wikipedia.org/wiki/' + real[fields[i]] + '" target="_blank">' + v + '</a>';
+				v = '<a href="https://ru.wikipedia.org/wiki/' + real[fields[i]] + '" target="_blank">' + v + '</a>';
 			}
 
 			if (cl) cl = 'class="' + cl + '"';
@@ -1700,7 +1700,7 @@ function osm_cl() {
 				st += '<i style="color: #777"><br><br>г. ' + (a.city || a.town || '?') + ', ' + (a.road || '?') + ', д. ' + (a.house_number || '?') + '</i>';
 				x.innerHTML = st;
 			}
-			var url = 'http://nominatim.openstreetmap.org/reverse?json_callback=' + f +
+			var url = 'https://nominatim.openstreetmap.org/reverse?json_callback=' + f +
 				'&format=json&accept-language=ru&email=mail@cupivan.ru';
 			url += x.getAttribute('rel');
 			ajax.loadJS(url);

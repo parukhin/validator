@@ -340,7 +340,7 @@ class Validator extends OsmFunctions
 			'RU-MOW' => 'Москва'
 		];
 
-		$url = "http://whatsthere.maps.sputnik.ru/point?lat=$lat&lon=$lon&houses=false";
+		$url = "https://whatsthere.maps.sputnik.ru/point?lat=$lat&lon=$lon&houses=false";
 
 		$st = $this->get_web_page($url, null, null, false);
 

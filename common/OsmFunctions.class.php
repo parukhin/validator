@@ -23,8 +23,8 @@ class OsmFunctions
 	private function query_overpass($region, $filters)
 	{
 		// TODO: сделать одну функцию для запросов к Overpass API
-		//$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
-		$url = "http://www.overpass-api.de/api/interpreter";
+		$url = "https://overpass.openstreetmap.ru/api/interpreter";
+		//$url = "https://overpass-api.de/api/interpreter";
 
 		// Определение административной единицы
 		if (strcasecmp($region, 'RU') == 0) {
@@ -137,8 +137,9 @@ class OsmFunctions
 			}
 		}
 
-		$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
-		//$url = "http://www.overpass-api.de/api/interpreter";
+		// TODO: сделать одну функцию для запросов к Overpass API
+		$url = "https://overpass.openstreetmap.ru/api/interpreter";
+		//$url = "https://overpass-api.de/api/interpreter";
 
 		// FIXME: запрос слишком много инфы загружает, поправить
 		$query =
@@ -197,8 +198,9 @@ class OsmFunctions
 			}
 		}
 
-		$url = "http://overpass.osm.rambler.ru/cgi/interpreter"; // не ищет без учёта регистра, например, '[shop][name~"Азбука Вкуса",i]'
-		//$url = "http://www.overpass-api.de/api/interpreter";
+		// TODO: сделать одну функцию для запросов к Overpass API
+		$url = "https://overpass.openstreetmap.ru/api/interpreter";
+		//$url = "https://overpass-api.de/api/interpreter";
 
 		// FIXME: запрос слишком много инфы загружает, поправить
 		$query =
