@@ -1,4 +1,4 @@
-// validators.js v0.8
+// validators.js v0.9
 var osm = new osm_cl()
 
 var regions = {
@@ -350,47 +350,75 @@ var validators = {
 		]
 	},
 	magnit: {
-		name: 'Магнит (универсамы)',
+		name: 'Магнит',
 		note: '',
 		noteIsShow: false,
-		link: 'http://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit-info.ru/buyers/adds/',
 		fields: fields.shop,
 		regions: [
-			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
 			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
 			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
-			'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
+			'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
 	magnitgipermarket: {
-		name: 'Магнит (гипермаркеты)',
+		name: 'Семейный Магнит',
 		note: '',
 		noteIsShow: false,
-		link: 'http://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit-info.ru/buyers/adds/',
 		fields: fields.shop,
 		regions: [
-			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
 			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
 			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
-			'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
+			'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
 	magnitkosmetic: {
 		name: 'Магнит Косметик',
 		note: '',
 		noteIsShow: false,
-		link: 'http://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit-info.ru/buyers/adds/',
 		fields: fields.shop,
 		regions: [
-			'RU-ARK', 'RU-ALT', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
 			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
 			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
 			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
-			'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
+			'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
+	magnitpharmacy: {
+		name: 'Магнит Аптека',
+		note: '',
+		noteIsShow: false,
+		link: 'https://magnit-info.ru/buyers/adds/',
+		fields: fields.shop,
+		regions: [
+			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
+			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
+			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
+			'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
+		]
+	},
+	/*magnitwholesale: {
+		name: 'Магнит Опт',
+		note: '',
+		noteIsShow: false,
+		link: 'https://magnit-info.ru/buyers/adds/',
+		fields: fields.shop,
+		regions: [
+			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS',
+			'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE',
+			'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA',
+			'RU-UD', 'RU-KK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL',
+			'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR'
+		]
+	},*/
 	sberbank: {
 		name: 'Сбербанк (отделения)',
 		note: '',

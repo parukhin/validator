@@ -2,7 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/lib/phpquery/phpQuery-onefile.php';
 
-class magnit extends Validator
+class magnitpharmacy extends Validator
 {
 	protected $domain = 'https://magnit-info.ru';
 
@@ -75,7 +75,7 @@ class magnit extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop'            => 'convenience',
+		'amenity'         => 'pharmacy',
 		'ref'             => '',
 		'name'            => 'Магнит',
 		'name:ru'         => 'Магнит',
@@ -93,13 +93,13 @@ class magnit extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[shop=convenience][name~"Магнит",i]'
+		'[amenity=pharmacy][name~"Магнит",i]'
 	];
 
-	protected $type_id = '1258'; // Магнит
+	//protected $type_id = '1258'; // Магнит
 	//protected $type_id = '1257'; // Семейный Магнит
 	//protected $type_id = '1259'; // Магнит Косметик
-	//protected $type_id = '67420'; // Магнит Аптека
+	protected $type_id = '67420'; // Магнит Аптека
 	//protected $type_id = '67424'; // Магнит Опт
 
 	/* Обновление данных по региону */

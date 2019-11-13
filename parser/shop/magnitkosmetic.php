@@ -4,11 +4,11 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/lib/phpquery/phpQuery-onefile.ph
 
 class magnitkosmetic extends Validator
 {
-	protected $domain = 'http://www.magnit-info.ru';
+	protected $domain = 'https://magnit-info.ru';
 
 	static $urls = [
-		'RU-ARK' => ['rid' => '829'],
 		'RU-ALT' => ['rid' => '1389'],
+		'RU-ARK' => ['rid' => '829'],
 		'RU-AST' => ['rid' => '22'],
 		'RU-BEL' => ['rid' => '37'],
 		'RU-BRY' => ['rid' => '17'],
@@ -41,7 +41,7 @@ class magnitkosmetic extends Validator
 		'RU-PSK' => ['rid' => '10'],
 		'RU-AD'  => ['rid' => '380'],
 		'RU-BA'  => ['rid' => '34'],
-		'RU-KB'  => ['rid' => '20'],
+		'RU-KB'  => ['rid' => '67079'],
 		'RU-KL'  => ['rid' => '23'],
 		'RU-KC'  => ['rid' => '21'],
 		'RU-KR'  => ['rid' => '5'],
@@ -50,7 +50,7 @@ class magnitkosmetic extends Validator
 		'RU-MO'  => ['rid' => '379'],
 		'RU-SE'  => ['rid' => '19'],
 		'RU-TA'  => ['rid' => '35'],
-		'RU-UD'  => ['rid' => '2817'],
+		'RU-UD'  => ['rid' => '67071'],
 		'RU-KK'  => ['rid' => '1725'],
 		'RU-ROS' => ['rid' => '26'],
 		'RU-RYA' => ['rid' => '42'],
@@ -65,12 +65,11 @@ class magnitkosmetic extends Validator
 		'RU-TOM' => ['rid' => '1391'],
 		'RU-TUL' => ['rid' => '18'],
 		'RU-TYU' => ['rid' => '1035'],
-		'RU-UD'  => ['rid' => '822'],
 		'RU-ULY' => ['rid' => '30'],
 		'RU-KHM' => ['rid' => '831'],
 		'RU-CHE' => ['rid' => '33'],
 		'RU-CU'  => ['rid' => '38'],
-		'RU-YAN' => ['rid' => '63627'],
+		'RU-YAN' => ['rid' => '67075'],
 		'RU-YAR' => ['rid' => '11']
 	];
 
@@ -97,45 +96,42 @@ class magnitkosmetic extends Validator
 		'[shop=chemist][name~"Магнит Косметик",i]'
 	];
 
+	//protected $type_id = '1258'; // Магнит
+	//protected $type_id = '1257'; // Семейный Магнит
+	protected $type_id = '1259'; // Магнит Косметик
+	//protected $type_id = '67420'; // Магнит Аптека
+	//protected $type_id = '67424'; // Магнит Опт
+
 	/* Обновление данных по региону */
 	public function update()
 	{
 		$this->log('Обновление данных по региону '.$this->region.'.');
 
 		$rid = static::$urls[$this->region]['rid'];
+		$url = $this->domain.'/buyers/adds/?ajax=changeRegion&type='.$this->type_id.'&region='.$rid;
 
-		//$id = '1257'; // гипермаркеты
-		//$id = '1258'; // универсамы
-		$id = '1259'; // косметик
-
-		$url = $this->domain.'/buyers/adds/1258/'.$rid.'/1';
-
-		// Загружаем страницу со списком cid
 		$page = $this->get_web_page($url);
 		if (is_null($page)) {
 			return;
 		}
 
-		$url = 'http://magnit-info.ru/functions/bmap/func.php';
+		$a = json_decode($page, true);
+		if (is_null($a)) {
+			return;
+		}
 
-		phpQuery::newDocument($page);
-
-		$options = pq('#city_select')->children('option');
-		foreach ($options as $option) {
-			$cid = pq($option)->attr('value');
-			if ($cid == 0) {
-				continue; // пропускаем 1 строку
-			}
-
-			$query = "op=get_shops&SECTION_ID=$id&RID=$rid&CID=$cid";
-
-			$page = $this->get_web_page($url, $query);
-			if (is_null($page)) { // если страница не загружена
-				return;
-			}
-			if (empty($page)) { // если страница пустая
+		foreach ($a['settlement'] as $city) {
+			if ($city['id'] == 0) {
 				continue;
 			}
+
+			$url = $this->domain.'/buyers/adds/?ajax=changeCity&type='.$this->type_id.'&region='.$rid.'&settlement='.$city['id'];
+
+			$page = $this->get_web_page($url);
+			if (is_null($page)) {
+				return;
+			}
+
 			$this->parse($page);
 		}
 	}
@@ -148,11 +144,11 @@ class magnitkosmetic extends Validator
 			return;
 		}
 
-		foreach ($a['list'] as $obj) {
+		foreach ($a['points'] as $obj) {
 			$obj['ref'] = $obj['id'];
-			$obj['_addr'] = $obj['addr'];
-			$obj['lat'] = $obj['cx'];
-			$obj['lon'] = $obj['cy'];
+			$obj['_addr'] = $obj['address'];
+			$obj['lat'] = $obj['lat'];
+			$obj['lon'] = $obj['lng'];
 			$obj['opening_hours'] = $this->time($obj['time']);
 
 			$this->addObject($this->makeObject($obj));
