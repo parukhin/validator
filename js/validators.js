@@ -1,4 +1,4 @@
-// validators.js v0.10
+// validators.js v0.11
 var osm = new osm_cl()
 
 var regions = {
@@ -274,7 +274,7 @@ var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'brand:wikidata', 'brand:wikipedia'],
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'brand:wikidata', 'brand:wikipedia'],
-	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUR', 'currency:RUB', 'currency:USD', 'currency:EUR', 'cash_in', 'brand:wikidata', 'brand:wikipedia'],
+	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUB', 'currency:USD', 'currency:EUR', 'cash_in', 'brand:wikidata', 'brand:wikipedia'],
 };
 
 var validators = {
@@ -1004,8 +1004,7 @@ function osm_cl() {
 				.replace('fuel:discount', 'Скидки')
 				.replace('cash_in', 'Приём наличности')
 				// Валюты
-				.replace('currency:RUR', '<span title="Рубль">₽ (RUR)</span>')
-				.replace('currency:RUB', '<span title="Рубль">₽ (RUB)</span>')
+				.replace('currency:RUB', '<span title="Рубль">₽</span>')
 				.replace('currency:USD', '<span title="Доллар">$</span>')
 				.replace('currency:EUR', '<span title="Евро">€</span>');
 			st += j + '</th>';

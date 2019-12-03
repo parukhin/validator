@@ -52,7 +52,6 @@ class alfabank_atm extends Validator
 		'branch'          => '',
 		'contact:website' => 'https://alfabank.ru',
 		'contact:phone'   => '+7 495 7888878',
-		'currency:RUR'    => 'no',
 		'currency:RUB'    => 'no',
 		'currency:USD'    => 'no',
 		'currency:EUR'    => 'no',

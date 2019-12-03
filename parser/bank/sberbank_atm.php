@@ -127,7 +127,6 @@ class sberbank_atm extends Validator
 		'branch'          => '',
 		'contact:website' => 'https://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
-		'currency:RUR'    => 'no',
 		'currency:RUB'    => 'no',
 		'currency:USD'    => 'no',
 		'currency:EUR'    => 'no',
