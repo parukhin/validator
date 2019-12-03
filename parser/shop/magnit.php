@@ -80,7 +80,7 @@ class magnit extends Validator
 		'name'            => 'Магнит',
 		'name:ru'         => 'Магнит',
 		'name:en'         => 'Magnit',
-		'operator'        => 'АО Тандер',
+		'operator'        => 'АО "Тандер"',
 		'contact:website' => 'https://magnit-info.ru',
 		'contact:phone'   => '+7 800 2009002',
 		'opening_hours'   => '',

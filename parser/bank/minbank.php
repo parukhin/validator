@@ -20,9 +20,9 @@ class minbank extends Validator
 		'name:ru'         => 'Московский индустриальный банк',
 		'name:en'         => '',
 		'official_name'   => '',
-		'operator'        => 'ОАО "МИнБ"',
+		'operator'        => 'ПАО "МИнБанк"',
 		'branch'          => '',
-		'contact:website' => 'http://www.minbank.ru',
+		'contact:website' => 'http://www.minbank.ru', // https://www.cbr.ru/credit/coinfo.asp?id=450000741
 		'contact:phone'   => '',
 		'currency:RUR'    => '',
 		'currency:USD'    => '',

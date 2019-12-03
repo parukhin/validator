@@ -122,7 +122,7 @@ class sberbank extends Validator
 		'name'            => 'Сбербанк',
 		'name:ru'         => 'Сбербанк',
 		'name:en'         => 'Sberbank',
-		'operator'        => 'ПАО "Сбербанк"', // https://www.cbr.ru/credit/coinfo.asp?id=350000004
+		'operator'        => 'ПАО Сбербанк', // https://www.cbr.ru/credit/coinfo.asp?id=350000004
 		'branch'          => '',
 		'contact:website' => 'http://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',

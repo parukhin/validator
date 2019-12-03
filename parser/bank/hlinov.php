@@ -13,8 +13,8 @@ class hlinov extends Validator
 		'amenity'  => 'bank',
 		'official_name' => '',
 		'name'     => 'Банк Хлынов',
-		'operator' => 'ОАО КБ "Банк Хлынов"',
-		'website'  => 'http://bank-hlynov.ru',
+		'operator' => 'АО КБ "Хлынов"',
+		'website'  => 'https://bank-hlynov.ru', // https://www.cbr.ru/credit/coinfo.asp?id=330000001
 		'phone'    => '',
 		'opening_hours' => '',
 		'lat'   => '',
