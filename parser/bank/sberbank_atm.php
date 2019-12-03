@@ -162,24 +162,19 @@ class sberbank_atm extends Validator
 		$size =     99;  // количество отделений на странице
 
 		while ($count < $maxcount) {
-			$url = 'https://www.sberbank.ru/portalserver/proxy?pipe=branchesPipe&url=http%3A%2F%2Foib-rs%2Foib-rs%2FbyBounds%2Fentities'
-			.'%3Fllat%3D'
-			.$bbox['minlat']
-			.'%26llon%3D'
-			.$bbox['minlon']
-			.'%26rlat%3D'
-			.$bbox['maxlat']
-			.'%26rlon%3D'
-			.$bbox['maxlon']
-			.'%26size%3D'
-			.$size
-			.'%26page%3D'
-			.$count
-			.'%26cbLat%3D'
-			.$RU[$this->region]['lat']
-			.'%26cbLon%3D'
-			.$RU[$this->region]['lon']
-			.'%26filter%255Btype%255D%255B%255D%3Datm';
+			$url = 'https://www.sberbank.ru/portalserver/proxy/'
+			.'?pipe=branchesPipe'
+			.'&url=http'.'%3A'.'%2F'.'%2F'.'localhost'.'%2F'.'oib-rs'.'%2F'.'byBounds'.'%2F'.'entities'
+			.'%3F'.'llat'.'%3D'.$bbox['minlat']
+			.'%26'.'llon'.'%3D'.$bbox['minlon']
+			.'%26'.'rlat'.'%3D'.$bbox['maxlat']
+			.'%26'.'rlon'.'%3D'.$bbox['maxlon']
+			.'%26'.'size'.'%3D'.$size
+			.'%26'.'page'.'%3D'.$count
+			.'%26'.'cbLat'.'%3D'.$RU[$this->region]['lat']
+			.'%26'.'cbLon'.'%3D'.$RU[$this->region]['lon']
+			.'%26'.'filter'.'%255B'.'type'.'%255D'.'%255B'.'%255D'.'%3D'.'atm';
+			//.'%26'.'filter'.'%255B'.'flags'.'%255D'.'%255B'.'forPrivate'.'%255D'.'%3D'.'1'
 
 			$page = $this->get_web_page($url);
 			if (is_null($page)) {
