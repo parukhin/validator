@@ -4,7 +4,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
 class sberbank_atm extends Validator
 {
-	protected $domain = 'http://www.sberbank.ru';
+	protected $domain = 'https://www.sberbank.ru';
 
 	static $urls = [
 		// Байкальский банк
@@ -125,7 +125,7 @@ class sberbank_atm extends Validator
 		'name:en'         => 'Sberbank',
 		'operator'        => 'ПАО Сбербанк', // https://www.cbr.ru/credit/coinfo.asp?id=350000004
 		'branch'          => '',
-		'contact:website' => 'http://www.sberbank.ru',
+		'contact:website' => 'https://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
 		'currency:RUR'    => 'no',
 		'currency:RUB'    => 'no',

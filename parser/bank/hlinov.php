@@ -4,7 +4,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 class hlinov extends Validator
 {
 	// откуда скачиваем данные
-	protected $domain = 'http://bank-hlynov.ru';
+	protected $domain = 'https://bank-hlynov.ru';
 	static $urls = array(
 		'RU-KIR' => '/about/unit_of_the_bank/additional_offices/',
 	);

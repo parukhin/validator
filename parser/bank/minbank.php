@@ -22,7 +22,7 @@ class minbank extends Validator
 		'official_name'   => '',
 		'operator'        => 'ПАО "МИнБанк"',
 		'branch'          => '',
-		'contact:website' => 'http://www.minbank.ru', // https://www.cbr.ru/credit/coinfo.asp?id=450000741
+		'contact:website' => 'https://www.minbank.ru', // https://www.cbr.ru/credit/coinfo.asp?id=450000741
 		'contact:phone'   => '',
 		'cash_in'         => '',
 		'opening_hours'   => '',

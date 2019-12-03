@@ -3,7 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class alfabank_atm extends Validator
 {
-	protected $domain = 'http://alfabank.ru';
+	protected $domain = 'https://alfabank.ru';
 
 	static $urls = [
 		'RU-KK'  => [30],

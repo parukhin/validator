@@ -3,7 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class mkb extends Validator
 {
-	protected $domain = 'http://mkb.ru/about_bank/address/poi_data/filials/';
+	protected $domain = 'https://old.mkb.ru/about_bank/address/poi_data/filials/';
 
 	static $urls = [
 		'RU-MOW' => '',
@@ -21,7 +21,7 @@ class mkb extends Validator
 		'department'      => '',
 		'operator'        => 'ПАО "Московский кредитный банк"', // https://www.cbr.ru/credit/coinfo.asp?id=450000226
 		'branch'          => '',
-		'contact:website' => 'http://mkb.ru',
+		'contact:website' => 'https://mkb.ru',
 		'contact:phone'   => '',
 		'wheelchair'      => '',
 		'opening_hours'   => '',
