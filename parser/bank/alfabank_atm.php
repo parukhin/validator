@@ -53,6 +53,7 @@ class alfabank_atm extends Validator
 		'contact:website' => 'https://alfabank.ru',
 		'contact:phone'   => '+7 495 7888878',
 		'currency:RUR'    => 'no',
+		'currency:RUB'    => 'no',
 		'currency:USD'    => 'no',
 		'currency:EUR'    => 'no',
 		'cash_in'         => 'yes',
@@ -119,7 +120,7 @@ class alfabank_atm extends Validator
 			foreach ($obj['out'] as $currency) {
 				switch ($currency) {
 					case 'rur':
-						$obj['currency:RUR'] = 'yes';
+						$obj['currency:RUB'] = 'yes';
 						break;
 					case 'usd':
 						$obj['currency:USD'] = 'yes';

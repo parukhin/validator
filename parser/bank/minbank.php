@@ -24,9 +24,6 @@ class minbank extends Validator
 		'branch'          => '',
 		'contact:website' => 'http://www.minbank.ru', // https://www.cbr.ru/credit/coinfo.asp?id=450000741
 		'contact:phone'   => '',
-		'currency:RUR'    => '',
-		'currency:USD'    => '',
-		'currency:EUR'    => '',
 		'cash_in'         => '',
 		'opening_hours'   => '',
 		'lat'             => '',

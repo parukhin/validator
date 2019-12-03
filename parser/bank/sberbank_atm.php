@@ -128,6 +128,7 @@ class sberbank_atm extends Validator
 		'contact:website' => 'http://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
 		'currency:RUR'    => 'no',
+		'currency:RUB'    => 'no',
 		'currency:USD'    => 'no',
 		'currency:EUR'    => 'no',
 		'cash_in'         => 'no',
@@ -228,7 +229,7 @@ class sberbank_atm extends Validator
 
 			// Валюты выдачи
 			// FIXME: добавить обработку
-			$obj['currency:RUR'] = 'yes';
+			$obj['currency:RUB'] = 'yes';
 			//$obj['currency:USD'] = 'yes';
 			//$obj['currency:EUR'] = 'yes';
 
