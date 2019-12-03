@@ -108,7 +108,7 @@ class alfabank_atm extends Validator
 		foreach ($a['response']['data'] as $obj) {
 
 			$obj['_addr'] = $obj['address'];
-			$obj['ref'] = $obj['id'];
+			$obj['ref'] = $obj['pid'];
 
 			// Приём наличных
 			if (empty($obj['in'])) {
