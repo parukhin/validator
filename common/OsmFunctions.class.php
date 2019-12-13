@@ -188,13 +188,9 @@ class OsmFunctions
 
 			$st = file_get_contents($fname);
 
-			$a = json_decode($st, true);
-			if (is_null($a)) {
-				return null;
-			}
-
-			if (isset($a)) {
-				return $a;
+			$polygons = json_decode($st, true);
+			if (isset($polygons)) {
+				return $polygons;
 			}
 		}
 
@@ -218,18 +214,53 @@ class OsmFunctions
 			return null;
 		}
 
+		$polygons = [[]];
+		$n = 0;
+
 		foreach ($page['elements'][0]['members'] as $member) {
 			if ($member['type'] == 'way') {
-				foreach ($member['geometry'] as $node) {
-					$a[] = $node;
+				$way = $member['geometry'];
+
+				if (isset($polygons[$n][0])) {
+					if ($way[0] == $polygons[$n][0]) {
+						$polygons[$n] = array_reverse($polygons[$n]);
+						array_shift($way);
+					} else if ($way[0] == end($polygons[$n])) {
+						array_shift($way);
+					} else if (end($way) == $polygons[$n][0]) {
+						$polygons[$n] = array_reverse($polygons[$n]);
+						$way = array_reverse($way);
+						array_shift($way);
+					} else if (end($way) == end($polygons[$n])) {
+						$way = array_reverse($way);
+						array_shift($way);
+					} else {
+						$n++;
+					}
+				}
+
+				foreach ($way as $node) {
+					$polygons[$n][] = $node;
 				}
 			}
 		}
 
-		$st = json_encode($a);
+		// Удаление последней точки
+		foreach ($polygons as $i => $polygon) {
+			if ($polygon[0] == end($polygon)) {
+				array_pop($polygons[$i]);
+				$this->log("Замкнутый полигон!");
+			} else {
+				$this->log("Незамкнутый полигон!");
+			}
+		}
+
+		$st = json_encode($polygons);
 		file_put_contents($fname, $st);
 
-		return $a;
+		$this->log("Загружена геометрия $region.");
+
+		return $polygons;
 	}
 
 }

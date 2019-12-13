@@ -317,14 +317,19 @@ class Validator extends OsmFunctions
 			return true;
 		}
 
-		static $polygon = [];
+		static $polygons = [[]];
 
-		if (!isset($polygon[0]['lat'])) {
-			$polygon = $this->get_geometry();
+		if (!isset($polygons[0][0]['lat'])) {
+			$polygons = $this->get_geometry();
 		}
 
 		$geocoder = new Geocoder();
-		$result = $geocoder->pointInPolygon($lat, $lon, $polygon);
+		foreach ($polygons as $polygon) {
+			$result = $geocoder->pointInPolygon($lat, $lon, $polygon);
+			if ($result) {
+				break;
+			}
+		}
 
 		return $result;
 	}
@@ -340,7 +345,7 @@ class Validator extends OsmFunctions
 			'RU-MOW' => 'Москва'
 		];
 
-		$url = "https://whatsthere.maps.sputnik.ru/point?lat=$lat&lon=$lon&houses=false";
+		$url = "http://whatsthere.maps.sputnik.ru/point?lat=$lat&lon=$lon&houses=false";
 
 		$st = $this->get_web_page($url, null, null, false);
 

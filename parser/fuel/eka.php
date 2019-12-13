@@ -64,7 +64,7 @@ class eka extends Validator
 			$obj['lon'] = $obj['long'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoordsFromSputnik($obj['lat'], $obj['lon'])) {
+			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 

@@ -59,7 +59,7 @@ class mkb extends Validator
 			$obj['lon'] = $obj['@lng'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoordsFromSputnik($obj['lat'], $obj['lon'])) {
+			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 

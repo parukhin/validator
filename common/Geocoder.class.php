@@ -117,7 +117,7 @@ class Geocoder
 		return $state;
 	}
 
-	/* Проверка нахождение точки в полигоне */
+	/* Проверка нахождение точки внутри полигона */
 	public function pointInPolygon($lat, $lon, $polygon)
 	{
 		$c = 0;
@@ -125,13 +125,10 @@ class Geocoder
 
 		for ($i = 0, $j = $npol - 1; $i < $npol; $j = $i++) {
 			if (((($polygon[$i]['lon'] <= $lon) && ($lon < $polygon[$j]['lon'])) || (($polygon[$j]['lon'] <= $lon) && ($lon < $polygon[$i]['lon'])))
-			&& ($lat > ($polygon[$j]['lat'] - $polygon[$i]['lat']) * ($lon - $polygon[$i]['lon']) / ($polygon[$j]['lon'] - $polygon[$i]['lon']) + $polygon[$i]['lat']))
+			&& ($lat > (($polygon[$j]['lat'] - $polygon[$i]['lat']) * ($lon - $polygon[$i]['lon']) / ($polygon[$j]['lon'] - $polygon[$i]['lon']) + $polygon[$i]['lat'])))
 				$c = !$c;
-			}
-		if ($c % 2 != 0) {
-			return true;
-		} else {
-			return false;
 		}
+
+		return $c;
 	}
 }
