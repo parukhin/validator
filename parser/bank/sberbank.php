@@ -126,11 +126,14 @@ class sberbank extends Validator
 		'branch'          => '',
 		'contact:website' => 'https://www.sberbank.ru',
 		'contact:phone'   => '+7 495 5005550',
-		'wheelchair'      => '',
+		'wheelchair'      => 'no',
 		'opening_hours'   => '',
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'brand'           => 'Сбербанк',
+		'brand:ru'        => 'Сбербанк',
+		'brand:en'        => 'Sberbank',
 		'brand:wikipedia' => 'ru:Сбербанк России',
 		'brand:wikidata'  => 'Q205012'
 	];
@@ -143,8 +146,6 @@ class sberbank extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		global $RU;
 
 		// Загрузка bbox региона
@@ -194,27 +195,17 @@ class sberbank extends Validator
 		}
 
 		foreach ($a as $obj) {
-			// Если вылезли в соседние регионы
-			if (strcmp(substr($obj['code'], 3, 4), static::$urls[$this->region]['regId']) !== 0) {
+			// Координаты
+			$obj['lat'] = $obj['coordinates']['latitude'];
+			$obj['lon'] = $obj['coordinates']['longitude'];
+
+			// Отсеиваем по региону
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 
-			// Исключение для Санкт-Петербурга
-			if (strcmp($this->region, 'RU-SPE') === 0) { // если индекс не с 19, значит попали в Ленинградскую область
-				if (substr($obj['postAddress'], 0, 2) != '19') {
-					continue;
-				}
-			}
-
-			// Исключение для Ленинградской области
-			if (strcmp($this->region, 'RU-LEN') === 0) { // если индекс не с 18, значит попали в Санкт-Петербург
-				if (substr($obj['postAddress'], 0, 2) != '18') {
-					continue;
-				}
-			}
-
 			// Исключение передвижных отделений из поиска
-			if (stristr($obj['name'], 'ППКМБ') !== false) {
+			if (mb_stripos($obj['name'], 'ППКМБ') !== false) {
 				continue;
 			}
 
@@ -228,21 +219,14 @@ class sberbank extends Validator
 			$ref[] = $obj['ref']; // сохраняем ref отделения в массив
 
 			$obj['branch'] = static::$urls[$this->region]['branch'];
-			$obj['lat'] = $obj['coordinates']['latitude'];
-			$obj['lon'] = $obj['coordinates']['longitude'];
 			$obj['_addr'] = $obj['address'];
 
+			// Доступность для инвалидных колясок
 			if ($obj['mblt'] == 1) {
 				$obj['wheelchair'] = 'yes';
 			}
-			if ($obj['mblt'] == 0) {
-				$obj['wheelchair'] = 'no';
-			}
 
-			// Переопределение названия
-			$obj['name'] = 'Сбербанк';
-
-			// Режим работы
+			// Время работы
 			if (isset($obj['workTimeList'])) {
 
 				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -258,6 +242,10 @@ class sberbank extends Validator
 				}
 				$obj['opening_hours'] = $this->time($time);
 			}
+
+			// Удаление поля
+			unset($obj['name']);
+
 			$this->addObject($this->makeObject($obj));
 		}
 	}

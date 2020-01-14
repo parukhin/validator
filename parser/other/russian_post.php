@@ -122,8 +122,6 @@ class russian_post extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		global $RU;
 
 		$count = 1000;
@@ -160,13 +158,12 @@ class russian_post extends Validator
 		}
 
 		foreach ($a as $obj) {
-
 			// Координаты
 			$obj['lat'] = $obj['latitude'];
 			$obj['lon'] = $obj['longitude'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 

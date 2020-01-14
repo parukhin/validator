@@ -13,7 +13,7 @@ class asna extends Validator
 	protected $fields = array(
 		'amenity' => 'pharmacy',
 		'brand'   => 'АСНА',
-		'contact:website'  => 'http://asna.ru',
+		'contact:website'  => 'https://www.asna.ru',
 		'contact:email'    => '',
 		'contact:phone'    => '',
 		'opening_hours'    => '',

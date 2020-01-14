@@ -58,13 +58,12 @@ class eka extends Validator
 		}
 
 		foreach ($a['fstation'] as $obj) {
-
 			// Координаты
 			//$obj['lat'] = $obj['lat'];
 			$obj['lon'] = $obj['long'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 

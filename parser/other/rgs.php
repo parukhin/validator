@@ -15,7 +15,7 @@ class rgs extends Validator
         'official_name'        => '',
         //'contact:email'     => 'info@velobike.ru',
         'contact:phone'     => '',
-        'contact:website'   => 'http://rgs.ru',
+        'contact:website'   => 'https://www.rgs.ru',
         'opening_hours'     => '',
         //'ref'               => '',
 		'lat'               => '',

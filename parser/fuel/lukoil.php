@@ -68,16 +68,16 @@ class lukoil extends Validator
 		}
 
 		foreach ($a['GasStations'] as $obj) {
-			$obj['ref'] = $obj['GasStationId']; // внутренний ref лукойла, у самих заправок другие номера
-
 			// Координаты
 			$obj['lat'] = $obj['Latitude'];
 			$obj['lon'] = $obj['Longitude'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
+
+			$obj['ref'] = $obj['GasStationId']; // внутренний ref лукойла, у самих заправок другие номера
 
 			$url = 'https://auto.lukoil.ru/api/cartography/GetObjects?ids=gasStation'.$obj['ref'].'&lng=RU';
 

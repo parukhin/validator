@@ -7,7 +7,7 @@ class planetasushi extends rosinter
 	protected $fields = array(
 		'amenity'  => 'cafe',
 		'name'     => 'Планета Суши',
-		'contact:website' => 'http://www.sushiplanet.ru',
+		'contact:website' => 'https://planetsushi.ru',
 		'contact:phone'   => '',
 		'opening_hours'   => '',
 		'lat'   => '',

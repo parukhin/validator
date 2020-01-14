@@ -61,8 +61,6 @@ class diksi extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$url = "https://dixy.ru/local/ajax/requests/nearest_shop_get_placemarks.php";
 		$query = "request_mode=ajax&site_id=s1";
 
@@ -83,17 +81,17 @@ class diksi extends Validator
 		}
 
 		foreach ($a['features'] as $obj) {
-			$obj['ref'] = $obj['id'];
-
 			// Координаты
 			$obj['lat'] = $obj['geometry']['coordinates'][0];
 			$obj['lon'] = $obj['geometry']['coordinates'][1];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 
+			$obj['ref'] = $obj['id'];
+			
 			//"<div class="dixy_placemark_baloon_content">ул.Мира д.2/18<br>09:00-22:00</div>"
 
 			if (preg_match_all('#.+?>(?<address>.+?)<.+?>(?<hours>.+?)<#s', $obj['properties']['balloonContent'], $m, PREG_SET_ORDER)) {

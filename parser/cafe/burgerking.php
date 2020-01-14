@@ -50,11 +50,12 @@ class burgerking extends Validator
 		}
 
 		foreach ($a as $obj) {
+			// Координаты
 			//$obj['lat'] = $obj['lat'];
 			$obj['lon'] = $obj['lng'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 

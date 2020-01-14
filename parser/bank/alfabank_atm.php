@@ -69,7 +69,7 @@ class alfabank_atm extends Validator
 		'name'            => 'Альфа-Банк',
 		'name:ru'         => 'Альфа-Банк',
 		'name:en'         => 'Alfa-Bank',
-		'official_name'   => '',
+		//'official_name'   => '',
 		'operator'        => 'АО "Альфа-Банк"', // https://www.cbr.ru/credit/coinfo.asp?id=450000036
 		'branch'          => '',
 		'contact:website' => 'https://alfabank.ru',
@@ -77,11 +77,14 @@ class alfabank_atm extends Validator
 		'currency:RUB'    => 'no',
 		'currency:USD'    => 'no',
 		'currency:EUR'    => 'no',
-		'cash_in'         => 'yes',
+		'cash_in'         => 'no',
 		'opening_hours'   => '',
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'brand'           => 'Альфа-Банк',
+		'brand:ru'        => 'Альфа-Банк',
+		'brand:en'        => 'Alfa-Bank',
 		'brand:wikipedia' => 'ru:Альфа-банк',
 		'brand:wikidata'  => 'Q1377835'
 	];
@@ -94,13 +97,11 @@ class alfabank_atm extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		foreach (static::$urls[$this->region] as $id) {
 
-			$maxcount = 300;
+			$maxcount = 1000;
 			$offset = 0;
-			$count = 30;
+			$count = 1000;
 
 			while ($offset < $maxcount) {
 				$url = "https://alfabank.ru/ext-json/0.2/atm/list?city=$id&limit=$count&offset=$offset&mode=array&property=own";
@@ -111,7 +112,7 @@ class alfabank_atm extends Validator
 					return;
 				}
 
-				$maxcount = $this->parse($page);
+				$this->parse($page);
 				$offset+= $count;
 			}
 		}
@@ -128,19 +129,16 @@ class alfabank_atm extends Validator
 		$maxcount = $a['response']['count'];
 
 		foreach ($a['response']['data'] as $obj) {
-
 			$obj['_addr'] = $obj['address'];
 			$obj['ref'] = $obj['pid'];
 
-			// Приём наличных
-			if (empty($obj['in'])) {
-				$obj['cash_in'] = 'no';
-			}
-
-			// Валюты выдачи
+			// Валюты (выдача)
 			foreach ($obj['out'] as $currency) {
 				switch ($currency) {
 					case 'rur':
+						$obj['currency:RUB'] = 'yes';
+						break;
+					case 'rub':
 						$obj['currency:RUB'] = 'yes';
 						break;
 					case 'usd':
@@ -155,6 +153,11 @@ class alfabank_atm extends Validator
 				}
 			}
 
+			// Приём наличных
+			if (!empty($obj['in'])) {
+				$obj['cash_in'] = 'yes';
+			}
+
 			// Время работы
 			if ($obj['is24'] == 1) {
 				$obj['opening_hours'] = '24/7';
@@ -164,6 +167,5 @@ class alfabank_atm extends Validator
 
 			$this->addObject($this->makeObject($obj));
 		}
-		return $maxcount;
 	}
 }

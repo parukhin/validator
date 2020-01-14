@@ -53,8 +53,6 @@ class lapy4 extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$id = static::$urls[$this->region];
 
 		$url = "https://4lapy.ru/ajax/ajax.php";

@@ -91,8 +91,6 @@ class pyaterochka extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		// Загрузка bbox региона
 		$bbox = $this->get_bbox($this->region);
 		if (is_null($bbox)) {
@@ -122,18 +120,17 @@ class pyaterochka extends Validator
 		}
 
 		foreach ($a['data']['features'] as $obj) {
-
-			$obj['ref'] = $obj['id'];
-
 			// Координаты
 			$obj['lat'] = $obj['geometry']['coordinates'][0];
 			$obj['lon'] = $obj['geometry']['coordinates'][1];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 
+			$obj['ref'] = $obj['id'];
+			
 			// Адрес
 			$obj['_addr'] = $obj['properties']['address'];
 

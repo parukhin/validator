@@ -22,7 +22,7 @@ class kenguru extends Validator
 		'name:ru'         => 'Кенгуру',
 		'name:en'         => '',
 		'operator'        => '',
-		'contact:website' => 'http://kenguru.ru',
+		'contact:website' => 'https://kenguru.ru',
 		'contact:phone'   => '',
 		'opening_hours'   => '',
 		'lat'             => '',

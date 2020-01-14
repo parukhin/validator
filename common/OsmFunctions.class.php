@@ -176,9 +176,8 @@ class OsmFunctions
 	}
 
 	/* Get geometry from OverPass API */
-	public function get_geometry()
+	public function get_geometry($region)
 	{
-		$region = $this->region;
 		$dir = $_SERVER["DOCUMENT_ROOT"].'/data';
 		if (!file_exists($dir)) mkdir($dir);
 

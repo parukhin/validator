@@ -75,8 +75,6 @@ class perekrestok extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$url = $this->domain;
 		$cities = static::$urls[$this->region];
 

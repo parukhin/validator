@@ -74,12 +74,15 @@ class alfabank extends Validator
 		'operator'        => 'АО "Альфа-Банк"', // https://www.cbr.ru/credit/coinfo.asp?id=450000036
 		'branch'          => '',
 		'contact:website' => 'https://alfabank.ru',
-		'contact:phone'   => '+7 495 7888878',
+		'contact:phone'   => '+7 800 2000000; +7 495 7888878',
 		'opening_hours'   => '',
-		'wheelchair'      => '', // disabled
+		'wheelchair'      => 'no',
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'brand'           => 'Альфа-Банк',
+		'brand:ru'        => 'Альфа-Банк',
+		'brand:en'        => 'Alfa-Bank',
 		'brand:wikipedia' => 'ru:Альфа-банк',
 		'brand:wikidata'  => 'Q1377835'
 	];
@@ -126,44 +129,62 @@ class alfabank extends Validator
 		}
 		*/
 
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		foreach (static::$urls[$this->region] as $id) {
 
-			$maxcount = 300;
+			$maxcount = 1000;
 			$offset = 0;
-			$count = 30;
+			$count = 1000;
 
 			while ($offset < $maxcount) {
 
 				$url = "https://alfabank.ru/ext-json/0.2/office/list?city=$id&limit=$count&offset=$offset&mode=array&kind=retail";
-				// для людей с ограниченными возможностями добавить &services=disabled
+				
 				$page = $this->get_web_page($url);
 				if (is_null($page)) {
 					return;
 				}
 
-				$maxcount = $this->parse($page);
-				$offset+= $count;
+				// Доступность для инвалидных колясок
+				$wurl = $url.'&services=disabled';
+
+				$wpage = $this->get_web_page($wurl);
+				if (is_null($wpage)) {
+					return;
+				}
+
+				$this->parse($page, $wpage);
+				$offset += $count;
 			}
 		}
 	}
 
 	/* Парсер страницы */
-	protected function parse($st)
+	protected function parse($st, $wst)
 	{
 		$a = json_decode($st, true);
 		if (is_null($a)) {
 			return;
 		}
 
+		$wa = json_decode($wst, true);
+		if (is_null($wa)) {
+			return;
+		}
+
 		$maxcount = $a['response']['count'];
 
 		foreach ($a['response']['data'] as $obj) {
-
-			$obj['official_name'] = str_replace('"', '', $obj['title']);
+			$obj['branch'] = str_replace('"', '', $obj['title']);
 			$obj['_addr'] = $obj['address'];
 			$obj['ref'] = $obj['pid'];
+
+			// Доступность для инвалидных колясок
+			foreach ($wa['response']['data'] as $wobj) {
+				if ($wobj['pid'] == $obj['ref']) {
+					$obj['wheelchair'] = 'yes';
+					break;
+				}
+			}
 
 			// Время работы
 			$str = html_entity_decode($obj['processing']['retail']);
@@ -176,6 +197,5 @@ class alfabank extends Validator
 
 			$this->addObject($this->makeObject($obj));
 		}
-		return $maxcount;
 	}
 }

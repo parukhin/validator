@@ -17,10 +17,10 @@ if ($validator == "")
 
 //echo $validator;
 
-//надо найти фаел с таким именем...
+//надо найти файл с таким именем...
 $files = glob($_SERVER["DOCUMENT_ROOT"]."/parser/*/$validator.php");
 if (!$files) {
-	echo "Unknown validator".$validator;
+	echo "Unknown validator ".$validator;
 	return;
 }
 
@@ -34,7 +34,7 @@ if (!$region)
 	$region= $_GET['region'];
 
 if ($region == '') {
-	echo "Unknown region".$region;
+	echo "Unknown region ".$region;
 	return;
 }
 
@@ -61,6 +61,9 @@ function validate($region)
 
 	// Обновление данных из базы OSM
 	$v->update_osm();
+
+	$v->log('Обновление данных по региону '.$region.'.');
+
 	// Обновление данных по региону
 	$v->update();
 

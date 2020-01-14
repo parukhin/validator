@@ -105,8 +105,6 @@ class magnitpharmacy extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$rid = static::$urls[$this->region]['rid'];
 		$url = $this->domain.'/buyers/adds/?ajax=changeRegion&type='.$this->type_id.'&region='.$rid;
 

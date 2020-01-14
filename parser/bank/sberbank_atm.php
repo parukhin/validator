@@ -135,6 +135,9 @@ class sberbank_atm extends Validator
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
+		'brand'           => 'Сбербанк',
+		'brand:ru'        => 'Сбербанк',
+		'brand:en'        => 'Sberbank',
 		'brand:wikipedia' => 'ru:Сбербанк России',
 		'brand:wikidata'  => 'Q205012'
 	];
@@ -147,8 +150,6 @@ class sberbank_atm extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		global $RU;
 
 		// Загрузка bbox региона
@@ -196,19 +197,13 @@ class sberbank_atm extends Validator
 		}
 
 		foreach ($a as $obj) {
-
 			// Координаты
 			$obj['lat'] = $obj['coordinates']['latitude'];
 			$obj['lon'] = $obj['coordinates']['longitude'];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
-			}
-
-			// Приём наличных
-			if ($obj['cashin'] == true) {
-				$obj['cash_in'] = 'yes';
 			}
 
 			$obj['branch'] = static::$urls[$this->region]['branch'];
@@ -221,23 +216,20 @@ class sberbank_atm extends Validator
 				$obj['contact:phone'] = $this->phone($obj['phone']);
 			}
 
-			// Валюты выдачи
-			// FIXME: добавить обработку
+			// Валюты (выдача)
 			$obj['currency:RUB'] = 'yes';
 			//$obj['currency:USD'] = 'yes';
 			//$obj['currency:EUR'] = 'yes';
 
+			// Приём наличных
+			if ($obj['cashin'] == true) {
+				$obj['cash_in'] = 'yes';
+			}
+
 			// Режим работы
 			if (isset($obj['worktime'])) {
-				if ($obj['worktime'] == 'В РЕЖИМЕ РАБОТЫ МЕСТА УСТАНОВКИ') {
-					// FIXME: добавить
-					// NOTE: может быть в отделении, но иметь другой режим работы
-				}
-				if ($obj['worktime'] == 'КРУГЛОСУТОЧНО') {
-					$obj['opening_hours'] = '24/7';
-				}
+				$obj['opening_hours'] = $this->time($obj['worktime']);
 			}
-			//$obj['opening_hours'] = $this->time($time);
 
 			$this->addObject($this->makeObject($obj));
 		}

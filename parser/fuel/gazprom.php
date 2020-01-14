@@ -61,7 +61,7 @@ class gazprom extends Validator
 		'brand'           => 'Газпромнефть',
 		'operator'        => '',
 		'owner'           => 'ПАО "Газпром нефть"',
-		'contact:website' => 'http://www.gazprom-neft.ru',
+		'contact:website' => 'https://www.gazprom-neft.ru',
 		'contact:phone'   => '',
 		'opening_hours'   => '',
 		'fuel:octane_98'  => '',
@@ -92,8 +92,6 @@ class gazprom extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		global $RU;
 
 		$id = static::$urls[$this->region]['id'];

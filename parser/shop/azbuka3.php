@@ -37,8 +37,6 @@ class azbuka3 extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$page = $this->get_web_page($this->domain);
 		if (is_null($page)) {
 			return;
@@ -56,13 +54,12 @@ class azbuka3 extends Validator
 		}
 
 		foreach ($a['shop_list'] as $obj) {
-
 			// Координаты
 			$obj['lat'] = $obj['coords'][0];
 			$obj['lon'] = $obj['coords'][1];
 
 			// Отсеиваем по региону
-			if (!$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
 

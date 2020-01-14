@@ -46,8 +46,6 @@ class Validator extends OsmFunctions
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		if (is_array(static::$urls[$this->region])) {
 			$urls = static::$urls[$this->region];
 		} else {
@@ -88,6 +86,7 @@ class Validator extends OsmFunctions
 			curl_setopt($ch, CURLOPT_POST, true);         // POST запрос
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $query); // содержимое POST запроса
 		}
+
 		if (isset($cookie)) {
 			$cookieFile = $_SERVER["DOCUMENT_ROOT"]."/data/cookie.txt";
 
@@ -120,7 +119,6 @@ class Validator extends OsmFunctions
 	{
 		// передали массив - формируем строку
 		if (is_array($st)) {
-
 			// формируем хэш: время => день
 			$a = [];
 			foreach ($st as $k => $v) {
@@ -149,108 +147,144 @@ class Validator extends OsmFunctions
 			$res = preg_replace('/-[-\w]+-/', '-',    $res);
 			$res = str_replace('Mo-Su ',      '',     $res);
 			$res = str_replace('00:00-24:00', '24/7', $res);
-			return $res;
+		} else {
+			// Приведение к нижнему регистру
+			$st = ' '.strip_tags(mb_strtolower($st, 'utf-8')).' ';
+
+			// Круглосуточная работа
+			if (mb_stripos($st, 'круглос')) $st = '24/7';
+
+			$replace = [
+				'mo'            => 'Mo',
+				'tu'            => 'Tu',
+				'we'            => 'We',
+				'th'            => 'Th',
+				'fr'            => 'Fr',
+				'sa'            => 'Sa',
+				'su'            => 'Su',
+
+				'пн'            => 'Mo',
+				'вт'            => 'Tu',
+				'ср'            => 'We',
+				'чт'            => 'Th',
+				'пт'            => 'Fr',
+				'сб'            => 'Sa',
+				'вс'            => 'Su',
+				
+				'вск'           => 'Su',
+				
+				'понедельник'   => 'Mo',
+				'вторник'       => 'Tu',
+				'среда'         => 'We',
+				'четверг'       => 'Th',
+				'пятница'       => 'Fr',
+				'суббота'       => 'Sa',
+				'воскресенье'   => 'Su',
+
+				'выходной'      => 'off',
+				'будни'         => 'Mo-Fr',
+				'выходные'      => 'Sa-Su',
+				'ежедневно'     => 'Mo-Su',
+				'круглосуточно' => 'Mo-Su',
+				' '             => ' ',
+				'c'             => 'с',
+				' и '           => ', ',
+				' в '           => ' ',
+				' до '          => '-',
+				' по '          => '-',
+				'.'             => '',
+				'&ndash;'       => '-',
+				'&mdash;'       => '-',
+				'&nbsp;'        => ' ',
+				'–'             => '-',
+				'—'             => '-',
+				'00:00'         => '24:00',
+				'день'          => ''
+			];
+
+			//$st = str_replace(array_keys($replace), $replace, $st);
+
+			// FIXME: костыль для сохранения регистра
+			$st = str_replace(
+				['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'],
+				['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+				$st
+			);
+
+			$st = str_replace(
+				['выходной', 'будни', 'выходные', 'ежедневно', 'круглосуточно', ' ', 'c', ' и ', ' в ',
+					' до ', ' по ',
+					'.',
+					'&ndash;', '&mdash;', '&nbsp;', '–', '—', '00:00', 'день'],
+				['off',      'Mo-Fr', 'Sa-Su',    'Mo-Su',     'Mo-Su',         ' ', 'с', ', ',  ' ',
+					'-',    '-',
+					'',
+					'-', '-', ' ', '-', '-', '24:00', ''],
+				$st
+			);
+
+			//несколько запятых в месте
+			$st = preg_replace('/,+/', ',', $st);
+
+			//запятая НЕ между временемя... иначе как перервы разделять ?
+			///(?<=[0-9]),(?=\ ?[A-Z])/i
+			$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
+
+
+			$st = preg_replace('#(\D)(\d{1,2})\s*-\s*(\d{1,2})\s#', '$1$2:00-$3:00', $st);
+			$st = preg_replace(
+				[
+					'/понедельник\.?/iu','/вторник\.?/iu','/среда\.?/iu','/четверг\.?/iu','/пятница\.?/iu','/суббота\.?/iu','/воскресенье?\.?/iu',
+					'/пн\.?/iu','/вт\.?/iu','/ср\.?/iu','/чт\.?/iu','/пт\.?/iu','/сб\.?/iu','/вск?\.?/iu',
+					'/\s(\d{1,2})\s*-/','/-\s*(\d{1,2})\s/','/-\s*(\d{1,2});/',
+					'/[ \s]*—[ \s]*/u',
+					'/([a-z])(\d)/','/\s+/', '/(\d)\s*([A-Z])/', '/([a-z])[^\da-z]+(\d)/', '/ [дп]о /u', '/(^|\D)(\d:)/',
+					'/[  ]?-[  ]?/', '/[^\d\s]00/', '/\s*;/', '/;(\S)/', '/;[; ]+/', '/;\s*$/',
+					//'/([a-z]); ([A-Z])/',  //'/([a-z]); ([A-Z])/i',
+					'/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i',
+					'/(\d{2})(\d{2})/','/(\d{1})(\d{2})/', '/-off/',
+
+				],
+				[
+					'Mo','Tu','We','Th','Fr','Sa','Su',
+					'Mo','Tu','We','Th','Fr','Sa','Su',
+					' $1:00-', '-$1:00 ', '-$1:00;',
+					'-',
+					'$1 $2',
+					' ', '$1; $2', '$1 $2', '-',
+					'${1}0$2', '-', ':00', ';', '; $1', '; ', '',
+					'$1-$2',
+					'$1:$2','0$1:$2', ' off',
+
+				],
+				$st
+			);
+			
+			$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
+
+			// Tu-We; Th-Fr-Sa 10:00-11:00 -> Tu-We-Th-Fr-Sa 10:00-11:00
+			$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
+
+			$st = str_replace(
+				['-Tu-', '-We-', '-Th-', '-Fr-', '-Sa-'],
+				['-',    '-',    '-',    '-',    '-'],
+				$st
+			);
+			$st = str_replace('с ',          '',     $st);
+			$st = str_replace('Mo-Su',       '',     $st);
+			$st = str_replace('00:00-24:00', '24/7', $st);
+
+			$st = trim($st);
+
+			// валидация запрещенных символов
+			//не вкурил, отчего запятая не катит...
+			//if ($st != '24/7' && preg_match('/[^\d:-a-z -]/i', $st)) $st = '';
+			if ($st != '24/7' && preg_match('/[^\d:-a-z -,]/i', $st)) $st = '';
+
+			$res = $st;
 		}
 
-		// FIXME: отрефакторить - сделать один return
-
-		$st = ' '.strip_tags(mb_strtolower($st, 'utf-8')).' ';
-		if (mb_stripos($st, 'круглос')) $st = '24/7';
-
-		$replace = [
-			'выходной'      => 'off',
-			'будни'         => 'Mo-Fr',
-			'выходные'      => 'Sa-Su',
-			'ежедневно'     => 'Mo-Su',
-			'круглосуточно' => 'Mo-Su',
-			' '             => ' ',
-			'c'             => 'с',
-			' и '           => ', ',
-			' в '           => ' ',
-			' до '          => '-',
-			' по '          => '-',
-			'.'             => '',
-			'&ndash;'       => '-',
-			'&mdash;'       => '-',
-			'&nbsp;'        => ' ',
-			'–'             => '-',
-			'—'             => '-',
-			'00:00'         => '24:00',
-			'день'          => ''
-		];
-
-		//$st = str_replace(array_keys($replace), $replace, $st);
-
-		// FIXME: костыль для сохранения регистра
-		$st = str_replace(
-			['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'],
-			['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], $st);
-
-		$st = str_replace(
-			['выходной', 'будни', 'выходные', 'ежедневно', 'круглосуточно', ' ', 'c', ' и ', ' в ',
-				' до ', ' по ',
-				'.',
-				'&ndash;', '&mdash;', '&nbsp;', '–', '—', '00:00', 'день'],
-			['off',      'Mo-Fr', 'Sa-Su',    'Mo-Su',     'Mo-Su',         ' ', 'с', ', ',  ' ',
-				'-',    '-',
-				'',
-				'-', '-', ' ', '-', '-', '24:00', ''], $st);
-
-		//несколько запятых в месте
-		$st = preg_replace('/,+/', ',', $st);
-
-		//запятая НЕ между временемя... иначе как перервы разделять ?
-		///(?<=[0-9]),(?=\ ?[A-Z])/i
-		$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
-
-
-		$st = preg_replace('#(\D)(\d{1,2})\s*-\s*(\d{1,2})\s#', '$1$2:00-$3:00', $st);
-		$st = preg_replace(
-			array(
-				'/понедельник\.?/iu','/вторник\.?/iu','/среда\.?/iu','/четверг\.?/iu','/пятница\.?/iu','/суббота\.?/iu','/воскресенье?\.?/iu',
-				'/пн\.?/iu','/вт\.?/iu','/ср\.?/iu','/чт\.?/iu','/пт\.?/iu','/сб\.?/iu','/вск?\.?/iu',
-				'/\s(\d{1,2})\s*-/','/-\s*(\d{1,2})\s/','/-\s*(\d{1,2});/',
-				'/[ \s]*—[ \s]*/u',
-				'/([a-z])(\d)/','/\s+/', '/(\d)\s*([A-Z])/', '/([a-z])[^\da-z]+(\d)/', '/ [дп]о /u', '/(^|\D)(\d:)/',
-				'/[  ]?-[  ]?/', '/[^\d\s]00/', '/\s*;/', '/;(\S)/', '/;[; ]+/', '/;\s*$/',
-				//'/([a-z]); ([A-Z])/',  //'/([a-z]); ([A-Z])/i',
-				'/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i',
-				'/(\d{2})(\d{2})/','/(\d{1})(\d{2})/', '/-off/',
-
-				),
-			array(
-				'Mo','Tu','We','Th','Fr','Sa','Su',
-				'Mo','Tu','We','Th','Fr','Sa','Su',
-				' $1:00-', '-$1:00 ', '-$1:00;',
-				'-',
-				'$1 $2',
-				' ', '$1; $2', '$1 $2', '-',
-				'${1}0$2', '-', ':00', ';', '; $1', '; ', '',
-				'$1-$2',
-				'$1:$2','0$1:$2', ' off',
-
-				), $st);
-		$st = preg_replace('/(?<=[0-9]|[A-ZА-Я]),(?=\ *[A-ZА-Я])/ui', ';', $st);
-
-		// Tu-We; Th-Fr-Sa 10:00-11:00 ->  Tu-We-Th-Fr-Sa 10:00-11:00
-		$st = preg_replace('/(Mo|Tu|We|Th|Fr|Sa|Su); (Mo|Tu|We|Th|Fr|Sa|Su)/i','$1-$2', $st);
-
-		$st = str_replace(
-			array('-Tu-', '-We-', '-Th-', '-Fr-', '-Sa-'),
-			array('-',    '-',    '-',    '-',    '-'),
-			$st
-		);
-		$st = str_replace('с ',          '',     $st);
-		$st = str_replace('Mo-Su ',      '',     $st);
-		$st = str_replace('00:00-24:00', '24/7', $st);
-
-		$st = trim($st);
-
-		// валидация запрещенных символов
-		//не вкурил, отчего запятая не катит...
-		//if ($st != '24/7' && preg_match('/[^\d:-a-z -]/i', $st)) return '';
-		if ($st != '24/7' && preg_match('/[^\d:-a-z -,]/i', $st)) return '';
-		return $st;
+		return $res;
 	}
 
 	/* Универсальная функция преобразования телефона в стандартный формат */
@@ -320,7 +354,7 @@ class Validator extends OsmFunctions
 		static $polygons = [[]];
 
 		if (!isset($polygons[0][0]['lat'])) {
-			$polygons = $this->get_geometry();
+			$polygons = $this->get_geometry($this->region);
 		}
 
 		$geocoder = new Geocoder();
@@ -328,45 +362,6 @@ class Validator extends OsmFunctions
 			$result = $geocoder->pointInPolygon($lat, $lon, $polygon);
 			if ($result) {
 				break;
-			}
-		}
-
-		return $result;
-	}
-
-	/* Принадлежность объекта региону */
-	// FIXME: тестовая функция
-	protected function isInRegionByCoordsFromSputnik($lat, $lon) // для Москвы и МО
-	{
-		$result = false;
-
-		static $regions = [
-			'RU-MOS' => 'Московская область',
-			'RU-MOW' => 'Москва'
-		];
-
-		$url = "http://whatsthere.maps.sputnik.ru/point?lat=$lat&lon=$lon&houses=false";
-
-		$st = $this->get_web_page($url, null, null, false);
-
-		$a = json_decode($st, true);
-		if (is_null($a)) {
-			$this->log('Geocoder: Неверный формат ответа!');
-		}
-
-		if (isset($a['result']['address'][0]['features'][0]['properties']['address_components'][1]['value'])) {
-			$region = $a['result']['address'][0]['features'][0]['properties']['address_components'][1]['value'];
-		} else if (isset($a['result']['address'][0]['features'][0]['properties']['description'])) {
-			$region = $a['result']['address'][0]['features'][0]['properties']['description'];
-			$region = str_replace('Россия, ', '', $region);
-		} else {
-			$result = $this->isInRegionByCoords($lat, $lon);
-		}
-
-		if (isset($region)) {
-			$key = array_search($region, $regions);
-			if ($key != false && $key == $this->region) {
-				$result = true;
 			}
 		}
 
@@ -389,85 +384,5 @@ class Validator extends OsmFunctions
 			$file = $_SERVER["DOCUMENT_ROOT"] . "/data/log.txt";
 			file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 		}
-	}
-
-	/* */
-	function xmlToArray($xml, $options = [])
-	{
-		$defaults = [
-			'namespaceSeparator' => ':',   // you may want this to be something other than a colon
-			'attributePrefix'    => '@',   // to distinguish between attributes and nodes with the same name
-			'alwaysArray'        => [],    // array of xml tag names which should always become arrays
-			'autoArray'          => true,  // only create arrays for tags which appear more than once
-			'textContent'        => '$',   // key used for the text content of elements
-			'autoText'           => true,  // skip textContent key if node has no attributes or child nodes
-			'keySearch'          => false, // optional search and replace on tag and attribute names
-			'keyReplace'         => false  // replace values for above search values (as passed to str_replace())
-		];
-
-		$options = array_merge($defaults, $options);
-		$namespaces = $xml->getDocNamespaces();
-		$namespaces[''] = null; // add base (empty) namespace
-
-		//get attributes from all namespaces
-		$attributesArray = [];
-		foreach ($namespaces as $prefix => $namespace) {
-			foreach ($xml->attributes($namespace) as $attributeName => $attribute) {
-				//replace characters in attribute name
-				if ($options['keySearch']) $attributeName =
-						str_replace($options['keySearch'], $options['keyReplace'], $attributeName);
-				$attributeKey = $options['attributePrefix']
-						. ($prefix ? $prefix . $options['namespaceSeparator'] : '')
-						. $attributeName;
-				$attributesArray[$attributeKey] = (string)$attribute;
-			}
-		}
-
-		//get child nodes from all namespaces
-		$tagsArray = [];
-		foreach ($namespaces as $prefix => $namespace) {
-			foreach ($xml->children($namespace) as $childXml) {
-				//recurse into child nodes
-				$childArray = $this->xmlToArray($childXml, $options);
-				list($childTagName, $childProperties) = each($childArray);
-
-				//replace characters in tag name
-				if ($options['keySearch']) $childTagName =
-						str_replace($options['keySearch'], $options['keyReplace'], $childTagName);
-				//add namespace prefix, if any
-				if ($prefix) $childTagName = $prefix . $options['namespaceSeparator'] . $childTagName;
-
-				if (!isset($tagsArray[$childTagName])) {
-					//only entry with this key
-					//test if tags of this type should always be arrays, no matter the element count
-					$tagsArray[$childTagName] =
-							in_array($childTagName, $options['alwaysArray']) || !$options['autoArray']
-							? array($childProperties) : $childProperties;
-				} elseif (
-					is_array($tagsArray[$childTagName]) && array_keys($tagsArray[$childTagName])
-					=== range(0, count($tagsArray[$childTagName]) - 1)
-				) {
-					//key already exists and is integer indexed array
-					$tagsArray[$childTagName][] = $childProperties;
-				} else {
-					//key exists so convert to integer indexed array with previous value in position 0
-					$tagsArray[$childTagName] = [$tagsArray[$childTagName], $childProperties];
-				}
-			}
-		}
-
-		//get text content of node
-		$textContentArray = [];
-		$plainText = trim((string)$xml);
-		if ($plainText !== '') $textContentArray[$options['textContent']] = $plainText;
-
-		//stick it all together
-		$propertiesArray = !$options['autoText'] || $attributesArray || $tagsArray || ($plainText === '')
-				? array_merge($attributesArray, $tagsArray, $textContentArray) : $plainText;
-
-		//return node as array
-		return [
-			$xml->getName() => $propertiesArray
-		];
 	}
 }

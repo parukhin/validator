@@ -72,8 +72,6 @@ class bashneft extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$id = static::$urls[$this->region]['id'];
 		$url = $this->domain.'/include_areas/new_azs_filter.php?region_azs='.$id;
 

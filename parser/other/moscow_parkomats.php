@@ -17,7 +17,7 @@ class moscow_parkomats extends Validator
 		'ref'                  => '',
 		'ref:mos_parking'      => '',
 		'operator'             => 'ГКУ «Администратор Московского парковочного пространства»',
-		'contact:website'      => 'http://parking.mos.ru/',
+		'contact:website'      => 'http://parking.mos.ru',
 		'contact:phone'        => '+7 495 539-54-54',
 		'opening_hours'        => '24/7',
 		'payment:cash'         => 'no',
@@ -38,8 +38,6 @@ class moscow_parkomats extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$this->log('Обновление данных по региону '.$this->region.'.');
-
 		$url = $this->domain;
 		$dir = $_SERVER["DOCUMENT_ROOT"].'/data/RU-MOW';
 

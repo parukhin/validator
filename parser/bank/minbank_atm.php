@@ -2,7 +2,7 @@
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/regions.php';
 
-class minbank extends Validator
+class minbank_atm extends Validator
 {
 	protected $domain = 'https://www.minbank.ru/ajax/isic_address.php';
 
@@ -42,7 +42,7 @@ class minbank extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'         => 'bank',
+		'amenity'         => 'atm',
 		'ref'             => '',
 		'name'            => 'Московский индустриальный банк',
 		'name:ru'         => 'Московский индустриальный банк',
@@ -52,8 +52,11 @@ class minbank extends Validator
 		'branch'          => '',
 		'contact:website' => 'https://www.minbank.ru',
 		'contact:phone'   => '+7 800 1007474; +7 495 7400074',
+		'currency:RUB'    => 'no',
+		'currency:USD'    => 'no',
+		'currency:EUR'    => 'no',
+		'cash_in'         => 'no',
 		'opening_hours'   => '',
-		'wheelchair'      => 'no',
 		'lat'             => '',
 		'lon'             => '',
 		'_addr'           => '',
@@ -66,7 +69,7 @@ class minbank extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=bank][name~"индустриальный",i]'
+		'[amenity=atm][name~"индустриальный",i]'
 	];
 
 	/* Обновление данных по региону */
@@ -77,7 +80,7 @@ class minbank extends Validator
 		// Класс объекта
 		// 1 - банкомат / киоск
 		// 10 - офис / терминал
-		$class = 10;
+		$class = 1;
 
 		if ($this->region == 'RU') {
 			$lat = $RU['RU-MOW']['lat'];
@@ -95,7 +98,7 @@ class minbank extends Validator
 		.'&lat='.$lat
 		.'&lon='.$lon;
 		//.'max_dist=18536';
-		
+
 		$page = $this->get_web_page($url);
 		if (is_null($page)) {
 			return;
@@ -113,32 +116,37 @@ class minbank extends Validator
 		}
 
 		foreach ($a['list'] as $obj) {
-			// Исключение терминалов
-			if (mb_stripos($obj['name'], 'терминал') !== false) {
-				continue;
-			}
-
 			// Отсеиваем по региону
 			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
 				continue;
 			}
-			
-			// Идентификатор
-			if (preg_match('/[Д|О]О "(.+?)"/', $obj['name'], $m)) $obj['ref'] = $m[1];
-			else if (preg_match('/[Д|О]О №? ?(.+)/', $obj['name'], $m)) $obj['ref'] = $m[1];
-			else if (preg_match('/[Д|О]О "(.+)/', $obj['name'], $m)) $obj['ref'] = $m[1];
-			else if (mb_stripos($obj['name'], 'Центральный офис') !== false) $obj['ref'] = 'Центральный офис';
-			
-			$obj['official_name'] = $obj['name'];
-			$obj['_addr'] = $obj['address'];
 
-			// Доступность для инвалидных колясок
-			if (mb_stripos($obj['workhours'], 'пандус') !== false) {
-				$obj['wheelchair'] = 'yes';
+			// Исключение киосков
+			if (mb_stripos($obj['name'], 'киоск') !== false) {
+				continue;
 			}
 
+			// Идентификатор
+			if (preg_match('/Банкомат "(.+?)"/', $obj['name'], $m)) {
+				$obj['ref'] = $m[1];
+			}
+
+			// Валюты (выдача)
+			if (mb_stripos($obj['withdraw_currency'], 'RUR') !== false) $obj['currency:RUB'] = 'yes';
+			if (mb_stripos($obj['withdraw_currency'], 'RUB') !== false) $obj['currency:RUB'] = 'yes';
+			if (mb_stripos($obj['withdraw_currency'], 'USD') !== false) $obj['currency:USD'] = 'yes';
+			if (mb_stripos($obj['withdraw_currency'], 'EUR') !== false) $obj['currency:EUR'] = 'yes';
+
+			// Приём наличных
+			if ($obj['payment'] == true) {
+				$obj['cash_in'] = 'yes';
+			}
+			
 			// Время работы
 			$obj['opening_hours'] = $this->time($obj['workhours']);
+
+			$obj['official_name'] = $obj['name'];
+			$obj['_addr'] = $obj['address'];
 
 			// Удаление поля
 			unset($obj['name']);

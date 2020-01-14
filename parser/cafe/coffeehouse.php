@@ -14,7 +14,7 @@ class coffeehouse extends Validator
 		'name'     => 'КофеХауз',
 		'name:en'  => 'Coffee House',
 		'cuisine'  => 'coffee_shop',
-		'contact:website' => 'http://coffehouse.ru',
+		'contact:website' => 'https://www.coffeehouse.ru',
 		'payment:cards'   => 'yes',
 		'opening_hours'   => '',
 		'internet_access'     => '',

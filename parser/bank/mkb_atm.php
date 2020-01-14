@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
-class mkb extends Validator
+class mkb_atm extends Validator
 {
 	protected $domain = 'https://old.mkb.ru/about_bank/address/poi_data/filials/';
 
@@ -13,7 +13,7 @@ class mkb extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'         => 'bank',
+		'amenity'         => 'atm',
 		'ref'             => '',
 		'name'            => 'МКБ',
 		'name:ru'         => 'МКБ',
@@ -23,7 +23,10 @@ class mkb extends Validator
 		'branch'          => '',
 		'contact:website' => 'https://mkb.ru',
 		'contact:phone'   => '+7 800 7755152',
-		'wheelchair'      => '',
+		'currency:RUB'    => 'no',
+		'currency:USD'    => 'no',
+		'currency:EUR'    => 'no',
+		'cash_in'         => 'no',
 		'opening_hours'   => '',
 		'lat'             => '',
 		'lon'             => '',
@@ -37,7 +40,7 @@ class mkb extends Validator
 
 	/* Фильтр для поиска объектов в OSM */
 	protected $filter = [
-		'[amenity=bank][name~"МКБ",i]'
+		'[amenity=atm][name~"МКБ",i]'
 	];
 
 	/* Парсер страницы */
@@ -48,8 +51,8 @@ class mkb extends Validator
 		$array = json_decode($json, TRUE);
 
 		foreach ($array['filial'] as $obj) {
-			// Отсеиваем отделения
-			if ($obj['types']['@attributes']['isbranch'] != '1') {
+			// Отсеиваем банкоматы
+			if ($obj['types']['@attributes']['isatm'] != '1') {
 				continue;
 			}
 
@@ -74,9 +77,6 @@ class mkb extends Validator
 				$obj['branch'] = $m[1];
 			}
 
-			// Доступность для инвалидных колясок
-			// TODO: добавить
-
 			// Время работы
 			$obj['opening_hours'] = $this->time($obj['workingtime']['interval']);
 
@@ -85,6 +85,25 @@ class mkb extends Validator
 				$obj['contact:phone'] = $this->phone($obj['phones']['phone'][0]);
 			} else {
 				$obj['contact:phone'] = $this->phones($obj['phones']['phone'], ',');
+			}
+
+			// Валюты (выдача)
+			if (is_array($obj['cur_out'])) {
+				if (in_array('RUR', $obj['cur_out'])) $obj['currency:RUB'] = 'yes';
+				if (in_array('RUB', $obj['cur_out'])) $obj['currency:RUB'] = 'yes';
+				if (in_array('USD', $obj['cur_out'])) $obj['currency:USD'] = 'yes';
+				if (in_array('EUR', $obj['cur_out'])) $obj['currency:EUR'] = 'yes';
+			}
+			if (is_array($obj['cur_in'] && isset($obj['cur_in']['cur']) && is_array($obj['cur_in']['cur']))) {
+				if (in_array('RUR', $obj['cur_in']['cur'])) $obj['currency:RUB'] = 'yes';
+				if (in_array('RUB', $obj['cur_in']['cur'])) $obj['currency:RUB'] = 'yes';
+				if (in_array('USD', $obj['cur_in']['cur'])) $obj['currency:USD'] = 'yes';
+				if (in_array('EUR', $obj['cur_in']['cur'])) $obj['currency:EUR'] = 'yes';
+			}
+
+			// Приём наличных
+			if (!is_array($obj['is_cash_in']) && $obj['is_cash_in'] == 'Да') {
+				$obj['cash_in'] = 'Да';
 			}
 
 			// Удаление поля

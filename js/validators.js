@@ -1,4 +1,4 @@
-// validators.js v0.12
+// validators.js v0.13
 var osm = new osm_cl()
 
 var regions = {
@@ -262,7 +262,7 @@ var regions = {
 	}
 };
 
-/*
+/* Список всех регионов
 'RU', 'RU-AD', 'RU-AL', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-IN', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-CR', 'RU-ME', 'RU-MO', 'RU-SA', 'RU-SE', 'RU-TA', 'RU-TY', 'RU-UD', 'RU-KK', 'RU-CE', 'RU-CU', 'RU-ALT', 'RU-ZAB', 'RU-KAM', 'RU-KDA', 'RU-KYA', 'RU-PER', 'RU-PRI', 'RU-STA', 'RU-KHA', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MAG', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-MOW', 'RU-SPE', 'RU-SEV', 'RU-YEV', 'RU-NEN', 'RU-KHM', 'RU-CHU', 'RU-YAN',
 */
 
@@ -271,7 +271,7 @@ var notes = {
 };
 
 var fields = {
-	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'brand:wikidata', 'brand:wikipedia'],
+	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'official_name', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'brand:wikidata', 'brand:wikipedia'],
 	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'brand:wikidata', 'brand:wikipedia'],
 	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUB', 'currency:USD', 'currency:EUR', 'cash_in', 'brand:wikidata', 'brand:wikipedia'],
@@ -592,21 +592,45 @@ var validators = {
 		fields: fields.fuel,
 		regions: ['RU-BA', 'RU-KGD', 'RU-KDA', 'RU-LEN', 'RU-MOS', 'RU-MOW', 'RU-PER', 'RU-SPE', 'RU-VLG', 'RU-VGG', 'RU-IVA']
 	},
-	/* minbank: {
+	minbank: {
 		name: 'Московский индустриальный банк (отделения)',
 		note: '',
 		noteIsShow: false,
 		link: 'https://www.minbank.ru/map/',
 		fields: fields.bank,
-		regions: ['RU-MOW']
-	}, */
+		regions: [
+			'RU-MOW', 'RU-SPE', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KB',  'RU-KLU',
+			'RU-KC',  'RU-KOS', 'RU-KDA', 'RU-LEN', 'RU-LIP', 'RU-MOS', 'RU-NEN', 'RU-NIZ', 'RU-ORL', 'RU-AD',  'RU-KR',  'RU-SE',
+			'RU-ROS', 'RU-STA', 'RU-TVE', 'RU-TUL', 'RU-CE',  'RU-YAR', 'RU'
+		]
+	},
+	minbank_atm: {
+		name: 'Московский индустриальный банк (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.minbank.ru/map/atm/',
+		fields: fields.atm,
+		regions: [
+			'RU-MOW', 'RU-SPE', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KB',  'RU-KLU',
+			'RU-KC',  'RU-KOS', 'RU-KDA', 'RU-LEN', 'RU-LIP', 'RU-MOS', 'RU-NEN', 'RU-NIZ', 'RU-ORL', 'RU-AD',  'RU-KR',  'RU-SE',
+			'RU-ROS', 'RU-STA', 'RU-TVE', 'RU-TUL', 'RU-CE',  'RU-YAR', 'RU'
+		]
+	},
 	mkb: {
 		name: 'Московский кредитный банк (отделения)',
 		note: '',
 		noteIsShow: false,
-		link: 'http://mkb.ru/about_bank/address/?type=office',
-		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'official_name', 'department', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'operator:wikidata', 'brand:wikipedia'],
-		regions: ['RU-MOW', 'RU-MOS']
+		link: 'https://mkb.ru/about/address/branch',
+		fields: fields.bank,
+		regions: ['RU', 'RU-MOW', 'RU-MOS']
+	},
+	mkb_atm: {
+		name: 'Московский кредитный банк (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://mkb.ru/about/address/atm',
+		fields: fields.atm,
+		regions: ['RU', 'RU-MOW', 'RU-MOS']
 	},
 	temples: {
 		name: 'Церкви (temples.ru)',
@@ -878,7 +902,7 @@ function osm_cl() {
 
 	// Валидация подсчет кол-ва объектов
 	this.revalidate_ = function () {
-		var a = osm.real_data, osm_data, state, f, i, j, t;
+		var a = osm.real_data, osm_data, state, i, j, t;
 		this.count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 		this.log('Обработка данных...');
@@ -972,7 +996,7 @@ function osm_cl() {
 
 	// функция отрисовки страницы с данными
 	this.updatePage = function () {
-		var i, j, st = '', dataId, _, N = 0;
+		var i, j, st = '', _, N = 0;
 		var a = osm.filter_data;
 		if (!a) return;
 		osm.category = {};
@@ -985,13 +1009,12 @@ function osm_cl() {
 			j = validators[this.activeValidator].fields[field];
 			st += '<th title="' + j + '">';
 			j = j
-				.replace('ref:temples.ru', '<span title="temples.ru">ref</span>')
+				.replace('ref:temples.ru', '<span title="ref:temples.ru - иднетификатор на temples.ru">temples.ru</span>')
 				.replace('start_date', 'Дата постр.')
-				.replace('alt_name', '<span title="Альтернативное название">Альт.</span>')
-				.replace('disused', '<span title="не работает?">Закр.</span>')
-				.replace('denomination:ru', '<span title="конфессия русск.">Конф.</span>')
-				.replace('denomination', '<span title="конфессия">Конф.</span>')
-				.replace('russian_orthodox', '<span title="признают Патриарха?">ПП</span>')
+				.replace('disused', '<span title="disused - не работает?">Закр.</span>')
+				.replace('denomination:ru', '<span title="denomination:ru - конфессия русск.">Конф.</span>')
+				.replace('denomination', '<span title="denomination - конфессия">Конф.</span>')
+				.replace('russian_orthodox', '<span title="russian_orthodox - признают Патриарха?">ПП</span>')
 				.replace('contact:phone', 'Телефон')
 				.replace('contact:website', 'Сайт')
 				.replace('contact:facebook', 'facebook')
@@ -999,18 +1022,20 @@ function osm_cl() {
 				.replace('phone', 'Телефон')
 				.replace('website', 'Сайт')
 				.replace('building', 'Здание')
-				.replace('old_name', '<span title="Прежнее название">Прежн.</span>')
-				.replace('name:ru', '<span title="Название по русски">RU</span>')
-				.replace('name:en', '<span title="Название по английски">EN</span>')
+				.replace('alt_name', '<span title="alt_name - альтернативное название">Альт.</span>')
+				.replace('old_name', '<span title="old_name - прежнее название">Прежн.</span>')
+				.replace('official_name', '<span title="official_name - официальное название">Оф. назв.</span>')
+				.replace('name:ru', '<span title="name:ru - название по русски">Русское назв.</span>')
+				.replace('name:en', '<span title="name:en - название по английски">Англ. назв.</span>')
 				.replace('name', 'Название')
-				.replace('internet_access', '<span title="Доступ в интернет">www</span>')
+				.replace('internet_access', '<span title="internet_access - доступ в интернет">www</span>')
 				.replace('addr:postcode', 'Индекс')
-				.replace('abandoned:place', '<span title="abandoned">a:place</span>')
-				.replace('community:gender', '<span title="community:gender">Пол</span>')
+				.replace('abandoned:place', '<span title="abandoned:plac - заброшенные или отсутствующие населённые пункты">a:place</span>')
+				.replace('community:gender', 'Пол')
 				.replace('official_status', 'Статус')
-				.replace('addr:country', '<span title="Страна">RU</span>')
-				.replace('population:date', '<span title="Год переписи">Год</span>')
-				.replace('population', '<span title="Население">Нас.</span>')
+				.replace('addr:country', 'Страна')
+				.replace('population:date', '<span title="population:date - год переписи">Год</span>')
+				.replace('population', '<span title="population - население">Нас.</span>')
 				.replace('_addr', 'Адрес')
 				.replace('opening_hours', 'График работы')
 				.replace('operator', 'Оператор')
@@ -1025,10 +1050,11 @@ function osm_cl() {
 				.replace('fuel:cng', 'КПГ')
 				.replace('fuel:discount', 'Скидки')
 				.replace('cash_in', 'Приём наличности')
+				.replace('wheelchair', '<span title="wheelchair - доступность для людей на инвалидных колясках">Инв. коляски</span>')
 				// Валюты
-				.replace('currency:RUB', '<span title="Рубль">₽</span>')
-				.replace('currency:USD', '<span title="Доллар">$</span>')
-				.replace('currency:EUR', '<span title="Евро">€</span>');
+				.replace('currency:RUB', '<span title="currency:RUB - рубль">₽</span>')
+				.replace('currency:USD', '<span title="currency:USD - доллар">$</span>')
+				.replace('currency:EUR', '<span title="currency:EUR - евро">€</span>');
 			st += j + '</th>';
 		}
 		st += '</tr>';

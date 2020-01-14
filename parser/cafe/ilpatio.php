@@ -7,7 +7,7 @@ class ilpatio extends rosinter
 	protected $fields = array(
 		'amenity'  => 'cafe',
 		'name'     => 'IL Патио',
-		'contact:website' => 'http://www.ilpatio.ru',
+		'contact:website' => 'http://ilpatio.ru',
 		'contact:phone'   => '',
 		'opening_hours'   => '',
 		'lat'   => '',
