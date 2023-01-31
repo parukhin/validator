@@ -1,4 +1,4 @@
-// validators.js v0.13
+// validators.js v0.14
 var osm = new osm_cl()
 
 var regions = {
@@ -296,7 +296,7 @@ var validators = {
 		note: '',
 		noteIsShow: false,
 		link: 'https://www.pochta.ru/offices',
-		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'brand:wikidata', 'brand:wikipedia'],
+		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'operator:wikidata', 'operator:wikipedia'],
 		regions: [
 			'RU-AD',  'RU-AL',  'RU-BA',  'RU-BU',  'RU-DA',  'RU-IN',  'RU-KB',  'RU-KL',  'RU-KC',  'RU-KR',  'RU-KO',  'RU-CR',
 			'RU-ME',  'RU-MO',  'RU-SA',  'RU-SE',  'RU-TA',  'RU-TY',  'RU-UD',  'RU-KK',  'RU-CE',  'RU-CU',  'RU-ALT', 'RU-ZAB',
@@ -1460,8 +1460,8 @@ function osm_cl() {
 					// новые ссылки на wikipedia и wikidata
 					if (k == 'wikipedia')          a[k = 'brand:wikipedia'] = v;
 					if (k == 'wikidata')           a[k = 'brand:wikidata'] = v;
-					if (k == 'operator:wikipedia') a[k = 'brand:wikipedia'] = v;
-					if (k == 'operator:wikidata')  a[k = 'brand:wikidata'] = v;
+					//if (k == 'operator:wikipedia') a[k = 'brand:wikipedia'] = v;
+					//if (k == 'operator:wikidata')  a[k = 'brand:wikidata'] = v;
 
 					// пропускаем неправильный ОКАТО
 					if (k == 'okato:user' && v == '46') continue;

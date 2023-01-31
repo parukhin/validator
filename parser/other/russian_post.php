@@ -96,22 +96,22 @@ class russian_post extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'          => 'post_office',
-		'ref'              => '',
-		'name'             => '',
-		'name:ru'          => '',
-		'name:en'          => '',
-		'operator'         => 'Почта России',
-		'contact:website'  => 'https://www.pochta.ru',
-		'contact:facebook' => 'https://www.facebook.com/ruspost',
-		'contact:vk'       => 'https://vk.com/russianpost',
-		'contact:phone'    => '',
-		'opening_hours'    => '',
-		'lat'              => '',
-		'lon'              => '',
-		'_addr'            => '',
-		'brand:wikidata'   => 'Q1502763',
-		'brand:wikipedia'  => 'ru:Почта России'
+		'amenity'             => 'post_office',
+		'ref'                 => '',
+		'name'                => '',
+		'name:ru'             => '',
+		'name:en'             => '',
+		'operator'            => 'АО "Почта России"',
+		'contact:website'     => 'https://www.pochta.ru',
+		'contact:facebook'    => 'https://www.facebook.com/ruspost',
+		'contact:vk'          => 'https://vk.com/russianpost',
+		'contact:phone'       => '',
+		'opening_hours'       => '',
+		'lat'                 => '',
+		'lon'                 => '',
+		'_addr'               => '',
+		'operator:wikidata'   => 'Q1502763',
+		'operator:wikipedia'  => 'ru:Почта России'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
