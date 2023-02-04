@@ -7,28 +7,28 @@ class russian_post extends Validator
 	protected $domain = 'https://www.pochta.ru/';
 
 	static $urls = [
-		'RU-AD'  => [],
-		'RU-AL'  => [],
-		'RU-BA'  => [],
-		'RU-BU'  => [],
-		'RU-DA'  => [],
-		'RU-IN'  => [],
-		'RU-KB'  => [],
-		'RU-KL'  => [],
-		'RU-KC'  => [],
-		'RU-KR'  => [],
-		'RU-KO'  => [],
-		'RU-CR'  => [],
-		'RU-ME'  => [],
-		'RU-MO'  => [],
-		'RU-SA'  => [],
-		'RU-SE'  => [],
-		'RU-TA'  => [],
-		'RU-TY'  => [],
-		'RU-UD'  => [],
-		'RU-KK'  => [],
-		'RU-CE'  => [],
-		'RU-CU'  => [],
+		'RU-AD' => [],
+		'RU-AL' => [],
+		'RU-BA' => [],
+		'RU-BU' => [],
+		'RU-DA' => [],
+		'RU-IN' => [],
+		'RU-KB' => [],
+		'RU-KL' => [],
+		'RU-KC' => [],
+		'RU-KR' => [],
+		'RU-KO' => [],
+		'RU-CR' => [],
+		'RU-ME' => [],
+		'RU-MO' => [],
+		'RU-SA' => [],
+		'RU-SE' => [],
+		'RU-TA' => [],
+		'RU-TY' => [],
+		'RU-UD' => [],
+		'RU-KK' => [],
+		'RU-CE' => [],
+		'RU-CU' => [],
 		'RU-ALT' => [],
 		'RU-ZAB' => [],
 		'RU-KAM' => [],
@@ -96,22 +96,22 @@ class russian_post extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'amenity'             => 'post_office',
-		'ref'                 => '',
-		'name'                => '',
-		'name:ru'             => '',
-		'name:en'             => '',
-		'operator'            => 'АО "Почта России"',
-		'contact:website'     => 'https://www.pochta.ru',
-		'contact:facebook'    => 'https://www.facebook.com/ruspost',
-		'contact:vk'          => 'https://vk.com/russianpost',
-		'contact:phone'       => '',
-		'opening_hours'       => '',
-		'lat'                 => '',
-		'lon'                 => '',
-		'_addr'               => '',
-		'operator:wikidata'   => 'Q1502763',
-		'operator:wikipedia'  => 'ru:Почта России'
+		'amenity' => 'post_office',
+		'ref' => '',
+		'name' => '',
+		'name:ru' => '',
+		'name:en' => '',
+		'operator' => 'АО "Почта России"',
+		'contact:website' => 'https://www.pochta.ru',
+		'contact:facebook' => 'https://www.facebook.com/ruspost',
+		'contact:vk' => 'https://vk.com/russianpost',
+		'contact:phone' => '',
+		'opening_hours' => '',
+		'lat' => '',
+		'lon' => '',
+		'_addr' => '',
+		'operator:wikidata' => 'Q1502763',
+		'operator:wikipedia' => 'ru:Почта России'
 	];
 
 	/* Фильтр для поиска объектов в OSM */
@@ -122,29 +122,24 @@ class russian_post extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		global $RU;
+		$rectangle = $this->GetRegionBorders();
 
-		$count = 1000;
-		$offset = 0;
-		$lat = $RU[$this->region]['lat'];
-		$lon = $RU[$this->region]['lon'];
-		$searchRadius = 500;
+		$url = "https://www.pochta.ru/suggestions/v2/postoffices.find-from-rectangle";
 
-		while (1) {
-			$url = "https://www.pochta.ru/portal-portlet/delegate/postoffice-api/method/offices.find.nearby.details?latitude=$lat&longitude=$lon&top=$count&currentDateTime=2016-2-28T2%3A12%3A22&offset=$offset&filter=ALL&hideTemporaryClosed=false&fullAddressOnly=true&searchRadius=$searchRadius";
+		$query = '{"extFilters":["NOT_TEMPORARY_CLOSED","NOT_PRIVATE","NOT_CLOSED","ONLY_ATI"],'
+			.'"topLeftPoint":{"latitude":'.$rectangle['maxLat'].',"longitude":'.$rectangle['minLon'].'},'
+			.'"bottomRightPoint":{"latitude":'.$rectangle['minLat'].',"longitude":'.$rectangle['maxLon'].'},'
+			.'"precision":0,'
+			.'"onlyCoordinate":false,'
+			.'"offset":0,'
+			.'"limit":50000}';
 
-			$page = $this->get_web_page($url);
-			if (is_null($page)) {
-				return;
-			}
-
-			if ($page == '[]') { // если данные закончились
-				break; // заканчиваем поиск
-			}
-
-			$this->parse($page);
-			$offset+= $count;
+		$page = $this->get_web_page($url, $query);
+		if (is_null($page)) {
+			return;
 		}
+
+		$this->parse($page);
 	}
 
 	/* Парсер страницы */
@@ -157,7 +152,7 @@ class russian_post extends Validator
 			return;
 		}
 
-		foreach ($a as $obj) {
+		foreach ($a['postOffices'] as $obj) {
 			// Координаты
 			$obj['lat'] = $obj['latitude'];
 			$obj['lon'] = $obj['longitude'];
@@ -181,14 +176,16 @@ class russian_post extends Validator
 				continue;
 			}
 
-			$ref[] = $obj['postalCode']; // сохраняем ref отделения в массив
+			if (!isset($obj['settlement'])) {
+				$obj['settlement'] = '';
+			}
 
+			$ref[] = $obj['postalCode']; // сохраняем ref отделения в массив
 			$obj['_addr'] = $obj['settlement'].', '.$obj['addressSource'];
 			$obj['ref'] = $obj['postalCode'];
 			//$obj['name'] = 'Отделение связи №'.$obj['ref'];
 			$obj['name'] = $obj['settlement'].' '.$obj['ref'];
 			$obj['name:ru'] = $obj['name'];
-
 			foreach ($obj['phones'] as $phone) {
 				if (!isset($obj['contact:phone'])) {
 					$obj['contact:phone'] = '';
@@ -196,29 +193,26 @@ class russian_post extends Validator
 					$obj['contact:phone'] .= '; ';
 				}
 				if (isset($phone['phoneNumber'])) {
-					$obj['contact:phone'] .= '+7 '.((isset($phone['phoneTownCode']))?($phone['phoneTownCode'].' '):'').$phone['phoneNumber'];
+					$obj['contact:phone'] .= '+7 '.((isset($phone['phoneTownCode'])) ? ($phone['phoneTownCode'].' ') : '').$phone['phoneNumber'];
 				}
 			}
-
 			// Режим работы
 			if (isset($obj['workingHours'])) {
-
 				$wd = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-
 				$time = [];
-
 				foreach ($obj['workingHours'] as $day => $wh) {
 					if (isset($wh['beginWorkTime'])) { // рабочий день
 						if (isset($wh['lunches']) && (count($wh['lunches']) > 0)) { // есть обеденный перерыв
-							$time[$wd[$wh['weekDayId'] - 1]] = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['lunches'][0]['beginLunchTime'], 0,5).',';
-							$time[$wd[$wh['weekDayId'] - 1]] .= substr($wh['lunches'][0]['endLunchTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+							$time[$wd[$wh['weekDayId'] - 1]] = substr($wh['beginWorkTime'], 0, 5).'-'.substr($wh['lunches'][0]['beginLunchTime'], 0, 5).',';
+							$time[$wd[$wh['weekDayId'] - 1]] .= substr($wh['lunches'][0]['endLunchTime'], 0, 5).'-'.substr($wh['endWorkTime'], 0, 5);
 						} else { // без перерыва
-							$time[$wd[$wh['weekDayId'] - 1]] = substr($wh['beginWorkTime'], 0,5).'-'.substr($wh['endWorkTime'], 0,5);
+							$time[$wd[$wh['weekDayId'] - 1]] = substr($wh['beginWorkTime'], 0, 5).'-'.substr($wh['endWorkTime'], 0, 5);
 						}
 					}
 				}
 				$obj['opening_hours'] = $this->time($time);
 			}
+
 			$this->addObject($this->makeObject($obj));
 		}
 	}
