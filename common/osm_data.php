@@ -24,12 +24,13 @@ function osm_data($data, $region, $validator, $type, $timestamp = null)
 	}
 
 	$dir = $_SERVER["DOCUMENT_ROOT"].'/data/'.$region;
-	if (!file_exists($dir)) mkdir($dir);
+	if (!file_exists($dir))
+		mkdir($dir);
 
 	$fname = $dir.'/'.$validator.'_'.$type.'.json';
 	$st = ' '.json_encode($data)."\n"; // пробел спереди - чтобы не evalил в ajax
 
-	if (file_exists($fname) && file_get_contents($fname, $st) == $st) { // если содержимое не изменилось
+	if (file_exists($fname) && file_get_contents($fname) == $st) { // если содержимое не изменилось
 		$msg = "Новые данные для ($region | $validator | $type) отсутствуют.";
 	} else { // если есть новые данные
 		file_put_contents($fname, $st);
@@ -43,7 +44,8 @@ function osm_data($data, $region, $validator, $type, $timestamp = null)
 		$state = json_decode($state, true);
 	}
 
-	if (!$state) $state = array();
+	if (!$state)
+		$state = array();
 
 	if (!isset($state["$region.$validator"])) { // если поля не существует
 		$state["$region.$validator"] = [$region, $validator, 0, 0, 0]; // создаём

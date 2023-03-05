@@ -442,68 +442,25 @@ class Validator extends OsmFunctions
 	/* Принадлежность объекта региону */
 	protected function isInRegionByCoords($lat, $lon)
 	{
-		if ($this->region == 'RU') {
-			return true;
-		}
-
 		static $polygons = [[]];
 
 		if (!isset($polygons[0][0]['lat'])) {
 			$polygons = $this->get_geometry($this->region);
 		}
 
-		$geocoder = new Geocoder();
-		foreach ($polygons as $polygon) {
-			$result = $geocoder->pointInPolygon($lat, $lon, $polygon);
-			if ($result) {
-				break;
-			}
-		}
-
-		return $result;
-	}
-
-	// Определение границ региона по точкам
-	protected function GetRegionBorders()
-	{
-		if ($this->region == 'RU') {
-			return true;
-		}
-
-		static $polygons = [[]];
-
-		if (!isset($polygons[0][0]['lat'])) {
-			$polygons = $this->get_geometry($this->region);
-		}
-
-		$maxLat = -90;
-		$minLat = 90;
-		$maxLon = -180;
-		$minLon = 180;
-
-		foreach ($polygons as $polygon) {
-			foreach ($polygon as $point) {
-				if ($point['lat'] > $maxLat) {
-					$maxLat = $point['lat'];
-				}
-				if ($point['lat'] < $minLat) {
-					$minLat = $point['lat'];
-				}
-				if ($point['lon'] > $maxLon) {
-					$maxLon = $point['lon'];
-				}
-				if ($point['lon'] < $minLon) {
-					$minLon = $point['lon'];
+		if (isset($polygons[0][0]['lat'])) {
+			$geocoder = new Geocoder();
+			foreach ($polygons as $polygon) {
+				$result = $geocoder->pointInPolygon($lat, $lon, $polygon);
+				if ($result) {
+					break;
 				}
 			}
+
+			return $result;
 		}
 
-		return [
-			'maxLat' => $maxLat,
-			'minLat' => $minLat,
-			'maxLon' => $maxLon,
-			'minLon' => $minLon
-		];
+		return null;
 	}
 
 	/* Добавление объекта во время парсинга страницы */
@@ -517,13 +474,12 @@ class Validator extends OsmFunctions
 	{
 		$line = date('d.m.Y H:i:s')." $st\n";
 		echo $line;
-		//Кидаем в файлик...
 		if ($_SERVER["DOCUMENT_ROOT"] != "") {
-			if (!file_exists('/data')) {
-				mkdir('/data', 0777, true);
-			}
-			$file = $_SERVER["DOCUMENT_ROOT"]."/data/log.txt";
-			file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
+			$dir = $_SERVER["DOCUMENT_ROOT"].'/data';
+			if (!file_exists($dir))
+				mkdir($dir);
+			$fname = $dir."/log.txt";
+			file_put_contents($fname, $line, FILE_APPEND | LOCK_EX);
 		}
 	}
 }

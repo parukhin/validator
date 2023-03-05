@@ -5,7 +5,7 @@
 class OsmFunctions
 {
 	protected $osm_objects = [];
-	private   $timestamp   = '';
+	private $timestamp = '';
 
 	/* Обновление данных из базы OSM */
 	public function update_osm()
@@ -41,8 +41,7 @@ class OsmFunctions
 
 		$query .= "area['$ref'='$region'][admin_level=$admin_level][boundary=administrative]->.a; (";
 
-		foreach ($filters as $filter)
-		{
+		foreach ($filters as $filter) {
 			$query .= "rel(area.a) $filter; >; ";
 			$query .= "way(area.a) $filter; >; ";
 			$query .= "node(area.a) $filter;";
@@ -96,22 +95,24 @@ class OsmFunctions
 			$item['tags']['lon'] = $item['lon'];
 
 			$this->osm_objects[] = $item['tags'];
-		} else
-		if (strcmp($item['type'], 'way') === 0) {
-			$item['tags']['id'] = 'w'.$item['id'];
-			/* Вычисление центра объекта */
-			$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
-			$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
+		} else {
+			if (strcmp($item['type'], 'way') === 0) {
+				$item['tags']['id'] = 'w'.$item['id'];
+				/* Вычисление центра объекта */
+				$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
+				$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
 
-			$this->osm_objects[] = $item['tags'];
-		} else
-		if (strcmp($item['type'], 'relation') === 0) {
-			$item['tags']['id'] = 'r'.$item['id'];
-			/* Вычисление центра объекта */
-			$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
-			$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
+				$this->osm_objects[] = $item['tags'];
+			} else {
+				if (strcmp($item['type'], 'relation') === 0) {
+					$item['tags']['id'] = 'r'.$item['id'];
+					/* Вычисление центра объекта */
+					$item['tags']['lat'] = ($item['bounds']['minlat'] + $item['bounds']['maxlat']) / 2;
+					$item['tags']['lon'] = ($item['bounds']['minlon'] + $item['bounds']['maxlon']) / 2;
 
-			$this->osm_objects[] = $item['tags'];
+					$this->osm_objects[] = $item['tags'];
+				}
+			}
 		}
 	}
 
@@ -119,7 +120,8 @@ class OsmFunctions
 	public function get_bbox($region)
 	{
 		$dir = $_SERVER["DOCUMENT_ROOT"].'/data';
-		if (!file_exists($dir)) mkdir($dir);
+		if (!file_exists($dir))
+			mkdir($dir);
 
 		$fname = "$dir/bbox.json";
 
@@ -178,10 +180,11 @@ class OsmFunctions
 	/* Get geometry from OverPass API */
 	public function get_geometry($region)
 	{
-		$dir = $_SERVER["DOCUMENT_ROOT"].'/data';
-		if (!file_exists($dir)) mkdir($dir);
+		$dir = $_SERVER["DOCUMENT_ROOT"].'/data/'.$region;
+		if (!file_exists($dir))
+			mkdir($dir);
 
-		$fname = "$dir/$region/geometry.json";
+		$fname = "$dir/geometry.json";
 
 		if (file_exists($fname)) {
 

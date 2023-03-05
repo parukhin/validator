@@ -122,13 +122,13 @@ class russian_post extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$rectangle = $this->GetRegionBorders();
+		$bbox = $this->get_bbox($this->region);
 
 		$url = "https://www.pochta.ru/suggestions/v2/postoffices.find-from-rectangle";
 
 		$query = '{"extFilters":["NOT_TEMPORARY_CLOSED","NOT_PRIVATE","NOT_CLOSED","ONLY_ATI"],'
-			.'"topLeftPoint":{"latitude":'.$rectangle['maxLat'].',"longitude":'.$rectangle['minLon'].'},'
-			.'"bottomRightPoint":{"latitude":'.$rectangle['minLat'].',"longitude":'.$rectangle['maxLon'].'},'
+			.'"topLeftPoint":{"latitude":'.$bbox['maxlat'].',"longitude":'.$bbox['minlon'].'},'
+			.'"bottomRightPoint":{"latitude":'.$bbox['minlat'].',"longitude":'.$bbox['maxlon'].'},'
 			.'"precision":0,'
 			.'"onlyCoordinate":false,'
 			.'"offset":0,'
