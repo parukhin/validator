@@ -1404,7 +1404,7 @@ function osm_cl() {
 
 		for (i in a) {
 			if ((i.charAt(0) != '_') && (i != 'lon') && (i != 'lat')) {
-				tags += (tags ? '|' : '') + encodeURIComponent(i) + '=' + encodeURIComponent(a[i]);
+				tags += (tags ? '|' : '') + i + '=' + a[i];
 			}
 		}
 
@@ -1477,11 +1477,11 @@ function osm_cl() {
 
 		// заодно стираем устаревшие теги, если в OSM есть замена
 		if (this.josmCanDeleteTags) {
-			i = 'phone'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=%20';
-			i = 'website'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=%20';
-			i = 'population:year'; if (b[i] && a['population:date']) tags += '|' + i + '=%20';
-			i = 'wikipedia'; if (b[i] && a['operator:' + i]) tags += '|' + i + '=%20';
-			i = 'wikidata'; if (b[i] && a['operator:' + i]) tags += '|' + i + '=%20';
+			i = 'phone'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=';
+			i = 'website'; if (b[i] && a['contact:' + i]) tags += '|' + i + '=';
+			i = 'population:year'; if (b[i] && a['population:date']) tags += '|' + i + '=';
+			i = 'wikipedia'; if (b[i] && a['operator:' + i]) tags += '|' + i + '=';
+			i = 'wikidata'; if (b[i] && a['operator:' + i]) tags += '|' + i + '=';
 		}
 
 		var d;
