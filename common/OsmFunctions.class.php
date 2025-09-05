@@ -23,7 +23,7 @@ class OsmFunctions
 	private function query_overpass($region, $filters)
 	{
 		// TODO: сделать одну функцию для запросов к Overpass API
-		$url = "https://overpass.openstreetmap.ru/api/interpreter";
+		$url = "https://maps.mail.ru/osm/tools/overpass/api/interpreter";
 		//$url = "https://overpass-api.de/api/interpreter";
 
 		// Определение административной единицы
@@ -140,7 +140,7 @@ class OsmFunctions
 		}
 
 		// TODO: сделать одну функцию для запросов к Overpass API
-		$url = "https://overpass.openstreetmap.ru/api/interpreter";
+		$url = "https://maps.mail.ru/osm/tools/overpass/api/interpreter";
 		//$url = "https://overpass-api.de/api/interpreter";
 
 		// FIXME: запрос слишком много инфы загружает, поправить
@@ -197,7 +197,7 @@ class OsmFunctions
 		}
 
 		// TODO: сделать одну функцию для запросов к Overpass API
-		$url = "https://overpass.openstreetmap.ru/api/interpreter";
+		$url = "https://maps.mail.ru/osm/tools/overpass/api/interpreter";
 		//$url = "https://overpass-api.de/api/interpreter";
 
 		// FIXME: запрос слишком много инфы загружает, поправить
