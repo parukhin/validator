@@ -77,6 +77,7 @@ class Validator extends OsmFunctions
 		curl_setopt($ch, CURLOPT_USERAGENT, $useragent); // useragent
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30); // таймаут соединения
 		curl_setopt($ch, CURLOPT_TIMEOUT, 300); // таймаут ответа
+		curl_setopt($ch,CURLOPT_ENCODING , ""); // некоторые сайты включают сжатие
 
 		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		//curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
