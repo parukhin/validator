@@ -6,17 +6,71 @@ class lukoil extends Validator
 	protected $domain = 'https://auto.lukoil.ru/api/cartography/GetSearchObjects?form=gasStation';
 
 	static $urls = [
+		'RU-AD'  => '',
 		'RU-BA'  => '',
-		'RU-KGD' => '',
+		'RU-KB'  => '',
+		'RU-KL'  => '',
+		'RU-KC'  => '',
+		'RU-KR'  => '',
+		'RU-KO'  => '',
+		'RU-ME'  => '',
+		'RU-MO'  => '',
+		'RU-SE'  => '',
+		'RU-TA'  => '',
+		'RU-UD'  => '',
+		'RU-CE'  => '',
+		'RU-CU'  => '',
+		'RU-ALT' => '',
 		'RU-KDA' => '',
-		'RU-LEN' => '',
-		'RU-MOS' => '',
-		'RU-MOW' => '',
+		'RU-KYA' => '',
 		'RU-PER' => '',
-		'RU-SPE' => '',
-		'RU-VLG' => '',
+		'RU-STA' => '',
+		'RU-ARK' => '',
+		'RU-AST' => '',
+		'RU-BEL' => '',
+		'RU-BRY' => '',
+		'RU-VLA' => '',
 		'RU-VGG' => '',
-		'RU-IVA' => ''
+		'RU-VLG' => '',
+		'RU-VOR' => '',
+		'RU-IVA' => '',
+		'RU-KGD' => '',
+		'RU-KLU' => '',
+		'RU-KEM' => '',
+		'RU-KIR' => '',
+		'RU-KOS' => '',
+		'RU-KGN' => '',
+		'RU-KRS' => '',
+		'RU-LEN' => '',
+		'RU-LIP' => '',
+		'RU-MOS' => '',
+		'RU-MUR' => '',
+		'RU-NIZ' => '',
+		'RU-NGR' => '',
+		'RU-NVS' => '',
+		'RU-OMS' => '',
+		'RU-ORE' => '',
+		'RU-ORL' => '',
+		'RU-PNZ' => '',
+		'RU-PSK' => '',
+		'RU-ROS' => '',
+		'RU-RYA' => '',
+		'RU-SAM' => '',
+		'RU-SAR' => '',
+		'RU-SVE' => '',
+		'RU-SMO' => '',
+		'RU-TAM' => '',
+		'RU-TVE' => '',
+		'RU-TUL' => '',
+		'RU-TYU' => '',
+		'RU-ULY' => '',
+		'RU-CHE' => '',
+		'RU-YAR' => '',
+		'RU-MOW' => '',
+		'RU-SPE' => '',
+		'RU-NEN' => '',
+		'RU-KHM' => '',
+		'RU-YAN' => ''
 	];
 
 	/* Поля объекта */
@@ -29,9 +83,10 @@ class lukoil extends Validator
 		'brand'           => 'Лукойл',
 		'operator'        => '',
 		'owner'           => 'ПАО "Лукойл"',
-		'contact:website' => 'http://www.lukoil.ru',
-		'contact:phone'   => '',
+		'contact:website' => 'https://auto.lukoil.ru/',
+		'contact:phone'   => '+7 800 1000911',
 		'opening_hours'   => '24/7',
+		'fuel:octane_100'  => '',
 		'fuel:octane_98'  => '',
 		'fuel:octane_95'  => '',
 		'fuel:octane_92'  => '',
@@ -77,9 +132,9 @@ class lukoil extends Validator
 				continue;
 			}
 
-			$obj['ref'] = $obj['GasStationId']; // внутренний ref лукойла, у самих заправок другие номера
+			$obj['ref'] = preg_replace("/[^0-9]/", '', $obj['DisplayName']); // изменил внутренний ref лукойла на  номер заправки
 
-			$url = 'https://auto.lukoil.ru/api/cartography/GetObjects?ids=gasStation'.$obj['ref'].'&lng=RU';
+			$url = 'https://auto.lukoil.ru/api/cartography/GetObjects?ids=gasStation'.$obj['GasStationId'].'&lng=RU';
 
 			$page = $this->get_web_page($url);
 			if (is_null($page)) {
@@ -105,6 +160,8 @@ class lukoil extends Validator
 				'АИ 95 ЭКТО'     => 'fuel:octane_95',
 				'АИ 98 ЕВРО'     => 'fuel:octane_98',
 				'АИ 98 ЭКТО'     => 'fuel:octane_98',
+				'АИ 100 ЕВРО'     => 'fuel:octane_100',
+				'АИ 100 ЭКТО'     => 'fuel:octane_100',
 				'ГАЗ'            => 'fuel:lpg',
 				'ДИЗЕЛЬ'         => 'fuel:diesel',
 				'ДИЗЕЛЬ ЕВРО'    => 'fuel:diesel',
@@ -128,6 +185,9 @@ class lukoil extends Validator
 					case 'АИ 98 ЕВРО': case 'АИ 98 ЭКТО':
 						$obj['fuel:octane_98'] = 'yes';
 						break;
+					case 'АИ 100 ЕВРО': case 'АИ 100 ЭКТО':
+						$obj['fuel:octane_100'] = 'yes';
+						break;
 					case 'ГАЗ':
 						$obj['fuel:lpg'] = 'yes';
 						break;
@@ -135,6 +195,7 @@ class lukoil extends Validator
 						$obj['fuel:diesel'] = 'yes';
 						break;
 					default:
+						$this->log("Parse error! (lukoil: Неизвестный вид топлива: '$fuel').");
 						break;
 				}
 			}
@@ -215,7 +276,7 @@ class lukoil extends Validator
 			/* Методы оплаты
 			$payments = [
 				'7'       => '', // Безналичные расчеты по банковским картам VISA/MasterCard
-				'2'       => '', // Бе зналичный расчет
+				'2'       => '', // Безналичный расчет
 				'401'     => '', // Бесконтактные платежи
 				'1607057' => '', // Постоплата
 				'1001'    => '', // Топливные карты Лукойл

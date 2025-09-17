@@ -272,13 +272,13 @@ var notes = {
 
 var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'official_name', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'brand:wikidata', 'brand:wikipedia'],
-	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_100', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'brand:wikidata', 'brand:wikipedia'],
 	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUB', 'currency:USD', 'currency:EUR', 'cash_in', 'brand:wikidata', 'brand:wikipedia'],
 };
 
 var validators = {
-	gazprom: {
+	gazpromneft: {
 		name: 'Газпромнефть',
 		note: notes.fuel,
 		noteIsShow: true,
@@ -288,7 +288,7 @@ var validators = {
 			'RU-MOW', 'RU-MOS', 'RU-SPE', 'RU-LEN', 'RU-ALT', 'RU-VLG', 'RU-VLA', 'RU-IVA', 'RU-IRK', 'RU-KLU', 'RU-KEM', 'RU-KIR',
 			'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-PER', 'RU-PNZ', 'RU-PSK', 'RU-KR',
 			'RU-KK',  'RU-RYA', 'RU-SAM', 'RU-SVE', 'RU-SMO', 'RU-TVE', 'RU-TUL', 'RU-TOM', 'RU-TYU', 'RU-KHM', 'RU-CHE', 'RU-YAN',
-			'RU-YAR'
+			'RU-YAR', 'RU-TA'
 		]
 	},
 	russian_post: {
@@ -312,39 +312,16 @@ var validators = {
 		name: 'Роснефть',
 		note: notes.fuel,
 		noteIsShow: true,
-		link: 'https://komandacard.ru/home/getgasstations',
+		link: 'https://komandacard.ru/map/',
 		fields: fields.fuel,
 		regions: ['RU']
 	},
-	tnk: {
-		name: 'ТНК',
-		note: notes.fuel,
-		noteIsShow: true,
-		link: 'https://komandacard.ru/home/getgasstations',
-		fields: fields.fuel,
-		regions: ['RU']
-	},
-	/* ivnefttorg: {
-		name: 'Ивнефтеторг',
-		note: notes.fuel,
-		noteIsShow: true,
-		link: 'https://xn--b1acfam5ajqpbt.xn--p1ai/nashi-azs/',
-		fields: fields.fuel,
-		regions: ['RU-IVA']
-	}, */
-	eka: {
-		name: 'ЕКА',
-		note: notes.fuel,
-		noteIsShow: true,
-		link: 'http://www.eka.ru/network_azk/map_azs/',
-		fields: fields.fuel,
-		regions: ['RU-MOS', 'RU-MOW']
-	},
+
 	bashneft: {
 		name: 'Башнефть',
 		note: notes.fuel,
 		noteIsShow: true,
-		link: 'http://www.bashneft-azs.ru/network_azs/',
+		link: 'https://www.bashneft-azs.ru/network_azs/',
 		fields: fields.fuel,
 		regions: [
 			'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-KDA', 'RU-KGN', 'RU-NIZ', 'RU-ORE',  'RU-BA', 'RU-DA',  'RU-ME',  'RU-MO',
@@ -355,7 +332,7 @@ var validators = {
 		name: 'Магнит',
 		note: '',
 		noteIsShow: false,
-		link: 'https://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit.ru/shops/',
 		fields: fields.shop,
 		regions: [
 			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
@@ -370,7 +347,7 @@ var validators = {
 		name: 'Семейный Магнит',
 		note: '',
 		noteIsShow: false,
-		link: 'https://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit.ru/shops/',
 		fields: fields.shop,
 		regions: [
 			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
@@ -385,7 +362,7 @@ var validators = {
 		name: 'Магнит Косметик',
 		note: '',
 		noteIsShow: false,
-		link: 'https://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit.ru/shops/',
 		fields: fields.shop,
 		regions: [
 			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
@@ -400,7 +377,7 @@ var validators = {
 		name: 'Магнит Аптека',
 		note: '',
 		noteIsShow: false,
-		link: 'https://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit.ru/shops/',
 		fields: fields.shop,
 		regions: [
 			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
@@ -415,7 +392,7 @@ var validators = {
 		name: 'Магнит Опт',
 		note: '',
 		noteIsShow: false,
-		link: 'https://magnit-info.ru/buyers/adds/',
+		link: 'https://magnit.ru/shops/',
 		fields: fields.shop,
 		regions: [
 			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
@@ -430,7 +407,7 @@ var validators = {
 		name: 'Сбербанк (отделения)',
 		note: '',
 		noteIsShow: false,
-		link: 'http://www.sberbank.ru/ru/about/today/oib',
+		link: 'https://www.sberbank.ru/ru/about/today/oib',
 		fields: fields.bank,
 		regions: [
 			'RU-ZAB', 'RU-IRK', 'RU-BU',  'RU-SA',  'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO',  'RU-ME',  'RU-CU',  'RU-TA',  'RU-KHA',
@@ -446,7 +423,7 @@ var validators = {
 		name: 'Сбербанк (банкоматы)',
 		note: '',
 		noteIsShow: false,
-		link: 'http://www.sberbank.ru/ru/about/today/oib',
+		link: 'https://www.sberbank.ru/ru/about/today/oib',
 		fields: fields.atm,
 		regions: [
 			'RU-ZAB', 'RU-IRK', 'RU-BU',  'RU-SA',  'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO',  'RU-ME',  'RU-CU',  'RU-TA',  'RU-KHA',
@@ -534,18 +511,18 @@ var validators = {
 		regions: [
 			'RU-MOW', 'RU-MOS', 'RU-SPE', 'RU-LEN', 'RU-ARK', 'RU-KR',  'RU-VLG', 'RU-PSK', 'RU-NGR', 'RU-MUR', 'RU-TUL', 'RU-BRY',
 			'RU-KLU', 'RU-SMO', 'RU-RYA', 'RU-ORL', 'RU-TAM', 'RU-LIP', 'RU-VLA', 'RU-IVA', 'RU-KOS', 'RU-YAR', 'RU-NIZ', 'RU-CHE',
-			'RU-SVE', 'RU-TYU', 'RU-TVE'
+			'RU-SVE', 'RU-TYU', 'RU-TVE', 'RU'
 		]
 	},
 	lapy4: {
 		name: 'Четыре лапы',
 		note: '',
 		noteIsShow: false,
-		link: 'https://4lapy.ru/pet_stores_amp_services/',
-		fields: ['_addr', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'pets', 'aquarium', 'veterinary', 'grooming'],
+		link: 'https://4lapy.ru/shops/',
+		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'pets', 'aquarium', 'veterinary', 'grooming'],
 		regions: [
 			'RU-MOW', 'RU-MOS', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KOS', 'RU-LIP', 'RU-NIZ', 'RU-TUL', 'RU-ORL',
-			'RU-RYA', 'RU-TVE', 'RU-YAR', 'RU'
+			'RU-RYA', 'RU-TVE', 'RU-YAR', 'RU-TA', 'RU'
 		]
 	},
 	alfabank: {
@@ -590,30 +567,13 @@ var validators = {
 		noteIsShow: true,
 		link: 'https://auto.lukoil.ru/ru/ProductsAndServices/PetrolStations',
 		fields: fields.fuel,
-		regions: ['RU-BA', 'RU-KGD', 'RU-KDA', 'RU-LEN', 'RU-MOS', 'RU-MOW', 'RU-PER', 'RU-SPE', 'RU-VLG', 'RU-VGG', 'RU-IVA']
-	},
-	minbank: {
-		name: 'Московский индустриальный банк (отделения)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://www.minbank.ru/map/',
-		fields: fields.bank,
 		regions: [
-			'RU-MOW', 'RU-SPE', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KB',  'RU-KLU',
-			'RU-KC',  'RU-KOS', 'RU-KDA', 'RU-LEN', 'RU-LIP', 'RU-MOS', 'RU-NEN', 'RU-NIZ', 'RU-ORL', 'RU-AD',  'RU-KR',  'RU-SE',
-			'RU-ROS', 'RU-STA', 'RU-TVE', 'RU-TUL', 'RU-CE',  'RU-YAR', 'RU'
-		]
-	},
-	minbank_atm: {
-		name: 'Московский индустриальный банк (банкоматы)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://www.minbank.ru/map/atm/',
-		fields: fields.atm,
-		regions: [
-			'RU-MOW', 'RU-SPE', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KB',  'RU-KLU',
-			'RU-KC',  'RU-KOS', 'RU-KDA', 'RU-LEN', 'RU-LIP', 'RU-MOS', 'RU-NEN', 'RU-NIZ', 'RU-ORL', 'RU-AD',  'RU-KR',  'RU-SE',
-			'RU-ROS', 'RU-STA', 'RU-TVE', 'RU-TUL', 'RU-CE',  'RU-YAR', 'RU'
+			'RU-AD', 'RU-BA', 'RU-KB', 'RU-KL', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 'RU-MO', 'RU-SE', 'RU-TA', 'RU-UD', 'RU-CE',
+		 	'RU-CU', 'RU-ALT', 'RU-KDA', 'RU-KYA', 'RU-PER', 'RU-STA', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 
+			'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 
+			'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PSK', 'RU-ROS', 'RU-RYA', 
+			'RU-SAM', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-TVE', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-MOW', 
+			'RU-SPE', 'RU-NEN', 'RU-KHM', 'RU-YAN'
 		]
 	},
 	mkb: {
@@ -660,10 +620,106 @@ var validators = {
 		name: 'Бургер Кинг',
 		note: '',
 		noteIsShow: false,
-		link: 'https://burgerking.ru/restaurants',
+		link: 'https://burgerkingrus.ru/restaurants',
 		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'brand:wikipedia', 'operator:wikidata'],
 		regions: ['RU']
+	},
+	taifnk: {
+		name: 'ТАИФ-НК',
+		note: '',
+		noteIsShow: false,
+		link: 'https://taifazs.ru/map/list-gs/',
+		fields: fields.fuel,
+		regions: ['RU-TA', 'RU-SAM', 'RU-UD', 'RU-ULY', 'RU-CU', 'RU-KIR'] 
+	},
+	tatneft: {
+		name: 'Татнефть',
+		note: '',
+		noteIsShow: false,
+		link: 'https://azs.tatneft.ru/locator',
+		fields: fields.fuel,
+		regions: [
+			'RU-AL', 'RU-BA', 'RU-ME', 'RU-MO', 'RU-TA', 'RU-UD', 'RU-CU', 'RU-KDA', 'RU-STA', 'RU-ARK', 'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VLG',
+			'RU-VOR', 'RU-KEM', 'RU-KGN', 'RU-LEN', 'RU-LIP', 'RU-MOS', 'RU-NIZ', 'RU-NGR', 'RU-OMS', 'RU-ORE', 'RU-PNZ', 'RU-PSK',
+			'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SVE', 'RU-SMO', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-SPE', 'RU-MOW'] 
+	},
+	farmlend: {
+		name: 'Фармленд',
+		note: '',
+		noteIsShow: false,
+		link: 'https://farmlend.ru/page/apteki-na-karte',
+		fields: fields.shop,
+		regions: [
+			'RU-BA', 'RU-TA', 'RU-UD', 'RU-MOS', 'RU-ORE', 'RU-SAM', 'RU-SVE', 'RU-TYU', 'RU-CHE', 'RU-MOW']
+	},
+	akbarsbank_atm: {
+		name: 'Ак Барс (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.akbars.ru/offices/',
+		fields: fields.atm,
+		regions: [
+			'RU-BU', 'RU-ALT', 'RU-BA', 'RU-KIR', 'RU-KDA', 'RU-KYA', 'RU-ME',  'RU-MO',  'RU-MOS', 'RU-MOW', 
+			'RU-NGR', 'RU-NIZ', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-PER', 'RU-PSK', 'RU-SAM', 'RU-SPE', 'RU-LEN', 
+			'RU-SAR', 'RU-SVE', 'RU-STA', 'RU-TA',  'RU-TYU', 'RU-UD',  'RU-ULY', 'RU-CHE', 'RU-CU',  'RU-YAR'
+		]
+	},
+	kazan_parkomats: {
+		name: 'Паркоматы Казань',
+		note: '',
+		noteIsShow: false,
+		link: 'https://parkingkzn.ru/ru/',
+		fields: ['_addr', 'ref', 'vending', 'operator', 'contact:website' ,'contact:phone', 'opening_hours', 'payment:credit_cards'],
+		regions: ['RU-TA']
+	},
+	teboil: {
+		name: 'Teboil',
+		note: '',
+		noteIsShow: false,
+		link: 'https://azs.teboil.ru/map/',
+		fields: fields.fuel,
+		regions: ['RU'] 
+	},
+	nsp: {
+		name: 'NSP',
+		note: '',
+		noteIsShow: false,
+		link: 'https://nonstoppower.ru/dlya-polzovatelej/',
+		fields: fields.fuel,
+		regions: ['RU-TA']
+	},
+	vtb: {
+		name: 'ВТБ (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://online.vtb.ru/map/offices',
+		fields: fields.bank,
+		regions: ['RU', 'RU-BA', 'RU-CU', 'RU-ME', 'RU-TA', 'RU-NIZ', 'RU-MOW', 'RU-MOS', 'RU-LEN', 'RU-SPE', 'RU-ULY']
+	},
+	finsb: {
+		name: 'Финсервис (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.finsb.ru/about/offices/',
+		fields: fields.bank,
+		regions: ['RU']
+	},
+	finsb_atm: {
+		name: 'Финсервис (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.finsb.ru/about/offices/',
+		fields: fields.atm,
+		regions: ['RU']
 	}
+	// vtb-atm: {
+	// 	name: 'ВТБ (банкоматы)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://online.vtb.ru/map/atm',
+	// 	fields: fields.atm,
+	// 	regions: ['RU']
+	// }
 	/* krasnoeibeloe: {
 		name: 'Красное & белое',
 		note: '',
@@ -1041,6 +1097,11 @@ function osm_cl() {
 				.replace('operator', 'Оператор')
 				.replace('brand', 'Бренд')
 				.replace('shop', 'Магазин')
+				.replace('car_wash', 'Мойка')
+				.replace('cafe', 'Кафе')
+				.replace('toilets', 'Туалет')
+				.replace('compressed_air', 'Подкачка')
+				.replace('fuel:octane_100', '100')
 				.replace('fuel:octane_98', '98')
 				.replace('fuel:octane_95', '95')
 				.replace('fuel:octane_92', '92')
@@ -1460,13 +1521,13 @@ function osm_cl() {
 					// новые ссылки на wikipedia и wikidata
 					if (k == 'wikipedia')          a[k = 'brand:wikipedia'] = v;
 					if (k == 'wikidata')           a[k = 'brand:wikidata'] = v;
-					//if (k == 'operator:wikipedia') a[k = 'brand:wikipedia'] = v;
-					//if (k == 'operator:wikidata')  a[k = 'brand:wikidata'] = v;
+					if (k == 'operator:wikipedia') a[k = 'brand:wikipedia'] = v;
+					if (k == 'operator:wikidata')  a[k = 'brand:wikidata'] = v;
 
 					// пропускаем неправильный ОКАТО
 					if (k == 'okato:user' && v == '46') continue;
 
-					tags += (tags ? '|' : '') + encodeURIComponent(k) + '=' + encodeURIComponent(v);
+					tags += (tags ? '|' : '') + k + '=' + v;
 				}
 			}
 		}
