@@ -3,7 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class pyaterochka extends Validator
 {
-	protected $domain = 'https://5ka.ru/api/stores/?bbox=';
+	protected $domain = 'https://5ka.ru/api/v2/stores/?bbox=';
 
 	static $urls = [
 		'RU-ARK' => [],
@@ -67,12 +67,12 @@ class pyaterochka extends Validator
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop'            => 'convenience',
+		'shop'            => 'supermarket',
 		'ref'             => '',
 		'name'            => 'Пятёрочка',
 		'name:ru'         => 'Пятёрочка',
-		'name:en'         => 'Pyatyorochka',
-		'operator'        => 'X5 Retail Group',
+		'name:en'         => 'Pyaterochka',
+		'operator'        => 'ООО "Агроторг"',
 		'contact:website' => 'https://5ka.ru',
 		'contact:phone'   => '+7 800 5555505',
 		'opening_hours'   => '',
@@ -130,7 +130,7 @@ class pyaterochka extends Validator
 			}
 
 			$obj['ref'] = $obj['id'];
-			
+
 			// Адрес
 			$obj['_addr'] = $obj['properties']['address'];
 

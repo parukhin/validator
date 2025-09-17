@@ -3,24 +3,26 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class lapy4 extends Validator
 {
-	protected $domain = 'https://4lapy.ru';
+	protected $domain = 'https://4lapy.ru/_next/data/YwiOQeKXltNxOTYWP8jIX/shops.json';
 
 	static $urls = [
-		'RU-MOW' => '9839',
-		'RU-MOS' => '9591',
-		'RU-VLA' => '9587',
-		'RU-VGG' => '9654',
-		'RU-VOR' => '9723',
-		'RU-IVA' => '9588',
-		'RU-KLU' => '9589',
-		'RU-KOS' => '9683',
-		'RU-LIP' => '9590',
-		'RU-NIZ' => '9836',
-		'RU-TUL' => '9691',
-		'RU-ORL' => '9991',
-		'RU-RYA' => '9592',
-		'RU-TVE' => '9722',
-		'RU-YAR' => '9593',
+		'RU-MOW' => '',
+		'RU-MOS' => '',
+		'RU-SPE' => '',
+		'RU-VLA' => '',
+		'RU-VGG' => '',
+		'RU-VOR' => '',
+		'RU-IVA' => '',
+		'RU-KLU' => '',
+		'RU-KOS' => '',
+		'RU-LIP' => '',
+		'RU-NIZ' => '',
+		'RU-TUL' => '',
+		'RU-ORL' => '',
+		'RU-RYA' => '',
+		'RU-TVE' => '',
+		'RU-YAR' => '',
+		'RU-TA'  => '',
 		'RU'     => ''
 	];
 
@@ -31,7 +33,7 @@ class lapy4 extends Validator
 		'name'            => 'Четыре лапы',
 		'name:ru'         => 'Четыре лапы',
 		'name:en'         => '',
-		'contact:website' => 'https://4lapy.ru',
+		'contact:website' => 'https://4lapy.ru/',
 		'contact:phone'   => '',
 		'opening_hours'   => '',
 		'pets'            => '',
@@ -53,16 +55,12 @@ class lapy4 extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$id = static::$urls[$this->region];
+		$url = $this->domain;
 
-		$url = "https://4lapy.ru/ajax/ajax.php";
-		$query = "operation=get-list-shop-on-map&filter-region=$id&filter-city=";
-
-		$page = $this->get_web_page($url, $query);
+		$page = $this->get_web_page($url);
 		if (is_null($page)) {
 			return;
 		}
-
 		$this->parse($page);
 	}
 
@@ -74,26 +72,32 @@ class lapy4 extends Validator
 			return;
 		}
 
-		foreach ($a['shops'] as $obj) {
+		foreach ($a['pageProps']['fallback']['/stores/stores?{"sort":"default","by":"desc","isActive":true}']['items'] as $obj) {
 			$obj['name'] = 'Четыре лапы';
+			$obj['ref'] = $obj['id'];
 
 			// Координаты
-			$obj['lat'] = $obj['gps']['longitude']; // на сайте перепутано
-			$obj['lon'] = $obj['gps']['latitude'];
+			$obj['lat'] = $obj['coordinates']['lat'];
+			$obj['lon'] = $obj['coordinates']['lon'];
+
+			// Отсеиваем по региону
+			if (($this->region != 'RU') && !$this->isInRegionByCoords($obj['lat'], $obj['lon'])) {
+				continue;
+			}
 
 			// Адрес
 			$obj['_addr'] = $obj['address'];
 
 			// Время работы
-			$obj['opening_hours'] = $this->time($obj['workTime']);
+			$obj['opening_hours'] = $this->time($obj['schedule']);
 
 			// Сервисы
 			foreach ($obj['services'] as $service) {
-				switch ($service['cssClass']) {
-					case 'aquarium':
+				switch ($service['name']) {
+					case 'Аквариумистика':
 						$obj['aquarium'] = 'yes';
 						break;
-					case 'pharmacy':
+					case 'Вет. аптека':
 						$obj['veterinary'] = 'yes';
 						break;
 					case 'animals':
@@ -102,14 +106,13 @@ class lapy4 extends Validator
 					case 'gravirovka':
 						//$obj['?'] = 'yes';
 						break;
-					case 'grooming':
+					case 'Груминг-салон':
 						$obj['grooming'] = 'yes';
 						break;
 				}
 			}
 
-			// Телефон
-			$obj['contact:phone'] = $this->phone($obj['phone']);
+			$obj['contact:phone'] = $this->phone($obj['phone']) .'-'.$obj['additionalPhone'];
 
 			$this->addObject($this->makeObject($obj));
 		}

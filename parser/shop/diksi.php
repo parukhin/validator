@@ -6,38 +6,39 @@ class diksi extends Validator
 	protected $domain = 'https://dixy.ru';
 
 	static $urls = [
-		'RU-MOW' => '',
-		'RU-MOS' => '',
-		'RU-SPE' => '',
-		'RU-LEN' => '',
-		'RU-ARK' => '',
-		'RU-KR'  => '',
-		'RU-VLG' => '',
-		'RU-PSK' => '',
-		'RU-NGR' => '',
-		'RU-MUR' => '',
-		'RU-TUL' => '',
+		'RU-ARK' => '', // ушли
 		'RU-BRY' => '',
-		'RU-KLU' => '',
-		'RU-SMO' => '',
-		'RU-RYA' => '',
-		'RU-ORL' => '',
-		'RU-TAM' => '',
-		'RU-LIP' => '',
-		'RU-VLA' => '',
+		'RU-CHE' => '', // ушли
 		'RU-IVA' => '',
+		'RU-KLU' => '',
 		'RU-KOS' => '',
+		'RU-KR'  => '', // ушли
+		'RU-LEN' => '',
+		'RU-LIP' => '', // ушли
+		'RU-MOS' => ['operator' => 'АО "Дикси ЮГ"'],
+		'RU-MOW' => ['operator' => 'АО "Дикси ЮГ"'],
+		'RU-MUR' => '', // ушли
+		'RU-NGR' => '',
+		'RU-NIZ' => '', // ушли
+		'RU-ORL' => '',
+		'RU-PSK' => '', // ушли
+		'RU-RYA' => '',
+		'RU-SMO' => '',
+		'RU-SPE' => '',
+		'RU-SVE' => '', // ушли
+		'RU-TAM' => '', // ушли
+		'RU-TUL' => '',
+		'RU-TVE' => '',
+		'RU-TYU' => '', // ушли
+		'RU-VLA' => '',
+		'RU-VLG' => '', // ушли
 		'RU-YAR' => '',
-		'RU-NIZ' => '',
-		'RU-CHE' => '',
-		'RU-SVE' => '',
-		'RU-TYU' => '',
-		'RU-TVE' => ''
+		'RU' => ''
 	];
 
 	/* Поля объекта */
 	protected $fields = [
-		'shop'            => 'convenience',
+		'shop'            => 'supermarket',
 		'ref'             => '',
 		'name'            => 'Дикси',
 		'name:ru'         => 'Дикси',
@@ -61,10 +62,9 @@ class diksi extends Validator
 	/* Обновление данных по региону */
 	public function update()
 	{
-		$url = "https://dixy.ru/local/ajax/requests/nearest_shop_get_placemarks.php";
-		$query = "request_mode=ajax&site_id=s1";
+		$url = "https://dixy.ru/ajax/stores-json.php";
 
-		$page = $this->get_web_page($url, $query);
+		$page = $this->get_web_page($url);
 		if (is_null($page)) {
 			return;
 		}
@@ -80,7 +80,7 @@ class diksi extends Validator
 			return;
 		}
 
-		foreach ($a['features'] as $obj) {
+		foreach ($a as $obj) {
 			// Координаты
 			$obj['lat'] = $obj['geometry']['coordinates'][0];
 			$obj['lon'] = $obj['geometry']['coordinates'][1];
@@ -90,13 +90,23 @@ class diksi extends Validator
 				continue;
 			}
 
-			$obj['ref'] = $obj['id'];
-			
-			//"<div class="dixy_placemark_baloon_content">ул.Мира д.2/18<br>09:00-22:00</div>"
+			if (isset($obj['properties']['balloonContentHeader'])) {
+				$header = $obj['properties']['balloonContentHeader'];
 
-			if (preg_match_all('#.+?>(?<address>.+?)<.+?>(?<hours>.+?)<#s', $obj['properties']['balloonContent'], $m, PREG_SET_ORDER)) {
-				$obj['_addr'] = $m[0]['address'];
-				$obj['opening_hours'] = $this->time($m[0]['hours']);
+				// Извлекаем только цифры из конца строки
+				if (preg_match('/(\d+)\s*$/', $header, $matches)) {
+					$obj['ref'] = $matches[1];
+				}
+			}
+
+			// Сохраняем адрес
+			if (isset($obj['properties']['balloonContentBody'])) {
+				$obj['_addr'] = $obj['properties']['balloonContentBody'];
+			}
+
+			// Сохраняем время работы (если есть)
+			if (isset($obj['properties']['balloonContentFooter'])) {
+				$obj['opening_hours'] = $this->time($obj['properties']['balloonContentFooter']);
 			}
 
 			$this->addObject($this->makeObject($obj));

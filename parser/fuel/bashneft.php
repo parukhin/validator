@@ -3,29 +3,20 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/common/Validator.class.php';
 
 class bashneft extends Validator
 {
-	protected $domain = 'http://www.bashneft-azs.ru';
+	protected $domain = 'https://www.bashneft-azs.ru';
 
 	static $urls = [
-		'RU-BEL' => ['id' => '229'],
 		'RU-VLA' => ['id' => '239'],
-		'RU-VGG' => ['id' => '230'],
-		'RU-VOR' => ['id' => '242'],
-		'RU-KDA' => ['id' => '244'],
 		'RU-KGN' => ['id' => '235'],
 		'RU-NIZ' => ['id' => '240'],
 		'RU-ORE' => ['id' => '246'],
 		'RU-BA'  => ['id' => '210'],
-		'RU-DA'  => ['id' => '247'],
-		'RU-ME'  => ['id' => '231'],
 		'RU-MO'  => ['id' => '232'],
 		'RU-TA'  => ['id' => '227'],
-		'RU-ROS' => ['id' => '243'],
-		'RU-RYA' => ['id' => '234'],
 		'RU-SAM' => ['id' => '228'],
 		'RU-SAR' => ['id' => '245'],
 		'RU-SVE' => ['id' => '238'],
 		'RU-SMO' => ['id' => '248'],
-		'RU-TAM' => ['id' => '241'],
 		'RU-UD'  => ['id' => '225'],
 		'RU-ULY' => ['id' => '233'],
 		'RU-CHE' => ['id' => '237'],
@@ -40,14 +31,14 @@ class bashneft extends Validator
 		'name:ru'         => 'Башнефть',
 		'brand'           => 'Башнефть',
 		'operator'        => '',
-		'contact:website' => 'http://www.bashneft-azs.ru',
-		'contact:phone'   => '',
+		'contact:website' => 'https://www.bashneft-azs.ru',
+		'contact:phone'   => '+7 800 7757588',
 		'ref'             => '',
 		'opening_hours'   => '',
+		'fuel:octane_100'  => '',
 		'fuel:octane_98'  => '',
 		'fuel:octane_95'  => '',
 		'fuel:octane_92'  => '',
-		'fuel:octane_80'  => '',
 		'fuel:diesel'     => '',
 		'fuel:lpg'        => '',
 		'fuel:cng'        => '',
@@ -73,7 +64,7 @@ class bashneft extends Validator
 	public function update()
 	{
 		$id = static::$urls[$this->region]['id'];
-		$url = $this->domain.'/include_areas/new_azs_filter.php?region_azs='.$id;
+		$url = $this->domain.'/include_areas/new_azs_filter_2018.php?region_azs='.$id;
 
 		$page = $this->get_web_page($url);
 		if (is_null($page)) {
@@ -106,17 +97,17 @@ class bashneft extends Validator
 				.'.?№\s*(?<ref>[\dА-Я/-]+)'
 				.'.+?address">(?<_addr>.+?)<'
 				."#su", $obj['header'], $m)) continue;
-				$obj['operator'] = 'ПАО АНК Башнефть';
+				$obj['operator'] = 'ООО "Башнефть-Розница"';
 			}
 
 			$obj['ref'] = $m['ref'];
 			$obj['_addr'] = $m['_addr'];
 
 			/* Виды топлива */
+			$obj['fuel:octane_100'] = mb_strpos($obj['body'], '>100<')  ? 'yes' : '';
 			$obj['fuel:octane_98'] = mb_strpos($obj['body'], '>98<')  ? 'yes' : '';
-			$obj['fuel:octane_95'] = mb_strpos($obj['body'], '>95<')  ? 'yes' : '';
-			$obj['fuel:octane_92'] = mb_strpos($obj['body'], '>92<')  ? 'yes' : '';
-			$obj['fuel:octane_80'] = mb_strpos($obj['body'], '>80<')  ? 'yes' : '';
+			$obj['fuel:octane_95'] = (mb_strpos($obj['body'], '>ATUM-95 Евро 6<') || mb_strpos($obj['body'], '>ATUM-95<') || mb_strpos($obj['body'], '>95<'))  ? 'yes' : '';
+			$obj['fuel:octane_92'] = (mb_strpos($obj['body'], '>92<') || mb_strpos($obj['body'], '>ATUM-92<'))  ? 'yes' : '';
 			$obj['fuel:lpg']       = mb_strpos($obj['body'], '>Газ<') ? 'yes' : '';
 			$obj['fuel:diesel']    = mb_strpos($obj['body'], '>ДТ<')  ? 'yes' : '';
 
