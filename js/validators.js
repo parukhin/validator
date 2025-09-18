@@ -272,7 +272,7 @@ var notes = {
 
 var fields = {
 	bank: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'official_name', 'contact:phone', 'contact:website', 'opening_hours', 'wheelchair', 'brand:wikidata', 'brand:wikipedia'],
-	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_100', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:discount'],
+	fuel: ['_addr', 'ref', 'operator', 'brand', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'car_wash', 'cafe', 'toilets', 'compressed_air', 'internet_access', 'fuel:octane_100', 'fuel:octane_98', 'fuel:octane_95', 'fuel:octane_92', 'fuel:octane_80', 'fuel:diesel', 'fuel:lpg', 'fuel:cng', 'fuel:adblue', 'fuel:discount'],
 	shop: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'brand:wikidata', 'brand:wikipedia'],
 	atm: ['_addr', 'ref', 'operator', 'branch', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'currency:RUB', 'currency:USD', 'currency:EUR', 'cash_in', 'brand:wikidata', 'brand:wikipedia'],
 };
@@ -711,6 +711,14 @@ var validators = {
 		link: 'https://www.finsb.ru/about/offices/',
 		fields: fields.atm,
 		regions: ['RU']
+	},
+	irbis: {
+		name: 'Irbis',
+		note: '',
+		noteIsShow: false,
+		link: 'https://taifazs.ru/map/list-gs/',
+		fields: fields.fuel,
+		regions: ['RU-BA', 'RU-ME', 'RU-NIZ', 'RU-SAM', 'RU-TA', 'RU-VLA', 'RU']
 	}
 	// vtb-atm: {
 	// 	name: 'ВТБ (банкоматы)',
@@ -1109,6 +1117,7 @@ function osm_cl() {
 				.replace('fuel:diesel', 'ДТ')
 				.replace('fuel:lpg', 'ГАЗ')
 				.replace('fuel:cng', 'КПГ')
+				.replace('fuel:adblue', 'AdBlue')
 				.replace('fuel:discount', 'Скидки')
 				.replace('cash_in', 'Приём наличности')
 				.replace('wheelchair', '<span title="wheelchair - доступность для людей на инвалидных колясках">Инв. коляски</span>')
