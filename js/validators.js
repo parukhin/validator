@@ -719,6 +719,38 @@ var validators = {
 		link: 'https://taifazs.ru/map/list-gs/',
 		fields: fields.fuel,
 		regions: ['RU-BA', 'RU-ME', 'RU-NIZ', 'RU-SAM', 'RU-TA', 'RU-VLA', 'RU']
+	},
+	rshb: {
+		name: 'Россельхозбанк (отделения)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.rshb.ru/natural/offices',
+		fields: fields.bank,
+		regions: [
+			'RU-ALT', 'RU-AMU', 'RU-ARK', 'RU-BA', 'RU-BEL', 'RU-BRY', 'RU-BU', 'RU-VLA', 'RU-VGG', 'RU-VOR',
+			'RU-DA', 'RU-IVA', 'RU-IRK', 'RU-KB', 'RU-KGD', 'RU-KLU', 'RU-KAM', 'RU-KEM', 'RU-KIR', 'RU-KO',
+			'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KUR', 'RU-LIP', 'RU-ME', 'RU-MO', 'RU-MOS', 'RU-MOW', 'RU-NIZ',
+			'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-ROS', 'RU-RYA',
+			'RU-SAM', 'RU-SPE',	'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TA', 'RU-TVE',
+			'RU-TOM', 'RU-TY', 'RU-TUL', 'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHA', 'RU-CHE', 'RU-CE', 'RU-ZAB',
+			'RU-CU', 'RU-SA', 'RU-YAR'
+		]
+	},
+	rshb_atm: {
+		name: 'Россельхозбанк (банкоматы)',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.rshb.ru/natural/atms',
+		fields: fields.atm,
+		regions: [
+			'RU-ALT', 'RU-AMU', 'RU-ARK', 'RU-BA', 'RU-BEL', 'RU-BRY', 'RU-BU', 'RU-VLA', 'RU-VGG', 'RU-VOR',
+			'RU-DA', 'RU-IVA', 'RU-IRK', 'RU-KB', 'RU-KGD', 'RU-KLU', 'RU-KAM', 'RU-KEM', 'RU-KIR', 'RU-KO',
+			'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KUR', 'RU-LIP', 'RU-ME', 'RU-MO', 'RU-MOS', 'RU-MOW', 'RU-NIZ',
+			'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-ROS', 'RU-RYA',
+			'RU-SAM', 'RU-SPE',	'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TA', 'RU-TVE',
+			'RU-TOM', 'RU-TY', 'RU-TUL', 'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHA', 'RU-CHE', 'RU-CE', 'RU-ZAB',
+			'RU-CU', 'RU-SA', 'RU-YAR'
+		]
 	}
 	// vtb-atm: {
 	// 	name: 'ВТБ (банкоматы)',
