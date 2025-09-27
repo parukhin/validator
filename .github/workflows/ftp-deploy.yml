@@ -1,0 +1,24 @@
+name: FTP Deploy
+
+on: [push]
+    # branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Deploy to FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.6
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./
+        server-dir: ./htdocs/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          README.md
+        dry-run: true
