@@ -312,9 +312,15 @@ var validators = {
 		name: 'Роснефть',
 		note: notes.fuel,
 		noteIsShow: true,
-		link: 'https://komandacard.ru/map/',
+		link: 'https://rosneft-azs.ru/stations',
 		fields: fields.fuel,
-		regions: ['RU']
+		regions: [
+			'RU', 'RU-MOW', 'RU-SPE', 'RU-AD', 'RU-AL', 'RU-ALT', 'RU-ARK', 'RU-BEL', 'RU-BRY', 'RU-BU', 'RU-VLA', 'RU-VGG', 'RU-VOR',
+			'RU-ZAB', 'RU-IVA', 'RU-IN', 'RU-IRK', 'RU-KB', 'RU-KLU', 'RU-KC', 'RU-KR', 'RU-KEM', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN',
+			'RU-KUR', 'RU-LEN', 'RU-LIP', 'RU-MO', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-ORE', 'RU-ORL', 'RU-PNZ',
+			'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SVE', 'RU-SE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TA', 'RU-TVE',
+			'RU-TOM', 'RU-TUL', 'RU-TY', 'RU-UD', 'RU-ULY', 'RU-KK', 'RU-KHM', 'RU-CHE', 'RU-CE', 'RU-CU', 'RU-YAN', 'RU-YAR'
+		]
 	},
 
 	bashneft: {
