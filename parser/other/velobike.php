@@ -15,9 +15,9 @@ class velobike extends Validator
 		'amenity'         => 'bicycle_rental',
 		'capacity'        => '',
 		'contact:email'   => 'info@velobike.ru',
-		'contact:phone'   => '+7 495 9568286',
-		'contact:website' => 'https://velobike.ru',
-		'operator'        => 'ЗАО "СитиБайк"',
+		'contact:phone'   => '+7 495 9664669',
+		'contact:website' => 'https://velobike.ru/',
+		'operator'        => 'АО «СитиБайк»',
 		'ref'             => '',
 		'lat'             => '',
 		'lon'             => '',
@@ -38,7 +38,7 @@ class velobike extends Validator
 		}
 
 		foreach ($a['Items'] as $obj) {
-			$obj['_addr'] = $obj['Name'];
+			$obj['_addr'] = $obj['Address'];
 
 			$obj['ref'] = (int)$obj['Id'];
 			$obj['capacity'] = $obj['TotalPlaces'];
