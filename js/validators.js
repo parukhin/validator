@@ -751,6 +751,57 @@ var validators = {
 			'RU-TOM', 'RU-TY', 'RU-TUL', 'RU-TYU', 'RU-UD', 'RU-ULY', 'RU-KHA', 'RU-CHE', 'RU-CE', 'RU-ZAB',
 			'RU-CU', 'RU-SA', 'RU-YAR'
 		]
+	},
+	rigla: {
+		name: 'Ригла',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.rigla.ru/pharmacies?filter=brands__1',
+		fields: fields.shop,
+		regions: [
+			'RU-ALT', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 
+			'RU-VLG', 'RU-VOR', 'RU-YEV', 'RU-ZAB', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KAL', 
+			'RU-KAM', 'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KRS', 'RU-LIP', 'RU-MOS', 
+			'RU-MOW', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PRI', 
+			'RU-PSK', 'RU-AD', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 
+			'RU-TA', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SMO', 'RU-TAM', 'RU-TVE', 
+			'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR', 
+			'RU-SPE', 'RU-LEN', 'RU-CR', 'RU-SEV'
+		]
+	},
+	budzdorov: {
+		name: 'Будь здоров!',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.rigla.ru/pharmacies?filter=brands__5',
+		fields: fields.shop,
+		regions: [
+			'RU-ALT', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 
+			'RU-VLG', 'RU-VOR', 'RU-YEV', 'RU-ZAB', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KAL', 
+			'RU-KAM', 'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KRS', 'RU-LIP', 'RU-MOS', 
+			'RU-MOW', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PRI', 
+			'RU-PSK', 'RU-AD', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 
+			'RU-TA', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SMO', 'RU-TAM', 'RU-TVE', 
+			'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR', 
+			'RU-SPE', 'RU-LEN', 'RU-CR', 'RU-SEV'
+		]
+	},
+	zdravcity: {
+		name: 'Здравсити',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.rigla.ru/pharmacies?filter=brands__7',
+		fields: fields.shop,
+		regions: [
+			'RU-ALT', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 
+			'RU-VLG', 'RU-VOR', 'RU-YEV', 'RU-ZAB', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KAL', 
+			'RU-KAM', 'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KRS', 'RU-LIP', 'RU-MOS', 
+			'RU-MOW', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PRI', 
+			'RU-PSK', 'RU-AD', 'RU-BA', 'RU-BU', 'RU-DA', 'RU-KC', 'RU-KR', 'RU-KO', 'RU-ME', 
+			'RU-TA', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SMO', 'RU-TAM', 'RU-TVE', 
+			'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR', 
+			'RU-SPE', 'RU-LEN', 'RU-CR', 'RU-SEV'
+		]
 	}
 	// vtb-atm: {
 	// 	name: 'ВТБ (банкоматы)',
