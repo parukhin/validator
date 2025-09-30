@@ -21,4 +21,3 @@ jobs:
           **/.git*
           **/.git*/**
           README.md
-        dry-run: true
