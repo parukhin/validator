@@ -291,23 +291,23 @@ var validators = {
 			'RU-YAR', 'RU-TA'
 		]
 	},
-	russian_post: {
-		name: 'Почта России',
-		note: '',
-		noteIsShow: false,
-		link: 'https://www.pochta.ru/offices',
-		fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'operator:wikidata', 'operator:wikipedia'],
-		regions: [
-			'RU-AD',  'RU-AL',  'RU-BA',  'RU-BU',  'RU-DA',  'RU-IN',  'RU-KB',  'RU-KL',  'RU-KC',  'RU-KR',  'RU-KO',  'RU-CR',
-			'RU-ME',  'RU-MO',  'RU-SA',  'RU-SE',  'RU-TA',  'RU-TY',  'RU-UD',  'RU-KK',  'RU-CE',  'RU-CU',  'RU-ALT', 'RU-ZAB',
-			'RU-KAM', 'RU-KDA', 'RU-KYA', 'RU-PER', 'RU-PRI', 'RU-STA', 'RU-KHA', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY',
-			'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KGN',
-			'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MAG', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL',
-			'RU-PNZ', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-TVE', 'RU-TOM',
-			'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-MOW', 'RU-SPE', 'RU-SEV', 'RU-YEV', 'RU-NEN', 'RU-KHM', 'RU-CHU',
-			'RU-YAN'
-		]
-	},
+	// russian_post: {
+	// 	name: 'Почта России',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://www.pochta.ru/offices',
+	// 	fields: ['_addr', 'ref', 'operator', 'name', 'contact:website', 'contact:facebook', 'contact:vk', 'contact:phone', 'opening_hours', 'operator:wikidata', 'operator:wikipedia'],
+	// 	regions: [
+	// 		'RU-AD',  'RU-AL',  'RU-BA',  'RU-BU',  'RU-DA',  'RU-IN',  'RU-KB',  'RU-KL',  'RU-KC',  'RU-KR',  'RU-KO',  'RU-CR',
+	// 		'RU-ME',  'RU-MO',  'RU-SA',  'RU-SE',  'RU-TA',  'RU-TY',  'RU-UD',  'RU-KK',  'RU-CE',  'RU-CU',  'RU-ALT', 'RU-ZAB',
+	// 		'RU-KAM', 'RU-KDA', 'RU-KYA', 'RU-PER', 'RU-PRI', 'RU-STA', 'RU-KHA', 'RU-AMU', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY',
+	// 		'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KEM', 'RU-KIR', 'RU-KOS', 'RU-KGN',
+	// 		'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MAG', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL',
+	// 		'RU-PNZ', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SAK', 'RU-SVE', 'RU-SMO', 'RU-TAM', 'RU-TVE', 'RU-TOM',
+	// 		'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-MOW', 'RU-SPE', 'RU-SEV', 'RU-YEV', 'RU-NEN', 'RU-KHM', 'RU-CHU',
+	// 		'RU-YAN'
+	// 	]
+	// },
 	rosneft: {
 		name: 'Роснефть',
 		note: notes.fuel,
@@ -322,7 +322,6 @@ var validators = {
 			'RU-TOM', 'RU-TUL', 'RU-TY', 'RU-UD', 'RU-ULY', 'RU-KK', 'RU-KHM', 'RU-CHE', 'RU-CE', 'RU-CU', 'RU-YAN', 'RU-YAR'
 		]
 	},
-
 	bashneft: {
 		name: 'Башнефть',
 		note: notes.fuel,
@@ -334,66 +333,66 @@ var validators = {
 			'RU-TA',  'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-TAM',  'RU-UD', 'RU-ULY', 'RU-CHE', 'RU-CU'
 		]
 	},
-	magnit: {
-		name: 'Магнит',
-		note: '',
-		noteIsShow: false,
-		link: 'https://magnit.ru/shops/',
-		fields: fields.shop,
-		regions: [
-			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
-			'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
-			'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
-			'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
-			'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
-			'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
-		]
-	},
-	magnitgipermarket: {
-		name: 'Семейный Магнит',
-		note: '',
-		noteIsShow: false,
-		link: 'https://magnit.ru/shops/',
-		fields: fields.shop,
-		regions: [
-			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
-			'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
-			'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
-			'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
-			'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
-			'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
-		]
-	},
-	magnitkosmetic: {
-		name: 'Магнит Косметик',
-		note: '',
-		noteIsShow: false,
-		link: 'https://magnit.ru/shops/',
-		fields: fields.shop,
-		regions: [
-			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
-			'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
-			'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
-			'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
-			'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
-			'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
-		]
-	},
-	magnitpharmacy: {
-		name: 'Магнит Аптека',
-		note: '',
-		noteIsShow: false,
-		link: 'https://magnit.ru/shops/',
-		fields: fields.shop,
-		regions: [
-			'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
-			'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
-			'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
-			'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
-			'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
-			'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
-		]
-	},
+	// magnit: {
+	// 	name: 'Магнит',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://magnit.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
+	// 		'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
+	// 		'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
+	// 		'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
+	// 		'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
+	// 		'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
+	// 	]
+	// },
+	// magnitgipermarket: {
+	// 	name: 'Семейный Магнит',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://magnit.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
+	// 		'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
+	// 		'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
+	// 		'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
+	// 		'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
+	// 		'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
+	// 	]
+	// },
+	// magnitkosmetic: {
+	// 	name: 'Магнит Косметик',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://magnit.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
+	// 		'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
+	// 		'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
+	// 		'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
+	// 		'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
+	// 		'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
+	// 	]
+	// },
+	// magnitpharmacy: {
+	// 	name: 'Магнит Аптека',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://magnit.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-ALT', 'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KEM',
+	// 		'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ',
+	// 		'RU-NGR', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-KB',  'RU-KL',
+	// 		'RU-KC',  'RU-KR',  'RU-KO',  'RU-ME',  'RU-MO',  'RU-SE',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM',
+	// 		'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA', 'RU-TAM', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM',
+	// 		'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
+	// 	]
+	// },
 	/*magnitwholesale: {
 		name: 'Магнит Опт',
 		note: '',
@@ -409,38 +408,38 @@ var validators = {
 			'RU-CHE', 'RU-CU',  'RU-YAN', 'RU-YAR'
 		]
 	},*/
-	sberbank: {
-		name: 'Сбербанк (отделения)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://www.sberbank.ru/ru/about/today/oib',
-		fields: fields.bank,
-		regions: [
-			'RU-ZAB', 'RU-IRK', 'RU-BU',  'RU-SA',  'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO',  'RU-ME',  'RU-CU',  'RU-TA',  'RU-KHA',
-			'RU-PRI', 'RU-AMU', 'RU-SAK', 'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER',
-			'RU-KO',  'RU-UD',  'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE', 'RU-SAR', 'RU-VGG', 'RU-AST', 'RU-PNZ', 'RU-YAR', 'RU-KOS',
-			'RU-IVA', 'RU-VLG', 'RU-NEN', 'RU-ARK', 'RU-SPE', 'RU-LEN', 'RU-MUR', 'RU-KGD', 'RU-PSK', 'RU-NGR', 'RU-KR',  'RU-NVS',
-			'RU-TOM', 'RU-KEM', 'RU-ALT', 'RU-AL',  'RU-KYA', 'RU-TY',  'RU-KK',  'RU-MOS', 'RU-TVE', 'RU-KLU', 'RU-BRY', 'RU-SMO',
-			'RU-TUL', 'RU-RYA', 'RU-SVE', 'RU-CHE', 'RU-KGN', 'RU-BA',  'RU-VOR', 'RU-ORL', 'RU-LIP', 'RU-KRS', 'RU-BEL', 'RU-TAM',
-			'RU-ROS', 'RU-KDA', 'RU-AD',  'RU-STA', 'RU-SE',  'RU-KB',  'RU-IN',  'RU-DA',  'RU-KC',  'RU-KL',  'RU-CE'
-		]
-	},
-	sberbank_atm: {
-		name: 'Сбербанк (банкоматы)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://www.sberbank.ru/ru/about/today/oib',
-		fields: fields.atm,
-		regions: [
-			'RU-ZAB', 'RU-IRK', 'RU-BU',  'RU-SA',  'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO',  'RU-ME',  'RU-CU',  'RU-TA',  'RU-KHA',
-			'RU-PRI', 'RU-AMU', 'RU-SAK', 'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER',
-			'RU-KO',  'RU-UD',  'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE', 'RU-SAR', 'RU-VGG', 'RU-AST', 'RU-PNZ', 'RU-YAR', 'RU-KOS',
-			'RU-IVA', 'RU-VLG', 'RU-NEN', 'RU-ARK', 'RU-SPE', 'RU-LEN', 'RU-MUR', 'RU-KGD', 'RU-PSK', 'RU-NGR', 'RU-KR',  'RU-NVS',
-			'RU-TOM', 'RU-KEM', 'RU-ALT', 'RU-AL',  'RU-KYA', 'RU-TY',  'RU-KK',  'RU-MOS', 'RU-TVE', 'RU-KLU', 'RU-BRY', 'RU-SMO',
-			'RU-TUL', 'RU-RYA', 'RU-SVE', 'RU-CHE', 'RU-KGN', 'RU-BA',  'RU-VOR', 'RU-ORL', 'RU-LIP', 'RU-KRS', 'RU-BEL', 'RU-TAM',
-			'RU-ROS', 'RU-KDA', 'RU-AD',  'RU-STA', 'RU-SE',  'RU-KB',  'RU-IN',  'RU-DA',  'RU-KC',  'RU-KL',  'RU-CE'
-		]
-	},
+	// sberbank: {
+	// 	name: 'Сбербанк (отделения)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://www.sberbank.ru/ru/about/today/oib',
+	// 	fields: fields.bank,
+	// 	regions: [
+	// 		'RU-ZAB', 'RU-IRK', 'RU-BU',  'RU-SA',  'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO',  'RU-ME',  'RU-CU',  'RU-TA',  'RU-KHA',
+	// 		'RU-PRI', 'RU-AMU', 'RU-SAK', 'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER',
+	// 		'RU-KO',  'RU-UD',  'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE', 'RU-SAR', 'RU-VGG', 'RU-AST', 'RU-PNZ', 'RU-YAR', 'RU-KOS',
+	// 		'RU-IVA', 'RU-VLG', 'RU-NEN', 'RU-ARK', 'RU-SPE', 'RU-LEN', 'RU-MUR', 'RU-KGD', 'RU-PSK', 'RU-NGR', 'RU-KR',  'RU-NVS',
+	// 		'RU-TOM', 'RU-KEM', 'RU-ALT', 'RU-AL',  'RU-KYA', 'RU-TY',  'RU-KK',  'RU-MOS', 'RU-TVE', 'RU-KLU', 'RU-BRY', 'RU-SMO',
+	// 		'RU-TUL', 'RU-RYA', 'RU-SVE', 'RU-CHE', 'RU-KGN', 'RU-BA',  'RU-VOR', 'RU-ORL', 'RU-LIP', 'RU-KRS', 'RU-BEL', 'RU-TAM',
+	// 		'RU-ROS', 'RU-KDA', 'RU-AD',  'RU-STA', 'RU-SE',  'RU-KB',  'RU-IN',  'RU-DA',  'RU-KC',  'RU-KL',  'RU-CE'
+	// 	]
+	// },
+	// sberbank_atm: {
+	// 	name: 'Сбербанк (банкоматы)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://www.sberbank.ru/ru/about/today/oib',
+	// 	fields: fields.atm,
+	// 	regions: [
+	// 		'RU-ZAB', 'RU-IRK', 'RU-BU',  'RU-SA',  'RU-NIZ', 'RU-VLA', 'RU-KIR', 'RU-MO',  'RU-ME',  'RU-CU',  'RU-TA',  'RU-KHA',
+	// 		'RU-PRI', 'RU-AMU', 'RU-SAK', 'RU-YEV', 'RU-MAG', 'RU-KAM', 'RU-CHU', 'RU-TYU', 'RU-OMS', 'RU-KHM', 'RU-YAN', 'RU-PER',
+	// 		'RU-KO',  'RU-UD',  'RU-MOW', 'RU-SAM', 'RU-ULY', 'RU-ORE', 'RU-SAR', 'RU-VGG', 'RU-AST', 'RU-PNZ', 'RU-YAR', 'RU-KOS',
+	// 		'RU-IVA', 'RU-VLG', 'RU-NEN', 'RU-ARK', 'RU-SPE', 'RU-LEN', 'RU-MUR', 'RU-KGD', 'RU-PSK', 'RU-NGR', 'RU-KR',  'RU-NVS',
+	// 		'RU-TOM', 'RU-KEM', 'RU-ALT', 'RU-AL',  'RU-KYA', 'RU-TY',  'RU-KK',  'RU-MOS', 'RU-TVE', 'RU-KLU', 'RU-BRY', 'RU-SMO',
+	// 		'RU-TUL', 'RU-RYA', 'RU-SVE', 'RU-CHE', 'RU-KGN', 'RU-BA',  'RU-VOR', 'RU-ORL', 'RU-LIP', 'RU-KRS', 'RU-BEL', 'RU-TAM',
+	// 		'RU-ROS', 'RU-KDA', 'RU-AD',  'RU-STA', 'RU-SE',  'RU-KB',  'RU-IN',  'RU-DA',  'RU-KC',  'RU-KL',  'RU-CE'
+	// 	]
+	// },
 	velobike: {
 		name: 'Велобайк',
 		note: '',
@@ -449,65 +448,65 @@ var validators = {
 		fields: ['_addr', 'ref', 'capacity', 'operator', 'contact:email', 'contact:phone', 'contact:website'],
 		regions: ['RU-MOW']
 	},
-	perekrestok: {
-		name: 'Перекрёсток',
-		note: '',
-		noteIsShow: false,
-		link: 'https://www.perekrestok.ru/shops/',
-		fields: fields.shop,
-		regions: [
-			'RU-MOW', 'RU-ROS', 'RU-TA',  'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME',  'RU-VOR', 'RU-LEN', 'RU-KDA',
-			'RU-SVE', 'RU-KLU', 'RU-KRS', 'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE',
-			'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO',  'RU-KHM', 'RU-TAM', 'RU-TVE', 'RU-TYU', 'RU-ULY', 'RU-BA',  'RU-CU',  'RU-YAR',
-			'RU'
-		]
-	},
-	azbuka1: {
-		name: 'Азбука Вкуса',
-		note: '',
-		noteIsShow: false,
-		link: 'https://av.ru/shops/',
-		fields: fields.shop,
-		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
-	},
-	azbuka2: {
-		name: 'АВ Daily',
-		note: '',
-		noteIsShow: false,
-		link: 'https://av.ru/shops/',
-		fields: fields.shop,
-		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
-	},
-	azbuka3: {
-		name: 'АВ Маркет',
-		note: '',
-		noteIsShow: false,
-		link: 'https://av.ru/shops/',
-		fields: fields.shop,
-		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
-	},
-	azbuka4: {
-		name: 'АВ Энотека',
-		note: '',
-		noteIsShow: false,
-		link: 'https://av.ru/shops/',
-		fields: fields.shop,
-		regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
-	},
-	pyaterochka: {
-		name: 'Пятёрочка',
-		note: '',
-		noteIsShow: false,
-		link: 'https://5ka.ru/stores/',
-		fields: fields.shop,
-		regions: [
-			'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KC',  'RU-KEM',
-			'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR',
-			'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-DA',  'RU-KR',  'RU-KO',  'RU-ME',
-			'RU-MO',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA',
-			'RU-TAM', 'RU-TVE', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU',  'RU-YAR'
-		]
-	},
+	// perekrestok: {
+	// 	name: 'Перекрёсток',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://www.perekrestok.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-MOW', 'RU-ROS', 'RU-TA',  'RU-SAR', 'RU-MOS', 'RU-BEL', 'RU-NIZ', 'RU-VLA', 'RU-ME',  'RU-VOR', 'RU-LEN', 'RU-KDA',
+	// 		'RU-SVE', 'RU-KLU', 'RU-KRS', 'RU-LIP', 'RU-CHE', 'RU-STA', 'RU-TOM', 'RU-SAM', 'RU-TUL', 'RU-ORL', 'RU-ORE', 'RU-SPE',
+	// 		'RU-PNZ', 'RU-PER', 'RU-RYA', 'RU-MO',  'RU-KHM', 'RU-TAM', 'RU-TVE', 'RU-TYU', 'RU-ULY', 'RU-BA',  'RU-CU',  'RU-YAR',
+	// 		'RU'
+	// 	]
+	// },
+	// azbuka1: {
+	// 	name: 'Азбука Вкуса',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://av.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	// },
+	// azbuka2: {
+	// 	name: 'АВ Daily',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://av.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	// },
+	// azbuka3: {
+	// 	name: 'АВ Маркет',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://av.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	// },
+	// azbuka4: {
+	// 	name: 'АВ Энотека',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://av.ru/shops/',
+	// 	fields: fields.shop,
+	// 	regions: ['RU-MOW', 'RU-MOS', 'RU-SPE', 'RU']
+	// },
+	// pyaterochka: {
+	// 	name: 'Пятёрочка',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://5ka.ru/stores/',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-ARK', 'RU-AST', 'RU-BEL', 'RU-BRY', 'RU-VLA', 'RU-VGG', 'RU-VLG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KC',  'RU-KEM',
+	// 		'RU-KIR', 'RU-KOS', 'RU-KDA', 'RU-KGN', 'RU-KRS', 'RU-LEN', 'RU-LIP', 'RU-MOW', 'RU-MOS', 'RU-MUR', 'RU-NIZ', 'RU-NGR',
+	// 		'RU-OMS', 'RU-ORE', 'RU-ORL', 'RU-PNZ', 'RU-PER', 'RU-PSK', 'RU-AD',  'RU-BA',  'RU-DA',  'RU-KR',  'RU-KO',  'RU-ME',
+	// 		'RU-MO',  'RU-TA',  'RU-UD',  'RU-KK',  'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE', 'RU-SAR', 'RU-SVE', 'RU-SMO', 'RU-STA',
+	// 		'RU-TAM', 'RU-TVE', 'RU-TUL', 'RU-TYU', 'RU-ULY', 'RU-KHM', 'RU-CHE', 'RU-CU',  'RU-YAR'
+	// 	]
+	// },
 	diksi: {
 		name: 'Дикси',
 		note: '',
@@ -520,53 +519,53 @@ var validators = {
 			'RU-SVE', 'RU-TYU', 'RU-TVE', 'RU'
 		]
 	},
-	lapy4: {
-		name: 'Четыре лапы',
-		note: '',
-		noteIsShow: false,
-		link: 'https://4lapy.ru/shops/',
-		fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'pets', 'aquarium', 'veterinary', 'grooming'],
-		regions: [
-			'RU-MOW', 'RU-MOS', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KOS', 'RU-LIP', 'RU-NIZ', 'RU-TUL', 'RU-ORL',
-			'RU-RYA', 'RU-TVE', 'RU-YAR', 'RU-TA', 'RU'
-		]
-	},
-	alfabank: {
-		name: 'Альфа-Банк (отделения)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://alfabank.ru/office/',
-		fields: fields.bank,
-		regions: [
-			'RU-TUL', 'RU-ALT', 'RU-ARK', 'RU-BA',  'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KR', 
-			'RU-KEM', 'RU-KIR', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-ME',  'RU-MO',  'RU-MOS', 'RU-MOW', 'RU-MUR',
-			'RU-NIZ', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE',
-			'RU-LEN', 'RU-SAR', 'RU-SA',  'RU-SAK', 'RU-SVE', 'RU-STA', 'RU-TA',  'RU-TVE', 'RU-TOM', 'RU-TYU', 'RU-UD',  'RU-ULY',
-			'RU-KHA', 'RU-KK',  'RU-KHM', 'RU-CHE', 'RU-CU',  'RU-YAR'
-		]
-	},
-	alfabank_atm: {
-		name: 'Альфа-Банк (банкоматы)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://alfabank.ru/office/',
-		fields: fields.atm,
-		regions: [
-			'RU-TUL', 'RU-ALT', 'RU-ARK', 'RU-BA',  'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KR', 
-			'RU-KEM', 'RU-KIR', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-ME',  'RU-MO',  'RU-MOS', 'RU-MOW', 'RU-MUR',
-			'RU-NIZ', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE',
-			'RU-LEN', 'RU-SAR', 'RU-SA',  'RU-SAK', 'RU-SVE', 'RU-STA', 'RU-TA',  'RU-TVE', 'RU-TOM', 'RU-TYU', 'RU-UD',  'RU-ULY',
-			'RU-KHA', 'RU-KK',  'RU-KHM', 'RU-CHE', 'RU-CU',  'RU-YAR'
-		]
-	},
-	kenguru: {
-		name: 'Кенгуру',
-		note: '',
-		noteIsShow: false,
-		link: 'http://kenguru.ru/info/shops.php',
-		fields: fields.shop,
-		regions: ['RU-IVA', 'RU-YAR', 'RU-VLA', 'RU-KOS', 'RU-MOS', 'RU-MOW']
-	},
+	// lapy4: {
+	// 	name: 'Четыре лапы',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://4lapy.ru/shops/',
+	// 	fields: ['_addr', 'ref', 'operator', 'name', 'name:ru', 'name:en', 'contact:phone', 'contact:website', 'opening_hours', 'shop', 'pets', 'aquarium', 'veterinary', 'grooming'],
+	// 	regions: [
+	// 		'RU-MOW', 'RU-MOS', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IVA', 'RU-KLU', 'RU-KOS', 'RU-LIP', 'RU-NIZ', 'RU-TUL', 'RU-ORL',
+	// 		'RU-RYA', 'RU-TVE', 'RU-YAR', 'RU-TA', 'RU'
+	// 	]
+	// },
+	// alfabank: {
+	// 	name: 'Альфа-Банк (отделения)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://alfabank.ru/office/',
+	// 	fields: fields.bank,
+	// 	regions: [
+	// 		'RU-TUL', 'RU-ALT', 'RU-ARK', 'RU-BA',  'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KR', 
+	// 		'RU-KEM', 'RU-KIR', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-ME',  'RU-MO',  'RU-MOS', 'RU-MOW', 'RU-MUR',
+	// 		'RU-NIZ', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE',
+	// 		'RU-LEN', 'RU-SAR', 'RU-SA',  'RU-SAK', 'RU-SVE', 'RU-STA', 'RU-TA',  'RU-TVE', 'RU-TOM', 'RU-TYU', 'RU-UD',  'RU-ULY',
+	// 		'RU-KHA', 'RU-KK',  'RU-KHM', 'RU-CHE', 'RU-CU',  'RU-YAR'
+	// 	]
+	// },
+	// alfabank_atm: {
+	// 	name: 'Альфа-Банк (банкоматы)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://alfabank.ru/office/',
+	// 	fields: fields.atm,
+	// 	regions: [
+	// 		'RU-TUL', 'RU-ALT', 'RU-ARK', 'RU-BA',  'RU-BEL', 'RU-VLA', 'RU-VGG', 'RU-VOR', 'RU-IRK', 'RU-KGD', 'RU-KLU', 'RU-KR', 
+	// 		'RU-KEM', 'RU-KIR', 'RU-KDA', 'RU-KYA', 'RU-KGN', 'RU-KRS', 'RU-LIP', 'RU-ME',  'RU-MO',  'RU-MOS', 'RU-MOW', 'RU-MUR',
+	// 		'RU-NIZ', 'RU-NVS', 'RU-OMS', 'RU-ORE', 'RU-PNZ', 'RU-PER', 'RU-PRI', 'RU-PSK', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SPE',
+	// 		'RU-LEN', 'RU-SAR', 'RU-SA',  'RU-SAK', 'RU-SVE', 'RU-STA', 'RU-TA',  'RU-TVE', 'RU-TOM', 'RU-TYU', 'RU-UD',  'RU-ULY',
+	// 		'RU-KHA', 'RU-KK',  'RU-KHM', 'RU-CHE', 'RU-CU',  'RU-YAR'
+	// 	]
+	// },
+	// kenguru: {
+	// 	name: 'Кенгуру',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'http://kenguru.ru/info/shops.php',
+	// 	fields: fields.shop,
+	// 	regions: ['RU-IVA', 'RU-YAR', 'RU-VLA', 'RU-KOS', 'RU-MOS', 'RU-MOW']
+	// },
 	lukoil: {
 		name: 'Лукойл',
 		note: notes.fuel,
@@ -582,22 +581,22 @@ var validators = {
 			'RU-SPE', 'RU-NEN', 'RU-KHM', 'RU-YAN'
 		]
 	},
-	mkb: {
-		name: 'Московский кредитный банк (отделения)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://mkb.ru/about/address/branch',
-		fields: fields.bank,
-		regions: ['RU', 'RU-MOW', 'RU-MOS']
-	},
-	mkb_atm: {
-		name: 'Московский кредитный банк (банкоматы)',
-		note: '',
-		noteIsShow: false,
-		link: 'https://mkb.ru/about/address/atm',
-		fields: fields.atm,
-		regions: ['RU', 'RU-MOW', 'RU-MOS']
-	},
+	// mkb: {
+	// 	name: 'Московский кредитный банк (отделения)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://mkb.ru/about/address/branch',
+	// 	fields: fields.bank,
+	// 	regions: ['RU', 'RU-MOW', 'RU-MOS']
+	// },
+	// mkb_atm: {
+	// 	name: 'Московский кредитный банк (банкоматы)',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://mkb.ru/about/address/atm',
+	// 	fields: fields.atm,
+	// 	regions: ['RU', 'RU-MOW', 'RU-MOS']
+	// },
 	temples: {
 		name: 'Церкви (temples.ru)',
 		note: '',
@@ -614,22 +613,22 @@ var validators = {
 			'RU-ULY', 'RU-KHA', 'RU-CHE', 'RU-CE',  'RU-CU',  'RU-CHU', 'RU-YAR'
 		]
 	},
-	moscow_parkomats: {
-		name: 'Паркоматы',
-		note: '',
-		noteIsShow: false,
-		link: 'https://data.mos.ru/opendata/1421',
-		fields: ['_addr', 'ref', 'ref:mos_parking', 'zone:parking', 'vending', 'operator', 'contact:website' ,'contact:phone', 'opening_hours', 'payment:cash', 'payment:credit_cards', 'payment:debit_cards'],
-		regions: ['RU-MOW']
-	},
-	burgerking: {
-		name: 'Бургер Кинг',
-		note: '',
-		noteIsShow: false,
-		link: 'https://burgerkingrus.ru/restaurants',
-		fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'brand:wikipedia', 'operator:wikidata'],
-		regions: ['RU']
-	},
+	// moscow_parkomats: {
+	// 	name: 'Паркоматы',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://data.mos.ru/opendata/1421',
+	// 	fields: ['_addr', 'ref', 'ref:mos_parking', 'zone:parking', 'vending', 'operator', 'contact:website' ,'contact:phone', 'opening_hours', 'payment:cash', 'payment:credit_cards', 'payment:debit_cards'],
+	// 	regions: ['RU-MOW']
+	// },
+	// burgerking: {
+	// 	name: 'Бургер Кинг',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://burgerkingrus.ru/restaurants',
+	// 	fields: ['_addr', 'ref', 'name', 'name:ru', 'name:en', 'operator', 'cuisine', 'diet:vegetarian', 'drive_through', 'brand', 'contact:website', 'contact:phone', 'contact:email', 'contact:facebook', 'wheelchair', 'opening_hours', 'internet_access', 'internet_access:fee', 'brand:wikipedia', 'operator:wikidata'],
+	// 	regions: ['RU']
+	// },
 	taifnk: {
 		name: 'ТАИФ-НК',
 		note: '',
@@ -649,15 +648,15 @@ var validators = {
 			'RU-VOR', 'RU-KEM', 'RU-KGN', 'RU-LEN', 'RU-LIP', 'RU-MOS', 'RU-NIZ', 'RU-NGR', 'RU-OMS', 'RU-ORE', 'RU-PNZ', 'RU-PSK',
 			'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SVE', 'RU-SMO', 'RU-TVE', 'RU-TOM', 'RU-TUL', 'RU-ULY', 'RU-CHE', 'RU-YAR', 'RU-SPE', 'RU-MOW'] 
 	},
-	farmlend: {
-		name: 'Фармленд',
-		note: '',
-		noteIsShow: false,
-		link: 'https://farmlend.ru/page/apteki-na-karte',
-		fields: fields.shop,
-		regions: [
-			'RU-BA', 'RU-TA', 'RU-UD', 'RU-MOS', 'RU-ORE', 'RU-SAM', 'RU-SVE', 'RU-TYU', 'RU-CHE', 'RU-MOW']
-	},
+	// farmlend: {
+	// 	name: 'Фармленд',
+	// 	note: '',
+	// 	noteIsShow: false,
+	// 	link: 'https://farmlend.ru/page/apteki-na-karte',
+	// 	fields: fields.shop,
+	// 	regions: [
+	// 		'RU-BA', 'RU-TA', 'RU-UD', 'RU-MOS', 'RU-ORE', 'RU-SAM', 'RU-SVE', 'RU-TYU', 'RU-CHE', 'RU-MOW']
+	// },
 	akbarsbank_atm: {
 		name: 'Ак Барс (банкоматы)',
 		note: '',
@@ -807,6 +806,17 @@ var validators = {
 			'RU-TA', 'RU-ROS', 'RU-RYA', 'RU-SAM', 'RU-SAR', 'RU-SMO', 'RU-TAM', 'RU-TVE', 
 			'RU-TOM', 'RU-TUL', 'RU-TYU', 'RU-KHM', 'RU-CHE', 'RU-CU', 'RU-YAN', 'RU-YAR', 
 			'RU-SPE', 'RU-LEN', 'RU-CR', 'RU-SEV'
+		]
+	},
+	ulybka_radugi: {
+		name: 'Улыбка радуги',
+		note: '',
+		noteIsShow: false,
+		link: 'https://www.r-ulybka.ru/stores/',
+		fields: fields.shop,
+		regions: [
+			'RU', 'RU-VLA', 'RU-IVA', 'RU-KAL', 'RU-MOS', 'RU-MOW', 'RU-NIZ', 'RU-NGR', 'RU-PSK',
+			'RU-BA', 'RU-ME', 'RU-TA', 'RU-TVE', 'RU-CU', 'RU-UD', 'RU-YAR', 'RU-SPE', 'RU-LEN'
 		]
 	}
 	// vtb-atm: {
